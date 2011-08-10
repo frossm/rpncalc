@@ -1,5 +1,6 @@
 /*
  * Main class for the rpn application.
+ *
  */
 package org.fross.rpn;
 
@@ -12,30 +13,33 @@ import java.util.EmptyStackException;
 public class Main {
 
    // Constants
-   public static final String VERSION = "1.0";
+   public static final String VERSION = "1.1";
    public static final String PREF_STACK = "Stack";
    public static final String PREF_MONEYMODE = "MoneyMode";
    // Class Variables
    public static boolean clDebug = false;
 
    /**
-    * Main application program.  Starts the command input
-    * loop and handles input.
+    * Main application program.  RPN is note an objective oriented application
+    * and is still fairly traditional.  Main does the initialization and
+    * starts the command input, the heart of the program.  This loop takes
+    * input, analyzes what was done and call out to perform math functions or
+    * handles the commands within it.
     *
     * @param args the command line arguments
     */
    public static void main(String[] args) {
       Console Con = null;
       String CommandInput = null;
-      boolean prefMoneyMode = false;
       String prefStack = null;
-      Stack CalcStack = new Stack();
-      int OptionEntry;
+      boolean prefMoneyMode = false;
       boolean clClearPrefs = false, clPersistentStack = false;
+      int OptionEntry;
+      Stack CalcStack = new Stack();
 
 
       System.out.println("+--------------------------------------------------------------+");
-      System.out.println("|                       RPN Calculator                    v" + QueryVersion() + " |");
+      System.out.println("|                       RPN Calculator                    v" + VERSION + " |");
       System.out.println("|       Written by Michael Fross.  All rights reserved.        |");
       System.out.println("+--------------------------------------------------------------+");
 
@@ -46,7 +50,7 @@ public class Main {
          System.exit(1);
       }
 
-      // Process Command Line Options
+      // Process Command Line Options and set flags where needed
       Getopt OptG = new Getopt("DirSize", args, "Dcph?");
       while ((OptionEntry = OptG.getopt()) != -1) {
          switch (OptionEntry) {
@@ -97,19 +101,16 @@ public class Main {
          }
       }
 
-      // Display status of MoneyMode
-      System.out.println("\nMoney Mode is currently set to:  " + prefMoneyMode);
-
       // Display top help for comamnds
       UsageInLoop();
 
 
-      // Start main comman loop
+      // Start main command loop
       while (true) {
          System.out.println("+--------------------------------------------------------------+");
          // Display Stack
          for (int i = 0; i < CalcStack.size(); i++) {
-            // Display current Stack
+            // Display current Stack.  Use Money Mode or Normal based on user preference
             if (prefMoneyMode == true) {
                System.out.println(" " + Number.MoneyFormat(CalcStack.get(i).toString()));
             } else {
@@ -118,28 +119,41 @@ public class Main {
          }
 
          // Input Command String from User
-         CommandInput = Con.readLine("\n>> ");
+         if (prefMoneyMode == false) {
+            CommandInput = Con.readLine("\n>> ");
+         } else {
+            CommandInput = Con.readLine("\n$>> ");
+         }
 
+
+         // Process Help
          if (CommandInput.matches("^[Hh]")) {
-            // Process Help
             UsageInLoop();
 
+
+            // Process Clear Stack
          } else if (CommandInput.matches("^[Cc]")) {
-            // Process Clear
+            Main.DebugPrint("DEBUG:  Clearing Stack");
             CalcStack = new Stack();
 
+
+            // Process Last Item Delete
          } else if (CommandInput.matches("^[Dd]")) {
-            // Process Delete
+            Main.DebugPrint("DEBUG:  Deleting Last Item On Stack");
             if (!CalcStack.isEmpty()) {
                CalcStack.pop();
             }
 
+
+            // Process Exit Program
          } else if (CommandInput.matches("^[XxQq]")) {
-            // Process Exit
+            Main.DebugPrint("DEBUG:  Exiting Command Loop");
             break;
 
+
+            // Process Flip Last Two Items In Stack
          } else if (CommandInput.matches("^[Ff]")) {
-            // Process Flip
+            Main.DebugPrint("DEBUG:  Flip Command Entered");
             if (CalcStack.size() < 2) {
                System.out.println("ERROR:  Two elements are needed for flip");
             } else {
@@ -149,15 +163,18 @@ public class Main {
                CalcStack.push(Temp2);
             }
 
-         } else if (CommandInput.matches("^[Ss]")) {
+
             // Process Sign
+         } else if (CommandInput.matches("^[Ss]")) {
+            Main.DebugPrint("DEBUG:  Sign Command Entered");
             if (!CalcStack.isEmpty()) {
                double Temp = Double.valueOf(CalcStack.pop().toString());
                CalcStack.push(Temp * -1);
             }
 
-         } else if (CommandInput.matches("^[Mm]")) {
+
             // Process Money Mode Toggle
+         } else if (CommandInput.matches("^[Mm]")) {
             if (prefMoneyMode == false) {
                Main.DebugPrint("DEBUG:  MoneyMode Now On");
                prefMoneyMode = true;
@@ -166,16 +183,21 @@ public class Main {
                prefMoneyMode = false;
             }
 
-         } else if (CommandInput.matches("[\\*\\+\\-\\/\\^]")) {
+
             // Process Operand Entry
+         } else if (CommandInput.matches("[\\*\\+\\-\\/\\^]")) {
+            Main.DebugPrint("DEBUG:  Operand Entered");
             CalcStack = Number.SimpleMath(CommandInput.charAt(0), CalcStack);
 
-         } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*")) {
+
             // Process Number Entered. Convert to double first
+         } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*")) {
+            Main.DebugPrint("DEBUG:  Number Entered.  Adding to Stack");
             CalcStack.push(Double.valueOf(CommandInput));
 
+
+            // Handle numbers with a single opperand at the end (a NumOp)
          } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*[\\*\\+\\-\\/\\^]")) {
-            // Handle numbers with a single opperand at the end
             char TempOp = CommandInput.charAt(CommandInput.length() - 1);
             String TempNum = CommandInput.substring(0, CommandInput.length() - 1);
             Main.DebugPrint("DEBUG:  NumOp Found: Op = '" + TempOp + "'");
@@ -183,8 +205,8 @@ public class Main {
             CalcStack.push(Double.valueOf(TempNum));
             CalcStack = Number.SimpleMath(TempOp, CalcStack);
 
-         } else if (!CommandInput.isEmpty()) {
             // Display an error if I didnt' understand the input
+         } else if (!CommandInput.isEmpty()) {
             System.out.println("** Input Error: '" + CommandInput + "' **");
          }
 
@@ -207,15 +229,7 @@ public class Main {
    }
 
    /**
-    * QueryVersion
-    * Returns the version number of the application
-    */
-   public static String QueryVersion() {
-      return VERSION;
-   }
-
-   /**
-    * Display usage information inside of the command input loop
+    * UsageInLoop:  Display usage information inside of the command input loop
     */
    public static void UsageInLoop() {
       System.out.println("\n+--------------------------------------------------------------+");
@@ -226,7 +240,8 @@ public class Main {
    }
 
    /**
-    * Display command line usage information
+    * Usage:  Display rpn.jar program usage.  This is basically the command line
+    * parameters.
     */
    public static void Usage() {
       System.out.println("Usage:   java -jar rpn.jar [-D] -[c] -[p] -[h] -[?]\n");
@@ -237,7 +252,11 @@ public class Main {
    }
 
    /**
-    * Simple method that prints debug information if in debug mode
+    * DebugPrint:  This is a simple function that takes a strong argument
+    * and tests to see if DebugMode is on.  If it is, then display via
+    * standard out the sent string.
+    *
+    * @param Msg
     */
    public static void DebugPrint(String Msg) {
       if (Main.clDebug == true) {

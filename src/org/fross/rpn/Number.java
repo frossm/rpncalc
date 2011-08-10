@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 /**
  * Perform Math functions for the calculator
- * @author michael.d.fross
+ * @author Michael Fross
  */
 public class Number {
 
@@ -16,6 +16,7 @@ public class Number {
     * Perform Simple math functions of Addition, Subtraction, Multiplication,
     * Division, and Power.  All are static functions.  The function is sent the
     * operand (char) and a stack with the top two items to be processed.
+    *
     * @param Operand
     * @param Stk
     * @return
@@ -53,7 +54,9 @@ public class Number {
    }
 
    /**
-    * Return a string with comma separators at the correct intervals
+    * Comma:  Return a string with comma separators at the correct intervals.
+    * Supports decimal places and a negative sign.
+    *
     * @param num
     * @return
     */
@@ -70,8 +73,12 @@ public class Number {
    }
 
    /**
-    * Returns a string in "Money" format.  Dollar sign, commas and
-    * two decimals places in addition to being right justified.
+    * MoneyFormat: Returns a string in "Money" format.  Includes a
+    * Dollar sign, commas and two decimals places which are rounded.
+    * Also, the number is right justified.
+    *
+    * @param num
+    * @return
     */
    public static String MoneyFormat(String num) {
       DecimalFormat myFormatter = null;
