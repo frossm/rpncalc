@@ -97,6 +97,8 @@ public class Main {
          }
       }
 
+      // Display status of MoneyMode
+      System.out.println("\nMoney Mode is currently set to:  " + prefMoneyMode);
 
       // Display top help for comamnds
       UsageInLoop();
@@ -170,8 +172,16 @@ public class Main {
 
          } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*")) {
             // Process Number Entered. Convert to double first
-            //TODO: Handle ending a number in an operand
             CalcStack.push(Double.valueOf(CommandInput));
+
+         } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*[\\*\\+\\-\\/\\^]")) {
+            // Handle numbers with a single opperand at the end
+            char TempOp = CommandInput.charAt(CommandInput.length() - 1);
+            String TempNum = CommandInput.substring(0, CommandInput.length() - 1);
+            Main.DebugPrint("DEBUG:  NumOp Found: Op = '" + TempOp + "'");
+            Main.DebugPrint("DEBUG:  NumOp Found: Num= '" + TempNum + "'");
+            CalcStack.push(Double.valueOf(TempNum));
+            CalcStack = Number.SimpleMath(TempOp, CalcStack);
 
          } else if (!CommandInput.isEmpty()) {
             // Display an error if I didnt' understand the input
