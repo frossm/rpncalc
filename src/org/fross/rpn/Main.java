@@ -13,7 +13,7 @@ import java.util.EmptyStackException;
 public class Main {
 
    // Constants
-   public static final String VERSION = "1.1";
+   public static final String VERSION = "1.2";
    public static final String PREF_STACK = "Stack";
    public static final String PREF_MONEYMODE = "MoneyMode";
    // Class Variables
@@ -204,6 +204,7 @@ public class Main {
             Main.DebugPrint("DEBUG:  NumOp Found: Num= '" + TempNum + "'");
             CalcStack.push(Double.valueOf(TempNum));
             CalcStack = Number.SimpleMath(TempOp, CalcStack);
+
 
             // Display an error if I didnt' understand the input
          } else if (!CommandInput.isEmpty()) {

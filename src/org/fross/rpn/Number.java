@@ -2,6 +2,7 @@ package org.fross.rpn;
 
 import java.util.Stack;
 import java.text.DecimalFormat;
+import java.util.EmptyStackException;
 
 /**
  * Perform Math functions for the calculator
@@ -22,8 +23,16 @@ public class Number {
     * @return
     */
    public static Stack SimpleMath(char Operand, Stack Stk) {
-      double Num1 = Double.valueOf(Stk.pop().toString());
-      double Num2 = Double.valueOf(Stk.pop().toString());
+      double Num1 = 0;
+      double Num2 = 0;
+      
+      try {
+         Num1 = Double.valueOf(Stk.pop().toString());
+         Num2 = Double.valueOf(Stk.pop().toString());
+      } catch (EmptyStackException Ex) {
+         System.out.println("ERROR: Two numbers are required for this operation");
+         return Stk;
+      }
 
       Main.DebugPrint("DEBUG:  Operand Entered: '" + Operand + "'");
       Main.DebugPrint("DEBUG:  Num1 Popped:     '" + Num1 + "'");
