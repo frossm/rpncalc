@@ -1,5 +1,10 @@
 /*
- * Main class for the rpn application.
+ * rpn - A Reverse Polish Notation calculator
+ *
+ * Copyright 2011 by Michael Fross
+ * All Rights Reserved
+ *
+ * TODO:  Add Logging Capability to save stack history to a file
  *
  */
 package org.fross.rpn;
@@ -13,9 +18,10 @@ import java.util.EmptyStackException;
 public class Main {
 
    // Constants
-   public static final String VERSION = "1.2";
+   public static final String VERSION = "1.2.0";
    public static final String PREF_STACK = "Stack";
    public static final String PREF_MONEYMODE = "MoneyMode";
+   
    // Class Variables
    public static boolean clDebug = false;
 
@@ -39,7 +45,7 @@ public class Main {
 
 
       System.out.println("+--------------------------------------------------------------+");
-      System.out.println("|                       RPN Calculator                    v" + VERSION + " |");
+      System.out.println("|                       RPN Calculator                  v" + VERSION + " |");
       System.out.println("|       Written by Michael Fross.  All rights reserved.        |");
       System.out.println("+--------------------------------------------------------------+");
 
@@ -54,16 +60,16 @@ public class Main {
       Getopt OptG = new Getopt("DirSize", args, "Dcph?");
       while ((OptionEntry = OptG.getopt()) != -1) {
          switch (OptionEntry) {
-            case 'D':														// Debug Mode
+            case 'D':											// Debug Mode
                clDebug = true;
                break;
-            case 'c':														// Clear Preferences
+            case 'c':											// Clear Preferences
                clClearPrefs = true;
                break;
-            case 'p':														// User Persistent Stack
+            case 'p':											// User Persistent Stack
                clPersistentStack = true;
                break;
-            case '?':														// Help
+            case '?':											// Help
             case 'h':
             default:
                Usage();
@@ -105,7 +111,7 @@ public class Main {
       UsageInLoop();
 
 
-      // Start main command loop
+      // Start Main Command Loop
       while (true) {
          System.out.println("+--------------------------------------------------------------+");
          // Display Stack
@@ -265,4 +271,3 @@ public class Main {
       }
    }
 } // End Class
-

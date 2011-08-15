@@ -1,3 +1,12 @@
+/*
+ * rpn - A Reverse Polish Notation calculator
+ *
+ * Copyright 2011 by Michael Fross
+ * All Rights Reserved
+ *
+ * TODO:  Add Logging Capability to save stack history to a file
+ *
+ */
 package org.fross.rpn;
 
 import java.util.Stack;
