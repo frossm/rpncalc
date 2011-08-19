@@ -4,7 +4,6 @@
  * Copyright 2011 by Michael Fross
  * All Rights Reserved
  *
- *
  */
 package org.fross.rpn;
 
@@ -19,7 +18,7 @@ import java.util.EmptyStackException;
 public class Main {
 
    // Constants
-   public static final String VERSION = "1.2.1";
+   public static final String VERSION = "1.2.2";
    public static final String PREF_STACK = "Stack";
    public static final String PREF_MONEYMODE = "MoneyMode";
    // Class Variables
@@ -39,7 +38,7 @@ public class Main {
       String CommandInput = null;
       String prefStack = null;
       boolean prefMoneyMode = false;
-      boolean clClearPrefs = false, clPersistentStack = false;
+      boolean clPersistentStack = false;
       int OptionEntry;
       Stack CalcStack = new Stack();
       Stack LogStack = new Stack();
@@ -58,14 +57,11 @@ public class Main {
       }
 
       // Process Command Line Options and set flags where needed
-      Getopt OptG = new Getopt("DirSize", args, "Dcph?");
+      Getopt OptG = new Getopt("DirSize", args, "Dph?");
       while ((OptionEntry = OptG.getopt()) != -1) {
          switch (OptionEntry) {
             case 'D':											// Debug Mode
                clDebug = true;
-               break;
-            case 'c':											// Clear Preferences
-               clClearPrefs = true;
                break;
             case 'p':											// User Persistent Stack
                clPersistentStack = true;
@@ -96,7 +92,6 @@ public class Main {
 
       Main.DebugPrint("\nDEBUG: Command Line Options");
       Main.DebugPrint("DEBUG:   -D:  " + clDebug);
-      Main.DebugPrint("DEBUG:   -c:  " + clClearPrefs);
       Main.DebugPrint("DEBUG:   -p:  " + clPersistentStack);
 
       // Read settings / Stack from preferences and load it if desired
@@ -110,18 +105,10 @@ public class Main {
 
          if (!prefStack.isEmpty()) {
             CalcStack.push(Double.valueOf(prefStack));
+            LogStack.push(Double.valueOf(prefStack));
          }
       }
 
-      // Clear Preferences if selected with '-c' command line parameter
-      if (clClearPrefs == true) {
-         System.out.println("Clearing Preferences...");
-         try {
-            prefs.clear();
-         } catch (BackingStoreException ex) {
-            System.out.println("ERROR:  Unable to clear preferences");
-         }
-      }
 
       // Display top help for comamnds
       UsageInLoop();
@@ -146,7 +133,7 @@ public class Main {
          if (prefMoneyMode == false) {
             CommandInput = Con.readLine("\n>> ");
          } else {
-            CommandInput = Con.readLine("\n$>> ");
+            CommandInput = Con.readLine("\n$ >> ");
          }
 
          ///////////////////////////////////////////////////////////////////
@@ -158,7 +145,7 @@ public class Main {
             // Process Clear Stack
          } else if (CommandInput.matches("^[Cc]")) {
             Main.DebugPrint("DEBUG:  Clearing Stack");
-            LogStack.push("Clear Stack");
+            LogStack.push("Clearing Stack");
             CalcStack = new Stack();
 
             ///////////////////////////////////////////////////////////////////
@@ -219,11 +206,13 @@ public class Main {
             if (CalcStack.size() < 2) {
                System.out.println("ERROR:  Two elements are needed for flip");
             } else {
-               LogStack.push("Flipping Last Two Numbers in Stack");
                Object Temp1 = CalcStack.pop();
                Object Temp2 = CalcStack.pop();
                CalcStack.push(Temp1);
                CalcStack.push(Temp2);
+               LogStack.push("Flipping Last Two Numbers. New Order: ");
+               LogStack.push(Temp1.toString());
+               LogStack.push(Temp2.toString());
             }
 
             ///////////////////////////////////////////////////////////////////
@@ -231,9 +220,10 @@ public class Main {
          } else if (CommandInput.matches("^[Ss]")) {
             Main.DebugPrint("DEBUG:  Sign Command Entered");
             if (!CalcStack.isEmpty()) {
-               LogStack.push("Flipping Sign of Last Number");
                double Temp = Double.valueOf(CalcStack.pop().toString());
                CalcStack.push(Temp * -1);
+               LogStack.push("Sign Change");
+               LogStack.push(CalcStack.peek());
             }
 
             ///////////////////////////////////////////////////////////////////
@@ -241,11 +231,9 @@ public class Main {
          } else if (CommandInput.matches("^[Mm]")) {
             if (prefMoneyMode == false) {
                Main.DebugPrint("DEBUG:  MoneyMode Now On");
-               LogStack.push("Money Mode Turned On");
                prefMoneyMode = true;
             } else {
                Main.DebugPrint("DEBUG:  MoneyMode Now Off");
-               LogStack.push("Money Mode Turned Off");
                prefMoneyMode = false;
             }
 
@@ -288,9 +276,9 @@ public class Main {
          try {
             prefs.putBoolean(PREF_MONEYMODE, prefMoneyMode);
             prefs.put(PREF_STACK, CalcStack.pop().toString());
-         } catch (NumberFormatException ex) {
+         } catch (NumberFormatException Ex) {
             // Don't update peferences if there are issues.
-         } catch (EmptyStackException ex) {
+         } catch (EmptyStackException Ex) {
             // If the Stack is empty, empty the preference
             prefs.remove(PREF_STACK);
          }
@@ -306,8 +294,8 @@ public class Main {
       System.out.println("\n+--------------------------------------------------------------+");
       System.out.println("|Commands:                                                     |");
       System.out.println("|  c - Clear Stack   d - Del last item   f - Flip last 2 items |");
-      System.out.println("|  s - Change Sign   x - Exit Program    h - Help              |");
-      System.out.println("|  m - MoneyMode     l - Dump Stack Log                        |");
+      System.out.println("|  s - Change Sign   l - Dump Stack Log  m - Toggle Money Mode |");
+      System.out.println("|  x - Exit          h - Help                                  |");
    }
 
    /**
@@ -315,9 +303,8 @@ public class Main {
     * parameters.
     */
    public static void Usage() {
-      System.out.println("Usage:   java -jar rpn.jar [-D] -[c] -[p] -[h] -[?]\n");
+      System.out.println("\nUsage:   java -jar rpn.jar [-D] -[p] -[h] -[?]\n");
       System.out.println("   -D:  Debug Mode.  Displays debug output.");
-      System.out.println("   -c:  Clear Preferences");
       System.out.println("   -p:  Use Persistent Stack");
       System.out.println("   -h:  Display this help information '-?' can also be used.");
    }
