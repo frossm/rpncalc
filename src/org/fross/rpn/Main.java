@@ -4,13 +4,14 @@
  * Copyright 2011 by Michael Fross
  * All Rights Reserved
  *
- * TODO:  Add Logging Capability to save stack history to a file
  *
  */
 package org.fross.rpn;
 
 import gnu.getopt.Getopt;
 import java.io.Console;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.prefs.*;
 import java.util.Stack;
 import java.util.EmptyStackException;
@@ -18,10 +19,9 @@ import java.util.EmptyStackException;
 public class Main {
 
    // Constants
-   public static final String VERSION = "1.2.0";
+   public static final String VERSION = "1.2.1";
    public static final String PREF_STACK = "Stack";
    public static final String PREF_MONEYMODE = "MoneyMode";
-   
    // Class Variables
    public static boolean clDebug = false;
 
@@ -42,6 +42,7 @@ public class Main {
       boolean clClearPrefs = false, clPersistentStack = false;
       int OptionEntry;
       Stack CalcStack = new Stack();
+      Stack LogStack = new Stack();
 
 
       System.out.println("+--------------------------------------------------------------+");
@@ -78,7 +79,22 @@ public class Main {
          }
       }
 
-      Main.DebugPrint("DEBUG: Command Line Options");
+      // Display some useful information about the environment if in Debug Mode
+      Main.DebugPrint("DEBUG: System Information:");
+      Main.DebugPrint("DEBUG:   - class.path:     " + System.getProperty("java.class.path"));
+      Main.DebugPrint("DEBUG:   - java.home:      " + System.getProperty("java.home"));
+      Main.DebugPrint("DEBUG:   - java.vendor:    " + System.getProperty("java.vendor"));
+      Main.DebugPrint("DEBUG:   - java.version:   " + System.getProperty("java.version"));
+      Main.DebugPrint("DEBUG:   - os.name:        " + System.getProperty("os.name"));
+      Main.DebugPrint("DEBUG:   - os.version:     " + System.getProperty("os.version"));
+      Main.DebugPrint("DEBUG:   - os.arch:        " + System.getProperty("os.arch"));
+      Main.DebugPrint("DEBUG:   - user.name:      " + System.getProperty("user.name"));
+      Main.DebugPrint("DEBUG:   - user.home:      " + System.getProperty("user.home"));
+      Main.DebugPrint("DEBUG:   - user.dir:       " + System.getProperty("user.dir"));
+      Main.DebugPrint("DEBUG:   - file.separator: " + System.getProperty("file.separator"));
+      Main.DebugPrint("DEBUG:   - library.path:   " + System.getProperty("java.library.path"));
+
+      Main.DebugPrint("\nDEBUG: Command Line Options");
       Main.DebugPrint("DEBUG:   -D:  " + clDebug);
       Main.DebugPrint("DEBUG:   -c:  " + clClearPrefs);
       Main.DebugPrint("DEBUG:   -p:  " + clPersistentStack);
@@ -114,6 +130,7 @@ public class Main {
       // Start Main Command Loop
       while (true) {
          System.out.println("+--------------------------------------------------------------+");
+
          // Display Stack
          for (int i = 0; i < CalcStack.size(); i++) {
             // Display current Stack.  Use Money Mode or Normal based on user preference
@@ -124,6 +141,7 @@ public class Main {
             }
          }
 
+         ///////////////////////////////////////////////////////////////////
          // Input Command String from User
          if (prefMoneyMode == false) {
             CommandInput = Con.readLine("\n>> ");
@@ -131,87 +149,133 @@ public class Main {
             CommandInput = Con.readLine("\n$>> ");
          }
 
-
+         ///////////////////////////////////////////////////////////////////
          // Process Help
          if (CommandInput.matches("^[Hh]")) {
             UsageInLoop();
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Clear Stack
          } else if (CommandInput.matches("^[Cc]")) {
             Main.DebugPrint("DEBUG:  Clearing Stack");
+            LogStack.push("Clear Stack");
             CalcStack = new Stack();
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Last Item Delete
          } else if (CommandInput.matches("^[Dd]")) {
             Main.DebugPrint("DEBUG:  Deleting Last Item On Stack");
             if (!CalcStack.isEmpty()) {
+               LogStack.push("Delete Last Number: " + CalcStack.peek());
                CalcStack.pop();
             }
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Exit Program
          } else if (CommandInput.matches("^[XxQq]")) {
             Main.DebugPrint("DEBUG:  Exiting Command Loop");
             break;
 
+            ///////////////////////////////////////////////////////////////////
+            // Process Output Logging
+         } else if (CommandInput.matches("^[Ll]")) {
+            String FileName = null;
+            String CurrentDir = System.getProperty("user.dir");
+            String DefaultFileName = CurrentDir + System.getProperty("file.separator") + "RPN.Log";
 
+            Main.DebugPrint("DEBUG:  Dumping Stack Log");
+
+            if (LogStack.size() == 0) {
+               System.out.println("** ERROR:  Stack is empty.  Nothing to Log!");
+            } else {
+               try {
+                  System.out.println("\nDefault Logfile is '" + DefaultFileName + "'");
+                  FileName = Con.readLine("Enter Export Filename (Return for Default): ");
+                  if (FileName.isEmpty()) {
+                     FileName = DefaultFileName;
+                  }
+
+                  Main.DebugPrint("DEBUG:  Output Filename is: '" + FileName + "'");
+                  FileWriter LogFile = new FileWriter(FileName);
+
+                  // Cycle Through Stack and Write to Output File
+                  for (int i = 0; i < LogStack.size(); i++) {
+                     Main.DebugPrint(i + ": " + LogStack.get(i));
+                     LogFile.write(i + ":   " + LogStack.get(i) + "\n");
+                  }
+
+                  // Close file
+                  LogFile.close();
+
+               } catch (IOException Ex) {
+                  System.out.println("Error:  Could not write to output log file: '" + FileName + "'");
+               }
+            }
+
+            ///////////////////////////////////////////////////////////////////
             // Process Flip Last Two Items In Stack
          } else if (CommandInput.matches("^[Ff]")) {
             Main.DebugPrint("DEBUG:  Flip Command Entered");
             if (CalcStack.size() < 2) {
                System.out.println("ERROR:  Two elements are needed for flip");
             } else {
+               LogStack.push("Flipping Last Two Numbers in Stack");
                Object Temp1 = CalcStack.pop();
                Object Temp2 = CalcStack.pop();
                CalcStack.push(Temp1);
                CalcStack.push(Temp2);
             }
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Sign
          } else if (CommandInput.matches("^[Ss]")) {
             Main.DebugPrint("DEBUG:  Sign Command Entered");
             if (!CalcStack.isEmpty()) {
+               LogStack.push("Flipping Sign of Last Number");
                double Temp = Double.valueOf(CalcStack.pop().toString());
                CalcStack.push(Temp * -1);
             }
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Money Mode Toggle
          } else if (CommandInput.matches("^[Mm]")) {
             if (prefMoneyMode == false) {
                Main.DebugPrint("DEBUG:  MoneyMode Now On");
+               LogStack.push("Money Mode Turned On");
                prefMoneyMode = true;
             } else {
                Main.DebugPrint("DEBUG:  MoneyMode Now Off");
+               LogStack.push("Money Mode Turned Off");
                prefMoneyMode = false;
             }
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Operand Entry
          } else if (CommandInput.matches("[\\*\\+\\-\\/\\^]")) {
             Main.DebugPrint("DEBUG:  Operand Entered");
+            LogStack.push(CommandInput.charAt(0));
             CalcStack = Number.SimpleMath(CommandInput.charAt(0), CalcStack);
 
-
+            ///////////////////////////////////////////////////////////////////
             // Process Number Entered. Convert to double first
          } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*")) {
             Main.DebugPrint("DEBUG:  Number Entered.  Adding to Stack");
             CalcStack.push(Double.valueOf(CommandInput));
+            LogStack.push(CommandInput);
 
-
+            ///////////////////////////////////////////////////////////////////
             // Handle numbers with a single opperand at the end (a NumOp)
          } else if (CommandInput.matches("^-?\\d+(\\.)?\\d*[\\*\\+\\-\\/\\^]")) {
             char TempOp = CommandInput.charAt(CommandInput.length() - 1);
             String TempNum = CommandInput.substring(0, CommandInput.length() - 1);
             Main.DebugPrint("DEBUG:  NumOp Found: Op = '" + TempOp + "'");
             Main.DebugPrint("DEBUG:  NumOp Found: Num= '" + TempNum + "'");
+            LogStack.push(TempNum);
+            LogStack.push(TempOp);
             CalcStack.push(Double.valueOf(TempNum));
             CalcStack = Number.SimpleMath(TempOp, CalcStack);
 
-
+            ///////////////////////////////////////////////////////////////////
             // Display an error if I didnt' understand the input
          } else if (!CommandInput.isEmpty()) {
             System.out.println("** Input Error: '" + CommandInput + "' **");
@@ -243,7 +307,7 @@ public class Main {
       System.out.println("|Commands:                                                     |");
       System.out.println("|  c - Clear Stack   d - Del last item   f - Flip last 2 items |");
       System.out.println("|  s - Change Sign   x - Exit Program    h - Help              |");
-      System.out.println("|  m - MoneyMode                                               |");
+      System.out.println("|  m - MoneyMode     l - Dump Stack Log                        |");
    }
 
    /**
@@ -271,3 +335,4 @@ public class Main {
       }
    }
 } // End Class
+
