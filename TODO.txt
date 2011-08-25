@@ -4,7 +4,7 @@ Logging:
  - [COMPLETE 1.2.2] Change wording of log file entry for "flipping sign"
  - [COMPLETE 1.2.2] Put new number in stack and flip or sign change
  - [COMPLETE 1.2.2] Don't log MoneyMode.  It's only a display item.
- - Make log nicer.  Show results of operands.  LIttle total lines, etc.
+ - [COMPLETE 1.2.4] Make log nicer.  Show results of operands.  LIttle total lines, etc.
 
 Command Line Options
  - [COMPLETE 1.2.2] Get rid of -c as it's kinda useless.  Just clear stack before you exit with -p on.

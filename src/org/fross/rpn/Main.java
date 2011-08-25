@@ -18,11 +18,12 @@ import java.util.EmptyStackException;
 public class Main {
 
 	// Constants
-	public static final String VERSION = "1.2.3";
+	public static final String VERSION = "1.2.4";
 	public static final String PREF_STACK = "Stack";
 	public static final String PREF_MONEYMODE = "MoneyMode";
 	// Class Variables
 	public static boolean clDebug = false;
+	private static Stack LogStack = new Stack();
 
 	/**
 	 * Main application program.  RPN is note an objective oriented application
@@ -42,13 +43,15 @@ public class Main {
 		boolean ProcessCommandLoop = true;
 		int OptionEntry;
 		Stack CalcStack = new Stack();
-		Stack LogStack = new Stack();
 
 
 		System.out.println("+--------------------------------------------------------------+");
 		System.out.println("|                       RPN Calculator                  v" + VERSION + " |");
 		System.out.println("|       Written by Michael Fross.  All rights reserved.        |");
 		System.out.println("+--------------------------------------------------------------+");
+		LogStack.push("RPN Calculator v" + VERSION);
+		LogStack.push("--<Begin Logging>--------------------------------");
+
 
 		// Initialize the console used for command input
 		Con = System.console();
@@ -106,7 +109,7 @@ public class Main {
 
 			if (!prefStack.isEmpty()) {
 				CalcStack.push(Double.valueOf(prefStack));
-				LogStack.push(Double.valueOf(prefStack));
+				LogStack.push(Double.valueOf(prefStack) + "(From Persistent Cache");
 			}
 		}
 
@@ -146,19 +149,18 @@ public class Main {
 				// Process Clear Stack
 			} else if (CommandInput.matches("^[Cc]")) {
 				Main.DebugPrint("DEBUG:  Clearing Stack");
-				LogStack.push("Clearing Stack");
-				LogStack.push("--------------------");
 				CalcStack = new Stack();
+				LogStack.push("<Clearing Stack>");
+				Main.DumpStackToLog(CalcStack);
 
 				///////////////////////////////////////////////////////////////////
 				// Process Last Item Delete
 			} else if (CommandInput.matches("^[Dd]")) {
 				Main.DebugPrint("DEBUG:  Deleting Last Item On Stack");
 				if (!CalcStack.isEmpty()) {
-					LogStack.push("Delete Last Number: " + CalcStack.peek());
+					LogStack.push("<Delete Last Number: " + CalcStack.peek() + ">");
 					CalcStack.pop();
-					LogStack.push("--------------------");
-					LogStack.push(CalcStack.peek());
+					Main.DumpStackToLog(CalcStack);
 				}
 
 				///////////////////////////////////////////////////////////////////
@@ -214,22 +216,19 @@ public class Main {
 					Object Temp2 = CalcStack.pop();
 					CalcStack.push(Temp1);
 					CalcStack.push(Temp2);
-					LogStack.push("Flipping Last Two Numbers");
-					LogStack.push("--------------------");
-					LogStack.push(Temp1.toString());
-					LogStack.push(Temp2.toString());
+					LogStack.push("<Flipping Last Two Numbers>");
+					Main.DumpStackToLog(CalcStack);
 				}
 
 				///////////////////////////////////////////////////////////////////
-				// Process Sign
+				// Process Sign Change
 			} else if (CommandInput.matches("^[Ss]")) {
 				Main.DebugPrint("DEBUG:  Sign Command Entered");
 				if (!CalcStack.isEmpty()) {
+					LogStack.push("<Sign Change for " + CalcStack.peek() + ">");
 					double Temp = Double.valueOf(CalcStack.pop().toString());
 					CalcStack.push(Temp * -1);
-					LogStack.push("Sign Change");
-					LogStack.push("--------------------");
-					LogStack.push(CalcStack.peek());
+					Main.DumpStackToLog(CalcStack);
 				}
 
 				///////////////////////////////////////////////////////////////////
@@ -247,10 +246,9 @@ public class Main {
 				// Process Operand Entry
 			} else if (CommandInput.matches("[\\*\\+\\-\\/\\^]")) {
 				Main.DebugPrint("DEBUG:  Operand Entered");
-				LogStack.push(CommandInput.charAt(0));
-				LogStack.push("--------------------");
 				CalcStack = Number.SimpleMath(CommandInput.charAt(0), CalcStack);
-				LogStack.push(CalcStack.peek());
+				LogStack.add(CommandInput.charAt(0));
+				Main.DumpStackToLog(CalcStack);
 
 
 				///////////////////////////////////////////////////////////////////
@@ -258,7 +256,7 @@ public class Main {
 			} else if (CommandInput.matches("^-?\\d+(\\.)?\\d*")) {
 				Main.DebugPrint("DEBUG:  Number Entered.  Adding to Stack");
 				CalcStack.push(Double.valueOf(CommandInput));
-				LogStack.push(CommandInput);
+				LogStack.add(CalcStack.peek());
 
 				///////////////////////////////////////////////////////////////////
 				// Handle numbers with a single opperand at the end (a NumOp)
@@ -269,11 +267,9 @@ public class Main {
 				Main.DebugPrint("DEBUG:  NumOp Found: Num= '" + TempNum + "'");
 				LogStack.push(TempNum);
 				LogStack.push(TempOp);
-				LogStack.push("--------------------");
 				CalcStack.push(Double.valueOf(TempNum));
 				CalcStack = Number.SimpleMath(TempOp, CalcStack);
-				LogStack.push(CalcStack.peek());
-
+				Main.DumpStackToLog(CalcStack);
 
 				///////////////////////////////////////////////////////////////////
 				// Display an error if I didnt' understand the input
@@ -331,6 +327,18 @@ public class Main {
 	public static void DebugPrint(String Msg) {
 		if (Main.clDebug == true) {
 			System.out.println(Msg);
+		}
+	}
+
+	/**
+	 * DumpStackToLog
+	 * Save a dashed line and then the full stack to the log stack.
+	 * @param Stk 
+	 */
+	public static void DumpStackToLog(Stack Stk) {
+		LogStack.add("------------------------------------------------");
+		for (int i = 0; i < Stk.size(); i++) {
+			LogStack.add(Double.valueOf(Stk.elementAt(i).toString()));
 		}
 	}
 } // End Class
