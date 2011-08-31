@@ -18,7 +18,7 @@ import java.util.EmptyStackException;
 public class Main {
 
 	// Constants
-	public static final String VERSION = "1.2.4";
+	public static final String VERSION = "1.2.5";
 	public static final String PREF_STACK = "Stack";
 	public static final String PREF_MONEYMODE = "MoneyMode";
 	// Class Variables
@@ -137,7 +137,7 @@ public class Main {
 			if (prefMoneyMode == false) {
 				CommandInput = Con.readLine("\n>> ");
 			} else {
-				CommandInput = Con.readLine("\n$ >> ");
+				CommandInput = Con.readLine("\n>>$ ");
 			}
 
 			///////////////////////////////////////////////////////////////////
@@ -253,14 +253,14 @@ public class Main {
 
 				///////////////////////////////////////////////////////////////////
 				// Process Number Entered. Convert to double first
-			} else if (CommandInput.matches("^-?\\d+(\\.)?\\d*")) {
+			} else if (CommandInput.matches("^-?\\d*(\\.)?\\d*")) {
 				Main.DebugPrint("DEBUG:  Number Entered.  Adding to Stack");
 				CalcStack.push(Double.valueOf(CommandInput));
 				LogStack.add(CalcStack.peek());
 
 				///////////////////////////////////////////////////////////////////
 				// Handle numbers with a single opperand at the end (a NumOp)
-			} else if (CommandInput.matches("^-?\\d+(\\.)?\\d*[\\*\\+\\-\\/\\^]")) {
+			} else if (CommandInput.matches("^-?\\d*(\\.)?\\d*[\\*\\+\\-\\/\\^]")) {
 				char TempOp = CommandInput.charAt(CommandInput.length() - 1);
 				String TempNum = CommandInput.substring(0, CommandInput.length() - 1);
 				Main.DebugPrint("DEBUG:  NumOp Found: Op = '" + TempOp + "'");
