@@ -18,7 +18,7 @@ import java.util.EmptyStackException;
 public class Main {
 
 	// Constants
-	public static final String VERSION = "1.2.5";
+	public static final String VERSION = "1.2.6";
 	public static final String PREF_STACK = "Stack";
 	public static final String PREF_MONEYMODE = "MoneyMode";
 	// Class Variables
@@ -253,7 +253,7 @@ public class Main {
 
 				///////////////////////////////////////////////////////////////////
 				// Process Number Entered. Convert to double first
-			} else if (CommandInput.matches("^-?\\d*(\\.)?\\d*")) {
+			} else if (!CommandInput.isEmpty() && CommandInput.matches("^-?\\d*(\\.)?\\d*")) {
 				Main.DebugPrint("DEBUG:  Number Entered.  Adding to Stack");
 				CalcStack.push(Double.valueOf(CommandInput));
 				LogStack.add(CalcStack.peek());
