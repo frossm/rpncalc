@@ -18,7 +18,7 @@ import java.util.EmptyStackException;
 public class Main {
 
 	// Constants
-	public static final String VERSION = "1.2.6";
+	public static final String VERSION = "1.2.7";
 	public static final String PREF_STACK = "Stack";
 	public static final String PREF_MONEYMODE = "MoneyMode";
 	// Class Variables
