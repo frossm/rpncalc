@@ -19,7 +19,7 @@ import java.util.EmptyStackException;
 public class Number {
 
 	// Length of number displayed when in Money Mode
-	public static final int MONEYMODELENGTH = 12;
+	public static final int MONEYMODELENGTH = 10;
 
 	/**
 	 * Perform Simple math functions of Addition, Subtraction, Multiplication,

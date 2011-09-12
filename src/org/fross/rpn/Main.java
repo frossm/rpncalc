@@ -18,7 +18,7 @@ import java.util.EmptyStackException;
 public class Main {
 
 	// Constants
-	public static final String VERSION = "1.2.7";
+	public static final String VERSION = "1.2.8";
 	public static final String PREF_STACK = "Stack";
 	public static final String PREF_MONEYMODE = "MoneyMode";
 	// Class Variables
@@ -137,7 +137,7 @@ public class Main {
 			if (prefMoneyMode == false) {
 				CommandInput = Con.readLine("\n>> ");
 			} else {
-				CommandInput = Con.readLine("\n>>$ ");
+				CommandInput = Con.readLine("\n$ ");
 			}
 
 			///////////////////////////////////////////////////////////////////
