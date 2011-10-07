@@ -1,5 +1,15 @@
-8/18/2011
+Memory:
+ - Add memory functionality like a normal calculator
+ - Add memory add
+ - Add memory subtract
+ - Add memory recall
+ - Add memory clear
 
+
+
+
+
+-- COMPLETE --------------------------------------------------------------------------
 Logging:
  - [COMPLETE 1.2.2] Change wording of log file entry for "flipping sign"
  - [COMPLETE 1.2.2] Put new number in stack and flip or sign change
@@ -8,3 +18,6 @@ Logging:
 
 Command Line Options
  - [COMPLETE 1.2.2] Get rid of -c as it's kinda useless.  Just clear stack before you exit with -p on.
+
+Bugs:
+ - [COMPLETE 1.2.9] Allow a space before the operand during an numop command.  Ex:  "443 *" should work.
