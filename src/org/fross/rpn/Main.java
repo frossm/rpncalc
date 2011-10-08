@@ -18,12 +18,13 @@ import java.util.EmptyStackException;
 public class Main {
 
 	// Constants
-	public static final String VERSION = "1.2.9";
+	public static final String VERSION = "1.3.0";
 	public static final String PREF_STACK = "Stack";
 	public static final String PREF_MONEYMODE = "MoneyMode";
 	// Class Variables
 	public static boolean clDebug = false;
 	private static Stack LogStack = new Stack();
+	private static double MemoryVar = 0;
 
 	/**
 	 * Main application program.  RPN is note an objective oriented application
@@ -45,10 +46,10 @@ public class Main {
 		Stack CalcStack = new Stack();
 
 
-		System.out.println("+--------------------------------------------------------------+");
-		System.out.println("|                       RPN Calculator                  v" + VERSION + " |");
-		System.out.println("|       Written by Michael Fross.  All rights reserved.        |");
-		System.out.println("+--------------------------------------------------------------+");
+		System.out.println("+----------------------------------------------------------------------+");
+		System.out.println("|                           RPN Calculator                      v" + VERSION + " |");
+		System.out.println("|           Written by Michael Fross.  All rights reserved.            |");
+		System.out.println("+----------------------------------------------------------------------+");
 		LogStack.push("RPN Calculator v" + VERSION);
 		LogStack.push("--<Begin Logging>--------------------------------");
 
@@ -120,7 +121,7 @@ public class Main {
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
-			System.out.println("+--------------------------------------------------------------+");
+			System.out.println("+----------------------------------------------------------------------+");
 
 			// Display Stack
 			for (int i = 0; i < CalcStack.size(); i++) {
@@ -258,6 +259,7 @@ public class Main {
 				CalcStack.push(Double.valueOf(CommandInput));
 				LogStack.add(CalcStack.peek());
 
+				
 				///////////////////////////////////////////////////////////////////
 				// Handle numbers with a single opperand at the end (a NumOp)
 			} else if (CommandInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
@@ -271,6 +273,34 @@ public class Main {
 				CalcStack = Number.SimpleMath(TempOp, CalcStack);
 				Main.DumpStackToLog(CalcStack);
 
+				
+				///////////////////////////////////////////////////////////////////
+				// Adds the last number in the stack into memory
+			} else if (CommandInput.matches("^[Mm][Aa]")) {
+				Main.DebugPrint("DEBUG:  Adding '" + CalcStack.peek().toString() + "' to MEMORY value");
+				MemoryVar += Double.valueOf(CalcStack.peek().toString());
+				
+				
+				///////////////////////////////////////////////////////////////////
+				// Subtracts the last number in the stack into memory
+			} else if (CommandInput.matches("^[Mm][Ss]")) {
+				Main.DebugPrint("DEBUG:  Subtracting '" + CalcStack.peek().toString() + "' from MEMORY value");
+				MemoryVar -= Double.valueOf(CalcStack.peek().toString());
+				
+				
+				///////////////////////////////////////////////////////////////////
+				// Clears the Memory Variable
+			} else if (CommandInput.matches("^[Mm][Cc]")) {
+				Main.DebugPrint("DEBUG:  Clearning MEMORY variable");
+				MemoryVar = 0;
+				
+				
+				///////////////////////////////////////////////////////////////////
+				// Reads the memory and places it at the end of the stack
+			} else if (CommandInput.matches("^[Mm][Rr]")) {
+				CalcStack.add(MemoryVar);
+				
+				
 				///////////////////////////////////////////////////////////////////
 				// Display an error if I didnt' understand the input
 			} else if (!CommandInput.isEmpty()) {
@@ -299,11 +329,12 @@ public class Main {
 	 * UsageInLoop:  Display usage information inside of the command input loop
 	 */
 	public static void UsageInLoop() {
-		System.out.println("\n+--------------------------------------------------------------+");
-		System.out.println("|Commands:                                                     |");
-		System.out.println("|  c - Clear Stack   d - Del last item   f - Flip last 2 items |");
-		System.out.println("|  s - Change Sign   l - Dump Stack Log  m - Toggle Money Mode |");
-		System.out.println("|  x - Exit          h - Help                                  |");
+		System.out.println("\n+----------------------------------------------------------------------+");
+		System.out.println("|Commands:                                                             |");
+		System.out.println("|  c  - Clear Stack      d  - Del last item     f  - Flip last 2 items |");
+		System.out.println("|  s  - Change Sign      l  - Dump Stack Log    m  - Toggle Money Mode |");
+		System.out.println("|  ma - Memory Add       ms - Memory subtrct    mc - Memory Clear      |");
+		System.out.println("|  mr - Memory Recall    x  - Exit              h  - Help              |");
 	}
 
 	/**
