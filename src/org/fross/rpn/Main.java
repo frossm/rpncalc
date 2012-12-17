@@ -151,6 +151,9 @@ public class Main {
 			} else if (CommandInput.matches("^[Cc]")) {
 				Main.DebugPrint("DEBUG:  Clearing Stack");
 				CalcStack = new Stack();
+                                for (int k=0; k < 150; k++) {
+                                    System.out.println("");
+                                }
 				LogStack.push("<Clearing Stack>");
 				Main.DumpStackToLog(CalcStack);
 
