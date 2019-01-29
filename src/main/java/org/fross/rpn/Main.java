@@ -84,19 +84,31 @@ public class Main {
 
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
-				Output.Yellow(":  " + Math.Comma(calcStack.get(i)));
+				String stackNum = String.format("%02d:   ", i);
+				Output.Cyan(stackNum, false);
+				Output.White(Math.Comma(calcStack.get(i)));
 			}
 
 			// Input command/number from user
 			cmdInput = con.readLine("\n>> ");
 
-			// Process Help
-			if (cmdInput.matches("^[Hh?]")) {
+			// Toggle Debug Mode
+			if (cmdInput.matches("[Dd][Ee][Bb][Uu][Gg]")) {
+				if (Debug.Query()) {
+					Debug.Disable();
+					Output.Red("Debug Disabled");
+				} else {
+					Debug.Enable();
+					Debug.Print("Debug Enabled");
+				}
+				
+				// Process Help
+			} else if (cmdInput.matches("^[Hh?]")) {
 				Debug.Print("Displaying Help");
 				Help.Display();
 
 				// Process Exit
-			} else if (cmdInput.matches("^[Xx]")) {
+			} else if (cmdInput.matches("^[XxQq]")) {
 				Debug.Print("Exiting Command Loop");
 				ProcessCommandLoop = false;
 
@@ -135,20 +147,15 @@ public class Main {
 				if (!calcStack.isEmpty())
 					calcStack.push(calcStack.pop() * -1);
 
-				// Save Stack to secondary stack and clear primary
+				// Swap primary and secondary stack
 			} else if (cmdInput.matches("^[Ss][Ss]")) {
-				Debug.Print("Moving primary stack to secondary");
-				calcStack2 = (Stack<Double>) calcStack.clone();
-				calcStack.clear();
-
-				// Restore secondary stack to primary
-			} else if (cmdInput.matches("^[Rr][Ss]")) {
-				Debug.Print("Restoring secondary stack to primary");
+				Debug.Print("Swapping primary and secondary stack");
+				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
 				calcStack = (Stack<Double>) calcStack2.clone();
-				calcStack2.clear();
+				calcStack2 = (Stack<Double>) calcStackTemp.clone();
 
 				// Operand entered
-			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^]")) {
+			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
 				Debug.Print("Operand entered: '" + cmdInput.charAt(0) + "'");
 				calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
 
@@ -166,7 +173,7 @@ public class Main {
 				calcStack.push(Double.valueOf(TempNum));
 				calcStack = Math.Parse(TempOp, calcStack);
 
-				// Display an error if the entry was not understood
+				// Display an error if the entry matched none of the above
 			} else {
 				Output.Red("Input Error: '" + cmdInput + "'");
 			}

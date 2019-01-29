@@ -15,22 +15,32 @@ import java.text.DecimalFormat;
 import java.util.Stack;
 
 public class Math {
-
-	// Comma: Return a string with comma separators at the correct intervals.
-	// Supports decimal places and a negative sign.
+	/**
+	 * Comma Return a string with comma separators at the correct intervals.
+	 * Supports decimal places and a negative sign.
+	 * 
+	 * @param num - Number in need of commas
+	 * @return
+	 */
 	public static String Comma(Double num) {
 		DecimalFormat myFormatter = null;
 
 		try {
 			myFormatter = new DecimalFormat("###,###.########");
 		} catch (Exception Ex) {
-			System.out.println("ERROR Adding Commas to numbers:\n" + Ex.getMessage());
+			Output.Red("ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
 		return (myFormatter.format(num).toString());
 	}
 
-	// Parse operand and call right match function
+	/**
+	 * Parse Take an operand and a stack and call the right math function.
+	 * 
+	 * @param op  - Operand to process
+	 * @param stk - Stack containing the list of Doubles to process
+	 * @return
+	 */
 	public static Stack<Double> Parse(char op, Stack<Double> stk) {
 		Stack<Double> result = new Stack<Double>();
 
@@ -51,8 +61,10 @@ public class Math {
 		case '^':
 			result = Power(stk);
 			break;
+		case '%':
+			result = Percent(stk);
 		default:
-			System.out.println("ERROR: Illegal Operand Sent to Math.Parse()");
+			Output.Red("ERROR: Illegal Operand Sent to Math.Parse()");
 		}
 
 		return result;
@@ -98,4 +110,8 @@ public class Math {
 		return stk;
 	}
 
+	public static Stack<Double> Percent(Stack<Double> stk) {
+		stk.push(stk.pop() * 0.01);
+		return stk;
+	}
 }

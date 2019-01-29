@@ -26,6 +26,17 @@ public class Output {
 		cp.clear();
 	}
 
+	public static void Cyan(String msg, Boolean nl) {
+		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.CYAN).build();
+		cp.setAttribute(Attribute.DARK);
+		if (nl) {
+			cp.println(msg);
+		} else {
+			cp.print(msg);
+		}
+		cp.clear();
+	}
+
 	public static void Cyan(String msg) {
 		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.CYAN).build();
 		cp.setAttribute(Attribute.DARK);
@@ -39,7 +50,7 @@ public class Output {
 		cp.println(msg);
 		cp.clear();
 	}
-	
+
 	public static void White(String msg) {
 		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.WHITE).build();
 		cp.setAttribute(Attribute.LIGHT);
