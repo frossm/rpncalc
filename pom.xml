@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.fross.rpn</groupId>
+	<artifactId>rpn</artifactId>
+	<version>2019-01.01</version>
+	<packaging>jar</packaging>
+
+	<name>rpn</name>
+	<description>Simple console based RPN calculator with persistent a stack</description>
+	<url>https://fross.org</url>
+
+	<developers>
+		<developer>
+			<name>Michael Fross</name>
+			<email>michael@fross.org</email>
+			<url>https://fross.org</url>
+		</developer>
+	</developers>
+
+	<organization>
+		<name>Sinister Igloo Softworks</name>
+		<url>fross.org</url>
+	</organization>
+
+	<inceptionYear>2018</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License v3</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>10</release>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>org.fross.rpn.Main</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/gnu.getopt/java-getopt -->
+		<dependency>
+			<groupId>gnu.getopt</groupId>
+			<artifactId>java-getopt</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.diogonunes/JCDP -->
+		<dependency>
+			<groupId>com.diogonunes</groupId>
+			<artifactId>JCDP</artifactId>
+			<version>2.0.3.1</version>
+		</dependency>
+
+
+	</dependencies>
+
+</project>
