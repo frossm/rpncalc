@@ -9,7 +9,11 @@
  *           http://www.gnu.org/licenses/gpl-3.0.html
  *           
  ******************************************************************************/
-/* Color library:  https://github.com/dialex/JCDP */
+/* Leverages the JCDP Color library:  
+ *   https://github.com/dialex/JCDP
+ *   http://dialex.github.io/JCDP/javadoc/
+ *   <!-- https://mvnrepository.com/artifact/com.diogonunes/JCDP -->
+*/
 
 package org.fross.rpn;
 
@@ -18,46 +22,42 @@ import com.diogonunes.jcdp.color.api.Ansi.Attribute;
 import com.diogonunes.jcdp.color.api.Ansi.FColor;
 
 public class Output {
-
-	public static void Red(String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.RED).build();
+	/**
+	 * PrintColor: Print to the console with the provided foreground color
+	 * Acceptable ColorNames: FColor.BLUE, FColor.CYAN, FColor.GREEN,
+	 * FColor.MAGENTA, FColor.NONE, FColor.RED, FColor.WHITE, FColor.YELLOW
+	 * 
+	 * @param Color
+	 * @param msg
+	 */
+	public static void PrintColor(FColor clr, String msg) {
+		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(clr).build();
 		cp.setAttribute(Attribute.LIGHT);
 		cp.println(msg);
 		cp.clear();
 	}
 
-	public static void Cyan(String msg, Boolean nl) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.CYAN).build();
-		cp.setAttribute(Attribute.DARK);
-		if (nl) {
-			cp.println(msg);
-		} else {
-			cp.print(msg);
-		}
-		cp.clear();
-	}
-
-	public static void Cyan(String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.CYAN).build();
-		cp.setAttribute(Attribute.DARK);
-		cp.println(msg);
-		cp.clear();
-	}
-
-	public static void Yellow(String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.YELLOW).build();
+	/**
+	 * PrintColorNNL: Print to the console with NoNewLone. The provided foreground
+	 * color Acceptable ColorNames: FColor.BLUE, FColor.CYAN, FColor.GREEN,
+	 * FColor.MAGENTA, FColor.NONE, FColor.RED, FColor.WHITE, FColor.YELLOW
+	 * 
+	 * @param Color
+	 * @param msg
+	 */
+	public static void PrintColorNNL(FColor clr, String msg) {
+		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(clr).build();
 		cp.setAttribute(Attribute.LIGHT);
-		cp.println(msg);
+		cp.print(msg);
 		cp.clear();
 	}
 
-	public static void White(String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.WHITE).build();
-		cp.setAttribute(Attribute.LIGHT);
-		cp.println(msg);
-		cp.clear();
-	}
-
+	/**
+	 * Print: Basic System.out.println call. It's here so out text output can go
+	 * through this function.
+	 * 
+	 * @param msg
+	 */
 	public static void Print(String msg) {
 		System.out.println(msg);
 	}

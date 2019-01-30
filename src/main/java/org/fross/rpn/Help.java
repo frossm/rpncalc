@@ -11,32 +11,51 @@
  ******************************************************************************/
 package org.fross.rpn;
 
+import com.diogonunes.jcdp.color.api.Ansi.FColor;
+
+/**
+ * Help(): Display the help page when users enters 'h' command.
+ * 
+ * @author michael.d.fross
+ *
+ */
 public class Help {
+	/**
+	 * Display(): Prints help in color using the JCDP library in the output module.
+	 */
 	public static void Display() {
-		Output.Yellow("\n+----------------------------------------------------------------------+");
-		Output.Yellow("-                   RPN Calculator Help Document   -");
-		Output.Yellow("+----------------------------------------------------------------------+");
-		Output.Yellow("RPN is a simply reverse polish notation calculator\n");
-		
-		Output.Yellow("Operands:");
-		Output.White(" +     Addition:  Add last two stack elements");
-		Output.White(" -     Subtraction: Subtract last element from previous element");
-		Output.White(" *     Multiplication: Muliply last two stack items");
-		Output.White(" /     Division: Divide second to last item by last stack item");
-		Output.White(" ^     Power:  Calculate send to last item to the power of the last item");
-		Output.White(" %     Turn last stack item into a % (multiplied by 0.01)");
-		
-		Output.Yellow("\nCommands:");
-		Output.White(" s     Change sign of last element");
-		Output.White(" c     Clear everything from the visible stack");
-		Output.White(" d     Delete the last item in the stack");
-		Output.White(" f     Flip last two stack items");
-		Output.White(" ss    Swap primary stack to secondary.  You can swap them back at a later time");
-		Output.White("debug  Toggle DEBUG mode on/off");
-		Output.White(" h|?   Show this help information.  Either key will work.");
-		Output.White(" x|q   Exit Calculator\n");
-		
-		Output.White("Note, you can couple an operand at the end of a number to save time.");
-		Output.White("For Example.   Add two numbers:  2 <enter> 3+ <enter> to get 5\n");
+		Output.PrintColor(FColor.YELLOW, "\n+----------------------------------------------------------------------+");
+		Output.PrintColor(FColor.YELLOW, "-                   RPN Calculator Help Document                       -");
+		Output.PrintColor(FColor.YELLOW, "+----------------------------------------------------------------------+");
+		Output.PrintColor(FColor.WHITE, "            RPN is a simple reverse polish notation calculator\n");
+
+		Output.PrintColor(FColor.YELLOW, "Command Line Options:");
+		Output.PrintColor(FColor.WHITE, " -l     Load saved named stack. Same as using the 'load' command");
+		Output.PrintColor(FColor.WHITE, " -D     Start in debug mode.  Same as using the 'debug' command\n");
+
+		Output.PrintColor(FColor.YELLOW, "Operands:");
+		Output.PrintColor(FColor.WHITE, " +      Addition:  Add last two stack elements");
+		Output.PrintColor(FColor.WHITE, " -      Subtraction: Subtract last element from previous element");
+		Output.PrintColor(FColor.WHITE, " *      Multiplication: Muliply last two stack items");
+		Output.PrintColor(FColor.WHITE, " /      Division: Divide second to last item by last stack item");
+		Output.PrintColor(FColor.WHITE, " ^      Power:  Calculate second to last item to the power of the last item");
+		Output.PrintColor(FColor.WHITE,
+				" %      Percent: Turn the last stack item into a percentage (multiplied by 0.01)");
+		Output.PrintColor(FColor.WHITE, " q      Perform a square root on the last stack number\n");
+
+		Output.PrintColor(FColor.YELLOW, "Commands:");
+		Output.PrintColor(FColor.WHITE, " s      Change sign of last element");
+		Output.PrintColor(FColor.WHITE, " c      Clear everything from the visible stack");
+		Output.PrintColor(FColor.WHITE, " d      Delete the last item in the stack");
+		Output.PrintColor(FColor.WHITE, " f      Flip last two stack items");
+		Output.PrintColor(FColor.WHITE,
+				" ss     Swap primary stack to secondary.  You can swap them back at a later time");
+		Output.PrintColor(FColor.WHITE, " load   Load a saved named stack");
+		Output.PrintColor(FColor.WHITE, " debug  Toggle DEBUG mode on/off");
+		Output.PrintColor(FColor.WHITE, " h|?    Show this help information.  Either key will work.");
+		Output.PrintColor(FColor.WHITE, " x      Exit Calculator\n");
+
+		Output.PrintColor(FColor.WHITE, "Note: You can place an operand at the end of a number and execute in one step.");
+		Output.PrintColor(FColor.WHITE, "For Example:  To add two numbers:   2 <enter> 3+ <enter>   will produce 5.\n");
 	}
 }

@@ -11,29 +11,51 @@
  ******************************************************************************/
 package org.fross.rpn;
 
+import com.diogonunes.jcdp.color.api.Ansi.FColor;
+
+/**
+ * Debug contains static methods to maintain the debug state and display
+ * messages when enabled.
+ * 
+ * @author michael.d.fross
+ *
+ */
 public class Debug {
 	// Class Variables
 	private static boolean clDebug = false;
 
-	// Query current state of this object's debug setting
+	/**
+	 * Query(): Query current state of this object's debug setting
+	 * 
+	 * @return
+	 */
 	public static boolean Query() {
 		return clDebug;
 	}
 
-	// Turn debugging on for this object
+	/**
+	 * Enable(): Turn debugging on for this object
+	 */
 	public static void Enable() {
 		clDebug = true;
 	}
 
-	// Disable debugging for this object
+	/**
+	 * Disable(): Disable debugging for this object
+	 */
 	public static void Disable() {
 		clDebug = false;
 	}
 
-	// Print the output of the String if debugging is enabled
+	/**
+	 * Print(): Print the output of the String if debugging is enabled. It displays
+	 * in RED using the output module.
+	 * 
+	 * @param msg
+	 */
 	public static void Print(String msg) {
 		if (clDebug == true) {
-			Output.Red("DEBUG:  " + msg);
+			Output.PrintColor(FColor.RED, "DEBUG:  " + msg);
 		}
 	}
 }

@@ -13,13 +13,25 @@ package org.fross.rpn;
 
 import java.io.Console;
 import java.util.Stack;
+import com.diogonunes.jcdp.color.api.Ansi.FColor;
 import gnu.getopt.Getopt;
 
+/**
+ * Main - Main program execution class
+ * 
+ * @author michael.d.fross
+ *
+ */
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019-01.01";
+	public static final String VERSION = "2019-01.02";
 
+	/**
+	 * Main(): Start of program and holds main command loop
+	 * 
+	 * @param args
+	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Console con = null;
@@ -29,29 +41,33 @@ public class Main {
 		int optionEntry;
 
 		// Display output header information
-		Output.Print("+----------------------------------------------------------------------+");
-		Output.Print("|                           RPN Calculator                 v" + VERSION + " |");
-		Output.Print("|           Written by Michael Fross.  All rights reserved             |");
-		Output.Print("|                 Enter command 'h' for help details                   |");
-		Output.Print("+----------------------------------------------------------------------+");
+		Output.PrintColor(FColor.CYAN, "+----------------------------------------------------------------------+");
+		Output.PrintColor(FColor.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
+		Output.PrintColor(FColor.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
+		Output.PrintColor(FColor.CYAN, "|                 Enter command 'h' for help details                   |");
+		Output.PrintColor(FColor.CYAN, "+----------------------------------------------------------------------+");
 
 		// Initialize the console used for command input
 		con = System.console();
 		if (con == null) {
-			Output.Red("FATAL ERROR:  Could not initialize OS Console for data input");
+			Output.PrintColor(FColor.RED, "FATAL ERROR:  Could not initialize OS Console for data input");
 			System.exit(1);
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("DirSize", args, "Dh?");
+		Getopt optG = new Getopt("DirSize", args, "Dl:h?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
 				Debug.Enable();
 				break;
+			case 'l':
+				Prefs.SetLoadedStack(String.valueOf(optG.getOptarg()));
+				break;
 			case '?': // Help
 			case 'h':
 			default:
+				Output.PrintColor(FColor.RED, "ERROR: Unknown Command Line Option -" + optG.getOptarg() + "'");
 				Help.Display();
 				System.exit(0);
 				break;
@@ -74,9 +90,11 @@ public class Main {
 		Debug.Print("  - library.path:   " + System.getProperty("java.library.path"));
 		Debug.Print("\nCommand Line Options");
 		Debug.Print("  -D:  " + Debug.Query());
+		Debug.Print("  -l:  " + Prefs.QueryLoadedStack());
 
-		// Pull the existing stack from the preferences if they exist
-		calcStack = Prefs.RestoreStack();
+		// Pull the existing stacks from the preferences if they exist
+		calcStack = Prefs.RestoreStack("1");
+		calcStack2 = Prefs.RestoreStack("2");
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
@@ -85,30 +103,46 @@ public class Main {
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
 				String stackNum = String.format("%02d:   ", i);
-				Output.Cyan(stackNum, false);
-				Output.White(Math.Comma(calcStack.get(i)));
+				Output.PrintColorNNL(FColor.CYAN, stackNum);
+				Output.PrintColor(FColor.WHITE, Math.Comma(calcStack.get(i)));
 			}
 
 			// Input command/number from user
-			cmdInput = con.readLine("\n>> ");
+			Output.PrintColorNNL(FColor.YELLOW, "\n>>  ");
+			cmdInput = con.readLine();
 
 			// Toggle Debug Mode
 			if (cmdInput.matches("[Dd][Ee][Bb][Uu][Gg]")) {
 				if (Debug.Query()) {
 					Debug.Disable();
-					Output.Red("Debug Disabled");
+					Output.PrintColor(FColor.RED, "Debug Disabled");
 				} else {
 					Debug.Enable();
 					Debug.Print("Debug Enabled");
 				}
-				
+
+				// Load a new stack into the calculator
+			} else if (cmdInput.matches("^[Ll][Oo][Aa][Dd] .+")) {
+				// Save current Stack
+				Prefs.SaveStack(calcStack, "1");
+				Prefs.SaveStack(calcStack2, "2");
+
+				// Set new stack
+				String newStack = cmdInput.toString().substring(5);
+				Debug.Print("Loading new stack: '" + newStack + "'");
+				Prefs.SetLoadedStack(newStack);
+
+				// Load new stack
+				calcStack = Prefs.RestoreStack("1");
+				calcStack2 = Prefs.RestoreStack("2");
+
 				// Process Help
 			} else if (cmdInput.matches("^[Hh?]")) {
 				Debug.Print("Displaying Help");
 				Help.Display();
 
 				// Process Exit
-			} else if (cmdInput.matches("^[XxQq]")) {
+			} else if (cmdInput.matches("^[Xx]")) {
 				Debug.Print("Exiting Command Loop");
 				ProcessCommandLoop = false;
 
@@ -124,8 +158,8 @@ public class Main {
 					if (!calcStack.isEmpty())
 						calcStack.pop();
 				} catch (Exception e) {
-					Output.Red("ERROR: Could not delete last stack item");
-					Output.Red(e.getMessage());
+					Output.PrintColor(FColor.RED, "ERROR: Could not delete last stack item");
+					Output.PrintColor(FColor.RED, e.getMessage());
 				}
 
 				// Flip lasts two elements on the stack
@@ -133,7 +167,7 @@ public class Main {
 				Debug.Print("Flipping last two elements in the stack");
 
 				if (calcStack.size() < 2) {
-					Output.Red("ERROR:  Two elements are needed for flip");
+					Output.PrintColor(FColor.RED, "ERROR:  Two elements are needed for flip");
 				} else {
 					Double temp1 = calcStack.pop();
 					Double temp2 = calcStack.pop();
@@ -155,7 +189,7 @@ public class Main {
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
 
 				// Operand entered
-			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
+			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%Qq]")) {
 				Debug.Print("Operand entered: '" + cmdInput.charAt(0) + "'");
 				calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
 
@@ -175,13 +209,16 @@ public class Main {
 
 				// Display an error if the entry matched none of the above
 			} else {
-				Output.Red("Input Error: '" + cmdInput + "'");
+				Output.PrintColor(FColor.RED, "Input Error: '" + cmdInput + "'");
 			}
 
-			Output.Cyan("+----------------------------------------------------------------------+");
+			Output.PrintColor(FColor.CYAN, "+----------------------------------------------------------------------+");
+
 		}
 
-		// Save preferences
-		Prefs.SaveStack(calcStack);
+		// Save the primary and secondary stacks
+		Prefs.SaveStack(calcStack, "1");
+		Prefs.SaveStack(calcStack2, "2");
 	}
-}
+
+} // End Program

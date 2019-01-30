@@ -13,7 +13,16 @@ package org.fross.rpn;
 
 import java.text.DecimalFormat;
 import java.util.Stack;
+import com.diogonunes.jcdp.color.api.Ansi.FColor;
 
+/**
+ * Math: The math class contains the methods to parse the operands entered and
+ * perform the math tasks. It was done strictly so it will be easily to grow the
+ * list of functions at a later date.
+ * 
+ * @author michael.d.fross
+ *
+ */
 public class Math {
 	/**
 	 * Comma Return a string with comma separators at the correct intervals.
@@ -28,7 +37,7 @@ public class Math {
 		try {
 			myFormatter = new DecimalFormat("###,###.########");
 		} catch (Exception Ex) {
-			Output.Red("ERROR Adding Commas to numbers:\n" + Ex.getMessage());
+			Output.PrintColor(FColor.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
 		return (myFormatter.format(num).toString());
@@ -63,14 +72,24 @@ public class Math {
 			break;
 		case '%':
 			result = Percent(stk);
+			break;
+		case 'q':
+		case 'Q':
+			result = SquareRoot(stk);
+			break;
 		default:
-			Output.Red("ERROR: Illegal Operand Sent to Math.Parse()");
+			Output.PrintColor(FColor.RED, "ERROR: Illegal Operand Sent to Math.Parse()");
 		}
 
 		return result;
 	}
 
-	// Process Add
+	/**
+	 * Add(): Add the last two numbers on the provided stack
+	 * 
+	 * @param stk
+	 * @return
+	 */
 	public static Stack<Double> Add(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
@@ -78,7 +97,13 @@ public class Math {
 		return stk;
 	}
 
-	// Process Subtract
+	/**
+	 * Subtract(): Subtract the last item from the previous item on the provided
+	 * stack
+	 * 
+	 * @param stk
+	 * @return
+	 */
 	public static Stack<Double> Subtract(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
@@ -86,7 +111,12 @@ public class Math {
 		return stk;
 	}
 
-	// Process Multiply
+	/**
+	 * Multiply(): Multiply the last two items on the provided stack
+	 * 
+	 * @param stk
+	 * @return
+	 */
 	public static Stack<Double> Multiply(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
@@ -94,7 +124,12 @@ public class Math {
 		return stk;
 	}
 
-	// Process Divide
+	/**
+	 * Divide(): Divide the 2nd to the last stack item by the last
+	 * 
+	 * @param stk
+	 * @return
+	 */
 	public static Stack<Double> Divide(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
@@ -102,6 +137,13 @@ public class Math {
 		return stk;
 	}
 
+	/**
+	 * Power(): The second to the last item in the stack to the power of the last
+	 * item
+	 * 
+	 * @param stk
+	 * @return
+	 */
 	public static Stack<Double> Power(Stack<Double> stk) {
 		Double power = stk.pop();
 		Double base = stk.pop();
@@ -110,8 +152,25 @@ public class Math {
 		return stk;
 	}
 
+	/**
+	 * Percent(): Simply multiply the last stack item by 0.01
+	 * 
+	 * @param stk
+	 * @return
+	 */
 	public static Stack<Double> Percent(Stack<Double> stk) {
 		stk.push(stk.pop() * 0.01);
+		return stk;
+	}
+
+	/**
+	 * SquareRoot(): Take the square root of the last stack item
+	 * 
+	 * @param stk
+	 * @return
+	 */
+	public static Stack<Double> SquareRoot(Stack<Double> stk) {
+		stk.push(java.lang.Math.sqrt(stk.pop()));
 		return stk;
 	}
 }
