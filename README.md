@@ -1,3 +1,4 @@
+
 *Document Version 2.0*
 
 ## INTRODUCTION ##
@@ -63,4 +64,5 @@ One note is that you can perform a shortcut.  You can append an operand at the e
  The result will be 5.
 
 ## Wrapup
-I'm making this available in the hope that others may find this useful.  Please let me know
+I'm making this available in the hope that others may find this useful.  Please let me know if you have any issues, thoughts or suggestions.
+rpn@fross.org
