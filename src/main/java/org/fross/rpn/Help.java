@@ -27,7 +27,8 @@ public class Help {
 		Output.PrintColor(FColor.YELLOW, "\n+----------------------------------------------------------------------+");
 		Output.PrintColor(FColor.YELLOW, "-                   RPN Calculator Help Document                       -");
 		Output.PrintColor(FColor.YELLOW, "+----------------------------------------------------------------------+");
-		Output.PrintColor(FColor.WHITE, "            RPN is a simple reverse polish notation calculator\n");
+		Output.PrintColor(FColor.WHITE, "            RPN is a simple reverse polish notation calculator");
+		Output.PrintColor(FColor.WHITE, "               https://bitbucket.org/frossm/rpn/src/default\n");
 
 		Output.PrintColor(FColor.YELLOW, "Command Line Options:");
 		Output.PrintColor(FColor.WHITE, " -l     Load saved named stack. Same as using the 'load' command");
