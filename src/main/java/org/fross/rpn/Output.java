@@ -61,4 +61,21 @@ public class Output {
 	public static void Print(String msg) {
 		System.out.println(msg);
 	}
+
+	/**
+	 * DisplayDashedNameLine(): Display the last line of the header and the separater
+	 * line. This is a separate function given it also inserts the loaded stack and
+	 * spaced everything correctly.
+	 */
+	public static void DisplayDashedNameLine() {
+		int DesiredDashes = 70;
+
+		// Display the Loaded Stack into Dash line. 70 dashes w/o the name
+		Output.PrintColorNNL(FColor.CYAN, "+");
+		int numDashes = DesiredDashes - Prefs.QueryLoadedStack().length() - 2;
+		for (int i = 0; i < numDashes; i++) {
+			Output.PrintColorNNL(FColor.CYAN, "-");
+		}
+		Output.PrintColor(FColor.CYAN, "[" + Prefs.QueryLoadedStack() + "]+");
+	}
 }
