@@ -96,6 +96,7 @@ public class Main {
 		calcStack = Prefs.RestoreStack("1");
 		calcStack2 = Prefs.RestoreStack("2");
 
+		Output.PrintColor(FColor.WHITE, "Stack: " + Prefs.QueryLoadedStack());
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
 			String cmdInput = null;
@@ -212,7 +213,13 @@ public class Main {
 				Output.PrintColor(FColor.RED, "Input Error: '" + cmdInput + "'");
 			}
 
-			Output.PrintColor(FColor.CYAN, "+----------------------------------------------------------------------+");
+			// Display the Loaded Stack into Dash line. 70 dashes w/o the name
+			Output.PrintColorNNL(FColor.CYAN, "+");
+			int numDashes = 70- Prefs.QueryLoadedStack().length() - 4;
+			for (int i = 0; i < numDashes; i++) {
+				Output.PrintColorNNL(FColor.CYAN, "-");
+			}
+			Output.PrintColor(FColor.CYAN, "[" + Prefs.QueryLoadedStack()+"]--+");
 
 		}
 
