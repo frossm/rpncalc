@@ -23,6 +23,7 @@ One of the important uses for me is I wanted to be able to save my stacks for fu
 
 ## Command Line Options
 Currently there are only two command line options, and both are not that necessary in normal use.
+
 **-D**
 Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I most just use this to help be debug as I was writing it, but sometimes you want to see what's going on.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode by entering in the command 'debug' while within the program.
 
