@@ -133,7 +133,7 @@ public class Prefs {
 
 		// Loop through each member of the stack and save it to the preferences
 		for (int i = 0; i <= stk.size() - 1; i++) {
-			Debug.Print("  - Saving #" + i + ":  " + stk.elementAt(i));
+			Debug.Print("  - Saving #" + (stk.size() - i) + ":  " + stk.elementAt(i));
 			Set("Stack" + i, stk.elementAt(i));
 		}
 
@@ -141,7 +141,7 @@ public class Prefs {
 
 	/**
 	 * RestoreStack(): Read the stack, as designated by the stack slot (1 or 2) from
-	 * the prefs system
+	 * the preferences system
 	 * 
 	 * @param stackSlot - The slot (default, 1, or 2) to pull from.
 	 * @return
@@ -157,7 +157,7 @@ public class Prefs {
 		Debug.Print("Restoring Stack:");
 		for (int i = 0; i <= numElements - 1; i++) {
 			stk.push(prefs.getDouble("Stack" + i, 0.0));
-			Debug.Print("  - Restoring #" + i + ":  " + stk.elementAt(i));
+			Debug.Print("  - Restoring #" + (numElements - i) + ":  " + stk.elementAt(i));
 		}
 
 		return stk;

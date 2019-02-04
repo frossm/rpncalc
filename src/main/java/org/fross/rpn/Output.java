@@ -38,7 +38,7 @@ public class Output {
 	}
 
 	/**
-	 * PrintColorNNL: Print to the console with NoNewLone. The provided foreground
+	 * PrintColorNNL: Print to the console with NoNewLine. The provided foreground
 	 * color Acceptable ColorNames: FColor.BLUE, FColor.CYAN, FColor.GREEN,
 	 * FColor.MAGENTA, FColor.NONE, FColor.RED, FColor.WHITE, FColor.YELLOW
 	 * 

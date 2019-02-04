@@ -102,7 +102,7 @@ public class Main {
 
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
-				String stackNum = String.format("%02d:   ", i);
+				String stackNum = String.format("%02d:   ", calcStack.size() - i);
 				Output.PrintColorNNL(FColor.CYAN, stackNum);
 				Output.PrintColor(FColor.WHITE, Math.Comma(calcStack.get(i)));
 			}
@@ -195,15 +195,15 @@ public class Main {
 
 				// Number entered, add to stack. Blank line will trigger so skip if !blank
 			} else if (!cmdInput.isEmpty() && cmdInput.matches("^-?\\d*\\.?\\d*")) {
-				Debug.Print("Adding entered number onto the stack");
+				Debug.Print("Adding number onto the stack");
 				calcStack.push(Double.valueOf(cmdInput));
 
 				// Handle numbers with a single operand at the end (a NumOp)
 			} else if (cmdInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
 				char TempOp = cmdInput.charAt(cmdInput.length() - 1);
 				String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-				Debug.Print("NumOp Found: Op = '" + TempOp + "'");
 				Debug.Print("NumOp Found: Num= '" + TempNum + "'");
+				Debug.Print("NumOp Found: Op = '" + TempOp + "'");
 				calcStack.push(Double.valueOf(TempNum));
 				calcStack = Math.Parse(TempOp, calcStack);
 
