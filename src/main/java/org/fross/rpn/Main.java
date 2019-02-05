@@ -25,7 +25,7 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019-01.02";
+	public static final String VERSION = "2019-02.01";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -102,8 +102,10 @@ public class Main {
 
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
-				String stackNum = String.format("%02d:   ", calcStack.size() - i);
-				Output.PrintColorNNL(FColor.CYAN, stackNum);
+				// Display Stack Number
+				String sn = String.format("%02d:   ", calcStack.size() - i);
+				Output.PrintColorNNL(FColor.CYAN, sn);
+				// Display Stack Value
 				Output.PrintColor(FColor.WHITE, Math.Comma(calcStack.get(i)));
 			}
 

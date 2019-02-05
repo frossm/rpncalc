@@ -32,15 +32,15 @@ public class Math {
 	 * @return
 	 */
 	public static String Comma(Double num) {
-		DecimalFormat myFormatter = null;
+		DecimalFormat df = null;
 
 		try {
-			myFormatter = new DecimalFormat("###,###.########");
+			df = new DecimalFormat("#,###,###.00#######");
 		} catch (Exception Ex) {
 			Output.PrintColor(FColor.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
-		return (myFormatter.format(num).toString());
+		return (String.valueOf(df.format(num)));
 	}
 
 	/**
