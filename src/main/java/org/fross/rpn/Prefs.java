@@ -37,6 +37,18 @@ public class Prefs {
 	// Class Variables
 	private static Preferences prefs = Preferences.userRoot().node(PREFS_PATH);
 	private static String currentLoadedStack = "default";
+	private static int currentStackNum = 1;
+
+	public static int QueryCurrentStackNum() {
+		return currentStackNum;
+	}
+
+	public static void ToggleCurrentStackNum() {
+		if (currentStackNum == 1)
+			currentStackNum = 2;
+		else
+			currentStackNum = 1;
+	}
 
 	/**
 	 * QueryLoadedStack(): Returns the name of the current stack that is in use The

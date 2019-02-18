@@ -28,7 +28,7 @@ Currently there are only two command line options, and both are not that necessa
 Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I most just use this to help be debug as I was writing it, but sometimes you want to see what's going on.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode by entering in the command 'debug' while within the program.
 
 **-l name**
-Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.
+Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  This is the same behavior as using the 'load' command while in the calculator.
 
 ## Operands
 The list of operands available will hopefully continue to grow as my needs change (or as I get suggestions from folks.)  At the time of this writing, the following are supported:
@@ -51,7 +51,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |d |Delete the last item in the stack
 |f |Flip the position of the last two stack items
 |ss|Swap the current stack with the secondary.  SS will swap them back again
-|load NAME|Load the named stack.  If name does not exist a new one will be started
+|load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
 |h or ?|Display the help information
 |x |Exit the program.  The primary and secondary stacks will be saved.

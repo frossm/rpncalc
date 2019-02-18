@@ -31,7 +31,7 @@ public class Help {
 		Output.PrintColor(FColor.WHITE, "               https://bitbucket.org/frossm/rpn/src/default\n");
 
 		Output.PrintColor(FColor.YELLOW, "Command Line Options:");
-		Output.PrintColor(FColor.WHITE, " -l     Load saved named stack. Same as using the 'load' command");
+		Output.PrintColor(FColor.WHITE, " -l     Load saved named stack. Create the stack if it does not exist");
 		Output.PrintColor(FColor.WHITE, " -D     Start in debug mode.  Same as using the 'debug' command\n");
 
 		Output.PrintColor(FColor.YELLOW, "Operands:");
@@ -51,7 +51,7 @@ public class Help {
 		Output.PrintColor(FColor.WHITE, " f      Flip last two stack items");
 		Output.PrintColor(FColor.WHITE,
 				" ss     Swap primary stack to secondary.  You can swap them back at a later time");
-		Output.PrintColor(FColor.WHITE, " load   Load a saved named stack");
+		Output.PrintColor(FColor.WHITE, " load   Load a saved named stack. It will be created if it doesn't exist");
 		Output.PrintColor(FColor.WHITE, " debug  Toggle DEBUG mode on/off");
 		Output.PrintColor(FColor.WHITE, " h|?    Show this help information.  Either key will work.");
 		Output.PrintColor(FColor.WHITE, " x      Exit Calculator\n");

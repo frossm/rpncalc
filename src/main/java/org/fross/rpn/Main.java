@@ -25,7 +25,7 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019-02.01";
+	public static final String VERSION = "2019.02.18";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -40,7 +40,7 @@ public class Main {
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
 
-		// Initialize the console used for command input
+		// Init the console used for command input
 		con = System.console();
 		if (con == null) {
 			Output.PrintColor(FColor.RED, "FATAL ERROR:  Could not initialize OS Console for data input");
@@ -189,6 +189,7 @@ public class Main {
 				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
 				calcStack = (Stack<Double>) calcStack2.clone();
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
+				Prefs.ToggleCurrentStackNum();
 
 				// Operand entered
 			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%Qq]")) {
