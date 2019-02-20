@@ -73,10 +73,6 @@ public class Math {
 		case '%':
 			result = Percent(stk);
 			break;
-		case 'q':
-		case 'Q':
-			result = SquareRoot(stk);
-			break;
 		default:
 			Output.PrintColor(FColor.RED, "ERROR: Illegal Operand Sent to Math.Parse()");
 		}

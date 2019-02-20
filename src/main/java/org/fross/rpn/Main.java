@@ -25,7 +25,7 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019.02.18";
+	public static final String VERSION = "2019.02.20";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -191,8 +191,13 @@ public class Main {
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
 				Prefs.ToggleCurrentStackNum();
 
+				// Perform a square root of the last item on the stack
+			} else if (cmdInput.matches("^[Ss][Qq][Rr][Tt]")) {
+				Debug.Print("Taking the square root of the last stack item");
+				Math.SquareRoot(calcStack);
+				
 				// Operand entered
-			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%Qq]")) {
+			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
 				Debug.Print("Operand entered: '" + cmdInput.charAt(0) + "'");
 				calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
 

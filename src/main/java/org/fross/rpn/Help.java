@@ -42,13 +42,13 @@ public class Help {
 		Output.PrintColor(FColor.WHITE, " ^      Power:  Calculate second to last item to the power of the last item");
 		Output.PrintColor(FColor.WHITE,
 				" %      Percent: Turn the last stack item into a percentage (multiplied by 0.01)");
-		Output.PrintColor(FColor.WHITE, " q      Perform a square root on the last stack number\n");
 
 		Output.PrintColor(FColor.YELLOW, "Commands:");
 		Output.PrintColor(FColor.WHITE, " s      Change sign of last element");
 		Output.PrintColor(FColor.WHITE, " c      Clear everything from the visible stack");
 		Output.PrintColor(FColor.WHITE, " d      Delete the last item in the stack");
 		Output.PrintColor(FColor.WHITE, " f      Flip last two stack items");
+		Output.PrintColor(FColor.WHITE, " sqrt   Perform a square root on the last stack number\n");
 		Output.PrintColor(FColor.WHITE,
 				" ss     Swap primary stack to secondary.  You can swap them back at a later time");
 		Output.PrintColor(FColor.WHITE, " load   Load a saved named stack. It will be created if it doesn't exist");
@@ -56,7 +56,8 @@ public class Help {
 		Output.PrintColor(FColor.WHITE, " h|?    Show this help information.  Either key will work.");
 		Output.PrintColor(FColor.WHITE, " x      Exit Calculator\n");
 
-		Output.PrintColor(FColor.WHITE, "Note: You can place an operand at the end of a number and execute in one step.");
+		Output.PrintColor(FColor.WHITE,
+				"Note: You can place an operand at the end of a number and execute in one step.");
 		Output.PrintColor(FColor.WHITE, "For Example:  To add two numbers:   2 <enter> 3+ <enter>   will produce 5.\n");
 	}
 }
