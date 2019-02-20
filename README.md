@@ -34,22 +34,22 @@ Load a saved stack by it's name.  This essentially will "name" your session and 
 The list of operands available will hopefully continue to grow as my needs change (or as I get suggestions from folks.)  At the time of this writing, the following are supported:
 
 |Operand|Description|
-|--|--|
+|-------|-----------|
 |+ |Add the last two items on the stack|
 |- |Subtrack the last stack item from the previous item|
 |* |Multiply the last two items in the stack|
 |/ |Divide the second to the last item by the last|
 |^ |The second to the last item to the power of the last|
 |% |Convert the last stack item into it's percentage (multiply by 0.01)|
-|q |Perform a square root of the last item in the stack|
 
 ## Commands
 |Command|Description  |
-|--|--|
+|-------|-------------|
 |s |Change the sign on the last stack item
 |c |Clear the current stack
 |d |Delete the last item in the stack
 |f |Flip the position of the last two stack items
+|sqrt|Perform a square root of the last item in the stack
 |ss|Swap the current stack with the secondary.  SS will swap them back again
 |load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
