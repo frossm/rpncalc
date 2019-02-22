@@ -24,40 +24,40 @@ public class Help {
 	 * Display(): Prints help in color using the JCDP library in the output module.
 	 */
 	public static void Display() {
-		Output.PrintColor(FColor.YELLOW, "\n+----------------------------------------------------------------------+");
-		Output.PrintColor(FColor.YELLOW, "-                   RPN Calculator Help Document                       -");
-		Output.PrintColor(FColor.YELLOW, "+----------------------------------------------------------------------+");
-		Output.PrintColor(FColor.WHITE, "            RPN is a simple reverse polish notation calculator");
-		Output.PrintColor(FColor.WHITE, "               https://bitbucket.org/frossm/rpn/src/default\n");
+		Output.printColorln(FColor.YELLOW, "\n+----------------------------------------------------------------------+");
+		Output.printColorln(FColor.YELLOW, "-                   RPN Calculator Help Document                       -");
+		Output.printColorln(FColor.YELLOW, "+----------------------------------------------------------------------+");
+		Output.printColorln(FColor.WHITE, "            RPN is a simple reverse polish notation calculator");
+		Output.printColorln(FColor.WHITE, "               https://bitbucket.org/frossm/rpn/src/default\n");
 
-		Output.PrintColor(FColor.YELLOW, "Command Line Options:");
-		Output.PrintColor(FColor.WHITE, " -l     Load saved named stack. Create the stack if it does not exist");
-		Output.PrintColor(FColor.WHITE, " -D     Start in debug mode.  Same as using the 'debug' command\n");
+		Output.printColorln(FColor.YELLOW, "Command Line Options:");
+		Output.printColorln(FColor.WHITE, " -l     Load saved named stack. Create the stack if it does not exist");
+		Output.printColorln(FColor.WHITE, " -D     Start in debug mode.  Same as using the 'debug' command\n");
 
-		Output.PrintColor(FColor.YELLOW, "Operands:");
-		Output.PrintColor(FColor.WHITE, " +      Addition:  Add last two stack elements");
-		Output.PrintColor(FColor.WHITE, " -      Subtraction: Subtract last element from previous element");
-		Output.PrintColor(FColor.WHITE, " *      Multiplication: Muliply last two stack items");
-		Output.PrintColor(FColor.WHITE, " /      Division: Divide second to last item by last stack item");
-		Output.PrintColor(FColor.WHITE, " ^      Power:  Calculate second to last item to the power of the last item");
-		Output.PrintColor(FColor.WHITE,
+		Output.printColorln(FColor.YELLOW, "Operands:");
+		Output.printColorln(FColor.WHITE, " +      Addition:  Add last two stack elements");
+		Output.printColorln(FColor.WHITE, " -      Subtraction: Subtract last element from previous element");
+		Output.printColorln(FColor.WHITE, " *      Multiplication: Muliply last two stack items");
+		Output.printColorln(FColor.WHITE, " /      Division: Divide second to last item by last stack item");
+		Output.printColorln(FColor.WHITE, " ^      Power:  Calculate second to last item to the power of the last item");
+		Output.printColorln(FColor.WHITE,
 				" %      Percent: Turn the last stack item into a percentage (multiplied by 0.01)");
 
-		Output.PrintColor(FColor.YELLOW, "Commands:");
-		Output.PrintColor(FColor.WHITE, " s      Change sign of last element");
-		Output.PrintColor(FColor.WHITE, " c      Clear everything from the visible stack");
-		Output.PrintColor(FColor.WHITE, " d      Delete the last item in the stack");
-		Output.PrintColor(FColor.WHITE, " f      Flip last two stack items");
-		Output.PrintColor(FColor.WHITE, " sqrt   Perform a square root on the last stack number\n");
-		Output.PrintColor(FColor.WHITE,
+		Output.printColorln(FColor.YELLOW, "Commands:");
+		Output.printColorln(FColor.WHITE, " s      Change sign of last element");
+		Output.printColorln(FColor.WHITE, " c      Clear everything from the visible stack");
+		Output.printColorln(FColor.WHITE, " d      Delete the last item in the stack");
+		Output.printColorln(FColor.WHITE, " f      Flip last two stack items");
+		Output.printColorln(FColor.WHITE, " sqrt   Perform a square root on the last stack number\n");
+		Output.printColorln(FColor.WHITE,
 				" ss     Swap primary stack to secondary.  You can swap them back at a later time");
-		Output.PrintColor(FColor.WHITE, " load   Load a saved named stack. It will be created if it doesn't exist");
-		Output.PrintColor(FColor.WHITE, " debug  Toggle DEBUG mode on/off");
-		Output.PrintColor(FColor.WHITE, " h|?    Show this help information.  Either key will work.");
-		Output.PrintColor(FColor.WHITE, " x      Exit Calculator\n");
+		Output.printColorln(FColor.WHITE, " load   Load a saved named stack. It will be created if it doesn't exist");
+		Output.printColorln(FColor.WHITE, " debug  Toggle DEBUG mode on/off");
+		Output.printColorln(FColor.WHITE, " h|?    Show this help information.  Either key will work.");
+		Output.printColorln(FColor.WHITE, " x      Exit Calculator\n");
 
-		Output.PrintColor(FColor.WHITE,
+		Output.printColorln(FColor.WHITE,
 				"Note: You can place an operand at the end of a number and execute in one step.");
-		Output.PrintColor(FColor.WHITE, "For Example:  To add two numbers:   2 <enter> 3+ <enter>   will produce 5.\n");
+		Output.printColorln(FColor.WHITE, "For Example:  To add two numbers:   2 <enter> 3+ <enter>   will produce 5.\n");
 	}
 }

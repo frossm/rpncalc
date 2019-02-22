@@ -25,7 +25,7 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019.02.20";
+	public static final String VERSION = "2019.02.22";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -43,7 +43,7 @@ public class Main {
 		// Init the console used for command input
 		con = System.console();
 		if (con == null) {
-			Output.PrintColor(FColor.RED, "FATAL ERROR:  Could not initialize OS Console for data input");
+			Output.printError("FATAL ERROR:  Could not initialize OS Console for data input");
 			System.exit(1);
 		}
 
@@ -60,7 +60,7 @@ public class Main {
 			case '?': // Help
 			case 'h':
 			default:
-				Output.PrintColor(FColor.RED, "ERROR: Unknown Command Line Option -" + optG.getOptarg() + "'");
+				Output.printError("Unknown Command Line Option -" + optG.getOptarg() + "'");
 				Help.Display();
 				System.exit(0);
 				break;
@@ -90,11 +90,12 @@ public class Main {
 		calcStack2 = Prefs.RestoreStack("2");
 
 		// Display output header information
-		Output.PrintColor(FColor.CYAN, "+----------------------------------------------------------------------+");
-		Output.PrintColor(FColor.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
-		Output.PrintColor(FColor.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
-		Output.PrintColor(FColor.CYAN, "|                 Enter command 'h' for help details                   |");
-		Output.DisplayDashedNameLine();
+		Output.printColorln(FColor.CYAN, "+----------------------------------------------------------------------+");
+		Output.printColorln(FColor.CYAN,
+				"|                           RPN Calculator                 v" + VERSION + " |");
+		Output.printColorln(FColor.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
+		Output.printColorln(FColor.CYAN, "|                 Enter command 'h' for help details                   |");
+		Output.displayDashedNameLine();
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
@@ -104,20 +105,20 @@ public class Main {
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
 				// Display Stack Number
 				String sn = String.format("%02d:   ", calcStack.size() - i);
-				Output.PrintColorNNL(FColor.CYAN, sn);
+				Output.printColor(FColor.CYAN, sn);
 				// Display Stack Value
-				Output.PrintColor(FColor.WHITE, Math.Comma(calcStack.get(i)));
+				Output.printColorln(FColor.WHITE, Math.Comma(calcStack.get(i)));
 			}
 
 			// Input command/number from user
-			Output.PrintColorNNL(FColor.YELLOW, "\n>>  ");
+			Output.printColor(FColor.YELLOW, "\n>>  ");
 			cmdInput = con.readLine();
 
 			// Toggle Debug Mode
 			if (cmdInput.matches("[Dd][Ee][Bb][Uu][Gg]")) {
 				if (Debug.Query()) {
 					Debug.Disable();
-					Output.PrintColor(FColor.RED, "Debug Disabled");
+					Output.printColorln(FColor.RED, "Debug Disabled");
 				} else {
 					Debug.Enable();
 					Debug.Print("Debug Enabled");
@@ -160,8 +161,8 @@ public class Main {
 					if (!calcStack.isEmpty())
 						calcStack.pop();
 				} catch (Exception e) {
-					Output.PrintColor(FColor.RED, "ERROR: Could not delete last stack item");
-					Output.PrintColor(FColor.RED, e.getMessage());
+					Output.printError("Could not delete last stack item");
+					Output.printError(e.getMessage());
 				}
 
 				// Flip lasts two elements on the stack
@@ -169,7 +170,7 @@ public class Main {
 				Debug.Print("Flipping last two elements in the stack");
 
 				if (calcStack.size() < 2) {
-					Output.PrintColor(FColor.RED, "ERROR:  Two elements are needed for flip");
+					Output.printError("Two elements are needed for flip");
 				} else {
 					Double temp1 = calcStack.pop();
 					Double temp2 = calcStack.pop();
@@ -195,11 +196,17 @@ public class Main {
 			} else if (cmdInput.matches("^[Ss][Qq][Rr][Tt]")) {
 				Debug.Print("Taking the square root of the last stack item");
 				Math.SquareRoot(calcStack);
-				
+
 				// Operand entered
 			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
+				Debug.Print("CalcStack has " + calcStack.size() + " elements");
 				Debug.Print("Operand entered: '" + cmdInput.charAt(0) + "'");
-				calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
+				// Verify stack contains at least two elements
+				if (calcStack.size() >= 2) {
+					calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
+				} else {
+					Output.printError("Two numbers are required for this operation");
+				}
 
 				// Number entered, add to stack. Blank line will trigger so skip if !blank
 			} else if (!cmdInput.isEmpty() && cmdInput.matches("^-?\\d*\\.?\\d*")) {
@@ -208,20 +215,26 @@ public class Main {
 
 				// Handle numbers with a single operand at the end (a NumOp)
 			} else if (cmdInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
-				char TempOp = cmdInput.charAt(cmdInput.length() - 1);
-				String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-				Debug.Print("NumOp Found: Num= '" + TempNum + "'");
-				Debug.Print("NumOp Found: Op = '" + TempOp + "'");
-				calcStack.push(Double.valueOf(TempNum));
-				calcStack = Math.Parse(TempOp, calcStack);
+				Debug.Print("CalcStack has " + calcStack.size() + " elements");
+				// Verify stack contains at least one element
+				if (calcStack.size() >= 1) {
+					char TempOp = cmdInput.charAt(cmdInput.length() - 1);
+					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
+					Debug.Print("NumOp Found: Num= '" + TempNum + "'");
+					Debug.Print("NumOp Found: Op = '" + TempOp + "'");
+					calcStack.push(Double.valueOf(TempNum));
+					calcStack = Math.Parse(TempOp, calcStack);
+				} else {
+					Output.printError("One number is required for this NumOp function");
+				}
 
 				// Display an error if the entry matched none of the above
 			} else {
-				Output.PrintColor(FColor.RED, "Input Error: '" + cmdInput + "'");
+				Output.printColorln(FColor.RED, "Input Error: '" + cmdInput + "'");
 			}
 
 			// Display DashLine
-			Output.DisplayDashedNameLine();
+			Output.displayDashedNameLine();
 
 		}
 

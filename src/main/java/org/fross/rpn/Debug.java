@@ -55,7 +55,7 @@ public class Debug {
 	 */
 	public static void Print(String msg) {
 		if (clDebug == true) {
-			Output.PrintColor(FColor.RED, "DEBUG:  " + msg);
+			Output.printColorln(FColor.RED, "DEBUG:  " + msg);
 		}
 	}
 }

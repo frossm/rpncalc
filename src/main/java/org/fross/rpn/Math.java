@@ -37,7 +37,7 @@ public class Math {
 		try {
 			df = new DecimalFormat("#,###,###.00#######");
 		} catch (Exception Ex) {
-			Output.PrintColor(FColor.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
+			Output.printColorln(FColor.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
 		return (String.valueOf(df.format(num)));
@@ -74,7 +74,7 @@ public class Math {
 			result = Percent(stk);
 			break;
 		default:
-			Output.PrintColor(FColor.RED, "ERROR: Illegal Operand Sent to Math.Parse()");
+			Output.printColorln(FColor.RED, "ERROR: Illegal Operand Sent to Math.Parse(): '" + op + "'");
 		}
 
 		return result;

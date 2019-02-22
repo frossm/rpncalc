@@ -136,8 +136,8 @@ public class Prefs {
 		try {
 			prefs.clear();
 		} catch (BackingStoreException e) {
-			Output.PrintColor(FColor.RED, "ERROR: Could not clear current preferences in Stack #1");
-			Output.PrintColor(FColor.RED, e.getMessage());
+			Output.printColorln(FColor.RED, "ERROR: Could not clear current preferences in Stack #1");
+			Output.printColorln(FColor.RED, e.getMessage());
 		}
 
 		// Save number of elements to key StackElements
