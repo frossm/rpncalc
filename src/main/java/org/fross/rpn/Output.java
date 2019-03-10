@@ -53,13 +53,23 @@ public class Output {
 	}
 
 	/**
-	 * print: Basic System.out.println call. It's here so out text output can go
+	 * println: Basic System.out.println call. It's here so out text output can go
+	 * through this function.
+	 * 
+	 * @param msg
+	 */
+	public static void println(String msg) {
+		System.out.println(msg);
+	}
+	
+	/**
+	 * print: Basic System.out.print call. It's here so out text output can go
 	 * through this function.
 	 * 
 	 * @param msg
 	 */
 	public static void print(String msg) {
-		System.out.println(msg);
+		System.out.print(msg);
 	}
 
 	/**

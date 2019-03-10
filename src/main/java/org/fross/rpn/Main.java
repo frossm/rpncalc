@@ -25,7 +25,7 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019.02.22";
+	public static final String VERSION = "2019.03.10";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -153,6 +153,8 @@ public class Main {
 			} else if (cmdInput.matches("^[Cc]")) {
 				Debug.Print("Clearing Stack");
 				calcStack.clear();
+				for (int clearcounter = 0; clearcounter <= 200; clearcounter++)
+					Output.println("");
 
 				// Delete last stack item
 			} else if (cmdInput.matches("^[Dd]")) {
