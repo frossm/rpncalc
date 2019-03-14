@@ -25,7 +25,7 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019.03.10";
+	public static final String VERSION = "2019.03.14";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -40,15 +40,15 @@ public class Main {
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
 
-		// Init the console used for command input
+		// Initialize the console used for command input
 		con = System.console();
 		if (con == null) {
-			Output.printError("FATAL ERROR:  Could not initialize OS Console for data input");
+			Output.printError("FATAL :  Could not initialize OS Console for data input");
 			System.exit(1);
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("DirSize", args, "Dl:h?");
+		Getopt optG = new Getopt("rpn", args, "Dl:h?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
@@ -59,8 +59,10 @@ public class Main {
 				break;
 			case '?': // Help
 			case 'h':
+				Help.Display();
+				break;
 			default:
-				Output.printError("Unknown Command Line Option -" + optG.getOptarg() + "'");
+				Output.printError("Unknown Command Line Option: '" + (char)optionEntry + "'");
 				Help.Display();
 				System.exit(0);
 				break;
@@ -194,6 +196,11 @@ public class Main {
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
 				Prefs.ToggleCurrentStackNum();
 
+				// Add the value of PI onto the stack
+			} else if (cmdInput.matches("^[Pp][Ii]")) {
+				Debug.Print("Adding PI to the end of the stack");
+				calcStack.add(java.lang.Math.PI);
+
 				// Perform a square root of the last item on the stack
 			} else if (cmdInput.matches("^[Ss][Qq][Rr][Tt]")) {
 				Debug.Print("Taking the square root of the last stack item");
@@ -232,7 +239,7 @@ public class Main {
 
 				// Display an error if the entry matched none of the above
 			} else {
-				Output.printColorln(FColor.RED, "Input Error: '" + cmdInput + "'");
+				Output.printColorln(FColor.RED, "Input : '" + cmdInput + "'");
 			}
 
 			// Display DashLine

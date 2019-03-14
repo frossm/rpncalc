@@ -48,6 +48,7 @@ public class Help {
 		Output.printColorln(FColor.WHITE, " c      Clear everything from the visible stack");
 		Output.printColorln(FColor.WHITE, " d      Delete the last item in the stack");
 		Output.printColorln(FColor.WHITE, " f      Flip last two stack items");
+		Output.printColorln(FColor.WHITE, " pi     Insert the value of PI onto the end of the stack");
 		Output.printColorln(FColor.WHITE, " sqrt   Perform a square root on the last stack number\n");
 		Output.printColorln(FColor.WHITE,
 				" ss     Swap primary stack to secondary.  You can swap them back at a later time");
