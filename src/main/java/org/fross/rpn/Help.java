@@ -25,7 +25,7 @@ public class Help {
 	 */
 	public static void Display() {
 		Output.printColorln(FColor.YELLOW, "\n+----------------------------------------------------------------------+");
-		Output.printColorln(FColor.YELLOW, "-                   RPN Calculator Help Document                       -");
+		Output.printColorln(FColor.YELLOW, "+                   RPN Calculator Help Document                       +");
 		Output.printColorln(FColor.YELLOW, "+----------------------------------------------------------------------+");
 		Output.printColorln(FColor.WHITE, "            RPN is a simple reverse polish notation calculator");
 		Output.printColorln(FColor.WHITE, "               https://bitbucket.org/frossm/rpn/src/default\n");
