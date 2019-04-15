@@ -12,7 +12,11 @@
 package org.fross.rpn;
 
 import java.io.Console;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.Stack;
+
 import com.diogonunes.jcdp.color.api.Ansi.FColor;
 import gnu.getopt.Getopt;
 
@@ -25,7 +29,8 @@ import gnu.getopt.Getopt;
 public class Main {
 
 	// Class Constants
-	public static final String VERSION = "2019.03.14";
+	public static String VERSION;
+	public static final String PROPERTIES_FILE = "rpn.properties";
 
 	/**
 	 * Main(): Start of program and holds main command loop
@@ -39,6 +44,18 @@ public class Main {
 		Stack<Double> calcStack2 = new Stack<Double>();
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
+
+		// Process application level properties file
+		// Update properties from Maven at build time:
+		// https://stackoverflow.com/questions/3697449/retrieve-version-from-maven-pom-xml-in-code
+		try {
+			InputStream iStream = Main.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+			Properties prop = new Properties();
+			prop.load(iStream);
+			VERSION = prop.getProperty("Application.version");
+		} catch (IOException ex) {
+			Output.fatalerror("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
+		}
 
 		// Initialize the console used for command input
 		con = System.console();
@@ -60,9 +77,10 @@ public class Main {
 			case '?': // Help
 			case 'h':
 				Help.Display();
+				System.exit(0);
 				break;
 			default:
-				Output.printError("Unknown Command Line Option: '" + (char)optionEntry + "'");
+				Output.printError("Unknown Command Line Option: '" + (char) optionEntry + "'");
 				Help.Display();
 				System.exit(0);
 				break;

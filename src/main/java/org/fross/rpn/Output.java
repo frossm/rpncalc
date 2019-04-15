@@ -98,6 +98,19 @@ public class Output {
 		for (int i = 0; i < numDashes; i++) {
 			Output.printColor(FColor.CYAN, "-");
 		}
-		Output.printColorln(FColor.CYAN, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]+");
+		Output.printColor(FColor.YELLOW, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]");
+		Output.printColorln(FColor.CYAN, "+");
+	}
+	
+	/**
+	 * fatalerror(): Print the provided string in RED and exit the program with the
+	 * error code given
+	 * 
+	 * @param msg
+	 * @param errorcode
+	 */
+	public static void fatalerror(String msg, int errorcode) {
+		Output.printColorln(FColor.RED, "\nFATAL ERROR: " + msg);
+		System.exit(errorcode);
 	}
 }
