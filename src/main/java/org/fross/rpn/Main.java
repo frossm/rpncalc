@@ -144,6 +144,7 @@ public class Main {
 					Debug.Print("Debug Enabled");
 				}
 
+				//////////////////////////////////////////////////////////////////
 				// Load a new stack into the calculator
 			} else if (cmdInput.matches("^[Ll][Oo][Aa][Dd] .+")) {
 				// Save current Stack
@@ -159,20 +160,24 @@ public class Main {
 				calcStack = Prefs.RestoreStack("1");
 				calcStack2 = Prefs.RestoreStack("2");
 
+				//////////////////////////////////////////////////////////////////
 				// Display version
 			} else if (cmdInput.matches("^[Vv][Ee][Rr].*")) {
 				Output.printColorln(FColor.RED, "Version: v" + VERSION);
 
+				//////////////////////////////////////////////////////////////////
 				// Process Help
 			} else if (cmdInput.matches("^[Hh?]")) {
 				Debug.Print("Displaying Help");
 				Help.Display();
 
+				//////////////////////////////////////////////////////////////////
 				// Process Exit
 			} else if (cmdInput.matches("^[Xx]")) {
 				Debug.Print("Exiting Command Loop");
 				ProcessCommandLoop = false;
 
+				//////////////////////////////////////////////////////////////////
 				// Process Clear
 			} else if (cmdInput.matches("^[Cc]")) {
 				Debug.Print("Clearing Stack");
@@ -180,6 +185,7 @@ public class Main {
 				for (int clearcounter = 0; clearcounter <= 200; clearcounter++)
 					Output.println("");
 
+				//////////////////////////////////////////////////////////////////
 				// Delete last stack item
 			} else if (cmdInput.matches("^[Dd]")) {
 				Debug.Print("Deleting Last Stack Item");
@@ -191,7 +197,8 @@ public class Main {
 					Output.printError(e.getMessage());
 				}
 
-				// Flip lasts two elements on the stack
+				//////////////////////////////////////////////////////////////////
+				// Flip last two elements on the stack
 			} else if (cmdInput.matches("^[Ff]")) {
 				Debug.Print("Flipping last two elements in the stack");
 
@@ -204,12 +211,14 @@ public class Main {
 					calcStack.push(temp2);
 				}
 
+				//////////////////////////////////////////////////////////////////
 				// Change sign of last stack element
 			} else if (cmdInput.matches("^[Ss]")) {
 				Debug.Print("Changing sign of last stack element");
 				if (!calcStack.isEmpty())
 					calcStack.push(calcStack.pop() * -1);
 
+				//////////////////////////////////////////////////////////////////
 				// Swap primary and secondary stack
 			} else if (cmdInput.matches("^[Ss][Ss]")) {
 				Debug.Print("Swapping primary and secondary stack");
@@ -218,6 +227,7 @@ public class Main {
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
 				Prefs.ToggleCurrentStackNum();
 
+				//////////////////////////////////////////////////////////////////
 				// Copy the item at the top of the stack
 			} else if (cmdInput.matches("^[Cc][Oo][Pp][Yy]")) {
 				Debug.Print("Copying the item at the top of the stack");
@@ -227,16 +237,19 @@ public class Main {
 					Output.printError("ERROR: Must be an item in the stack to copy it");
 				}
 
+				//////////////////////////////////////////////////////////////////
 				// Add the value of PI onto the stack
 			} else if (cmdInput.matches("^[Pp][Ii]")) {
 				Debug.Print("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
 
+				//////////////////////////////////////////////////////////////////
 				// Perform a square root of the last item on the stack
 			} else if (cmdInput.matches("^[Ss][Qq][Rr][Tt]")) {
 				Debug.Print("Taking the square root of the last stack item");
 				Math.SquareRoot(calcStack);
 
+				//////////////////////////////////////////////////////////////////
 				// Operand entered
 			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
 				Debug.Print("CalcStack has " + calcStack.size() + " elements");
@@ -248,11 +261,13 @@ public class Main {
 					Output.printError("Two numbers are required for this operation");
 				}
 
+				//////////////////////////////////////////////////////////////////
 				// Number entered, add to stack. Blank line will trigger so skip if !blank
 			} else if (!cmdInput.isEmpty() && cmdInput.matches("^-?\\d*\\.?\\d*")) {
 				Debug.Print("Adding number onto the stack");
 				calcStack.push(Double.valueOf(cmdInput));
 
+				//////////////////////////////////////////////////////////////////
 				// Handle numbers with a single operand at the end (a NumOp)
 			} else if (cmdInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
 				Debug.Print("CalcStack has " + calcStack.size() + " elements");
@@ -268,6 +283,7 @@ public class Main {
 					Output.printError("One number is required for this NumOp function");
 				}
 
+				//////////////////////////////////////////////////////////////////
 				// Display an error if the entry matched none of the above
 			} else {
 				Output.printColorln(FColor.RED, "Input : '" + cmdInput + "'");
