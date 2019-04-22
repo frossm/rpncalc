@@ -214,6 +214,15 @@ public class Main {
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
 				Prefs.ToggleCurrentStackNum();
 
+				// Copy the item at the top of the stack
+			} else if (cmdInput.matches("^[Cc][Oo][Pp][Yy]")) {
+				Debug.Print("Copying the item at the top of the stack");
+				if (calcStack.size() >= 1) {
+					calcStack.add(calcStack.lastElement());
+				} else {
+					Output.printError("ERROR: Must be an item in the stack to copy it");
+				}
+
 				// Add the value of PI onto the stack
 			} else if (cmdInput.matches("^[Pp][Ii]")) {
 				Debug.Print("Adding PI to the end of the stack");
