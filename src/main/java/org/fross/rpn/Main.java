@@ -159,6 +159,10 @@ public class Main {
 				calcStack = Prefs.RestoreStack("1");
 				calcStack2 = Prefs.RestoreStack("2");
 
+				// Display version
+			} else if (cmdInput.matches("^[Vv][Ee][Rr].*")) {
+				Output.printColorln(FColor.RED, "Version: v" + VERSION);
+
 				// Process Help
 			} else if (cmdInput.matches("^[Hh?]")) {
 				Debug.Print("Displaying Help");

@@ -55,6 +55,7 @@ public class Help {
 		Output.printColorln(FColor.WHITE, " ss     Swap primary stack to secondary.  You can swap them back at a later time");
 		Output.printColorln(FColor.WHITE, " load   Load a saved named stack. It will be created if it doesn't exist");
 		Output.printColorln(FColor.WHITE, " debug  Toggle DEBUG mode on/off");
+		Output.printColorln(FColor.WHITE, " ver    Display the current version");
 		Output.printColorln(FColor.WHITE, " h|?    Show this help information.  Either key will work.");
 		Output.printColorln(FColor.WHITE, " x      Exit Calculator\n");
 
