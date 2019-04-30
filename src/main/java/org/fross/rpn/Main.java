@@ -284,6 +284,11 @@ public class Main {
 				}
 
 				//////////////////////////////////////////////////////////////////
+				// A blank line is ok, just do nothing
+			} else if (cmdInput.matches("")) {
+				Debug.Print("Blank line entered");
+				
+				//////////////////////////////////////////////////////////////////
 				// Display an error if the entry matched none of the above
 			} else {
 				Output.printColorln(FColor.RED, "Input : '" + cmdInput + "'");
