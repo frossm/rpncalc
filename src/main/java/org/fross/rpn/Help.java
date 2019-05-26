@@ -47,7 +47,7 @@ public class Help {
 		Output.printColorln(FColor.YELLOW, "Commands:");
 		Output.printColorln(FColor.WHITE, " s      Change sign of last element");
 		Output.printColorln(FColor.WHITE, " c      Clear everything from the visible stack");
-		Output.printColorln(FColor.WHITE, " d      Delete the last item in the stack");
+		Output.printColorln(FColor.WHITE, " d[#]   Delete the last item in the stack or, optionally, the line number provided");
 		Output.printColorln(FColor.WHITE, " f      Flip last two stack items");
 		Output.printColorln(FColor.WHITE, " copy   Copy the item at the top of the stack");
 		Output.printColorln(FColor.WHITE, " pi     Insert the value of PI onto the end of the stack");

@@ -186,15 +186,30 @@ public class Main {
 					Output.println("");
 
 				//////////////////////////////////////////////////////////////////
-				// Delete last stack item
-			} else if (cmdInput.matches("^[Dd]")) {
-				Debug.Print("Deleting Last Stack Item");
+				// Delete stack item
+			} else if (cmdInput.matches("^[Dd].*")) {
+				// Default to deleting the top of the stack
+				int lineToDelete = 0;
+
+				// Determine the line number to delete
 				try {
-					if (!calcStack.isEmpty())
-						calcStack.pop();
+					if (cmdInput.substring(1).trim().length() == 0) {
+						lineToDelete = 1;
+					} else {
+						lineToDelete = Integer.parseInt(cmdInput.substring(1).trim());
+					}
+
+					// Ensure the number entered is is valid
+					if (lineToDelete < 1 || lineToDelete > calcStack.size()) {
+						Output.printError("Invalid line number entered: " + lineToDelete);
+					} else {
+						Debug.Print("Deleting line number: " + lineToDelete);
+						calcStack = Math.StackDeleteItem(calcStack, (lineToDelete - 1));
+					}
+
 				} catch (Exception e) {
-					Output.printError("Could not delete last stack item");
-					Output.printError(e.getMessage());
+					Output.printError("Error parsing line number: '" + cmdInput.substring(1).trim() + "'");
+					Debug.Print(e.getMessage());
 				}
 
 				//////////////////////////////////////////////////////////////////
@@ -287,7 +302,7 @@ public class Main {
 				// A blank line is ok, just do nothing
 			} else if (cmdInput.matches("")) {
 				Debug.Print("Blank line entered");
-				
+
 				//////////////////////////////////////////////////////////////////
 				// Display an error if the entry matched none of the above
 			} else {
