@@ -174,42 +174,4 @@ public class Math {
 		return stk;
 	}
 
-	/**
-	 * StackDeleteItem(): Delete a stack element
-	 * 
-	 * @param stk
-	 * @param lineToDelete
-	 * @return
-	 */
-	public static Stack<Double> StackDeleteItem(Stack<Double> stk, int elementToDelete) {
-		Stack<Double> tempStack = new Stack<Double>();
-
-		// Copy the elements in stk to a temp stack except for the one to delete
-		try {
-			for (int i = 0; i <= elementToDelete; i++) {
-				if (i != elementToDelete) {
-					Debug.Print("Moving line #" + (i + 1) + "[" + stk.peek() + "] to tempStack");
-					tempStack.push(stk.pop());
-				} else {
-					Debug.Print("Skipping Line #" + (i + 1) + " [" + stk.peek() + "] as it's being deleted");
-					stk.pop();
-				}
-			}
-		} catch (Exception ex) {
-			Debug.Print(ex.getMessage());
-		}
-
-		// Copy the elements in the temp stack back to the main one
-		try {
-			while (tempStack.size() > 0) {
-				Debug.Print("Restoring value: " + tempStack.peek());
-				stk.push(tempStack.pop());
-			}
-		} catch (Exception ex) {
-			Debug.Print(ex.getMessage());
-		}
-
-		return (stk);
-	}
-
 }

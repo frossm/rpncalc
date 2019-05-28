@@ -204,7 +204,7 @@ public class Main {
 						Output.printError("Invalid line number entered: " + lineToDelete);
 					} else {
 						Debug.Print("Deleting line number: " + lineToDelete);
-						calcStack = Math.StackDeleteItem(calcStack, (lineToDelete - 1));
+						calcStack = StackOps.StackDeleteItem(calcStack, (lineToDelete - 1));
 					}
 
 				} catch (Exception e) {
