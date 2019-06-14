@@ -46,9 +46,8 @@ public class StackOps {
 	/**
 	 * StackSwapItems(): Swap two elements in the stack
 	 * 
-	 * Approach: Empty the stack into an array.  
-	 * Replace the existing values with the swapped values.
-	 * Then recreate the stack.
+	 * Approach: Empty the stack into an array. Replace the existing values with the
+	 * swapped values. Then recreate the stack.
 	 * 
 	 * @param stk
 	 * @param item1
@@ -65,7 +64,7 @@ public class StackOps {
 		Debug.Print("Size of Stack is: " + stkSize);
 		for (int i = 0; i < stkSize; i++) {
 			// System.out.println("i = " + i);
-			System.out.println("Array [" + i + "] = " + stk.peek());
+			Debug.Print("Backup: Array[" + i + "] = " + stk.peek());
 			tempArray[i] = stk.pop();
 		}
 
@@ -79,7 +78,7 @@ public class StackOps {
 
 		// Recreate the stack
 		for (int i = stkSize - 1; i >= 0; i--) {
-			System.out.println("Array [" + i + "] -> Stack");
+			Debug.Print("Restore: Array[" + i + "] = " + tempArray[i] + " -> Stack");
 			stk.push(tempArray[i]);
 		}
 
