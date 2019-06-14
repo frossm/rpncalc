@@ -45,10 +45,10 @@ The list of operands available will hopefully continue to grow as my needs chang
 ## Commands
 |Command|Description  |
 |-------|-------------|
-|s |Change the sign on the last stack item
+|f |Flip the sign on the last stack item
 |c |Clear the current stack
 |d [#] |Delete the last item in the stack or, optionally, the line number provided
-|f |Flip the position of the last two stack items
+|s [#] [#]|Swap the position of the last two stack items or, optionally, the element numbers provided
 |copy| Copy the item at the top of the stack
 |pi| Insert the value of PI onto the stack
 |sqrt|Perform a square root of the last item in the stack

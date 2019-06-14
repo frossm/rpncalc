@@ -186,7 +186,7 @@ public class Main {
 					Output.println("");
 
 				//////////////////////////////////////////////////////////////////
-				// Delete stack item
+				// Delete a stack item
 			} else if (cmdInput.matches("^[Dd].*")) {
 				// Default to deleting the top of the stack
 				int lineToDelete = 0;
@@ -208,27 +208,40 @@ public class Main {
 					}
 
 				} catch (Exception e) {
-					Output.printError("Error parsing line number: '" + cmdInput.substring(1).trim() + "'");
+					Output.printError(
+							"Error parsing line number for element delete: '" + cmdInput.substring(1).trim() + "'");
 					Debug.Print(e.getMessage());
 				}
 
 				//////////////////////////////////////////////////////////////////
-				// Flip last two elements on the stack
-			} else if (cmdInput.matches("^[Ff]")) {
-				Debug.Print("Flipping last two elements in the stack");
+				// Swap two elements on the stack
+			} else if (cmdInput.matches("^[Ss].*")) {
+				int item1 = 1;
+				int item2 = 2;
 
-				if (calcStack.size() < 2) {
-					Output.printError("Two elements are needed for flip");
+				// Determine the source and destination elements
+				try {
+					if (cmdInput.substring(1).trim().length() != 0) {
+						item1 = Integer.parseInt(cmdInput.substring(1).trim().split("\\s")[0]);
+						item2 = Integer.parseInt(cmdInput.substring(1).trim().split("\\s")[1]);
+					}
+				} catch (Exception e) {
+					Output.printError(
+							"Error parsing line number for stack swap: '" + cmdInput.substring(1).trim() + "'");
+				}
+
+				// Make sure the numbers are valid
+				if (item1 < 1 || item1 > calcStack.size() || item2 < 1 || item2 > calcStack.size()) {
+					Output.printError("Invalid element entered.  Must be between 1 and " + calcStack.size());
 				} else {
-					Double temp1 = calcStack.pop();
-					Double temp2 = calcStack.pop();
-					calcStack.push(temp1);
-					calcStack.push(temp2);
+					Debug.Print("Swapping #" + item1 + " and #" + item2 + " stack items");
+
+					calcStack = StackOps.StackSwapItems(calcStack, (item1 - 1), (item2) - 1);
 				}
 
 				//////////////////////////////////////////////////////////////////
-				// Change sign of last stack element
-			} else if (cmdInput.matches("^[Ss]")) {
+				// Flip the sign of last stack element
+			} else if (cmdInput.matches("^[Ff]")) {
 				Debug.Print("Changing sign of last stack element");
 				if (!calcStack.isEmpty())
 					calcStack.push(calcStack.pop() * -1);
