@@ -214,6 +214,15 @@ public class Main {
 				}
 
 				//////////////////////////////////////////////////////////////////
+				// Swap primary and secondary stack
+			} else if (cmdInput.matches("^[Ss][Ss]")) {
+				Debug.Print("Swapping primary and secondary stack");
+				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
+				calcStack = (Stack<Double>) calcStack2.clone();
+				calcStack2 = (Stack<Double>) calcStackTemp.clone();
+				Prefs.ToggleCurrentStackNum();
+
+				//////////////////////////////////////////////////////////////////
 				// Swap two elements on the stack
 			} else if (cmdInput.matches("^[Ss].*")) {
 				int item1 = 1;
@@ -245,15 +254,6 @@ public class Main {
 				Debug.Print("Changing sign of last stack element");
 				if (!calcStack.isEmpty())
 					calcStack.push(calcStack.pop() * -1);
-
-				//////////////////////////////////////////////////////////////////
-				// Swap primary and secondary stack
-			} else if (cmdInput.matches("^[Ss][Ss]")) {
-				Debug.Print("Swapping primary and secondary stack");
-				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
-				calcStack = (Stack<Double>) calcStack2.clone();
-				calcStack2 = (Stack<Double>) calcStackTemp.clone();
-				Prefs.ToggleCurrentStackNum();
 
 				//////////////////////////////////////////////////////////////////
 				// Copy the item at the top of the stack

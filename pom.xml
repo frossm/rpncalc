@@ -5,7 +5,7 @@
 
 	<groupId>org.fross.rpn</groupId>
 	<artifactId>rpn</artifactId>
-	<version>2019.06.14</version>
+	<version>2019.06.24</version>
 	<packaging>jar</packaging>
 
 	<name>rpn</name>
