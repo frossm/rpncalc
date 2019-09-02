@@ -30,7 +30,7 @@ public class Help {
 				"+              RPN Calculator v" + Main.VERSION + "  Help Document               +");
 		Output.printColorln(FColor.YELLOW, "+----------------------------------------------------------------------+");
 		Output.printColorln(FColor.WHITE, "            RPN is a simple reverse polish notation calculator");
-		Output.printColorln(FColor.WHITE, "               https://bitbucket.org/frossm/rpn/src/default\n");
+		Output.printColorln(FColor.WHITE, "                     https://github.com/frossm/rpn\n");
 
 		Output.printColorln(FColor.YELLOW, "Command Line Options:");
 		Output.printColorln(FColor.WHITE, " -l     Load saved named stack. Create the stack if it does not exist");
