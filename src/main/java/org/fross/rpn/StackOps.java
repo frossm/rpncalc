@@ -1,3 +1,15 @@
+/******************************************************************************
+ * rpn.java
+ * 
+ * A simple console based RPN calculator with an optional persistent stack.
+ * 
+ *  Written by Michael Fross.  Copyright 2011-2019.  All rights reserved.
+ *  
+ *  License: 
+ *  MIT License / https://opensource.org/licenses/MIT
+ *  Please see included LICENSE.txt file for additional details
+ *           
+ ******************************************************************************/
 package org.fross.rpn;
 
 import java.util.Stack;

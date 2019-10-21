@@ -5,8 +5,9 @@
  * 
  *  Written by Michael Fross.  Copyright 2011-2019.  All rights reserved.
  *  
- *  License: GNU General Public License v3.
- *           http://www.gnu.org/licenses/gpl-3.0.html
+ *  License: 
+ *  MIT License / https://opensource.org/licenses/MIT
+ *  Please see included LICENSE.txt file for additional details
  *           
  ******************************************************************************/
 package org.fross.rpn;
