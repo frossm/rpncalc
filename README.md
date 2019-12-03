@@ -8,7 +8,7 @@ Therefore, I decided to write a simple command line rpn calculator.  It was easy
 
 One warning is that I am not trying to replicate all of the functions of a real calculator.  It just does basic math functions and that's all I need it for.  No bitwise, no trig, etc.
 
-If you have not heard of an rpn calculator, or just enjoying reading about various notations, here is a link to the [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
+If you have not heard of an rpn calculator, or just enjoying reading about various calculator notations, here is a link to the [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
 
 To execute a Java jar file, you need to have a Java Run-time Environment,ent (JRE) installed and java.exe must be in your path. 
 
