@@ -45,6 +45,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 ## Commands
 |Command|Description  |
 |-------|-------------|
+|u |Undo last operation.  You can only undo the last option and undo will undo your undo :)
 |f |Flip the sign on the last stack item
 |c |Clear the current stack
 |d [#] |Delete the last item in the stack or, optionally, the line number provided
@@ -53,6 +54,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |pi| Insert the value of PI onto the stack
 |sqrt|Perform a square root of the last item in the stack
 |ss|Swap the current stack with the secondary.  SS will swap them back again
+|queryundo|Display the current undo stack.  This is mostly used for troubleshooting.
 |load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
 |ver| Display the current version number.  Can also be seen in the help screen
