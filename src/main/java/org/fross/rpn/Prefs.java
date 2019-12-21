@@ -23,6 +23,7 @@ import java.util.Stack;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import org.fusesource.jansi.Ansi;
+import org.fross.library.Output;
 
 /**
  * Prefs: Holds the logic and calls to the java preferences system. Used to save
@@ -128,7 +129,7 @@ public class Prefs {
 	 * @param stackSlot - Stack Save slot number. Should be default, 1, or 2.
 	 */
 	public static void SaveStack(Stack<Double> stk, String stackSlot) {
-		Debug.Print("SaveStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
+		Output.debugPrint("SaveStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
 
 		// Override the default stack location with the provided one
 		prefs = Preferences.userRoot().node(PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
@@ -146,7 +147,7 @@ public class Prefs {
 
 		// Loop through each member of the stack and save it to the preferences
 		for (int i = 0; i <= stk.size() - 1; i++) {
-			Debug.Print("  - Saving #" + (stk.size() - i) + ":  " + stk.elementAt(i));
+			Output.debugPrint("  - Saving #" + (stk.size() - i) + ":  " + stk.elementAt(i));
 			Set("Stack" + i, stk.elementAt(i));
 		}
 
@@ -160,17 +161,17 @@ public class Prefs {
 	 * @return
 	 */
 	public static Stack<Double> RestoreStack(String stackSlot) {
-		Debug.Print("RestoreStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
+		Output.debugPrint("RestoreStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
 
 		// Override the default stack location with the provided one
 		prefs = Preferences.userRoot().node(PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
 		int numElements = prefs.getInt("StackElements", 0);
 		Stack<Double> stk = new Stack<Double>();
 
-		Debug.Print("Restoring Stack:");
+		Output.debugPrint("Restoring Stack:");
 		for (int i = 0; i <= numElements - 1; i++) {
 			stk.push(prefs.getDouble("Stack" + i, 0.0));
-			Debug.Print("  - Restoring #" + (numElements - i) + ":  " + stk.elementAt(i));
+			Output.debugPrint("  - Restoring #" + (numElements - i) + ":  " + stk.elementAt(i));
 		}
 
 		return stk;

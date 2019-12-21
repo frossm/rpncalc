@@ -13,6 +13,7 @@
 package org.fross.rpn;
 
 import org.fusesource.jansi.Ansi;
+import org.fross.library.Output;
 
 /**
  * Help(): Display the help page when users enters 'h' command.

@@ -15,6 +15,7 @@ package org.fross.rpn;
 import java.text.DecimalFormat;
 import java.util.Stack;
 import org.fusesource.jansi.Ansi;
+import org.fross.library.Output;
 
 /**
  * Math: The math class contains the methods to parse the operands entered and
@@ -90,7 +91,7 @@ public class Math {
 	public static Stack<Double> Add(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
-		Debug.Print("Adding: " + a + " + " + b + " = " + (a + b));
+		Output.debugPrint("Adding: " + a + " + " + b + " = " + (a + b));
 		stk.push(a + b);
 		return stk;
 	}
@@ -105,7 +106,7 @@ public class Math {
 	public static Stack<Double> Subtract(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
-		Debug.Print("Subtracting: " + a + " - " + b + " = " + (a - b));
+		Output.debugPrint("Subtracting: " + a + " - " + b + " = " + (a - b));
 		stk.push(a - b);
 		return stk;
 	}
@@ -119,7 +120,7 @@ public class Math {
 	public static Stack<Double> Multiply(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
-		Debug.Print("Multiplying: " + a + " * " + b + " = " + (a * b));
+		Output.debugPrint("Multiplying: " + a + " * " + b + " = " + (a * b));
 		stk.push(a * b);
 		return stk;
 	}
@@ -133,7 +134,7 @@ public class Math {
 	public static Stack<Double> Divide(Stack<Double> stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
-		Debug.Print("Dividing: " + a + " / " + b + " = " + (a / b));
+		Output.debugPrint("Dividing: " + a + " / " + b + " = " + (a / b));
 		stk.push(a / b);
 		return stk;
 	}
@@ -148,7 +149,7 @@ public class Math {
 	public static Stack<Double> Power(Stack<Double> stk) {
 		Double power = stk.pop();
 		Double base = stk.pop();
-		Debug.Print("Base=" + base + "   Power=" + power);
+		Output.debugPrint("Base=" + base + "   Power=" + power);
 		stk.push(java.lang.Math.pow(base, power));
 		return stk;
 	}

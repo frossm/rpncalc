@@ -19,6 +19,8 @@ import java.util.Properties;
 import java.util.Stack;
 import org.fusesource.jansi.Ansi;
 import gnu.getopt.Getopt;
+import org.fross.library.Debug;
+import org.fross.library.Output;
 
 /**
  * Main - Main program execution class
@@ -32,6 +34,26 @@ public class Main {
 	public static String VERSION;
 	public static final String PROPERTIES_FILE = "rpn.properties";
 
+	
+	/**
+	 * DisplayDashedNameLine(): Display the last line of the header and the
+	 * separator line. This is a separate function given it also inserts the loaded
+	 * stack and spaced everything correctly.
+	 */
+	public static void displayDashedNameLine() {
+		int DesiredDashes = 70;
+
+		// Display the Loaded Stack into Dash line. 70 dashes w/o the name
+		Output.printColor(Ansi.Color.CYAN, "+");
+		int numDashes = DesiredDashes - Prefs.QueryLoadedStack().length() - 4;
+		for (int i = 0; i < numDashes; i++) {
+			Output.printColor(Ansi.Color.CYAN, "-");
+		}
+		Output.printColor(Ansi.Color.YELLOW, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]");
+		Output.printColorln(Ansi.Color.CYAN, "+");
+	}
+	
+	
 	/**
 	 * Main(): Start of program and holds main command loop
 	 * 
@@ -55,13 +77,13 @@ public class Main {
 			prop.load(iStream);
 			VERSION = prop.getProperty("Application.version");
 		} catch (IOException ex) {
-			Output.fatalerror("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
+			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
 		}
 
 		// Initialize the console used for command input
 		con = System.console();
 		if (con == null) {
-			Output.printError("FATAL :  Could not initialize OS Console for data input");
+			Output.printColorln(Ansi.Color.RED, "FATAL :  Could not initialize OS Console for data input");
 			System.exit(1);
 		}
 
@@ -70,7 +92,7 @@ public class Main {
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
-				Debug.Enable();
+				Debug.enable();
 				break;
 			case 'l':
 				Prefs.SetLoadedStack(String.valueOf(optG.getOptarg()));
@@ -81,7 +103,7 @@ public class Main {
 				System.exit(0);
 				break;
 			default:
-				Output.printError("Unknown Command Line Option: '" + (char) optionEntry + "'");
+				Output.printColorln(Ansi.Color.RED, "Unknown Command Line Option: '" + (char) optionEntry + "'");
 				Help.Display();
 				System.exit(0);
 				break;
@@ -89,22 +111,22 @@ public class Main {
 		}
 
 		// Display some useful information about the environment if in Debug Mode
-		Debug.Print("System Information:");
-		Debug.Print(" - class.path:     " + System.getProperty("java.class.path"));
-		Debug.Print("  - java.home:      " + System.getProperty("java.home"));
-		Debug.Print("  - java.vendor:    " + System.getProperty("java.vendor"));
-		Debug.Print("  - java.version:   " + System.getProperty("java.version"));
-		Debug.Print("  - os.name:        " + System.getProperty("os.name"));
-		Debug.Print("  - os.version:     " + System.getProperty("os.version"));
-		Debug.Print("  - os.arch:        " + System.getProperty("os.arch"));
-		Debug.Print("  - user.name:      " + System.getProperty("user.name"));
-		Debug.Print("  - user.home:      " + System.getProperty("user.home"));
-		Debug.Print("  - user.dir:       " + System.getProperty("user.dir"));
-		Debug.Print("  - file.separator: " + System.getProperty("file.separator"));
-		Debug.Print("  - library.path:   " + System.getProperty("java.library.path"));
-		Debug.Print("\nCommand Line Options");
-		Debug.Print("  -D:  " + Debug.Query());
-		Debug.Print("  -l:  " + Prefs.QueryLoadedStack());
+		Output.debugPrint("System Information:");
+		Output.debugPrint(" - class.path:     " + System.getProperty("java.class.path"));
+		Output.debugPrint("  - java.home:      " + System.getProperty("java.home"));
+		Output.debugPrint("  - java.vendor:    " + System.getProperty("java.vendor"));
+		Output.debugPrint("  - java.version:   " + System.getProperty("java.version"));
+		Output.debugPrint("  - os.name:        " + System.getProperty("os.name"));
+		Output.debugPrint("  - os.version:     " + System.getProperty("os.version"));
+		Output.debugPrint("  - os.arch:        " + System.getProperty("os.arch"));
+		Output.debugPrint("  - user.name:      " + System.getProperty("user.name"));
+		Output.debugPrint("  - user.home:      " + System.getProperty("user.home"));
+		Output.debugPrint("  - user.dir:       " + System.getProperty("user.dir"));
+		Output.debugPrint("  - file.separator: " + System.getProperty("file.separator"));
+		Output.debugPrint("  - library.path:   " + System.getProperty("java.library.path"));
+		Output.debugPrint("\nCommand Line Options");
+		Output.debugPrint("  -D:  " + Debug.query());
+		Output.debugPrint("  -l:  " + Prefs.QueryLoadedStack());
 
 		// Pull the existing stacks from the preferences if they exist
 		calcStack = Prefs.RestoreStack("1");
@@ -118,7 +140,7 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
 		Output.printColorln(Ansi.Color.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
 		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
-		Output.displayDashedNameLine();
+		displayDashedNameLine();
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
@@ -140,12 +162,12 @@ public class Main {
 
 			// Toggle Debug Mode
 			if (cmdInput.matches("[Dd][Ee][Bb][Uu][Gg]")) {
-				if (Debug.Query()) {
-					Debug.Disable();
+				if (Debug.query()) {
+					Debug.disable();
 					Output.printColorln(Ansi.Color.RED, "Debug Disabled");
 				} else {
-					Debug.Enable();
-					Debug.Print("Debug Enabled");
+					Debug.enable();
+					Output.debugPrint("Debug Enabled");
 				}
 
 				//////////////////////////////////////////////////////////////////
@@ -158,7 +180,7 @@ public class Main {
 
 				// Set new stack
 				String newStack = cmdInput.toString().substring(5);
-				Debug.Print("Loading new stack: '" + newStack + "'");
+				Output.debugPrint("Loading new stack: '" + newStack + "'");
 				Prefs.SetLoadedStack(newStack);
 
 				// Load new stack
@@ -175,14 +197,14 @@ public class Main {
 				// Display help information
 				// Command: h or ?
 			} else if (cmdInput.matches("^[Hh?]")) {
-				Debug.Print("Displaying Help");
+				Output.debugPrint("Displaying Help");
 				Help.Display();
 
 				//////////////////////////////////////////////////////////////////
 				// Process Exit
 				// Command: x
 			} else if (cmdInput.matches("^[Xx]")) {
-				Debug.Print("Exiting Command Loop");
+				Output.debugPrint("Exiting Command Loop");
 				ProcessCommandLoop = false;
 
 				//////////////////////////////////////////////////////////////////
@@ -200,7 +222,7 @@ public class Main {
 				// Process Undo
 				// Command: u
 			} else if (cmdInput.matches("^[Uu]")) {
-				Debug.Print("Undoing last command");
+				Output.debugPrint("Undoing last command");
 
 				// Backup current stack so we can undo the undo
 				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
@@ -215,10 +237,10 @@ public class Main {
 				// Clear stack and screen
 				// Command: c
 			} else if (cmdInput.matches("^[Cc]")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Clearing Stack");
+				Output.debugPrint("Clearing Stack");
 				calcStack.clear();
 				for (int clearcounter = 0; clearcounter <= 200; clearcounter++)
 					Output.println("");
@@ -230,7 +252,7 @@ public class Main {
 				// Default to deleting the top of the stack
 				int lineToDelete = 0;
 
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
 				// Determine the line number to delete
@@ -243,35 +265,35 @@ public class Main {
 
 					// Ensure the number entered is is valid
 					if (lineToDelete < 1 || lineToDelete > calcStack.size()) {
-						Output.printError("Invalid line number entered: " + lineToDelete);
+						Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineToDelete);
 					} else {
-						Debug.Print("Deleting line number: " + lineToDelete);
+						Output.debugPrint("Deleting line number: " + lineToDelete);
 						calcStack = StackOps.StackDeleteItem(calcStack, (lineToDelete - 1));
 					}
 
 				} catch (Exception e) {
-					Output.printError("Error parsing line number for element delete: '" + cmdInput.substring(1).trim() + "'");
-					Debug.Print(e.getMessage());
+					Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + cmdInput.substring(1).trim() + "'");
+					Output.debugPrint(e.getMessage());
 				}
 
 				//////////////////////////////////////////////////////////////////
 				// Perform a square root of the last item on the stack
 				// Command: sqrt
 			} else if (cmdInput.matches("^sqrt")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Taking the square root of the last stack item");
+				Output.debugPrint("Taking the square root of the last stack item");
 				Math.SquareRoot(calcStack);
 
 				//////////////////////////////////////////////////////////////////
 				// Swap primary and secondary stack
 				// Command: ss
 			} else if (cmdInput.matches("^[Ss][Ss]")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Swapping primary and secondary stack");
+				Output.debugPrint("Swapping primary and secondary stack");
 				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
 				calcStack = (Stack<Double>) calcStack2.clone();
 				calcStack2 = (Stack<Double>) calcStackTemp.clone();
@@ -284,7 +306,7 @@ public class Main {
 				int item1 = 1;
 				int item2 = 2;
 
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
 				// Determine the source and destination elements
@@ -294,14 +316,14 @@ public class Main {
 						item2 = Integer.parseInt(cmdInput.substring(1).trim().split("\\s")[1]);
 					}
 				} catch (Exception e) {
-					Output.printError("Error parsing line number for stack swap: '" + cmdInput.substring(1).trim() + "'");
+					Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + cmdInput.substring(1).trim() + "'");
 				}
 
 				// Make sure the numbers are valid
 				if (item1 < 1 || item1 > calcStack.size() || item2 < 1 || item2 > calcStack.size()) {
-					Output.printError("Invalid element entered.  Must be between 1 and " + calcStack.size());
+					Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + calcStack.size());
 				} else {
-					Debug.Print("Swapping #" + item1 + " and #" + item2 + " stack items");
+					Output.debugPrint("Swapping #" + item1 + " and #" + item2 + " stack items");
 
 					calcStack = StackOps.StackSwapItems(calcStack, (item1 - 1), (item2) - 1);
 				}
@@ -310,10 +332,10 @@ public class Main {
 				// Flip the sign of last stack element
 				// Command: f
 			} else if (cmdInput.matches("^[Ff]")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Changing sign of last stack element");
+				Output.debugPrint("Changing sign of last stack element");
 				if (!calcStack.isEmpty())
 					calcStack.push(calcStack.pop() * -1);
 
@@ -321,77 +343,77 @@ public class Main {
 				// Copy the item at the top of the stack
 				// Command: copy
 			} else if (cmdInput.matches("^copy")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Copying the item at the top of the stack");
+				Output.debugPrint("Copying the item at the top of the stack");
 				if (calcStack.size() >= 1) {
 					calcStack.add(calcStack.lastElement());
 				} else {
-					Output.printError("ERROR: Must be an item in the stack to copy it");
+					Output.printColorln(Ansi.Color.RED, "ERROR: Must be an item in the stack to copy it");
 				}
 
 				//////////////////////////////////////////////////////////////////
 				// Add the value of PI onto the stack
 				// Command: pi
 			} else if (cmdInput.matches("^pi")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Adding PI to the end of the stack");
+				Output.debugPrint("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
 
 				//////////////////////////////////////////////////////////////////
 				// Operand entered
 				//
 			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("CalcStack has " + calcStack.size() + " elements");
-				Debug.Print("Operand entered: '" + cmdInput.charAt(0) + "'");
+				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
+				Output.debugPrint("Operand entered: '" + cmdInput.charAt(0) + "'");
 				// Verify stack contains at least two elements
 				if (calcStack.size() >= 2) {
 					calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
 				} else {
-					Output.printError("Two numbers are required for this operation");
+					Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
 				}
 
 				//////////////////////////////////////////////////////////////////
 				// Number entered, add to stack. Blank line will trigger so skip if !blank
 				//
 			} else if (!cmdInput.isEmpty() && cmdInput.matches("^-?\\d*\\.?\\d*")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("Adding number onto the stack");
+				Output.debugPrint("Adding number onto the stack");
 				calcStack.push(Double.valueOf(cmdInput));
 
 				//////////////////////////////////////////////////////////////////
 				// Handle numbers with a single operand at the end (a NumOp)
 				//
 			} else if (cmdInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
-				Debug.Print("Saving current stack to undo stack");
+				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 
-				Debug.Print("CalcStack has " + calcStack.size() + " elements");
+				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
 				// Verify stack contains at least one element
 				if (calcStack.size() >= 1) {
 					char TempOp = cmdInput.charAt(cmdInput.length() - 1);
 					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-					Debug.Print("NumOp Found: Num= '" + TempNum + "'");
-					Debug.Print("NumOp Found: Op = '" + TempOp + "'");
+					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
+					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
 					calcStack.push(Double.valueOf(TempNum));
 					calcStack = Math.Parse(TempOp, calcStack);
 				} else {
-					Output.printError("One number is required for this NumOp function");
+					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
 				}
 
 				//////////////////////////////////////////////////////////////////
 				// A blank line is OK, just do nothing
 				//
 			} else if (cmdInput.matches("")) {
-				Debug.Print("Blank line entered");
+				Output.debugPrint("Blank line entered");
 
 				//////////////////////////////////////////////////////////////////
 				// Display an error if the entry matched none of the above
@@ -400,7 +422,7 @@ public class Main {
 			}
 
 			// Display DashLine
-			Output.displayDashedNameLine();
+			displayDashedNameLine();
 
 		}
 

@@ -13,6 +13,7 @@
 package org.fross.rpn;
 
 import java.util.Stack;
+import org.fross.library.Output;
 
 public class StackOps {
 
@@ -31,25 +32,25 @@ public class StackOps {
 		try {
 			for (int i = 0; i <= elementToDelete; i++) {
 				if (i != elementToDelete) {
-					Debug.Print("Moving line:    #" + (i + 1) + " [" + stk.peek() + "] to a temp stack");
+					Output.debugPrint("Moving line:    #" + (i + 1) + " [" + stk.peek() + "] to a temp stack");
 					tempStack.push(stk.pop());
 				} else {
-					Debug.Print("Skipping Line:  #" + (i + 1) + " [" + stk.peek() + "] as it's being deleted");
+					Output.debugPrint("Skipping Line:  #" + (i + 1) + " [" + stk.peek() + "] as it's being deleted");
 					stk.pop();
 				}
 			}
 		} catch (Exception ex) {
-			Debug.Print(ex.getMessage());
+			Output.debugPrint(ex.getMessage());
 		}
 
 		// Copy the elements in the temp stack back to the main one
 		try {
 			while (tempStack.size() > 0) {
-				Debug.Print("Restore Value:  " + tempStack.peek());
+				Output.debugPrint("Restore Value:  " + tempStack.peek());
 				stk.push(tempStack.pop());
 			}
 		} catch (Exception ex) {
-			Debug.Print(ex.getMessage());
+			Output.debugPrint(ex.getMessage());
 		}
 
 		return (stk);
@@ -73,10 +74,10 @@ public class StackOps {
 		Double value2;
 
 		// Populate the array with the contents of the stack
-		Debug.Print("Size of Stack is: " + stkSize);
+		Output.debugPrint("Size of Stack is: " + stkSize);
 		for (int i = 0; i < stkSize; i++) {
 			// System.out.println("i = " + i);
-			Debug.Print("Backup: Array[" + i + "] = " + stk.peek());
+			Output.debugPrint("Backup: Array[" + i + "] = " + stk.peek());
 			tempArray[i] = stk.pop();
 		}
 
@@ -90,7 +91,7 @@ public class StackOps {
 
 		// Recreate the stack
 		for (int i = stkSize - 1; i >= 0; i--) {
-			Debug.Print("Restore: Array[" + i + "] = " + tempArray[i] + " -> Stack");
+			Output.debugPrint("Restore: Array[" + i + "] = " + tempArray[i] + " -> Stack");
 			stk.push(tempArray[i]);
 		}
 

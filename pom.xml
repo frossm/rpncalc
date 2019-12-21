@@ -119,6 +119,11 @@
 			<version>1.18</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.fross</groupId>
+			<artifactId>library</artifactId>
+			<version>2019-12-20</version>
+		</dependency>
 
 	</dependencies>
 
