@@ -22,7 +22,7 @@ package org.fross.rpn;
 import java.util.Stack;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import com.diogonunes.jcdp.color.api.Ansi.FColor;
+import org.fusesource.jansi.Ansi;
 
 /**
  * Prefs: Holds the logic and calls to the java preferences system. Used to save
@@ -137,8 +137,8 @@ public class Prefs {
 		try {
 			prefs.clear();
 		} catch (BackingStoreException e) {
-			Output.printColorln(FColor.RED, "ERROR: Could not clear current preferences in Stack #1");
-			Output.printColorln(FColor.RED, e.getMessage());
+			Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear current preferences in Stack #1");
+			Output.printColorln(Ansi.Color.RED, e.getMessage());
 		}
 
 		// Save number of elements to key StackElements

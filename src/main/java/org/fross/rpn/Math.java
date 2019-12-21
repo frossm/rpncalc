@@ -14,7 +14,7 @@ package org.fross.rpn;
 
 import java.text.DecimalFormat;
 import java.util.Stack;
-import com.diogonunes.jcdp.color.api.Ansi.FColor;
+import org.fusesource.jansi.Ansi;
 
 /**
  * Math: The math class contains the methods to parse the operands entered and
@@ -38,7 +38,7 @@ public class Math {
 		try {
 			df = new DecimalFormat("#,###,###.00#######");
 		} catch (Exception Ex) {
-			Output.printColorln(FColor.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
+			Output.printColorln(Ansi.Color.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
 		return (String.valueOf(df.format(num)));
@@ -75,7 +75,7 @@ public class Math {
 			result = Percent(stk);
 			break;
 		default:
-			Output.printColorln(FColor.RED, "ERROR: Illegal Operand Sent to Math.Parse(): '" + op + "'");
+			Output.printColorln(Ansi.Color.RED, "ERROR: Illegal Operand Sent to Math.Parse(): '" + op + "'");
 		}
 
 		return result;

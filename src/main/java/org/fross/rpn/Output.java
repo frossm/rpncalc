@@ -10,7 +10,7 @@
  *  Please see included LICENSE.txt file for additional details
  *           
  ******************************************************************************/
- 
+
 /* Leverages the JCDP Color library:  
  *   https://github.com/dialex/JCDP
  *   http://dialex.github.io/JCDP/javadoc/
@@ -19,39 +19,39 @@
 
 package org.fross.rpn;
 
-import com.diogonunes.jcdp.color.ColoredPrinter;
-import com.diogonunes.jcdp.color.api.Ansi.Attribute;
-import com.diogonunes.jcdp.color.api.Ansi.FColor;
+import static org.fusesource.jansi.Ansi.*;
+import org.fusesource.jansi.Ansi;
 
 public class Output {
 	/**
-	 * printColorln: Print to the console with the provided foreground color
-	 * Acceptable ColorNames: FColor.BLUE, FColor.CYAN, FColor.GREEN,
-	 * FColor.MAGENTA, FColor.NONE, FColor.RED, FColor.WHITE, FColor.YELLOW
+	 * printcolorln(): Print to the console with the provided foreground color
+	 * 
+	 * Allowable colors are:
+	 * - Ansi.Color.BLACK
+	 * - Ansi.Color.RED
+	 * - Ansi.Color.GREEN
+	 * - Ansi.Color.YELLOW
+	 * - Ansi.Color.BLUE
+	 * - Ansi.Color.MAGENTA
+	 * - Ansi.Color.CYAN
+	 * - Ansi.Color.WHITE
+	 * - Ansi.Color.DEFAULT
 	 * 
 	 * @param Color
 	 * @param msg
 	 */
-	public static void printColorln(FColor clr, String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(clr).build();
-		cp.setAttribute(Attribute.LIGHT);
-		cp.println(msg);
-		cp.clear();
+	public static void printColorln(Ansi.Color clr, String msg) {
+		System.out.println(ansi().a(Attribute.INTENSITY_BOLD).fg(clr).a(msg).reset());
 	}
 
 	/**
-	 * printColor: Print to the console with NoNewLine. The provided foreground
-	 * color Acceptable ColorNames: FColor.BLUE, FColor.CYAN, FColor.GREEN,
-	 * FColor.MAGENTA, FColor.NONE, FColor.RED, FColor.WHITE, FColor.YELLOW
+	 * printcolor(): Print to the console without a newline
 	 * 
 	 * @param Color
 	 * @param msg
 	 */
-	public static void printColor(FColor clr, String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(clr).build();
-		cp.setAttribute(Attribute.LIGHT);
-		cp.print(msg);
-		cp.clear();
+	public static void printColor(Ansi.Color clr, String msg) {
+		System.out.print(ansi().a(Attribute.INTENSITY_BOLD).fg(clr).a(msg).reset());
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class Output {
 	public static void println(String msg) {
 		System.out.println(msg);
 	}
-	
+
 	/**
 	 * print: Basic System.out.print call. It's here so out text output can go
 	 * through this function.
@@ -80,10 +80,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printError(String msg) {
-		ColoredPrinter cp = new ColoredPrinter.Builder(1, false).foreground(FColor.RED).build();
-		cp.setAttribute(Attribute.LIGHT);
-		cp.println("ERROR:  " + msg);
-		cp.clear();
+		printColorln(Ansi.Color.RED, "ERROR:  " + msg);
 	}
 
 	/**
@@ -95,15 +92,15 @@ public class Output {
 		int DesiredDashes = 70;
 
 		// Display the Loaded Stack into Dash line. 70 dashes w/o the name
-		Output.printColor(FColor.CYAN, "+");
+		Output.printColor(Ansi.Color.CYAN, "+");
 		int numDashes = DesiredDashes - Prefs.QueryLoadedStack().length() - 4;
 		for (int i = 0; i < numDashes; i++) {
-			Output.printColor(FColor.CYAN, "-");
+			Output.printColor(Ansi.Color.CYAN, "-");
 		}
-		Output.printColor(FColor.YELLOW, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]");
-		Output.printColorln(FColor.CYAN, "+");
+		Output.printColor(Ansi.Color.YELLOW, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]");
+		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
-	
+
 	/**
 	 * fatalerror(): Print the provided string in RED and exit the program with the
 	 * error code given
@@ -112,7 +109,7 @@ public class Output {
 	 * @param errorcode
 	 */
 	public static void fatalerror(String msg, int errorcode) {
-		Output.printColorln(FColor.RED, "\nFATAL ERROR: " + msg);
+		Output.printColorln(Ansi.Color.RED, "\nFATAL ERROR: " + msg);
 		System.exit(errorcode);
 	}
 }

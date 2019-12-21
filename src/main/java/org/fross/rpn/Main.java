@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Stack;
-
-import com.diogonunes.jcdp.color.api.Ansi.FColor;
+import org.fusesource.jansi.Ansi;
 import gnu.getopt.Getopt;
 
 /**
@@ -115,11 +114,10 @@ public class Main {
 		undoStack = (Stack<Double>) calcStack.clone();
 
 		// Display output header information
-		Output.printColorln(FColor.CYAN, "+----------------------------------------------------------------------+");
-		Output.printColorln(FColor.CYAN,
-				"|                           RPN Calculator                 v" + VERSION + " |");
-		Output.printColorln(FColor.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
-		Output.printColorln(FColor.CYAN, "|                 Enter command 'h' for help details                   |");
+		Output.printColorln(Ansi.Color.CYAN, "+----------------------------------------------------------------------+");
+		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
+		Output.printColorln(Ansi.Color.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
+		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
 		Output.displayDashedNameLine();
 
 		// Start Main Command Loop
@@ -130,21 +128,21 @@ public class Main {
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
 				// Display Stack Number
 				String sn = String.format("%02d:   ", calcStack.size() - i);
-				Output.printColor(FColor.CYAN, sn);
+				Output.printColor(Ansi.Color.CYAN, sn);
 
 				// Display Stack Value
-				Output.printColorln(FColor.WHITE, Math.Comma(calcStack.get(i)));
+				Output.printColorln(Ansi.Color.WHITE, Math.Comma(calcStack.get(i)));
 			}
 
 			// Input command/number from user
-			Output.printColor(FColor.YELLOW, "\n>>  ");
+			Output.printColor(Ansi.Color.YELLOW, "\n>>  ");
 			cmdInput = con.readLine();
 
 			// Toggle Debug Mode
 			if (cmdInput.matches("[Dd][Ee][Bb][Uu][Gg]")) {
 				if (Debug.Query()) {
 					Debug.Disable();
-					Output.printColorln(FColor.RED, "Debug Disabled");
+					Output.printColorln(Ansi.Color.RED, "Debug Disabled");
 				} else {
 					Debug.Enable();
 					Debug.Print("Debug Enabled");
@@ -171,7 +169,7 @@ public class Main {
 				// Display program version
 				// Command: ver
 			} else if (cmdInput.matches("^ver.*")) {
-				Output.printColorln(FColor.RED, "Version: v" + VERSION);
+				Output.printColorln(Ansi.Color.RED, "Version: v" + VERSION);
 
 				//////////////////////////////////////////////////////////////////
 				// Display help information
@@ -191,11 +189,11 @@ public class Main {
 				// Show Undo Stack
 				// Command: queryundo
 			} else if (cmdInput.matches("^queryundo")) {
-				Output.printColorln(FColor.CYAN, "Current undoStack:");
+				Output.printColorln(Ansi.Color.CYAN, "Current undoStack:");
 				for (int j = 0; j <= undoStack.size() - 1; j++) {
 					String sn = String.format("%02d:   ", undoStack.size() - j);
-					Output.printColor(FColor.CYAN, sn);
-					Output.printColorln(FColor.CYAN, Math.Comma(undoStack.get(j)));
+					Output.printColor(Ansi.Color.CYAN, sn);
+					Output.printColorln(Ansi.Color.CYAN, Math.Comma(undoStack.get(j)));
 				}
 
 				//////////////////////////////////////////////////////////////////
@@ -252,8 +250,7 @@ public class Main {
 					}
 
 				} catch (Exception e) {
-					Output.printError(
-							"Error parsing line number for element delete: '" + cmdInput.substring(1).trim() + "'");
+					Output.printError("Error parsing line number for element delete: '" + cmdInput.substring(1).trim() + "'");
 					Debug.Print(e.getMessage());
 				}
 
@@ -297,8 +294,7 @@ public class Main {
 						item2 = Integer.parseInt(cmdInput.substring(1).trim().split("\\s")[1]);
 					}
 				} catch (Exception e) {
-					Output.printError(
-							"Error parsing line number for stack swap: '" + cmdInput.substring(1).trim() + "'");
+					Output.printError("Error parsing line number for stack swap: '" + cmdInput.substring(1).trim() + "'");
 				}
 
 				// Make sure the numbers are valid
@@ -400,7 +396,7 @@ public class Main {
 				//////////////////////////////////////////////////////////////////
 				// Display an error if the entry matched none of the above
 			} else {
-				Output.printColorln(FColor.RED, "Input : '" + cmdInput + "'");
+				Output.printColorln(Ansi.Color.RED, "Input : '" + cmdInput + "'");
 			}
 
 			// Display DashLine
