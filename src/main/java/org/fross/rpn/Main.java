@@ -242,8 +242,9 @@ public class Main {
 
 				Output.debugPrint("Clearing Stack");
 				calcStack.clear();
-				for (int clearcounter = 0; clearcounter <= 200; clearcounter++)
-					Output.println("");
+				
+				// Rather than printing several hundred new lines, use the JANSI clear screen
+				Output.clearScreen();
 
 				//////////////////////////////////////////////////////////////////
 				// Delete a stack item
