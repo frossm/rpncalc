@@ -22,13 +22,16 @@ On this command line you'll enter numbers and press enter.  These will then be a
 One of the important uses for me is I wanted to be able to save my stacks for future instances of the program.  I also wanted to have a secondary stack that I could toggle in case I wanted to do some work and then toggle back to the primary stack.  Lastly, I wanted to be able to name and save a stack that could be loaded at another time.  All of this is build into the program.
 
 ## Command Line Options
-Currently there are only two command line options, and both are not that necessary in normal use.
+Currently there are only three command line options, and both are not that necessary in normal use.
 
 **-D**
 Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I most just use this to help be debug as I was writing it, but sometimes you want to see what's going on.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode by entering in the command 'debug' while within the program.
 
 **-l name**
 Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  This is the same behavior as using the 'load' command while in the calculator.
+
+**-d**
+Decimal alignment.  When the stack is displayed, the numbers will all align by their decimal places instead of the default right justification.
 
 ## Operands
 The list of operands available will hopefully continue to grow as my needs change (or as I get suggestions from folks.)  At the time of this writing, the following are supported:
