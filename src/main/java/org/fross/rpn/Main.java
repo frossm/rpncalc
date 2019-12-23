@@ -21,6 +21,7 @@ import org.fusesource.jansi.Ansi;
 import gnu.getopt.Getopt;
 import org.fross.library.Debug;
 import org.fross.library.Output;
+import org.fross.library.Format;;
 
 /**
  * Main - Main program execution class
@@ -186,18 +187,18 @@ public class Main {
 				// Configure the alignment based on the -a: option
 				if (displayAlignment == 'd') {
 					// Put in spaces to align the decimals
-					int decimalLocation = Math.Comma(calcStack.get(i)).indexOf(".");
+					int decimalLocation = Format.Comma(calcStack.get(i)).indexOf(".");
 					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation + 1; k++) {
 						Output.print(" ");
 					}
-					sn = Math.Comma(calcStack.get(i));
+					sn = Format.Comma(calcStack.get(i));
 
 				} else if (displayAlignment == 'r') {
 					// Add a few extra digits to maxDigitsBeforeDecimal account for commas
-					sn = String.format("%" + (maxDigitsBeforeDecimal + 5) + "s", Math.Comma(calcStack.get(i)));
+					sn = String.format("%" + (maxDigitsBeforeDecimal + 5) + "s", Format.Comma(calcStack.get(i)));
 
 				} else {
-					sn = Math.Comma(calcStack.get(i));
+					sn = Format.Comma(calcStack.get(i));
 				}
 
 				// Output.printColorln(Ansi.Color.WHITE, Math.Comma(calcStack.get(i)));
@@ -270,7 +271,7 @@ public class Main {
 				for (int j = 0; j <= undoStack.size() - 1; j++) {
 					String sn = String.format("%02d:   ", undoStack.size() - j);
 					Output.printColor(Ansi.Color.CYAN, sn);
-					Output.printColorln(Ansi.Color.CYAN, Math.Comma(undoStack.get(j)));
+					Output.printColorln(Ansi.Color.CYAN, Format.Comma(undoStack.get(j)));
 				}
 
 				//////////////////////////////////////////////////////////////////

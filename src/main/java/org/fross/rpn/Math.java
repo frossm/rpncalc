@@ -12,7 +12,6 @@
  ******************************************************************************/
 package org.fross.rpn;
 
-import java.text.DecimalFormat;
 import java.util.Stack;
 import org.fusesource.jansi.Ansi;
 import org.fross.library.Output;
@@ -26,25 +25,6 @@ import org.fross.library.Output;
  *
  */
 public class Math {
-	/**
-	 * Comma Return a string with comma separators at the correct intervals.
-	 * Supports decimal places and a negative sign.
-	 * 
-	 * @param num - Number in need of commas
-	 * @return
-	 */
-	public static String Comma(Double num) {
-		DecimalFormat df = null;
-
-		try {
-			df = new DecimalFormat("#,###,###.00#######");
-		} catch (Exception Ex) {
-			Output.printColorln(Ansi.Color.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
-		}
-
-		return (String.valueOf(df.format(num)));
-	}
-
 	/**
 	 * Parse Take an operand and a stack and call the right math function.
 	 * 
