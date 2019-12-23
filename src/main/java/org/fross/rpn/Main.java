@@ -34,11 +34,9 @@ public class Main {
 	public static String VERSION;
 	public static final String PROPERTIES_FILE = "rpn.properties";
 
-	
 	/**
-	 * DisplayDashedNameLine(): Display the last line of the header and the
-	 * separator line. This is a separate function given it also inserts the loaded
-	 * stack and spaced everything correctly.
+	 * DisplayDashedNameLine(): Display the last line of the header and the separator line. This is a
+	 * separate function given it also inserts the loaded stack and spaced everything correctly.
 	 */
 	public static void displayDashedNameLine() {
 		int DesiredDashes = 70;
@@ -52,8 +50,7 @@ public class Main {
 		Output.printColor(Ansi.Color.YELLOW, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]");
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
-	
-	
+
 	/**
 	 * Main(): Start of program and holds main command loop
 	 * 
@@ -62,6 +59,7 @@ public class Main {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Console con = null;
+		char displayAlignment = 'l';
 		Stack<Double> calcStack = new Stack<Double>();
 		Stack<Double> calcStack2 = new Stack<Double>();
 		Stack<Double> undoStack = new Stack<Double>();
@@ -88,7 +86,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("rpn", args, "Dl:h?");
+		Getopt optG = new Getopt("rpn", args, "Dl:a:h?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
@@ -97,13 +95,30 @@ public class Main {
 			case 'l':
 				Prefs.SetLoadedStack(String.valueOf(optG.getOptarg()));
 				break;
+			case 'a':
+				if (optG.getOptarg().charAt(0) == 'r') {
+					Output.debugPrint("RIGHT alignment selected");
+					displayAlignment = 'r';
+				} else if (optG.getOptarg().charAt(0) == 'd') {
+					Output.debugPrint("DECIMAL alignment selected");
+					displayAlignment = 'd';
+				} else if (optG.getOptarg().charAt(0) == 'l') {
+					Output.debugPrint("LEFT alignment selected");
+					displayAlignment = 'l';
+				} else {
+					Output.printColorln(Ansi.Color.RED, "ERROR: The -a alignment must be either a 'l', 'r', or 'd'");
+					Help.Display();
+					System.exit(0);
+					break;
+				}
+				break;
 			case '?': // Help
 			case 'h':
 				Help.Display();
 				System.exit(0);
 				break;
 			default:
-				Output.printColorln(Ansi.Color.RED, "Unknown Command Line Option: '" + (char) optionEntry + "'");
+				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown Command Line Option: '" + (char) optionEntry + "'");
 				Help.Display();
 				System.exit(0);
 				break;
@@ -127,10 +142,12 @@ public class Main {
 		Output.debugPrint("\nCommand Line Options");
 		Output.debugPrint("  -D:  " + Debug.query());
 		Output.debugPrint("  -l:  " + Prefs.QueryLoadedStack());
+		Output.debugPrint("  -a:  " + displayAlignment);
 
 		// Pull the existing stacks from the preferences if they exist
 		calcStack = Prefs.RestoreStack("1");
 		calcStack2 = Prefs.RestoreStack("2");
+		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
 		// Populate the undoStack with the contents of the current stack
 		undoStack = (Stack<Double>) calcStack.clone();
@@ -140,20 +157,51 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
 		Output.printColorln(Ansi.Color.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
 		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
+
 		displayDashedNameLine();
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
 			String cmdInput = null;
+			int maxDigitsBeforeDecimal = 0;
+
+			// Loop through the stack and count the max digits before the decimal for use
+			// with the decimal alignment mode
+			for (int k = 0; k < calcStack.size(); k++) {
+				int decimalIndex = calcStack.get(k).toString().indexOf(".");
+				// If current stack item has more digits ahead of decimal make that the max
+				if (maxDigitsBeforeDecimal < decimalIndex) {
+					maxDigitsBeforeDecimal = decimalIndex;
+				}
+			}
+			Output.debugPrint("Max Digits before decimal point: " + maxDigitsBeforeDecimal);
 
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
+
 				// Display Stack Number
-				String sn = String.format("%02d:   ", calcStack.size() - i);
+				String sn = String.format("%02d:  ", calcStack.size() - i);
 				Output.printColor(Ansi.Color.CYAN, sn);
 
-				// Display Stack Value
-				Output.printColorln(Ansi.Color.WHITE, Math.Comma(calcStack.get(i)));
+				// Configure the alignment based on the -a: option
+				if (displayAlignment == 'd') {
+					// Put in spaces to align the decimals
+					int decimalLocation = Math.Comma(calcStack.get(i)).indexOf(".");
+					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation + 1; k++) {
+						Output.print(" ");
+					}
+					sn = Math.Comma(calcStack.get(i));
+
+				} else if (displayAlignment == 'r') {
+					// Add a few extra digits to maxDigitsBeforeDecimal account for commas
+					sn = String.format("%" + (maxDigitsBeforeDecimal + 5) + "s", Math.Comma(calcStack.get(i)));
+
+				} else {
+					sn = Math.Comma(calcStack.get(i));
+				}
+
+				// Output.printColorln(Ansi.Color.WHITE, Math.Comma(calcStack.get(i)));
+				Output.printColorln(Ansi.Color.WHITE, sn);
 			}
 
 			// Input command/number from user
@@ -202,10 +250,17 @@ public class Main {
 
 				//////////////////////////////////////////////////////////////////
 				// Process Exit
-				// Command: x
-			} else if (cmdInput.matches("^[Xx]")) {
+				// Command: x or q
+			} else if (cmdInput.matches("^[Xx]") || cmdInput.matches("^[Qq]")) {
 				Output.debugPrint("Exiting Command Loop");
 				ProcessCommandLoop = false;
+
+				/////////////////////////////////////////////////////////////////
+				// Change display alignment
+				// Command: ar, al, or ad
+			} else if (cmdInput.matches("^[Aa][Rr]") || cmdInput.matches("^[Aa][Ll]") || cmdInput.matches("^[Aa][Dd]")) {
+				Output.debugPrint("Setting display alignment to: " + cmdInput.toLowerCase().charAt(1));
+				displayAlignment = cmdInput.toLowerCase().charAt(1);
 
 				//////////////////////////////////////////////////////////////////
 				// Show Undo Stack
@@ -242,7 +297,7 @@ public class Main {
 
 				Output.debugPrint("Clearing Stack");
 				calcStack.clear();
-				
+
 				// Rather than printing several hundred new lines, use the JANSI clear screen
 				Output.clearScreen();
 

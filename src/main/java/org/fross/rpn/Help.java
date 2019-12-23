@@ -36,6 +36,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l     Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D     Start in debug mode.  Same as using the 'debug' command");
+		Output.printColorln(Ansi.Color.WHITE, " -a     Alignment.  Can be either (l)eft, (r)ight, or (d)ecmimal. Default is left.");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
 		Output.printColorln(Ansi.Color.WHITE, " +      Addition:  Add last two stack elements");
@@ -57,6 +58,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ss        Swap primary stack to secondary.  You can swap them back at a later time");
 		Output.printColorln(Ansi.Color.WHITE, " queryundo Show the current undo stack.  Mostly used for troubleshooting");
 		Output.printColorln(Ansi.Color.WHITE, " load      Load a saved named stack. It will be created if it doesn't exist");
+		Output.printColorln(Ansi.Color.WHITE, " al|ar|ad  Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug     Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver       Display the current version");
 		Output.printColorln(Ansi.Color.WHITE, " h|?       Show this help information.  Either key will work.");
