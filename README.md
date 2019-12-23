@@ -30,8 +30,8 @@ Run program in debug mode.  This will display quite a bit of information on the 
 **-l name**
 Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  This is the same behavior as using the 'load' command while in the calculator.
 
-**-d**
-Decimal alignment.  When the stack is displayed, the numbers will all align by their decimal places instead of the default right justification.
+**-a alignment**
+Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.
 
 ## Operands
 The list of operands available will hopefully continue to grow as my needs change (or as I get suggestions from folks.)  At the time of this writing, the following are supported:
