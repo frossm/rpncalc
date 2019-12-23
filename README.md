@@ -60,6 +60,9 @@ The list of operands available will hopefully continue to grow as my needs chang
 |queryundo|Display the current undo stack.  This is mostly used for troubleshooting.
 |load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
+|al| Align the display output to be (l)eft
+|ar| Align the display output to be (r)ight
+|ad| Align the display output to be (d)ecimal
 |ver| Display the current version number.  Can also be seen in the help screen
 |h or ?|Display the help information
 |x or q |Exit the program.  The primary and secondary stacks will be saved.
