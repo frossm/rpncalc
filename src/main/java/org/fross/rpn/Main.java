@@ -169,8 +169,8 @@ public class Main {
 			// Loop through the stack and count the max digits before the decimal for use
 			// with the decimal alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
-				int decimalIndex = calcStack.get(k).toString().indexOf(".");
-				// If current stack item has more digits ahead of decimal make that the max
+				int decimalIndex = Format.Comma(calcStack.get(k)).indexOf(".");
+				// If current stack item has more digits ahead of decimal make that the max. Commas are included.
 				if (maxDigitsBeforeDecimal < decimalIndex) {
 					maxDigitsBeforeDecimal = decimalIndex;
 				}
@@ -194,8 +194,8 @@ public class Main {
 					sn = Format.Comma(calcStack.get(i));
 
 				} else if (displayAlignment == 'r') {
-					// Add a few extra digits to maxDigitsBeforeDecimal account for commas
-					sn = String.format("%" + (maxDigitsBeforeDecimal + 5) + "s", Format.Comma(calcStack.get(i)));
+					// Add a few extra digits to maxDigitsBeforeDecimal
+					sn = String.format("%" + (maxDigitsBeforeDecimal + 7) + "s", Format.Comma(calcStack.get(i)));
 
 				} else {
 					sn = Format.Comma(calcStack.get(i));
