@@ -421,9 +421,17 @@ public class Main {
 				calcStack.add(java.lang.Math.PI);
 
 				//////////////////////////////////////////////////////////////////
+				// Make the last item on the stand a percent by dividing by 100
+				// Command: %
+			} else if (cmdInput.matches("^\\%")) {
+				Output.debugPrint("Create a percent by dividing by 100");
+				undoStack = (Stack<Double>) calcStack.clone();
+				calcStack.push(calcStack.pop() / 100);
+
+				//////////////////////////////////////////////////////////////////
 				// Operand entered
 				//
-			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^\\%]")) {
+			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^]")) {
 				Output.debugPrint("Saving current stack to undo stack");
 				undoStack = (Stack<Double>) calcStack.clone();
 

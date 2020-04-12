@@ -17,9 +17,8 @@ import org.fusesource.jansi.Ansi;
 import org.fross.library.Output;
 
 /**
- * Math: The math class contains the methods to parse the operands entered and
- * perform the math tasks. It was done strictly so it will be easily to grow the
- * list of functions at a later date.
+ * Math: The math class contains the methods to parse the operands entered and perform the math
+ * tasks. It was done strictly so it will be easily to grow the list of functions at a later date.
  * 
  * @author michael.d.fross
  *
@@ -52,9 +51,6 @@ public class Math {
 		case '^':
 			result = Power(stk);
 			break;
-		case '%':
-			result = Percent(stk);
-			break;
 		default:
 			Output.printColorln(Ansi.Color.RED, "ERROR: Illegal Operand Sent to Math.Parse(): '" + op + "'");
 		}
@@ -77,8 +73,7 @@ public class Math {
 	}
 
 	/**
-	 * Subtract(): Subtract the last item from the previous item on the provided
-	 * stack
+	 * Subtract(): Subtract the last item from the previous item on the provided stack
 	 * 
 	 * @param stk
 	 * @return
@@ -120,8 +115,7 @@ public class Math {
 	}
 
 	/**
-	 * Power(): The second to the last item in the stack to the power of the last
-	 * item
+	 * Power(): The second to the last item in the stack to the power of the last item
 	 * 
 	 * @param stk
 	 * @return
@@ -131,17 +125,6 @@ public class Math {
 		Double base = stk.pop();
 		Output.debugPrint("Base=" + base + "   Power=" + power);
 		stk.push(java.lang.Math.pow(base, power));
-		return stk;
-	}
-
-	/**
-	 * Percent(): Simply multiply the last stack item by 0.01
-	 * 
-	 * @param stk
-	 * @return
-	 */
-	public static Stack<Double> Percent(Stack<Double> stk) {
-		stk.push(stk.pop() * 0.01);
 		return stk;
 	}
 

@@ -5,7 +5,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpn</artifactId>
-	<version>2019.12.24</version>
+	<version>2020.04.12</version>
 	<packaging>jar</packaging>
 
 	<name>rpn</name>
@@ -70,7 +70,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>org.fross.rpn.Main</mainClass>
+									<mainClass>org.fross.${project.name}.Main</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>
