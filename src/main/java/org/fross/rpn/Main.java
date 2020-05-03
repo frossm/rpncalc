@@ -59,11 +59,12 @@ public class Main {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		@SuppressWarnings("rawtypes")
+		Stack<Stack> undoStack = new Stack<Stack>();
 		Console con = null;
 		char displayAlignment = 'l';
 		Stack<Double> calcStack = new Stack<Double>();
 		Stack<Double> calcStack2 = new Stack<Double>();
-		Stack<Double> undoStack = new Stack<Double>();
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
 
@@ -150,9 +151,6 @@ public class Main {
 		calcStack2 = Prefs.RestoreStack("2");
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
-		// Populate the undoStack with the contents of the current stack
-		undoStack = (Stack<Double>) calcStack.clone();
-
 		// Display output header information
 		Output.printColorln(Ansi.Color.CYAN, "+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
@@ -175,7 +173,9 @@ public class Main {
 					maxDigitsBeforeDecimal = decimalIndex;
 				}
 			}
-			Output.debugPrint("Max Digits before decimal point: " + maxDigitsBeforeDecimal);
+
+			// Show number of undo levels when debug is active
+			Output.debugPrint("Number of Undo Levels: " + undoStack.size());
 
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
@@ -210,7 +210,7 @@ public class Main {
 			cmdInput = con.readLine();
 
 			// Toggle Debug Mode
-			if (cmdInput.matches("[Dd][Ee][Bb][Uu][Gg]")) {
+			if (cmdInput.toLowerCase().matches("debug")) {
 				if (Debug.query()) {
 					Debug.disable();
 					Output.printColorln(Ansi.Color.RED, "Debug Disabled");
@@ -222,7 +222,7 @@ public class Main {
 				//////////////////////////////////////////////////////////////////
 				// Load a new stack into the calculator
 				// Command: load
-			} else if (cmdInput.matches("^load .+")) {
+			} else if (cmdInput.toLowerCase().matches("^load .+")) {
 				// Save current Stack
 				Prefs.SaveStack(calcStack, "1");
 				Prefs.SaveStack(calcStack2, "2");
@@ -239,7 +239,7 @@ public class Main {
 				//////////////////////////////////////////////////////////////////
 				// Display program version
 				// Command: ver
-			} else if (cmdInput.matches("^ver.*")) {
+			} else if (cmdInput.toLowerCase().matches("^ver.*")) {
 				Output.printColorln(Ansi.Color.RED, "Version: v" + VERSION);
 
 				//////////////////////////////////////////////////////////////////
@@ -265,14 +265,16 @@ public class Main {
 
 				//////////////////////////////////////////////////////////////////
 				// Show Undo Stack
-				// Command: queryundo
-			} else if (cmdInput.matches("^queryundo")) {
-				Output.printColorln(Ansi.Color.CYAN, "Current undoStack:");
-				for (int j = 0; j <= undoStack.size() - 1; j++) {
-					String sn = String.format("%02d:   ", undoStack.size() - j);
-					Output.printColor(Ansi.Color.CYAN, sn);
-					Output.printColorln(Ansi.Color.CYAN, Format.Comma(undoStack.get(j)));
+				// Command: listundo [#]
+			} else if (cmdInput.matches("^listundo.*")) {
+				Output.printColorln(Ansi.Color.YELLOW, "There are currently " + undoStack.size() + " undo levels available");
+
+				Output.printColorln(Ansi.Color.YELLOW,  "------------------------------------------");
+				for (int j = undoStack.size(); j > 0; j--) {
+					String sn = String.format("%02d:  %s", undoStack.size() - j + 1, undoStack.get(j-1));
+					Output.printColorln(Ansi.Color.YELLOW, sn);
 				}
+				Output.printColorln(Ansi.Color.YELLOW,  "-------------------------------------------");
 
 				//////////////////////////////////////////////////////////////////
 				// Process Undo
@@ -280,21 +282,19 @@ public class Main {
 			} else if (cmdInput.matches("^[Uu]")) {
 				Output.debugPrint("Undoing last command");
 
-				// Backup current stack so we can undo the undo
-				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
-
-				// Replace current stack with the undo stack
-				calcStack = (Stack<Double>) undoStack.clone();
-
-				// Add original stack to the undo stack
-				undoStack = (Stack<Double>) calcStackTemp.clone();
+				if (undoStack.size() >= 1) {
+					// Replace current stack with the last one on the undo stack
+					calcStack = (Stack<Double>) undoStack.pop().clone();
+				} else {
+					Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
+				}
 
 				//////////////////////////////////////////////////////////////////
 				// Clear stack and screen
 				// Command: c
 			} else if (cmdInput.matches("^[Cc]")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Clearing Stack");
 				calcStack.clear();
@@ -310,7 +310,7 @@ public class Main {
 				int lineToDelete = 0;
 
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				// Determine the line number to delete
 				try {
@@ -336,9 +336,9 @@ public class Main {
 				//////////////////////////////////////////////////////////////////
 				// Perform a square root of the last item on the stack
 				// Command: sqrt
-			} else if (cmdInput.matches("^sqrt")) {
+			} else if (cmdInput.toLowerCase().matches("^sqrt")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Taking the square root of the last stack item");
 				Math.SquareRoot(calcStack);
@@ -346,9 +346,9 @@ public class Main {
 				//////////////////////////////////////////////////////////////////
 				// Swap primary and secondary stack
 				// Command: ss
-			} else if (cmdInput.matches("^[Ss][Ss]")) {
+			} else if (cmdInput.toLowerCase().matches("^ss")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Swapping primary and secondary stack");
 				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
@@ -359,12 +359,12 @@ public class Main {
 				//////////////////////////////////////////////////////////////////
 				// Swap two elements on the stack
 				// Command: s
-			} else if (cmdInput.matches("^[Ss].*")) {
+			} else if (cmdInput.toLowerCase().matches("^s.*")) {
 				int item1 = 1;
 				int item2 = 2;
 
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				// Determine the source and destination elements
 				try {
@@ -390,7 +390,7 @@ public class Main {
 				// Command: f
 			} else if (cmdInput.matches("^[Ff]")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Changing sign of last stack element");
 				if (!calcStack.isEmpty())
@@ -401,7 +401,7 @@ public class Main {
 				// Command: copy
 			} else if (cmdInput.matches("^copy")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Copying the item at the top of the stack");
 				if (calcStack.size() >= 1) {
@@ -415,7 +415,7 @@ public class Main {
 				// Command: pi
 			} else if (cmdInput.matches("^pi")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
@@ -425,7 +425,8 @@ public class Main {
 				// Command: %
 			} else if (cmdInput.matches("^\\%")) {
 				Output.debugPrint("Create a percent by dividing by 100");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
+
 				calcStack.push(calcStack.pop() / 100);
 
 				//////////////////////////////////////////////////////////////////
@@ -433,7 +434,7 @@ public class Main {
 				//
 			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^]")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
 				Output.debugPrint("Operand entered: '" + cmdInput.charAt(0) + "'");
@@ -449,7 +450,7 @@ public class Main {
 				//
 			} else if (!cmdInput.isEmpty() && cmdInput.matches("^-?\\d*\\.?\\d*")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("Adding number onto the stack");
 				calcStack.push(Double.valueOf(cmdInput));
@@ -459,7 +460,7 @@ public class Main {
 				//
 			} else if (cmdInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
 				Output.debugPrint("Saving current stack to undo stack");
-				undoStack = (Stack<Double>) calcStack.clone();
+				undoStack.push((Stack<Double>) calcStack.clone());
 
 				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
 				// Verify stack contains at least one element

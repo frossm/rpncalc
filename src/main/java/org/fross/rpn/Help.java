@@ -47,6 +47,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " %      Percent: Turn the last stack item into a percentage (multiplied by 0.01)");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommands:");
+		Output.printColorln(Ansi.Color.WHITE, " listundo  Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " u         Undo.  Replaces current stack with one from before previous operation");
 		Output.printColorln(Ansi.Color.WHITE, " s[#] [#]  Swap the last two elments in the stack or the elements provided");
 		Output.printColorln(Ansi.Color.WHITE, " c         Clear everything from the visible stack");
@@ -56,7 +57,6 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " pi        Insert the value of PI onto the end of the stack");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root on the last stack number\n");
 		Output.printColorln(Ansi.Color.WHITE, " ss        Swap primary stack to secondary.  You can swap them back at a later time");
-		Output.printColorln(Ansi.Color.WHITE, " queryundo Show the current undo stack.  Mostly used for troubleshooting");
 		Output.printColorln(Ansi.Color.WHITE, " load      Load a saved named stack. It will be created if it doesn't exist");
 		Output.printColorln(Ansi.Color.WHITE, " al|ar|ad  Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug     Toggle DEBUG mode on/off");
