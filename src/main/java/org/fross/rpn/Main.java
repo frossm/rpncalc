@@ -35,20 +35,37 @@ public class Main {
 	public static String VERSION;
 	public static final String PROPERTIES_FILE = "rpn.properties";
 
+	// Class Variable
+	@SuppressWarnings("rawtypes")
+	static Stack<Stack> undoStack = new Stack<Stack>();
+
 	/**
 	 * DisplayDashedNameLine(): Display the last line of the header and the separator line. This is a
 	 * separate function given it also inserts the loaded stack and spaced everything correctly.
 	 */
 	public static void displayDashedNameLine() {
-		int DesiredDashes = 70;
+		int dashLineLength = 70;
 
 		// Display the Loaded Stack into Dash line. 70 dashes w/o the name
 		Output.printColor(Ansi.Color.CYAN, "+");
-		int numDashes = DesiredDashes - Prefs.QueryLoadedStack().length() - 4;
+
+		// Determine how many dashes to use after remove space for the undo and stack name
+		int numDashes = dashLineLength - 10 - Prefs.QueryLoadedStack().length() - 4;
+
+		// Print the dashes
 		for (int i = 0; i < numDashes; i++) {
 			Output.printColor(Ansi.Color.CYAN, "-");
 		}
-		Output.printColor(Ansi.Color.YELLOW, "[" + Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum() + "]");
+
+		// Format the undo level to 2 digits. Can't image I'd need over 99 undo levels
+		String sf = String.format("%02d", Main.undoStack.size());
+
+		// Print the Undo header information
+		Output.printColor(Ansi.Color.CYAN, "[");
+		Output.printColor(Ansi.Color.YELLOW, "Undo:" + sf);
+		Output.printColor(Ansi.Color.CYAN, "]-[");
+		Output.printColor(Ansi.Color.YELLOW, Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum());
+		Output.printColor(Ansi.Color.CYAN, "]");
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
 
@@ -59,8 +76,6 @@ public class Main {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		@SuppressWarnings("rawtypes")
-		Stack<Stack> undoStack = new Stack<Stack>();
 		Console con = null;
 		char displayAlignment = 'l';
 		Stack<Double> calcStack = new Stack<Double>();
@@ -174,9 +189,6 @@ public class Main {
 				}
 			}
 
-			// Show number of undo levels when debug is active
-			Output.debugPrint("Number of Undo Levels: " + undoStack.size());
-
 			// Display the current stack
 			for (int i = 0; i <= calcStack.size() - 1; i++) {
 
@@ -257,7 +269,7 @@ public class Main {
 				ProcessCommandLoop = false;
 
 				/////////////////////////////////////////////////////////////////
-				// Change display alignment
+				// Change display alignment.  ar(ight) | al(eft) | ad(ecimal)
 				// Command: ar, al, or ad
 			} else if (cmdInput.matches("^[Aa][Rr]") || cmdInput.matches("^[Aa][Ll]") || cmdInput.matches("^[Aa][Dd]")) {
 				Output.debugPrint("Setting display alignment to: " + cmdInput.toLowerCase().charAt(1));
@@ -267,14 +279,12 @@ public class Main {
 				// Show Undo Stack
 				// Command: listundo [#]
 			} else if (cmdInput.matches("^listundo.*")) {
-				Output.printColorln(Ansi.Color.YELLOW, "There are currently " + undoStack.size() + " undo levels available");
-
-				Output.printColorln(Ansi.Color.YELLOW,  "------------------------------------------");
-				for (int j = undoStack.size(); j > 0; j--) {
-					String sn = String.format("%02d:  %s", undoStack.size() - j + 1, undoStack.get(j-1));
-					Output.printColorln(Ansi.Color.YELLOW, sn);
+				Output.printColorln(Ansi.Color.YELLOW, "-Undo Stack:-------------------------------");
+				for (int j = 0; j < undoStack.size(); j++) {
+					String sn = String.format("%02d:  %s", j + 1, undoStack.get(j));
+					Output.printColorln(Ansi.Color.WHITE, sn);
 				}
-				Output.printColorln(Ansi.Color.YELLOW,  "-------------------------------------------");
+				Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
 
 				//////////////////////////////////////////////////////////////////
 				// Process Undo
