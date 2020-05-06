@@ -38,6 +38,9 @@ public class Main {
 	// Class Variable
 	@SuppressWarnings("rawtypes")
 	static Stack<Stack> undoStack = new Stack<Stack>();
+	static Stack<Double> calcStack = new Stack<Double>();
+	static Stack<Double> calcStack2 = new Stack<Double>();
+	static char displayAlignment = 'l';
 
 	/**
 	 * DisplayDashedNameLine(): Display the last line of the header and the separator line. This is a
@@ -77,11 +80,11 @@ public class Main {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Console con = null;
-		char displayAlignment = 'l';
-		Stack<Double> calcStack = new Stack<Double>();
-		Stack<Double> calcStack2 = new Stack<Double>();
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
+		String cmdInput = "";
+		String cmdInputCmd = "";
+		String cmdInputParam = "";
 
 		// Process application level properties file
 		// Update properties from Maven at build time:
@@ -172,12 +175,12 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, "|           Written by Michael Fross.  All rights reserved             |");
 		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
 
-		displayDashedNameLine();
-
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
-			String cmdInput = null;
 			int maxDigitsBeforeDecimal = 0;
+
+			// Display the dashed status line
+			displayDashedNameLine();
 
 			// Loop through the stack and count the max digits before the decimal for use
 			// with the decimal alignment mode
@@ -190,7 +193,7 @@ public class Main {
 			}
 
 			// Display the current stack
-			for (int i = 0; i <= calcStack.size() - 1; i++) {
+			for (int i = 0; i < calcStack.size(); i++) {
 
 				// Display Stack Number
 				String sn = String.format("%02d:  ", calcStack.size() - i);
@@ -217,294 +220,176 @@ public class Main {
 				Output.printColorln(Ansi.Color.WHITE, sn);
 			}
 
-			// Input command/number from user
+			// Input command from user
 			Output.printColor(Ansi.Color.YELLOW, "\n>>  ");
 			cmdInput = con.readLine();
 
-			// Toggle Debug Mode
-			if (cmdInput.toLowerCase().matches("debug")) {
-				if (Debug.query()) {
-					Debug.disable();
-					Output.printColorln(Ansi.Color.RED, "Debug Disabled");
-				} else {
-					Debug.enable();
-					Output.debugPrint("Debug Enabled");
+			// Break each entered line into a command and parameters
+			try {
+				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
+				cmdInputCmd = ci[0];
+				cmdInputParam = ci[1];
+				Output.debugPrint("Entered: '" + cmdInput + "'  Command: '" + cmdInputCmd + "' Parameter: '" + cmdInputParam + "'");
+
+			} catch (ArrayIndexOutOfBoundsException e) {
+				// Ignore if there is no command or parameter entered
+				Output.debugPrint("Entered: '" + cmdInput + "'  Command: '" + cmdInputCmd + "' Parameter: '" + cmdInputParam + "'");
+				if (cmdInputCmd.isEmpty()) {
+					Output.debugPrint("Blank line entered");
+					continue;
 				}
-
-				//////////////////////////////////////////////////////////////////
-				// Load a new stack into the calculator
-				// Command: load
-			} else if (cmdInput.toLowerCase().matches("^load .+")) {
-				// Save current Stack
-				Prefs.SaveStack(calcStack, "1");
-				Prefs.SaveStack(calcStack2, "2");
-
-				// Set new stack
-				String newStack = cmdInput.toString().substring(5);
-				Output.debugPrint("Loading new stack: '" + newStack + "'");
-				Prefs.SetLoadedStack(newStack);
-
-				// Load new stack
-				calcStack = Prefs.RestoreStack("1");
-				calcStack2 = Prefs.RestoreStack("2");
-
-				//////////////////////////////////////////////////////////////////
-				// Display program version
-				// Command: ver
-			} else if (cmdInput.toLowerCase().matches("^ver.*")) {
-				Output.printColorln(Ansi.Color.RED, "Version: v" + VERSION);
-
-				//////////////////////////////////////////////////////////////////
-				// Display help information
-				// Command: h or ?
-			} else if (cmdInput.matches("^[Hh?]")) {
-				Output.debugPrint("Displaying Help");
-				Help.Display();
-
-				//////////////////////////////////////////////////////////////////
-				// Process Exit
-				// Command: x or q
-			} else if (cmdInput.matches("^[Xx]") || cmdInput.matches("^[Qq]")) {
-				Output.debugPrint("Exiting Command Loop");
-				ProcessCommandLoop = false;
-
-				/////////////////////////////////////////////////////////////////
-				// Change display alignment.  ar(ight) | al(eft) | ad(ecimal)
-				// Command: ar, al, or ad
-			} else if (cmdInput.matches("^[Aa][Rr]") || cmdInput.matches("^[Aa][Ll]") || cmdInput.matches("^[Aa][Dd]")) {
-				Output.debugPrint("Setting display alignment to: " + cmdInput.toLowerCase().charAt(1));
-				displayAlignment = cmdInput.toLowerCase().charAt(1);
-
-				//////////////////////////////////////////////////////////////////
-				// Show Undo Stack
-				// Command: listundo [#]
-			} else if (cmdInput.matches("^listundo.*")) {
-				Output.printColorln(Ansi.Color.YELLOW, "-Undo Stack:-------------------------------");
-				for (int j = 0; j < undoStack.size(); j++) {
-					String sn = String.format("%02d:  %s", j + 1, undoStack.get(j));
-					Output.printColorln(Ansi.Color.WHITE, sn);
-				}
-				Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
-
-				//////////////////////////////////////////////////////////////////
-				// Process Undo
-				// Command: u
-			} else if (cmdInput.matches("^[Uu]")) {
-				Output.debugPrint("Undoing last command");
-
-				if (undoStack.size() >= 1) {
-					// Replace current stack with the last one on the undo stack
-					calcStack = (Stack<Double>) undoStack.pop().clone();
-				} else {
-					Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
-				}
-
-				//////////////////////////////////////////////////////////////////
-				// Clear stack and screen
-				// Command: c
-			} else if (cmdInput.matches("^[Cc]")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Clearing Stack");
-				calcStack.clear();
-
-				// Rather than printing several hundred new lines, use the JANSI clear screen
-				Output.clearScreen();
-
-				//////////////////////////////////////////////////////////////////
-				// Delete a stack item
-				// Command: d
-			} else if (cmdInput.matches("^[Dd].*")) {
-				// Default to deleting the top of the stack
-				int lineToDelete = 0;
-
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				// Determine the line number to delete
-				try {
-					if (cmdInput.substring(1).trim().length() == 0) {
-						lineToDelete = 1;
-					} else {
-						lineToDelete = Integer.parseInt(cmdInput.substring(1).trim());
-					}
-
-					// Ensure the number entered is is valid
-					if (lineToDelete < 1 || lineToDelete > calcStack.size()) {
-						Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineToDelete);
-					} else {
-						Output.debugPrint("Deleting line number: " + lineToDelete);
-						calcStack = StackOps.StackDeleteItem(calcStack, (lineToDelete - 1));
-					}
-
-				} catch (Exception e) {
-					Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + cmdInput.substring(1).trim() + "'");
-					Output.debugPrint(e.getMessage());
-				}
-
-				//////////////////////////////////////////////////////////////////
-				// Perform a square root of the last item on the stack
-				// Command: sqrt
-			} else if (cmdInput.toLowerCase().matches("^sqrt")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Taking the square root of the last stack item");
-				Math.SquareRoot(calcStack);
-
-				//////////////////////////////////////////////////////////////////
-				// Swap primary and secondary stack
-				// Command: ss
-			} else if (cmdInput.toLowerCase().matches("^ss")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Swapping primary and secondary stack");
-				Stack<Double> calcStackTemp = (Stack<Double>) calcStack.clone();
-				calcStack = (Stack<Double>) calcStack2.clone();
-				calcStack2 = (Stack<Double>) calcStackTemp.clone();
-				Prefs.ToggleCurrentStackNum();
-
-				//////////////////////////////////////////////////////////////////
-				// Swap two elements on the stack
-				// Command: s
-			} else if (cmdInput.toLowerCase().matches("^s.*")) {
-				int item1 = 1;
-				int item2 = 2;
-
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				// Determine the source and destination elements
-				try {
-					if (cmdInput.substring(1).trim().length() != 0) {
-						item1 = Integer.parseInt(cmdInput.substring(1).trim().split("\\s")[0]);
-						item2 = Integer.parseInt(cmdInput.substring(1).trim().split("\\s")[1]);
-					}
-				} catch (Exception e) {
-					Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + cmdInput.substring(1).trim() + "'");
-				}
-
-				// Make sure the numbers are valid
-				if (item1 < 1 || item1 > calcStack.size() || item2 < 1 || item2 > calcStack.size()) {
-					Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + calcStack.size());
-				} else {
-					Output.debugPrint("Swapping #" + item1 + " and #" + item2 + " stack items");
-
-					calcStack = StackOps.StackSwapItems(calcStack, (item1 - 1), (item2) - 1);
-				}
-
-				//////////////////////////////////////////////////////////////////
-				// Flip the sign of last stack element
-				// Command: f
-			} else if (cmdInput.matches("^[Ff]")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Changing sign of last stack element");
-				if (!calcStack.isEmpty())
-					calcStack.push(calcStack.pop() * -1);
-
-				//////////////////////////////////////////////////////////////////
-				// Copy the item at the top of the stack
-				// Command: copy
-			} else if (cmdInput.matches("^copy")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Copying the item at the top of the stack");
-				if (calcStack.size() >= 1) {
-					calcStack.add(calcStack.lastElement());
-				} else {
-					Output.printColorln(Ansi.Color.RED, "ERROR: Must be an item in the stack to copy it");
-				}
-
-				//////////////////////////////////////////////////////////////////
-				// Add the value of PI onto the stack
-				// Command: pi
-			} else if (cmdInput.matches("^pi")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Adding PI to the end of the stack");
-				calcStack.add(java.lang.Math.PI);
-
-				//////////////////////////////////////////////////////////////////
-				// Make the last item on the stand a percent by dividing by 100
-				// Command: %
-			} else if (cmdInput.matches("^\\%")) {
-				Output.debugPrint("Create a percent by dividing by 100");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				calcStack.push(calcStack.pop() / 100);
-
-				//////////////////////////////////////////////////////////////////
-				// Operand entered
-				//
-			} else if (cmdInput.matches("[\\*\\+\\-\\/\\^]")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
-				Output.debugPrint("Operand entered: '" + cmdInput.charAt(0) + "'");
-				// Verify stack contains at least two elements
-				if (calcStack.size() >= 2) {
-					calcStack = Math.Parse(cmdInput.charAt(0), calcStack);
-				} else {
-					Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
-				}
-
-				//////////////////////////////////////////////////////////////////
-				// Number entered, add to stack. Blank line will trigger so skip if !blank
-				//
-			} else if (!cmdInput.isEmpty() && cmdInput.matches("^-?\\d*\\.?\\d*")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("Adding number onto the stack");
-				calcStack.push(Double.valueOf(cmdInput));
-
-				//////////////////////////////////////////////////////////////////
-				// Handle numbers with a single operand at the end (a NumOp)
-				//
-			} else if (cmdInput.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
-				Output.debugPrint("Saving current stack to undo stack");
-				undoStack.push((Stack<Double>) calcStack.clone());
-
-				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
-				// Verify stack contains at least one element
-				if (calcStack.size() >= 1) {
-					char TempOp = cmdInput.charAt(cmdInput.length() - 1);
-					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
-					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
-					calcStack.push(Double.valueOf(TempNum));
-					calcStack = Math.Parse(TempOp, calcStack);
-				} else {
-					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
-				}
-
-				//////////////////////////////////////////////////////////////////
-				// A blank line is OK, just do nothing
-				//
-			} else if (cmdInput.matches("")) {
-				Output.debugPrint("Blank line entered");
-
-				//////////////////////////////////////////////////////////////////
-				// Display an error if the entry matched none of the above
-			} else {
-				Output.printColorln(Ansi.Color.RED, "Input : '" + cmdInput + "'");
 			}
 
-			// Display DashLine
-			displayDashedNameLine();
+			// Main switch to process user input into functions
+			switch (cmdInputCmd) {
 
-		}
+			// Debug Toggle
+			case "debug":
+				StackOps.cmdDebug();
+				break;
+
+			// Version
+			case "ver":
+				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
+				break;
+
+			// Load
+			case "load":
+				StackOps.cmdLoad(cmdInputParam);
+				break;
+
+			// Exit
+			case "x":
+			case "exit":
+				Output.debugPrint("Exiting Command Loop");
+				ProcessCommandLoop = false;
+				break;
+
+			// Display Alignment
+			case "a":
+				StackOps.cmdAlign(cmdInputParam.charAt(0));
+				break;
+
+			// ListUndo
+			case "listundo":
+				StackOps.cmdListUndo(undoStack);
+				break;
+
+			// Undo
+			case "u":
+				StackOps.cmdUndo();
+				break;
+
+			// Clear Screen and Stack
+			case "c":
+				StackOps.cmdClear();
+				break;
+
+			// Delete
+			case "d":
+				// If Param is empty, assume delete top of stack item
+				if (cmdInputParam.isEmpty())
+					StackOps.cmdDelete(1);
+				else
+					StackOps.cmdDelete(Integer.parseInt(cmdInputParam));
+				break;
+
+			// Square Root
+			case "sqrt":
+				StackOps.cmdSqrt();
+				break;
+
+			// Swap Stack
+			case "ss":
+				StackOps.cmdSwapStack();
+				break;
+
+			// Swap Elements in a stack
+			case "s":
+				StackOps.cmdSwapElements(cmdInputCmd);
+				break;
+
+			// Flip Sign
+			case "f":
+				StackOps.cmdFlipSign();
+				break;
+
+			// Copy Item
+			case "copy":
+				StackOps.cmdCopy();
+				break;
+
+			// Add PI
+			case "pi":
+				undoStack.push((Stack<Double>) calcStack.clone());
+				Output.debugPrint("Adding PI to the end of the stack");
+				calcStack.add(java.lang.Math.PI);
+				break;
+
+			// Percent
+			case "%":
+				Output.debugPrint("Create a percent by dividing by 100");
+				undoStack.push((Stack<Double>) calcStack.clone());
+				calcStack.push(calcStack.pop() / 100);
+				break;
+
+			// Operand
+			case "+":
+			case "-":
+			case "*":
+			case "/":
+			case "^":
+				StackOps.cmdOperand(cmdInputCmd);
+				break;
+
+			case "h":
+			case "?":
+				Help.Display();
+				break;
+
+			default:
+				// Number entered, add to stack.
+				if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
+					// Save to Undo stack
+					undoStack.push((Stack<Double>) calcStack.clone());
+
+					Output.debugPrint("Adding number onto the stack");
+					calcStack.push(Double.valueOf(cmdInput));
+
+					// Handle numbers with a single operand at the end (a NumOp)
+				} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
+					// Save to Undo stack
+					undoStack.push((Stack<Double>) calcStack.clone());
+
+					Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
+					// Verify stack contains at least one element
+					if (calcStack.size() >= 1) {
+						String TempOp = cmdInputCmd.substring(cmdInputCmd.length()-1, cmdInputCmd.length());
+						String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
+						Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
+						Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
+						calcStack.push(Double.valueOf(TempNum));
+						calcStack = Math.Parse(TempOp, calcStack);
+					} else {
+						Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
+					}
+
+				} else {
+					Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
+				}
+				break;
+			}
+			
+			// Clear input parameters before we start again
+			cmdInputCmd = "";
+			cmdInputParam = "";
+
+		} // End While Loop
 
 		// Save the primary and secondary stacks
 		Prefs.SaveStack(calcStack, "1");
 		Prefs.SaveStack(calcStack2, "2");
-	}
 
-} // End Program
+	} // End Main
+
+} // End Class

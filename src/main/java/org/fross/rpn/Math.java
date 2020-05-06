@@ -31,28 +31,28 @@ public class Math {
 	 * @param stk - Stack containing the list of Doubles to process
 	 * @return
 	 */
-	public static Stack<Double> Parse(char op, Stack<Double> stk) {
+	public static Stack<Double> Parse(String op, Stack<Double> stk) {
 		Stack<Double> result = new Stack<Double>();
 
 		// Addition
 		switch (op) {
-		case '+':
+		case "+":
 			result = Add(stk);
 			break;
-		case '-':
+		case "-":
 			result = Subtract(stk);
 			break;
-		case '*':
+		case "*":
 			result = Multiply(stk);
 			break;
-		case '/':
+		case "/":
 			result = Divide(stk);
 			break;
-		case '^':
+		case "^":
 			result = Power(stk);
 			break;
 		default:
-			Output.printColorln(Ansi.Color.RED, "ERROR: Illegal Operand Sent to Math.Parse(): '" + op + "'");
+			Output.printColorln(Ansi.Color.RED, "ERROR:  Illegal Operand Sent to Math.Parse(): '" + op + "'");
 		}
 
 		return result;

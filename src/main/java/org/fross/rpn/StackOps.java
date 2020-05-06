@@ -13,7 +13,10 @@
 package org.fross.rpn;
 
 import java.util.Stack;
+
+import org.fross.library.Debug;
 import org.fross.library.Output;
+import org.fusesource.jansi.Ansi;
 
 public class StackOps {
 
@@ -59,8 +62,8 @@ public class StackOps {
 	/**
 	 * StackSwapItems(): Swap two elements in the stack
 	 * 
-	 * Approach: Empty the stack into an array. Replace the existing values with the
-	 * swapped values. Then recreate the stack.
+	 * Approach: Empty the stack into an array. Replace the existing values with the swapped values.
+	 * Then recreate the stack.
 	 * 
 	 * @param stk
 	 * @param item1
@@ -96,6 +99,240 @@ public class StackOps {
 		}
 
 		return (stk);
+	}
+
+	/**
+	 * cmdDebug(): Toggle debug setting
+	 * 
+	 */
+	public static void cmdDebug() {
+		if (Debug.query()) {
+			Debug.disable();
+			Output.printColorln(Ansi.Color.RED, "Debug Disabled");
+		} else {
+			Debug.enable();
+			Output.debugPrint("Debug Enabled");
+		}
+	}
+
+	/**
+	 * cmdLoad(stackToLoad): Load the named stack after saving current stack to prefs
+	 * 
+	 * @param stackToLoad
+	 */
+	public static void cmdLoad(String stackToLoad) {
+		// Save current Stack
+		Prefs.SaveStack(Main.calcStack, "1");
+		Prefs.SaveStack(Main.calcStack2, "2");
+
+		// Set new stack
+		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
+		Prefs.SetLoadedStack(stackToLoad);
+
+		// Load new stack
+		Main.calcStack = Prefs.RestoreStack("1");
+		Main.calcStack2 = Prefs.RestoreStack("2");
+	}
+
+	/**
+	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
+	 * 
+	 * @param al
+	 */
+	public static void cmdAlign(char al) {
+		Output.debugPrint("Setting display alignment to: " + al);
+		Main.displayAlignment = al;
+	}
+
+	/**
+	 * cmdListUndo(StackToDisplay): Display the current undo stack
+	 * 
+	 * @param undoStk
+	 */
+	@SuppressWarnings("rawtypes")
+	public static void cmdListUndo(Stack<Stack> undoStk) {
+		Output.printColorln(Ansi.Color.YELLOW, "-Undo Stack:-------------------------------");
+		for (int i = 0; i < undoStk.size(); i++) {
+			String sn = String.format("%02d:  %s", i + 1, undoStk.get(i));
+			Output.printColorln(Ansi.Color.CYAN, sn);
+		}
+		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
+	}
+
+	/**
+	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdUndo() {
+		Output.debugPrint("Undoing last command");
+
+		if (Main.undoStack.size() >= 1) {
+			// Replace current stack with the last one on the undo stack
+			Main.calcStack = (Stack<Double>) Main.undoStack.pop().clone();
+		} else {
+			Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
+		}
+	}
+
+	/**
+	 * cmdClear(): Clear the current stack and the screen
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdClear() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Clearing Stack");
+		Main.calcStack.clear();
+
+		// Rather than printing several hundred new lines, use the JANSI clear screen
+		Output.clearScreen();
+	}
+
+	/**
+	 * cmdDelete(): Delete the provided item from the stack
+	 * 
+	 * @param item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdDelete(int lineToDelete) {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Determine the line number to delete
+		Output.debugPrint("Line to Delete: " + lineToDelete);
+		try {
+			// Ensure the number entered is is valid
+			if (lineToDelete < 1 || lineToDelete > Main.calcStack.size()) {
+				Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineToDelete);
+			} else {
+				Output.debugPrint("Deleting line number: " + lineToDelete);
+				Main.calcStack = StackOps.StackDeleteItem(Main.calcStack, (lineToDelete - 1));
+			}
+
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + lineToDelete + "'");
+			Output.debugPrint(e.getMessage());
+		}
+	}
+
+	/**
+	 * cmdSqrt(): Take the square root of the number at the top of the stack
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdSqrt() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Taking the square root of the last stack item");
+		Math.SquareRoot(Main.calcStack);
+	}
+
+	/**
+	 * cmdSwapStack(): Swap the primary and secondary stacks
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdSwapStack() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Swapping primary and secondary stack");
+		Stack<Double> calcStackTemp = (Stack<Double>) Main.calcStack.clone();
+		Main.calcStack = (Stack<Double>) Main.calcStack2.clone();
+		Main.calcStack2 = (Stack<Double>) calcStackTemp.clone();
+		Prefs.ToggleCurrentStackNum();
+	}
+
+	/**
+	 * cmdSwapElements(): Swap the provided elements within the stack
+	 * 
+	 * @param param
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdSwapElements(String param) {
+		// Default is to swap last two stack items
+		int item1 = 1;
+		int item2 = 2;
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Determine the source and destination elements
+		try {
+			if (!param.isEmpty()) {
+				item1 = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
+				item2 = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
+			}
+			
+		} catch (NumberFormatException e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + item1 + "' and '" + item2 + "'");
+			return;
+
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "Error:\n" + e.getMessage());
+		}
+
+		// Make sure the numbers are valid
+		if (item1 < 1 || item1 > Main.calcStack.size() || item2 < 1 || item2 > Main.calcStack.size()) {
+			Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + Main.calcStack.size());
+		} else {
+			Output.debugPrint("Swapping #" + item1 + " and #" + item2 + " stack items");
+
+			Main.calcStack = StackOps.StackSwapItems(Main.calcStack, (item1 - 1), (item2) - 1);
+		}
+	}
+
+	/**
+	 * cmdFlipSign(): Change the sign of the last element in the stack
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdFlipSign() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Changing sign of last stack element");
+		if (!Main.calcStack.isEmpty())
+			Main.calcStack.push(Main.calcStack.pop() * -1);
+	}
+
+	/**
+	 * cmdCopy(): Copy the item at the top of the stack
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdCopy() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Copying the item at the top of the stack");
+		if (Main.calcStack.size() >= 1) {
+			Main.calcStack.add(Main.calcStack.lastElement());
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be an item in the stack to copy it");
+		}
+	}
+
+	/**
+	 * cmdOperand(): An operand was entered such as + or -
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdOperand(String Op) {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("CalcStack has " + Main.calcStack.size() + " elements");
+		Output.debugPrint("Operand entered: '" + Op + "'");
+		// Verify stack contains at least two elements
+		if (Main.calcStack.size() >= 2) {
+			Main.calcStack = Math.Parse(Op, Main.calcStack);
+		} else {
+			Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
+		}
+
 	}
 
 }
