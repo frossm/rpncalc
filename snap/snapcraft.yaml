@@ -1,0 +1,30 @@
+name: frpn
+version: '2020.05.03'
+summary: Command line reverse Polish notation (RPN) calculator
+description: |
+  RPN is a command line reverse Polish notation calculator.  There are
+  quite a few features and I keep adding more functions as time goes on
+  and I need them.  Please let me konw if you have suggestions.
+
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict  # use 'strict' once you have the right plugs and slots
+base: core18
+
+apps:
+  frpn:
+    command: bin/java -jar $SNAP/jar/rpn.jar
+
+parts:
+  library:
+    plugin: maven
+    source: https://github.com/frossm/library.git
+    source-tag: master
+    source-type: git
+    maven-options: [install]
+
+  cal:
+    plugin: maven
+    source: https://github.com/frossm/rpn.git
+    source-tag: master
+    source-type: git
+    after: [library]
