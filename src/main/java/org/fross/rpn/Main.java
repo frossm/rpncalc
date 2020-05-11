@@ -12,10 +12,10 @@
  ******************************************************************************/
 package org.fross.rpn;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.Stack;
 import org.fusesource.jansi.Ansi;
 import gnu.getopt.Getopt;
@@ -79,7 +79,7 @@ public class Main {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		Console con = null;
+		Scanner scanner = new Scanner(System.in);
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
 		String cmdInput = "";
@@ -96,13 +96,6 @@ public class Main {
 			VERSION = prop.getProperty("Application.version");
 		} catch (IOException ex) {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
-		}
-
-		// Initialize the console used for command input
-		con = System.console();
-		if (con == null) {
-			Output.printColorln(Ansi.Color.RED, "FATAL :  Could not initialize OS Console for data input");
-			System.exit(1);
 		}
 
 		// Process Command Line Options and set flags where needed
@@ -222,7 +215,7 @@ public class Main {
 
 			// Input command from user
 			Output.printColor(Ansi.Color.YELLOW, "\n>>  ");
-			cmdInput = con.readLine();
+			cmdInput = scanner.nextLine();
 
 			// Break each entered line into a command and parameters
 			try {
@@ -306,7 +299,7 @@ public class Main {
 
 			// Swap Elements in a stack
 			case "s":
-				StackOps.cmdSwapElements(cmdInputCmd);
+				StackOps.cmdSwapElements(cmdInputParam);
 				break;
 
 			// Flip Sign
@@ -385,6 +378,9 @@ public class Main {
 			cmdInputParam = "";
 
 		} // End While Loop
+		
+		// Close the scanner
+		scanner.close();
 
 		// Save the primary and secondary stacks
 		Prefs.SaveStack(calcStack, "1");
