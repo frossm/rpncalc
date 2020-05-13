@@ -12,7 +12,7 @@ base: core18
 
 apps:
   frpn:
-    command: bin/java -jar $SNAP/jar/rpn.jar
+    command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/rpn.jar
 
 parts:
   library:
@@ -22,7 +22,7 @@ parts:
     source-type: git
     maven-options: [install]
 
-  cal:
+  frpn:
     plugin: maven
     source: https://github.com/frossm/rpn.git
     source-tag: master
