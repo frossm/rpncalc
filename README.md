@@ -58,6 +58,8 @@ The list of operands available will hopefully continue to grow as my needs chang
 |pi| Insert the value of PI onto the stack
 |sqrt|Perform a square root of the last item in the stack
 |ss|Swap the current stack with the secondary.  SS will swap them back again
+|rand [l] [h]|Generate a random number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.
+|dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6.
 |load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
 |a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)

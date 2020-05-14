@@ -13,7 +13,6 @@
 package org.fross.rpn;
 
 import java.util.Stack;
-
 import org.fross.library.Debug;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -246,6 +245,80 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdRandom(): Produce a random number between the Low and High values provided. If there are no
+	 * parameters, produce the number between 0 and 1.
+	 * 
+	 * @param param
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdRandom(String param) {
+		int low = 1;
+		int high = 100;
+		int randomNumber = 0;
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Parse out the low and high numbers
+		try {
+			if (!param.isEmpty()) {
+				low = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
+				high = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
+			}
+		} catch (NumberFormatException e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
+			return;
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "Error:\n" + e.getMessage());
+		}
+
+		// Display Debug Output
+		Output.debugPrint("Generating Random number between " + low + " and " + high);
+
+		// Generate the random number. Rand function will generate 0-9 for random(10)
+		// so add 1 to the high so we include the high number in the results
+		randomNumber = new java.util.Random().nextInt((high + 1) - low) + low;
+
+		// Add result to the calculator stack
+		Main.calcStack.push((double) randomNumber);
+	}
+
+	/**
+	 * cmdDice(XdY): Roll a Y sided die X times and add the result to the stack.
+	 * 
+	 * @param param
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdDice(String param) {
+		int die = 6;
+		int rolls = 1;
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Parse out the die sides and rolls
+		try {
+			if (!param.isEmpty()) {
+				rolls = Integer.parseInt(param.substring(0).trim().split("[Dd]")[0]);
+				die = Integer.parseInt(param.substring(0).trim().split("[Dd]")[1]);
+			}
+		} catch (NumberFormatException e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing die and rolls.  Rolls: '" + rolls + "' Die: '" + die + "'");
+			return;
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "Error:\n" + e.getMessage());
+		}
+
+		// Display Debug Output
+		Output.debugPrint("Rolls: '" + rolls + "' Die: '" + die + "'");
+
+		for (int i = 0; i < rolls; i++) {
+			Main.calcStack.push((double) new java.util.Random().nextInt(die) + 1);
+		}
+
+	}
+
+	/**
 	 * cmdSwapElements(): Swap the provided elements within the stack
 	 * 
 	 * @param param
@@ -265,7 +338,7 @@ public class StackOps {
 				item1 = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
 				item2 = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
 			}
-			
+
 		} catch (NumberFormatException e) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + item1 + "' and '" + item2 + "'");
 			return;

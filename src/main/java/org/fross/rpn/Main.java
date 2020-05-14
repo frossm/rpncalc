@@ -243,6 +243,7 @@ public class Main {
 
 			// Version
 			case "ver":
+			case "version":
 				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
 				break;
 
@@ -297,6 +298,17 @@ public class Main {
 				StackOps.cmdSwapStack();
 				break;
 
+			// Random Number Generation
+			case "rand":
+			case "random":
+				StackOps.cmdRandom(cmdInputParam);
+				break;
+
+			// Dice
+			case "dice":
+				StackOps.cmdDice(cmdInputParam);
+				break;
+
 			// Swap Elements in a stack
 			case "s":
 				StackOps.cmdSwapElements(cmdInputParam);
@@ -337,6 +349,7 @@ public class Main {
 
 			case "h":
 			case "?":
+			case "help":
 				Help.Display();
 				break;
 
@@ -357,7 +370,7 @@ public class Main {
 					Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
 					// Verify stack contains at least one element
 					if (calcStack.size() >= 1) {
-						String TempOp = cmdInputCmd.substring(cmdInputCmd.length()-1, cmdInputCmd.length());
+						String TempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
 						String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
 						Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
 						Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
@@ -372,13 +385,13 @@ public class Main {
 				}
 				break;
 			}
-			
+
 			// Clear input parameters before we start again
 			cmdInputCmd = "";
 			cmdInputParam = "";
 
 		} // End While Loop
-		
+
 		// Close the scanner
 		scanner.close();
 
