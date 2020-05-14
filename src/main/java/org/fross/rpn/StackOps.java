@@ -274,6 +274,12 @@ public class StackOps {
 
 		// Display Debug Output
 		Output.debugPrint("Generating Random number between " + low + " and " + high);
+		
+		// Verify that the low number <= the high number
+		if (low > high) {
+			Output.printColorln(Ansi.Color.RED, "Error: the first number much be less than or equal to the high number");
+			return;
+		}
 
 		// Generate the random number. Rand function will generate 0-9 for random(10)
 		// so add 1 to the high so we include the high number in the results
@@ -311,7 +317,17 @@ public class StackOps {
 
 		// Display Debug Output
 		Output.debugPrint("Rolls: '" + rolls + "' Die: '" + die + "'");
+		
+		// Verify that the entered numbers are valid
+		if (die <= 0) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: die must have greater than zero sides");
+			return;
+		} else if (rolls < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: You have to specify at least 1 roll");
+			return;
+		}
 
+		// Roll them bones
 		for (int i = 0; i < rolls; i++) {
 			Main.calcStack.push((double) new java.util.Random().nextInt(die) + 1);
 		}
@@ -344,7 +360,7 @@ public class StackOps {
 			return;
 
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "Error:\n" + e.getMessage());
+			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
 		}
 
 		// Make sure the numbers are valid
