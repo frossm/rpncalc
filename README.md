@@ -2,13 +2,13 @@
 *Document Version 2.0*
 
 ## INTRODUCTION ##
-When I studied engineering in college I used a Reverse Polish Notation calculator extensively.  It was easy to do complex calculations, and just made sense to me.  Over the years I've used various rpn calculators on my computer, but most were complex or had a GUI that actually made it more difficult to use.
+When I studied engineering in college I used a Reverse Polish Notation calculator extensively.  An RPN calculator It was easy to do complex calculations, and just made sense to me.  Over the years I've used various rpn calculators on my computer, but most were complex or had a GUI that actually made it more difficult to use.
 
-Therefore, I decided to write a simple command line rpn calculator.  It was easy to write, easily extensible, and since it's in Java, should run wherever I need it to run.
+Therefore, I decided to write a simple command line RPN calculator.  It was easy to write, easily extensible, and since it's in Java, should run wherever I need it to run.
 
-One warning is that I am not trying to replicate all of the functions of a real calculator.  It just does basic math functions and that's all I need it for.  No bitwise, no trig, etc.
+One point is that I am not trying to replicate all of the functions of a real calculator.  There is currently no trig functions, no binary, radians, etc.  But it does basic math functions and that's all I need it for.
 
-If you have not heard of an rpn calculator, or just enjoying reading about various calculator notations, here is a link to the [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
+If you have not heard of an RPN calculator, or just enjoying reading about various calculator notations, here is a link to the [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
 
 To execute a Java jar file, you need to have a Java Run-time Environment,ent (JRE) installed and java.exe must be in your path. 
 
@@ -48,7 +48,8 @@ The list of operands available will hopefully continue to grow as my needs chang
 ## Commands
 |Command|Description  |
 |-------|-------------|
-|u |Undo last operation.  You can only undo the last option and undo will undo your undo :)
+|listundo|Show the current undo stack
+|u |Undo last operation
 |f |Flip the sign on the last stack item
 |c |Clear the current stack
 |d [#] |Delete the last item in the stack or, optionally, the line number provided
@@ -60,9 +61,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |queryundo|Display the current undo stack.  This is mostly used for troubleshooting.
 |load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
-|al| Align the display output to be (l)eft
-|ar| Align the display output to be (r)ight
-|ad| Align the display output to be (d)ecimal
+|a [l D R]| Align the display output to be l(eft), d(ecimal), or r(ight)
 |ver| Display the current version number.  Can also be seen in the help screen
 |h or ?|Display the help information
 |x or q |Exit the program.  The primary and secondary stacks will be saved.
