@@ -26,8 +26,8 @@ import org.fusesource.jansi.Ansi;
 import org.fross.library.Output;
 
 /**
- * Prefs: Holds the logic and calls to the java preferences system. Used to save
- * and restore the stacks between sessions.
+ * Prefs: Holds the logic and calls to the java preferences system. Used to save and restore the
+ * stacks between sessions.
  * 
  * @author michael.d.fross
  *
@@ -53,9 +53,8 @@ public class Prefs {
 	}
 
 	/**
-	 * QueryLoadedStack(): Returns the name of the current stack that is in use The
-	 * loaded stack name is important for saving and restoring data from the prefs
-	 * system
+	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is
+	 * important for saving and restoring data from the prefs system
 	 * 
 	 * @return
 	 */
@@ -154,8 +153,8 @@ public class Prefs {
 	}
 
 	/**
-	 * RestoreStack(): Read the stack, as designated by the stack slot (1 or 2) from
-	 * the preferences system
+	 * RestoreStack(): Read the stack, as designated by the stack slot (1 or 2) from the preferences
+	 * system
 	 * 
 	 * @param stackSlot - The slot (default, 1, or 2) to pull from.
 	 * @return

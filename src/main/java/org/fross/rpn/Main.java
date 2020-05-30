@@ -52,7 +52,8 @@ public class Main {
 		// Display the Loaded Stack into Dash line. 70 dashes w/o the name
 		Output.printColor(Ansi.Color.CYAN, "+");
 
-		// Determine how many dashes to use after remove space for the undo and stack name
+		// Determine how many dashes to use after remove space for the undo and stack
+		// name
 		int numDashes = dashLineLength - 10 - Prefs.QueryLoadedStack().length() - 4;
 
 		// Print the dashes
@@ -179,7 +180,8 @@ public class Main {
 			// with the decimal alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
 				int decimalIndex = Format.Comma(calcStack.get(k)).indexOf(".");
-				// If current stack item has more digits ahead of decimal make that the max. Commas are included.
+				// If current stack item has more digits ahead of decimal make that the max.
+				// Commas are included.
 				if (maxDigitsBeforeDecimal < decimalIndex) {
 					maxDigitsBeforeDecimal = decimalIndex;
 				}
@@ -304,6 +306,12 @@ public class Main {
 				StackOps.cmdRandom(cmdInputParam);
 				break;
 
+			// Fraction
+			case "frac":
+			case "fraction":
+				StackOps.cmdFraction(cmdInputParam);
+				break;
+
 			// Dice
 			case "dice":
 				StackOps.cmdDice(cmdInputParam);
@@ -354,8 +362,34 @@ public class Main {
 				break;
 
 			default:
-				// Number entered, add to stack.
-				if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
+				// Check for a fraction. If number entered contains a '/' but it's not at the
+				// end, then it must be a fraction.
+				if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
+					long fracInteger = 0;
+					double fracDecimalEquiv = 0.0;
+
+					// If there wasn't an integer entered, move the fraction to the parameter
+					// variable
+					if (cmdInputCmd.contains("/")) {
+						cmdInputParam = cmdInputCmd;
+					} else {
+						fracInteger = Long.parseLong(cmdInputCmd);
+					}
+
+					double fracTop = Double.parseDouble(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
+					double fracBottom = Double.parseDouble(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
+
+					// Divide the fraction and get a decimal equivalent
+					fracDecimalEquiv = fracTop / fracBottom;
+
+					// Simply convert the fraction to a decimal and add it to the stack
+					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
+
+					// Add the decimal number to the stack and continue with next command
+					calcStack.add(fracInteger + fracDecimalEquiv);
+
+					// Number entered, add to stack.
+				} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
 					// Save to Undo stack
 					undoStack.push((Stack<Double>) calcStack.clone());
 

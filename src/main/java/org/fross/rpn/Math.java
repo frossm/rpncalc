@@ -139,4 +139,22 @@ public class Math {
 		return stk;
 	}
 
-}
+	/**
+	 * GreatestCommonDivisor(): Return the largest common number divisible into both numbers. Used in
+	 * rpn for fraction reduction.
+	 * 
+	 * https://www.baeldung.com/java-greatest-common-divisor
+	 * 
+	 * @param n1
+	 * @param n2
+	 * @return
+	 */
+	public static long GreatestCommonDivisor(long n1, long n2) {
+		// Output.debugPrint("Finding Greatest Common Divisor between: '" + n1 + "' and '" + n2 + "'");
+		if (n2 == 0) {
+			return n1;
+		}
+		return GreatestCommonDivisor(n2, n1 % n2);
+	}
+
+} // END MATH CLASS

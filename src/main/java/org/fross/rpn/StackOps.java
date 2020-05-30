@@ -18,6 +18,8 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class StackOps {
+	// Class Constants
+	public static final int MAX_DENOMINATOR = 64; // Smallest Fraction Denominator
 
 	/**
 	 * StackDeleteItem(): Delete a stack element
@@ -134,6 +136,21 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdClear(): Clear the current stack and the screen
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdClear() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Clearing Stack");
+		Main.calcStack.clear();
+
+		// Rather than printing several hundred new lines, use the JANSI clear screen
+		Output.clearScreen();
+	}
+
+	/**
 	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
 	 * 
 	 * @param al
@@ -174,21 +191,6 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdClear(): Clear the current stack and the screen
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdClear() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
-		Output.debugPrint("Clearing Stack");
-		Main.calcStack.clear();
-
-		// Rather than printing several hundred new lines, use the JANSI clear screen
-		Output.clearScreen();
-	}
-
-	/**
 	 * cmdDelete(): Delete the provided item from the stack
 	 * 
 	 * @param item
@@ -221,6 +223,12 @@ public class StackOps {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void cmdSqrt() {
+		// Verify we have an item on the stack
+		if (Main.calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
@@ -274,7 +282,7 @@ public class StackOps {
 
 		// Display Debug Output
 		Output.debugPrint("Generating Random number between " + low + " and " + high);
-		
+
 		// Verify that the low number <= the high number
 		if (low > high) {
 			Output.printColorln(Ansi.Color.RED, "Error: the first number much be less than or equal to the high number");
@@ -287,6 +295,50 @@ public class StackOps {
 
 		// Add result to the calculator stack
 		Main.calcStack.push((double) randomNumber);
+	}
+
+	/**
+	 * cmdFraction(): Display the last stack item as a fraction with a minimum base of the provided
+	 * number. For example, sending 64 would produce a fraction of 1/64th but will be reduced if
+	 * possible.
+	 * 
+	 * @param param
+	 */
+	public static void cmdFraction(String param) {
+		// Make sure the stack is not empty
+		// Verify we have an item on the stack
+		if (Main.calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// The base to convert the fraction to. For example, 64 = 1/64th
+		int denominator = MAX_DENOMINATOR;
+
+		// If no denominator is provided, use it instead of the default
+		if (!param.isEmpty())
+			denominator = Integer.parseInt(param);
+
+		// Determine the integer portion of the number
+		int integerPart = (int) java.lang.Math.floor(Main.calcStack.peek());
+
+		// Determine the fractional portion as an double
+		double decimalPart = Main.calcStack.peek() - integerPart;
+
+		// Convert to a fraction with provided base
+		long numerator = java.lang.Math.round(decimalPart * denominator);
+
+		// Get the Greatest Common Divisor so we can simply the fraction
+		long gcd = Math.GreatestCommonDivisor(numerator, denominator);
+
+		Output.debugPrint("Greatest Common Divisor for " + numerator + " and " + denominator + " is " + gcd);
+
+		// Simply the fraction
+		numerator /= gcd;
+		denominator /= gcd;
+
+		// Output the fractional display
+		Output.printColorln(Ansi.Color.YELLOW, Main.calcStack.peek() + " ~= " + integerPart + " " + numerator + "/" + denominator);
 	}
 
 	/**
@@ -317,7 +369,7 @@ public class StackOps {
 
 		// Display Debug Output
 		Output.debugPrint("Rolls: '" + rolls + "' Die: '" + die + "'");
-		
+
 		// Verify that the entered numbers are valid
 		if (die <= 0) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: die must have greater than zero sides");
@@ -424,4 +476,4 @@ public class StackOps {
 
 	}
 
-}
+} // END CLASS

@@ -26,8 +26,7 @@ public class Help {
 	 * Display(): Prints help in color using the JCDP library in the output module.
 	 */
 	public static void Display() {
-		Output.printColorln(Ansi.Color.YELLOW,
-				"\n+----------------------------------------------------------------------+");
+		Output.printColorln(Ansi.Color.YELLOW, "\n+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.WHITE, "+              RPN Calculator v" + Main.VERSION + "  Help Document               +");
 		Output.printColorln(Ansi.Color.YELLOW, "+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.CYAN, "            RPN is a simple reverse polish notation calculator");
@@ -59,6 +58,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
+		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provide base.  Default is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " load         Load or create a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " a [lrd]      Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
