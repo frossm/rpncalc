@@ -33,9 +33,9 @@ public class Help {
 		Output.printColorln(Ansi.Color.CYAN, "                     https://github.com/frossm/rpn");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
-		Output.printColorln(Ansi.Color.WHITE, " -l     Load saved named stack. Create the stack if it does not exist");
-		Output.printColorln(Ansi.Color.WHITE, " -D     Start in debug mode.  Same as using the 'debug' command");
-		Output.printColorln(Ansi.Color.WHITE, " -a     Alignment.  (l)eft, (r)ight, or (d)ecmimal. Default is left");
+		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
+		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
+		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of number stack. (l)eft, (r)ight, or (d)ecmimal. Default is left");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
 		Output.printColorln(Ansi.Color.WHITE, " +      Addition:  Add last two stack elements");
