@@ -3,7 +3,7 @@
  * 
  * A simple console based RPN calculator with an optional persistent stack.
  * 
- *  Written by Michael Fross.  Copyright 2011-2019.  All rights reserved.
+ *  Written by Michael Fross.  Copyright 2011-2020.  All rights reserved.
  *  
  *  License: 
  *  MIT License / https://opensource.org/licenses/MIT
@@ -23,11 +23,13 @@ import org.fross.library.Output;
  */
 public class Help {
 	/**
-	 * Display(): Prints help in color using the JCDP library in the output module.
+	 * Display(): Show help information
 	 */
 	public static void Display() {
 		Output.printColorln(Ansi.Color.YELLOW, "\n+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.WHITE, "+              RPN Calculator v" + Main.VERSION + "  Help Document               +");
+		Output.printColorln(Ansi.Color.WHITE,
+				"+                Copyright " + Main.INCEPTIONYEAR + "-" + org.fross.library.Date.getCurrentYear() + " by Michael Fross                  +");
 		Output.printColorln(Ansi.Color.YELLOW, "+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.CYAN, "            RPN is a simple reverse polish notation calculator");
 		Output.printColorln(Ansi.Color.CYAN, "                     https://github.com/frossm/rpn");
