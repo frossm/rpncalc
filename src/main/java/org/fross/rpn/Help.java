@@ -28,8 +28,7 @@ public class Help {
 	public static void Display() {
 		Output.printColorln(Ansi.Color.YELLOW, "\n+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.WHITE, "+              RPN Calculator v" + Main.VERSION + "  Help Document               +");
-		Output.printColorln(Ansi.Color.WHITE,
-				"+                Copyright " + Main.INCEPTIONYEAR + "-" + org.fross.library.Date.getCurrentYear() + " by Michael Fross                  +");
+		Output.printColorln(Ansi.Color.WHITE, "+      " + Main.COPYRIGHT + "      +");
 		Output.printColorln(Ansi.Color.YELLOW, "+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.CYAN, "            RPN is a simple reverse polish notation calculator");
 		Output.printColorln(Ansi.Color.CYAN, "                     https://github.com/frossm/rpn");

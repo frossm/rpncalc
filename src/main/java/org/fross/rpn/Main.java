@@ -33,7 +33,7 @@ public class Main {
 
 	// Class Constants
 	public static String VERSION;
-	public static String INCEPTIONYEAR;
+	public static String COPYRIGHT;
 	public static final String PROPERTIES_FILE = "app.properties";
 
 	// Class Variable
@@ -96,7 +96,8 @@ public class Main {
 			Properties prop = new Properties();
 			prop.load(iStream);
 			VERSION = prop.getProperty("Application.version");
-			INCEPTIONYEAR = prop.getProperty("Application.inceptionYear");
+			COPYRIGHT = "Copyright " + prop.getProperty("Application.inceptionYear") + "-" + org.fross.library.Date.getCurrentYear()
+					+ " by Michael Fross.  All rights reserved";
 		} catch (IOException ex) {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
 		}
@@ -168,8 +169,7 @@ public class Main {
 		// Display output header information
 		Output.printColorln(Ansi.Color.CYAN, "+----------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
-		Output.printColorln(Ansi.Color.CYAN,
-				"|      Copyright " + INCEPTIONYEAR + "-" + org.fross.library.Date.getCurrentYear() + " by Michael Fross.  All rights reserved      |");
+		Output.printColorln(Ansi.Color.CYAN, "|      " + COPYRIGHT + "      |");
 		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
 
 		// Start Main Command Loop
