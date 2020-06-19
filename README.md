@@ -66,7 +66,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)
 |ver| Display the current version number.  Can also be seen in the help screen
 |h or ?|Display the help information
-|x or q |Exit the program.  The primary and secondary stacks will be saved.
+|x or q |Exit the program.  The primary and secondary stacks will be saved.  'cx' will clear the stack before exiting.
 
 One note is that you can perform a shortcut.  You can append an operand at the end of an entered number and the program will place the number on the stack and then execute the operand.  For example:
 

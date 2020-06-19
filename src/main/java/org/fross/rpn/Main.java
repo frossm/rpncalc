@@ -257,6 +257,13 @@ public class Main {
 				StackOps.cmdLoad(cmdInputParam);
 				break;
 
+			// Clear & Exit
+			case "cx":
+				Main.calcStack.clear();
+				Output.debugPrint("Exiting Command Loop");
+				ProcessCommandLoop = false;
+				break;				
+				
 			// Exit
 			case "x":
 			case "exit":

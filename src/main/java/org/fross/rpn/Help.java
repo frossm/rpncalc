@@ -65,7 +65,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver          Display the current version");
 		Output.printColorln(Ansi.Color.WHITE, " h|?          Show this help information.  Either key will work.");
-		Output.printColorln(Ansi.Color.WHITE, " x|exit       Exit Calculator\n");
+		Output.printColorln(Ansi.Color.WHITE, " x|exit       Exit Calculator.  'cx' will clear before existing\n");
 
 		Output.printColorln(Ansi.Color.WHITE, "Note: You can place an operand at the end of a number and execute in one step.");
 		Output.printColorln(Ansi.Color.WHITE, "For Example:  To add two numbers:   2 <enter> 3+ <enter>   will produce 5.\n");
