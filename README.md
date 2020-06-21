@@ -1,6 +1,3 @@
-
-*Document Version 3.0*
-
 ## INTRODUCTION ##
 With a Reverse Polish Notation (RPN) calculator it is easy to do complex calculations, especially if there are percentiles involved.  For example, to perform the following calculation:
 
