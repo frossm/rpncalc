@@ -1,16 +1,14 @@
 /******************************************************************************
- * rpn.java
+ * RPNCalc
  * 
- * A simple console based RPN calculator with an optional persistent stack.
+ * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Written by Michael Fross.  Copyright 2011-2019.  All rights reserved.
- *  
  *  License: 
  *  MIT License / https://opensource.org/licenses/MIT
- *  Please see included LICENSE.txt file for additional details
+ *  Please see included LICENSE file for additional details
  *           
  ******************************************************************************/
-package org.fross.rpn;
+package org.fross.rpncalc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,7 +101,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("rpn", args, "Dl:a:h?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:h?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode

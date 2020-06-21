@@ -1,23 +1,21 @@
 /******************************************************************************
- * rpn.java
+ * RPNCalc
  * 
- * A simple console based RPN calculator with an optional persistent stack.
+ * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Written by Michael Fross.  Copyright 2011-2020.  All rights reserved.
- *  
  *  License: 
  *  MIT License / https://opensource.org/licenses/MIT
- *  Please see included LICENSE.txt file for additional details
+ *  Please see included LICENSE file for additional details
  *           
  ******************************************************************************/
 
 /* Current Defined Preferences:
- *   MoneyMode/Boolean:  Determine if rpn should start in money mode
+ *   MoneyMode/Boolean:  Determine if RPNCalc should start in money mode
  *   Persistent/Boolean:  Should the calc keep it's stack persistent between runs
  *   Stack/Double:  A saved list of everything in the stack
  */
 
-package org.fross.rpn;
+package org.fross.rpncalc;
 
 import java.util.Stack;
 import java.util.prefs.BackingStoreException;

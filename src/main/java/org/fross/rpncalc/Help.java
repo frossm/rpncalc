@@ -1,22 +1,20 @@
 /******************************************************************************
- * rpn.java
+ * RPNCalc
  * 
- * A simple console based RPN calculator with an optional persistent stack.
+ * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Written by Michael Fross.  Copyright 2011-2020.  All rights reserved.
- *  
  *  License: 
  *  MIT License / https://opensource.org/licenses/MIT
- *  Please see included LICENSE.txt file for additional details
+ *  Please see included LICENSE file for additional details
  *           
  ******************************************************************************/
-package org.fross.rpn;
+package org.fross.rpncalc;
 
 import org.fusesource.jansi.Ansi;
 import org.fross.library.Output;
 
 /**
- * Help(): Display the help page when users enters 'h' command.
+ * Help(): Display the help page when users enters 'h' or '?' command.
  * 
  * @author michael.d.fross
  *
@@ -30,8 +28,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, "+              RPN Calculator v" + Main.VERSION + "  Help Document               +");
 		Output.printColorln(Ansi.Color.WHITE, "+      " + Main.COPYRIGHT + "      +");
 		Output.printColorln(Ansi.Color.YELLOW, "+----------------------------------------------------------------------+");
-		Output.printColorln(Ansi.Color.CYAN, "            RPN is a simple reverse polish notation calculator");
-		Output.printColorln(Ansi.Color.CYAN, "                     https://github.com/frossm/rpn");
+		Output.printColorln(Ansi.Color.CYAN, "          RPNCalc is a simple reverse polish notation calculator");
+		Output.printColorln(Ansi.Color.CYAN, "                   https://github.com/frossm/rpncalc");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
@@ -47,20 +45,21 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " %      Percent: Convert last stack item into a percentage (multiply by 0.01)");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommands:");
-		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
-		Output.printColorln(Ansi.Color.WHITE, " u            Undo last actionn");
-		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]    Swap the last two elments in the stack or the elements provided");
+		Output.printColorln(Ansi.Color.WHITE, " u            Undo last action");
+		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the last stack element");
 		Output.printColorln(Ansi.Color.WHITE, " c            Clear everything from the visible stack");
 		Output.printColorln(Ansi.Color.WHITE, " d [#]        Delete the last item in the stack or the line number provided");
-		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the last stack element");
+		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]    Swap the last two elments in the stack or the elements provided");
 		Output.printColorln(Ansi.Color.WHITE, " copy         Copy the item at the top of the stack");
 		Output.printColorln(Ansi.Color.WHITE, " pi           Insert the value of PI onto the end of the stack");
-		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root on the last stack number\n");
+		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root on the last stack number");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
-		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
+		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provide base.  Default is 64th");
-		Output.printColorln(Ansi.Color.WHITE, " load         Load or create a named stack");
+		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
+
+		Output.printColorln(Ansi.Color.WHITE, "\n load         Load or create a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " a [lrd]      Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver          Display the current version");
