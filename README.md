@@ -19,7 +19,7 @@ To Execute:
 `java.exe -jar rpncalc.jar`
 
 ## High Level Usage
-RPNCalcis a console application that will start at a prompt.  Entering 'h [ENTER]' will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  
+RPNCalc is a console application that will start at a prompt.  Entering 'h [ENTER]' will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  
 On this command line you'll enter numbers and press enter.  These will then be added to the stack.  RPNCalc operates on a stack where first in is last out.  You can then enter in an operand, such as + or /, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter 2 [ENTER] which add the number 2 to the stack.  Then  3 [ENTER] which will put it on top of the stack (which is the bottom in the program).  Then + [ENTER] to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip a  step by entering 3+ [ENTER] and the end and it will perform the shortcut.  I'm not going to into a lot of detail on how an RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hand of it, I rarely use another style.
 
 One note is that the stack always contains decimal numbers.  You can enter in a simple fraction and it will convert it.  
