@@ -2,6 +2,7 @@
 With a Reverse Polish Notation (RPN) calculator it is easy to do complex calculations, especially if there are percentiles involved.  For example, to perform the following calculation:
 
 `((5+3) * 8)/2 = x`
+
 `RPN:  5 enter 3 + 8 * 2 /`
 
 You start on the inside and work yourself out.  It's based on a stack and really makes intuitive sense when you use one.
@@ -22,8 +23,10 @@ RPNCalcis a console application that will start at a prompt.  Entering 'h [ENTER
 On this command line you'll enter numbers and press enter.  These will then be added to the stack.  RPNCalc operates on a stack where first in is last out.  You can then enter in an operand, such as + or /, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter 2 [ENTER] which add the number 2 to the stack.  Then  3 [ENTER] which will put it on top of the stack (which is the bottom in the program).  Then + [ENTER] to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip a  step by entering 3+ [ENTER] and the end and it will perform the shortcut.  I'm not going to into a lot of detail on how an RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hand of it, I rarely use another style.
 
 One note is that the stack always contains decimal numbers.  You can enter in a simple fraction and it will convert it.  
-For example:
+*For example:*
+
 `1 5/16 [ENTER] will add 1.3125 to the stack`
+
 `14/8 [ENTER] will add 1.75 to the stack`
 
 **Savings Stacks**
@@ -67,7 +70,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.
 |rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.
 |listundo|Show the current undo stack
-|frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately `1 0/1` or just one.  Need to fix that display oddity.
+|frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.
 |dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. Not the most useful command...
 |load NAME|Load the named stack.  If name does not exist a new one will be created
 |debug|Toggle debug mode which will display additional information on what's happening
