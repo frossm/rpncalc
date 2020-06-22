@@ -154,8 +154,13 @@ public class StackOps {
 	 * @param al
 	 */
 	public static void cmdAlign(char al) {
-		Output.debugPrint("Setting display alignment to: " + al);
-		Main.displayAlignment = al;
+		// Validate we have one of the right values
+		if (al != 'l' && al != 'd' && al != 'r') {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
+		} else {
+			Output.debugPrint("Setting display alignment to: " + al);
+			Main.displayAlignment = al;
+		}
 	}
 
 	/**

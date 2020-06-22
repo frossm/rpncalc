@@ -271,7 +271,11 @@ public class Main {
 
 			// Display Alignment
 			case "a":
-				StackOps.cmdAlign(cmdInputParam.charAt(0));
+				try {
+					StackOps.cmdAlign(cmdInputParam.charAt(0));
+				} catch (StringIndexOutOfBoundsException ex) {
+					Output.printColorln(Ansi.Color.RED,  "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
+				}
 				break;
 
 			// ListUndo
