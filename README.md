@@ -67,6 +67,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |copy| Copy the item at the top of the stack.  This adds a copy of the last item back to the stack so you'll have two of the last items.
 |pi| Insert the value of PI onto the stack
 |sqrt|Perform a square root of the last item in the stack
+|sin,cos,tan|Calculate the trigonometry function
 |ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.
 |rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.
 |listundo|Show the current undo stack

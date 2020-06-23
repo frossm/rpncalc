@@ -350,6 +350,21 @@ public class Main {
 				Output.debugPrint("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
 				break;
+			
+			// Tangent
+			case "tan":
+				StackOps.cmdTangent();
+				break;
+				
+			// Sin
+			case "sin":
+				StackOps.cmdSin();
+				break;
+				
+			// Cos
+			case "cos":
+				StackOps.cmdCos();
+				break;
 
 			// Percent
 			case "%":

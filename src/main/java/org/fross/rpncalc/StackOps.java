@@ -481,4 +481,52 @@ public class StackOps {
 
 	}
 
+	/**
+	 * cmdTangent(): Take the tangent of the last stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdTangent() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the Tangent of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.tan(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdSin(): Take the sin of the last stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdSin() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the Sin of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.sin(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdCos(): Take the Cos of the last stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdCos() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the Cosine of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.cos(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
 } // END CLASS

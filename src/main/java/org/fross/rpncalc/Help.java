@@ -54,6 +54,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " pi           Insert the value of PI onto the end of the stack");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root on the last stack number");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
+		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan  Calculate the trigonometry function");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provide base.  Default is 64th");
