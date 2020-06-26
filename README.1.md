@@ -44,6 +44,12 @@ Load a saved stack by it's name.  This essentially will "name" your session and 
 **-a alignment**
 Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I use it as a checkbook, I align by decimal which makes it a bit easier to read.
 
+**-v**
+Simply show the version information and exit.  The help command line option (-h or -?) will also show this information
+
+**-h or -?**
+Display the standard help information and exit.  
+
 ## Operands
 The list of operands available will hopefully continue to grow as my needs change (or as I get suggestions from all of you.)  At the time of this writing, the following are supported:
 
@@ -105,5 +111,5 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzYxNDQ0NjEwXX0=
+eyJoaXN0b3J5IjpbLTEyNjUzMzAwNjksNzYxNDQ0NjEwXX0=
 -->
