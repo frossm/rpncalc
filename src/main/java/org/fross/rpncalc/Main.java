@@ -101,7 +101,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:h?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:vh?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
@@ -127,6 +127,12 @@ public class Main {
 					break;
 				}
 				break;
+			case 'v': // Version Display
+				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
+				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
+				System.exit(0);
+				break;
+				
 			case '?': // Help
 			case 'h':
 				Help.Display();
@@ -248,6 +254,7 @@ public class Main {
 			case "ver":
 			case "version":
 				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
+				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
 				break;
 
 			// Load
