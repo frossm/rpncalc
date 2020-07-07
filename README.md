@@ -29,11 +29,17 @@ One note is that the stack always contains decimal numbers.  You can enter in a 
 
 `14/8 [ENTER] will add 1.75 to the stack`
 
-**Savings Stacks**
-One of the important uses for me is I wanted to be able to save my stacks for future instances of the program.  I also wanted to have a secondary stack that I could toggle in case I wanted to do some work and then toggle back to the primary stack.  Lastly, I wanted to be able to name and save a stack that could be loaded at another time.  All of this is build into the program.  For example, I have a saved stack called "Checkbook".  While I use RPNCalc with the default stack most of the time, when I write a check, I load RPNCalc with the 'Checkbook' stack and it will load and auto save when done.
+## Stacks
+The entire concept of a RPN calculator is based on stacks.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  When you start you can specify which stack to load.  If none is entered, the default stack is loaded.
+
+When you perform calculations or commands, they generally work bottom up.  For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute **SQRT**.  This will remove 25 from the stack, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math functions, for example, will take the last two numbers off the stack, and add teh result back.
+
+Saving and loading stacks is fundemental to RPNCalc.  You can have as many saved stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll use the data in the stacks.
+
+Each stack you load (default or a named stack) actually has 2 stacks defined; primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.
 
 ## Command Line Options
-Currently there are only three command line options, and all are optional.
+Currently there are a small number of command line options, and all are optional.
 
 **-D**
 Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I most just use this to help be debug as I write the code, but may want to get a bit more insight into what's going on.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode by entering in the command 'debug' while within the program - you don't have to leave and relaunch without the -D.
@@ -42,7 +48,7 @@ Run program in debug mode.  This will display quite a bit of information on the 
 Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  This is the same behavior as using the 'load' command while in the calculator.  I'll of RPNCalc's saved information is stored as a java preference.  This location will vary by OS.
 
 **-a alignment**
-Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I use it as a checkbook, I align by decimal which makes it a bit easier to read.
+Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I use it as a checkbook, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself.
 
 **-v**
 Simply show the version information and exit.  The help command line option (-h or -?) will also show this information
