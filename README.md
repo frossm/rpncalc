@@ -32,11 +32,11 @@ One note is that the stack always contains decimal numbers.  You can enter in a 
 ## Stacks
 The entire concept of a RPN calculator is based on stacks.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  When you start you can specify which stack to load.  If none is entered, the default stack is loaded.
 
-When you perform calculations or commands, they generally work bottom up.  For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute **SQRT**.  This will remove 25 from the stack, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math functions, for example, will take the last two numbers off the stack, and add teh result back.
+When you perform calculations or commands, they generally work bottom up.  For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute **SQRT**.  This will remove 25 from the stack, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math functions, for example, will take the last two numbers off the stack, and add the result back.  
 
 Saving and loading stacks is fundemental to RPNCalc.  You can have as many saved stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll use the data in the stacks.
 
-Each stack you load (default or a named stack) actually has 2 stacks defined; primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.
+Each stack you load (default or a named stack) actually has 2 stacks defined; primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The order is saved and restored upon loading.
 
 ## Command Line Options
 Currently there are a small number of command line options, and all are optional.
