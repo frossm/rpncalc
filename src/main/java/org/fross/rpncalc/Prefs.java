@@ -49,10 +49,27 @@ public class Prefs {
 		else
 			currentStackNum = 1;
 	}
+	
+	/**
+	 * QueryStacks(): Return a string array of all current stacks
+	 * @return
+	 */
+	public static String[] QueryStacks() {
+		String[] stacks = {};
+		Preferences prefsQuery = Preferences.userRoot().node(PREFS_PATH);
+		
+		try {
+			stacks = prefsQuery.childrenNames();
+		} catch (BackingStoreException ex) {
+			Output.printColor(Ansi.Color.RED,  "Error Reading Stacks from Java Preferences");
+		}
+		
+		return(stacks);
+	}
 
 	/**
 	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is
-	 * important for saving and restoring data from the prefs system
+	 * important for saving and restoring data from the preferences system
 	 * 
 	 * @return
 	 */

@@ -59,6 +59,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan  Calculate the trigonometry function");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
+		Output.printColorln(Ansi.Color.WHITE, " liststacks   Show the list of saved stacks");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provide base.  Default is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
 

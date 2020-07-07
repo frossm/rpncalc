@@ -170,12 +170,27 @@ public class StackOps {
 	 */
 	@SuppressWarnings("rawtypes")
 	public static void cmdListUndo(Stack<Stack> undoStk) {
-		Output.printColorln(Ansi.Color.YELLOW, "-Undo Stack:-------------------------------");
+		Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack:-------------------------------");
 		for (int i = 0; i < undoStk.size(); i++) {
 			String sn = String.format("%02d:  %s", i + 1, undoStk.get(i));
 			Output.printColorln(Ansi.Color.CYAN, sn);
 		}
 		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
+	}
+	
+	/**
+	 * cmdListStacks(): Display a list of the saved stacks in the preferences system
+	 */
+	public static void cmdListStacks() {
+		String[] stks = Prefs.QueryStacks();
+
+		Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks:-----------------------------");
+		for (int i = 0; i < stks.length; i++) {
+			String sn = String.format("%02d:  %s", i, stks[i]);
+			Output.printColorln(Ansi.Color.CYAN, sn);
+		}
+		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
+		
 	}
 
 	/**

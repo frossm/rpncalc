@@ -290,6 +290,12 @@ public class Main {
 				StackOps.cmdListUndo(undoStack);
 				break;
 
+			// ListStacks
+			case "liststack":
+			case "liststacks":
+				StackOps.cmdListStacks();
+				break;
+
 			// Undo
 			case "u":
 				StackOps.cmdUndo();

@@ -71,28 +71,29 @@ The list of operands available will hopefully continue to grow as my needs chang
 ## Commands
 |Command|Description  |
 |-------|-------------|
-|u |Undo last operation
-|f |Flip the sign on the last stack item
-|c |Clear the current stack
-|d [#] |Delete the last item in the stack or, optionally, the stack number provided
-|s [#] [#]|Swap the position of the last two stack items or, optionally, the stack numbers provided
-|copy| Copy the item at the top of the stack.  This adds a copy of the last item back to the stack so you'll have two of the last items.
+|u |Undo last operation|
+|f |Flip the sign on the last stack item|
+|c |Clear the current stack|
+|d [#] |Delete the last item in the stack or, optionally, the stack number provided|
+|s [#] [#]|Swap the position of the last two stack items or, optionally, the stack numbers provided|
+|copy| Copy the item at the top of the stack.  This adds a copy of the last item back to the stack so you'll have two of the last items.|
 |% |Convert the last stack item into it's percentage (multiply by 0.01).  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |mod|Modulus is the remainder after a division.  This command will perform a division and put the remainder only back on the stack|
-|pi| Insert the value of PI onto the stack
-|sqrt|Perform a square root of the last item in the stack
-|sin,cos,tan|Calculate the trigonometry function
-|ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.
-|rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.
-|listundo|Show the current undo stack
-|frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.
-|dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. Not the most useful command...
-|load NAME|Load the named stack.  If name does not exist a new one will be created
-|debug|Toggle debug mode which will display additional information on what's happening
-|a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)
-|ver| Display the current version number.  Can also be seen in the help screen
-|h or ?|Display the help information
-|x or q |Exit the program.  The primary and secondary stacks will be saved.  'cx' will clear the stack before exiting.
+|pi| Insert the value of PI onto the stack|
+|sqrt|Perform a square root of the last item in the stack|
+|sin,cos,tan|Calculate the trigonometry function|
+|ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.|
+|rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.|
+|listundo|Show the current undo stack|
+|liststacks|Display the current saved stacks|
+|frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
+|dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. Not the most useful command...|
+|load NAME|Load the named stack.  If name does not exist a new one will be created|
+|debug|Toggle debug mode which will display additional information on what's happening|
+|a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)|
+|ver| Display the current version number.  Can also be seen in the help screen|
+|h or ?|Display the help information|
+|x or q |Exit the program.  The primary and secondary stacks will be saved.  'cx' will clear the stack before exiting.|
 
 One note is that you can perform a shortcut.  You can append an operand at the end of an entered number and the program will place the number on the stack and then execute the operand.  For example:
 
