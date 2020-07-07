@@ -238,6 +238,16 @@ public class StackOps {
 		Output.debugPrint("Taking the square root of the last stack item");
 		Math.SquareRoot(Main.calcStack);
 	}
+	
+	/**
+	 * cmdMod():  Divide and place the modulus onto the stack
+	 */
+	public static void cmdMod() {
+		Double b = Main.calcStack.pop();
+		Double a = Main.calcStack.pop();
+		Output.debugPrint("Modulus: " + a + " % " + b + " = " + (a % b));
+		Main.calcStack.push(a % b);
+	}
 
 	/**
 	 * cmdSwapStack(): Swap the primary and secondary stacks

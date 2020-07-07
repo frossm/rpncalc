@@ -60,7 +60,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |* |Multiply the last two items in the stack|
 |/ |Divide the second to the last item by the last|
 |^ |The second to the last item to the power of the last|
-|% |Convert the last stack item into it's percentage (multiply by 0.01).  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
+
 
 ## Commands
 |Command|Description  |
@@ -71,6 +71,8 @@ The list of operands available will hopefully continue to grow as my needs chang
 |d [#] |Delete the last item in the stack or, optionally, the stack number provided
 |s [#] [#]|Swap the position of the last two stack items or, optionally, the stack numbers provided
 |copy| Copy the item at the top of the stack.  This adds a copy of the last item back to the stack so you'll have two of the last items.
+|% |Convert the last stack item into it's percentage (multiply by 0.01).  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
+|mod|Modulus is the remainder after a division.  This command will perform a division and put the remainder only back on the stack|
 |pi| Insert the value of PI onto the stack
 |sqrt|Perform a square root of the last item in the stack
 |sin,cos,tan|Calculate the trigonometry function

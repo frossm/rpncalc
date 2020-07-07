@@ -132,7 +132,7 @@ public class Main {
 				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
 				System.exit(0);
 				break;
-				
+
 			case '?': // Help
 			case 'h':
 				Help.Display();
@@ -183,8 +183,8 @@ public class Main {
 			// Display the dashed status line
 			displayDashedNameLine();
 
-			// Loop through the stack and count the max digits before the decimal for use
-			// with the decimal alignment mode
+			// Loop through the stack and count the max digits before the decimal for use with the decimal
+			// alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
 				int decimalIndex = Format.Comma(calcStack.get(k)).indexOf(".");
 				// If current stack item has more digits ahead of decimal make that the max.
@@ -197,7 +197,7 @@ public class Main {
 			// Display the current stack
 			for (int i = 0; i < calcStack.size(); i++) {
 
-				// Display Stack Number
+				// Display Stack Row Number
 				String sn = String.format("%02d:  ", calcStack.size() - i);
 				Output.printColor(Ansi.Color.CYAN, sn);
 
@@ -267,8 +267,8 @@ public class Main {
 				Main.calcStack.clear();
 				Output.debugPrint("Exiting Command Loop");
 				ProcessCommandLoop = false;
-				break;				
-				
+				break;
+
 			// Exit
 			case "x":
 			case "exit":
@@ -281,7 +281,7 @@ public class Main {
 				try {
 					StackOps.cmdAlign(cmdInputParam.charAt(0));
 				} catch (StringIndexOutOfBoundsException ex) {
-					Output.printColorln(Ansi.Color.RED,  "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
+					Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
 				}
 				break;
 
@@ -357,17 +357,17 @@ public class Main {
 				Output.debugPrint("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
 				break;
-			
+
 			// Tangent
 			case "tan":
 				StackOps.cmdTangent();
 				break;
-				
+
 			// Sin
 			case "sin":
 				StackOps.cmdSin();
 				break;
-				
+
 			// Cos
 			case "cos":
 				StackOps.cmdCos();
@@ -378,6 +378,11 @@ public class Main {
 				Output.debugPrint("Create a percent by dividing by 100");
 				undoStack.push((Stack<Double>) calcStack.clone());
 				calcStack.push(calcStack.pop() / 100);
+				break;
+
+			// Modulus
+			case "mod":
+				StackOps.cmdMod();
 				break;
 
 			// Operand
