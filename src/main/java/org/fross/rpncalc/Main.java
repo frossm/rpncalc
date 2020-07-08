@@ -363,6 +363,13 @@ public class Main {
 				Output.debugPrint("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
 				break;
+				
+			// Add PHI also known as The Golden Ratio
+			case "phi":
+				undoStack.push((Stack<Double>) calcStack.clone());
+				Output.debugPrint("Adding Golden Radio (PHI) to the stack");
+				calcStack.add(1.61803398874989);
+				break;
 
 			// Tangent
 			case "tan":

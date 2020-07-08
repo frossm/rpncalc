@@ -53,7 +53,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " %            Convert last stack item into a percentage by multipling by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " mod          Perform a division and return the remainder (modulus)");
 		Output.printColorln(Ansi.Color.WHITE, " copy         Copy the item at the top of the stack");
-		Output.printColorln(Ansi.Color.WHITE, " pi           Insert the value of PI onto the end of the stack");
+		Output.printColorln(Ansi.Color.WHITE, " pi           Add PI to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " phi          Add the Golden Radio or PHI");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root on the last stack number");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan  Calculate the trigonometry function");

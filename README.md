@@ -80,6 +80,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |% |Convert the last stack item into it's percentage (multiply by 0.01).  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |mod|Modulus is the remainder after a division.  This command will perform a division and put the remainder only back on the stack|
 |pi| Insert the value of PI onto the stack|
+|phi| Add PHI, also known as the Golden Ratio, to the stack|
 |sqrt|Perform a square root of the last item in the stack|
 |sin,cos,tan|Calculate the trigonometry function|
 |ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.|
