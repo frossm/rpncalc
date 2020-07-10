@@ -41,27 +41,27 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " +      Addition:  Add last two stack elements");
 		Output.printColorln(Ansi.Color.WHITE, " -      Subtraction: Subtract last element from previous element");
 		Output.printColorln(Ansi.Color.WHITE, " *      Multiplication: Muliply last two stack items");
-		Output.printColorln(Ansi.Color.WHITE, " /      Division: Divide second to last item by last stack item");
-		Output.printColorln(Ansi.Color.WHITE, " ^      Power:  Calculate second to last item to the power of the last item");
+		Output.printColorln(Ansi.Color.WHITE, " /      Division: Divide second row by the first row");
+		Output.printColorln(Ansi.Color.WHITE, " ^      Power:  Calculate second row to the power of the first row");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommands:");
 		Output.printColorln(Ansi.Color.WHITE, " u            Undo last action");
-		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the last stack element");
-		Output.printColorln(Ansi.Color.WHITE, " c            Clear everything from the visible stack");
-		Output.printColorln(Ansi.Color.WHITE, " d [#]        Delete the last item in the stack or the line number provided");
+		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the last element");
+		Output.printColorln(Ansi.Color.WHITE, " c            Clear everything from the current stack");
+		Output.printColorln(Ansi.Color.WHITE, " d [#]        Delete the last item in the stack or the row provided");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]    Swap the last two elments in the stack or the elements provided");
 		Output.printColorln(Ansi.Color.WHITE, " %            Convert last stack item into a percentage by multipling by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " mod          Perform a division and return the remainder (modulus)");
-		Output.printColorln(Ansi.Color.WHITE, " copy         Copy the item at the top of the stack");
+		Output.printColorln(Ansi.Color.WHITE, " copy         Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " pi           Add PI to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " phi          Add the Golden Radio or PHI");
-		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root on the last stack number");
+		Output.printColorln(Ansi.Color.WHITE, " phi          Add the Golden Radio or PHI to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan  Calculate the trigonometry function");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " liststacks   Show the list of saved stacks");
-		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provide base.  Default is 64th");
+		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provided base.  Default is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
 
 		Output.printColorln(Ansi.Color.WHITE, "\n load         Load or create a named stack");
