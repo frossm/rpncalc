@@ -1,5 +1,5 @@
 
-***RPNCalc: The Commandline Reverse Polish Notation Calculator***
+***RPNCalc: The Command Line Reverse Polish Notation Calculator***
 ## INTRODUCTION
 With a Reverse Polish Notation (RPN) calculator it is easy to do complex calculations, especially if there are percentiles involved.  For example, to perform the following calculation:
 
