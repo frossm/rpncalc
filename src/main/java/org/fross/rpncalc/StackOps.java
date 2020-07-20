@@ -177,7 +177,7 @@ public class StackOps {
 		}
 		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
 	}
-	
+
 	/**
 	 * cmdListStacks(): Display a list of the saved stacks in the preferences system
 	 */
@@ -190,7 +190,7 @@ public class StackOps {
 			Output.printColorln(Ansi.Color.CYAN, sn);
 		}
 		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
-		
+
 	}
 
 	/**
@@ -253,9 +253,9 @@ public class StackOps {
 		Output.debugPrint("Taking the square root of the last stack item");
 		Math.SquareRoot(Main.calcStack);
 	}
-	
+
 	/**
-	 * cmdMod():  Divide and place the modulus onto the stack
+	 * cmdMod(): Divide and place the modulus onto the stack
 	 */
 	public static void cmdMod() {
 		Double b = Main.calcStack.pop();
@@ -507,16 +507,32 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdTangent(): Take the tangent of the last stack item
+	 * cmdTan(): Take the tangent of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdTangent() {
+	public static void cmdTan() {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Tangent of " + Main.calcStack.peek());
+			Output.debugPrint("Taking the Tan of " + Main.calcStack.peek());
 			Main.calcStack.add(java.lang.Math.tan(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdATan(): Take the arc tangent of the last stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdATan() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the Arc Tan of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.atan(Main.calcStack.pop()));
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -539,6 +555,22 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdASin(): Take the arc sin of the last stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdASin() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the Arc Sin of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.asin(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
 	 * cmdCos(): Take the Cos of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
@@ -547,8 +579,24 @@ public class StackOps {
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Cosine of " + Main.calcStack.peek());
+			Output.debugPrint("Taking the Cos of " + Main.calcStack.peek());
 			Main.calcStack.add(java.lang.Math.cos(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdACos(): Take the Arc Cos of the last stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdACos() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the Arc Cos of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.acos(Main.calcStack.pop()));
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}

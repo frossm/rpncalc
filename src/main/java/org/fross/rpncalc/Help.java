@@ -57,7 +57,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " phi          Add the Golden Radio or PHI to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
-		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan  Calculate the trigonometry function");
+		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan     Calculate the trigonometry functions");
+		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan  Calculate the arc trigonometry functions");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " liststacks   Show the list of saved stacks");

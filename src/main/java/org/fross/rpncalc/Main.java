@@ -373,17 +373,32 @@ public class Main {
 
 			// Tangent
 			case "tan":
-				StackOps.cmdTangent();
+				StackOps.cmdTan();
+				break;
+			
+			// Arc Tangent
+			case "atan":
+				StackOps.cmdATan();
 				break;
 
 			// Sin
 			case "sin":
 				StackOps.cmdSin();
 				break;
+				
+			// Arc Sin
+			case "asin":
+				StackOps.cmdASin();
+				break;
 
 			// Cos
 			case "cos":
 				StackOps.cmdCos();
+				break;
+				
+			// Arc Cosine
+			case "acos":
+				StackOps.cmdACos();
 				break;
 
 			// Percent
