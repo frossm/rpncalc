@@ -1,4 +1,6 @@
-## INTRODUCTION ##
+
+***RPNCalc: The Commandline Reverse Polish Notation Calculator***
+## INTRODUCTION
 With a Reverse Polish Notation (RPN) calculator it is easy to do complex calculations, especially if there are percentiles involved.  For example, to perform the following calculation:
 
 `((5+3) * 8)/2 = x`
@@ -34,7 +36,7 @@ The entire concept of a RPN calculator is based on stacks.  You add numbers to t
 
 When you perform calculations or commands, they generally work bottom up.  For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute **SQRT**.  This will remove 25 from the stack, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math functions, for example, will take the last two numbers off the stack, and add the result back.  
 
-Saving and loading stacks is fundemental to RPNCalc.  You can have as many saved stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll use the data in the stacks.
+Saving and loading stacks is fundamental to RPNCalc.  You can have as many saved stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll use the data in the stacks.
 
 Each stack you load (default or a named stack) actually has 2 stacks defined; primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The order is saved and restored upon loading.
 
@@ -68,7 +70,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |^ |The second to the last item to the power of the last|
 
 
-## Commands
+## Calculator Commands
 |Command|Description  |
 |-------|-------------|
 |u |Undo last operation|
@@ -86,11 +88,16 @@ The list of operands available will hopefully continue to grow as my needs chang
 |asin, acos, atan|Calculate the arc trignometry functions|
 |ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.|
 |rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.|
-|listundo|Show the current undo stack|
-|liststacks|Display the current saved stacks|
 |frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
 |dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. Not the most useful command...|
+
+
+## Operataional Commands
+|Command|Description  |
+|-------|-------------|
 |load NAME|Load the named stack.  If name does not exist a new one will be created|
+|liststacks|Display the current saved stacks|
+|listundo|Show the current undo stack|
 |debug|Toggle debug mode which will display additional information on what's happening|
 |a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)|
 |ver| Display the current version number.  Can also be seen in the help screen|
@@ -121,6 +128,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNjUzMzAwNjksNzYxNDQ0NjEwXX0=
--->
