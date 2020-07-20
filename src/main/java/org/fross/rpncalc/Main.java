@@ -363,7 +363,7 @@ public class Main {
 				Output.debugPrint("Adding PI to the end of the stack");
 				calcStack.add(java.lang.Math.PI);
 				break;
-				
+
 			// Add PHI also known as The Golden Ratio
 			case "phi":
 				undoStack.push((Stack<Double>) calcStack.clone());
@@ -375,7 +375,7 @@ public class Main {
 			case "tan":
 				StackOps.cmdTan();
 				break;
-			
+
 			// Arc Tangent
 			case "atan":
 				StackOps.cmdATan();
@@ -385,7 +385,7 @@ public class Main {
 			case "sin":
 				StackOps.cmdSin();
 				break;
-				
+
 			// Arc Sin
 			case "asin":
 				StackOps.cmdASin();
@@ -395,10 +395,20 @@ public class Main {
 			case "cos":
 				StackOps.cmdCos();
 				break;
-				
+
 			// Arc Cosine
 			case "acos":
 				StackOps.cmdACos();
+				break;
+
+			// Natural (base e) Logarithm
+			case "log":
+				StackOps.cmdLog();
+				break;
+
+			// Base10 Logarithm
+			case "log10":
+				StackOps.cmdLog10();
 				break;
 
 			// Percent

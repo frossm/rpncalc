@@ -602,4 +602,36 @@ public class StackOps {
 		}
 	}
 
+	/**
+	 * cmdLog(): Take the natural (base e) logarithm
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdLog() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the natural logarithm of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.log(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdLog10(): Take base10 logarithm
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdLog10() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the base 10 logarithm of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.log10(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
 } // END CLASS

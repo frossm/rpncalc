@@ -86,6 +86,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |sqrt|Perform a square root of the last item in the stack|
 |sin, cos, tan|Calculate the trigonometry functions|
 |asin, acos, atan|Calculate the arc trignometry functions|
+|log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
 |ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.|
 |rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.|
 |frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
