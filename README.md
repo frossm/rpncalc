@@ -93,7 +93,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. Not the most useful command...|
 
 
-## Operataional Commands
+## Operational Commands
 |Command|Description  |
 |-------|-------------|
 |liststacks|Display the current saved stacks|
