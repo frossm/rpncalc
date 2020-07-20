@@ -95,8 +95,8 @@ The list of operands available will hopefully continue to grow as my needs chang
 ## Operataional Commands
 |Command|Description  |
 |-------|-------------|
-|load NAME|Load the named stack.  If name does not exist a new one will be created|
 |liststacks|Display the current saved stacks|
+|load NAME|Load the named stack.  If name does not exist a new one will be created|
 |listundo|Show the current undo stack|
 |debug|Toggle debug mode which will display additional information on what's happening|
 |a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)|
