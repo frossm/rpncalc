@@ -1,5 +1,6 @@
 
 ***RPNCalc: The Command Line Reverse Polish Notation Calculator***
+
 ## INTRODUCTION
 With a Reverse Polish Notation (RPN) calculator it is easy to do complex calculations, especially if there are percentiles involved.  For example, to perform the following calculation:
 
@@ -22,6 +23,7 @@ To Execute:
 
 ## High Level Usage
 RPNCalc is a console application that will start at a prompt.  Entering 'h [ENTER]' will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  
+
 On this command line you'll enter numbers and press enter.  These will then be added to the stack.  RPNCalc operates on a stack where first in is last out.  You can then enter in an operand, such as + or /, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter 2 [ENTER] which add the number 2 to the stack.  Then  3 [ENTER] which will put it on top of the stack (which is the bottom in the program).  Then + [ENTER] to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip a  step by entering 3+ [ENTER] and the end and it will perform the shortcut.  I'm not going to into a lot of detail on how an RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hand of it, I rarely use another style.
 
 One note is that the stack always contains decimal numbers.  You can enter in a simple fraction and it will convert it.  
@@ -43,20 +45,13 @@ Each stack you load (default or a named stack) actually has 2 stacks defined; pr
 ## Command Line Options
 Currently there are a small number of command line options, and all are optional.
 
-**-D**
-Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I most just use this to help be debug as I write the code, but may want to get a bit more insight into what's going on.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode by entering in the command 'debug' while within the program - you don't have to leave and relaunch without the -D.
-
-**-l name**
-Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  This is the same behavior as using the 'load' command while in the calculator.  I'll of RPNCalc's saved information is stored as a java preference.  This location will vary by OS.
-
-**-a alignment**
-Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I use it as a checkbook, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself.
-
-**-v**
-Simply show the version information and exit.  The help command line option (-h or -?) will also show this information
-
-**-h or -?**
-Display the standard help information and exit.  
+|Option|Description|
+|-------|-----------|
+|-D | Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I most just use this to help be debug as I write the code, but may want to get a bit more insight into what's going on.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode by entering in the command 'debug' while within the program - you don't have to leave and relaunch without the -D. |
+|-l name |Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load a named session from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  This is the same behavior as using the 'load' command while in the calculator.  I'll of RPNCalc's saved information is stored as a java preference.  This location will vary by OS.|
+|-a <l,d,r> |Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I use it as a checkbook, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself.|
+|-v|Simply show the version information and exit.  The help command line option (-h or -?) will also show this information|
+|-h or -?|Display the standard help information and exit|
 
 ## Operands
 The list of operands available will hopefully continue to grow as my needs change (or as I get suggestions from all of you.)  At the time of this writing, the following are supported:
@@ -71,8 +66,8 @@ The list of operands available will hopefully continue to grow as my needs chang
 
 
 ## Calculator Commands
-|Command|Description  |
-|-------|-------------|
+|Command|Description|
+|-------|-----------|
 |u |Undo last operation|
 |f |Flip the sign on the last stack item|
 |c |Clear the current stack|
@@ -100,7 +95,7 @@ The list of operands available will hopefully continue to grow as my needs chang
 |load NAME|Load the named stack.  If name does not exist a new one will be created|
 |listundo|Show the current undo stack|
 |debug|Toggle debug mode which will display additional information on what's happening|
-|a [l d r]| Align the display output to be l(eft), d(ecimal), or r(ight)|
+|a <l,d,r>| Align the display output to be l(eft), d(ecimal), or r(ight)|
 |ver| Display the current version number.  Can also be seen in the help screen|
 |h or ?|Display the help information|
 |x or q |Exit the program.  The primary and secondary stacks will be saved.  'cx' will clear the stack before exiting.|
@@ -116,7 +111,9 @@ One note is that you can perform a shortcut.  You can append an operand at the e
 
 ## Wrapup
 I'm making this available in the hope that others may find this useful.  Please let me know if you have any issues, thoughts or suggestions.
-rpncalc@fross.org
+rpncalc@fross.org.  If you are a snap user, you can download, install, and keep RPNCalc very easily and safely by installing via 
+
+`sudo snap install rpncalc`
 
 ## License
 [The MIT License](https://opensource.org/licenses/MIT)
