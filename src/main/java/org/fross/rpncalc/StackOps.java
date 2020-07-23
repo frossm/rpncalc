@@ -19,6 +19,10 @@ public class StackOps {
 	// Class Constants
 	public static final int MAX_DENOMINATOR = 64; // Smallest Fraction Denominator
 
+	// Class Variables
+	// private static Double[] memorySlots = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	private static Double[] memorySlots = { null, null, null, null, null, null, null, null, null, null };
+
 	/**
 	 * StackDeleteItem(): Delete a stack element
 	 * 
@@ -631,6 +635,84 @@ public class StackOps {
 			Main.calcStack.add(java.lang.Math.log10(Main.calcStack.pop()));
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdMem(): Manage the memory slots
+	 * 
+	 * @param cmd
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdMem(String arg) {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		String[] argParse = null;
+		int memSlot = 0;
+
+		try {
+			// Parse our slot number and command
+			argParse = arg.split(" ");
+			memSlot = Integer.parseInt(argParse[0]);
+		} catch (NumberFormatException ex) {
+			// No slot number provided, just the command. Set Slot to 0
+			arg = "0 " + arg;
+		}
+
+		try {
+			argParse = arg.split(" ");
+			memSlot = Integer.parseInt(argParse[0]);
+
+			Output.debugPrint("arg string: " + arg);
+			Output.debugPrint("Memory Slot Selected: " + memSlot);
+			Output.debugPrint("Memory Command: " + argParse[1]);
+
+			// Ensure provided slot is within range
+			if (memSlot < 0 || memSlot > 9) {
+				Output.printColorln(Ansi.Color.RED, "ERROR: Memory Slot Number must be between 0 and 9");
+				return;
+			}
+
+			// Execute provided mem command
+			switch (argParse[1].toLowerCase()) {
+			case "add":
+				Output.debugPrint("Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
+				memorySlots[memSlot] = Main.calcStack.peek();
+				break;
+
+			// Clear the provided slot's value
+			case "clr":
+			case "clear":
+				Output.debugPrint("Clearing Memory Slot #" + memSlot);
+				memorySlots[memSlot] = null;
+				break;
+
+			// Copy the value from the memory slot provided back onto the stack
+			case "copy":
+				Output.debugPrint("Copying values from Memory Slot #" + memSlot);
+				if (memorySlots[memSlot] != null)
+					Main.calcStack.add(memorySlots[memSlot]);
+				else
+					Output.printColorln(Ansi.Color.RED, "Memory Slot #" + memSlot + " is empty");
+				break;
+
+			// Show the values of the memory stack
+			case "show":
+			case "list":
+				Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots-----------------------------");
+				for (int i = 0; i < memorySlots.length; i++) {
+					Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ":  " + memorySlots[i]);
+				}
+				Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+				break;
+
+			default:
+				// Slot was valid number, but unknown mem commandf
+				Output.printColorln(Ansi.Color.RED, "Error: Unknown memory command: '" + argParse[1] + "'");
+			}
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'");
 		}
 	}
 

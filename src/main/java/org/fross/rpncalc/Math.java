@@ -155,4 +155,19 @@ public class Math {
 		return GreatestCommonDivisor(n2, n1 % n2);
 	}
 
+	/**
+	 * isNumberic(): Return true or false if provided string is a number
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean isNumeric(String str) {
+		try {
+			Double.parseDouble(str);
+			return true;
+		} catch (NumberFormatException ex) {
+			return false;
+		}
+	}
+
 } // END MATH CLASS

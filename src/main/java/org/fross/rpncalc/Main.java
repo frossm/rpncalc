@@ -410,6 +410,11 @@ public class Main {
 			case "log10":
 				StackOps.cmdLog10();
 				break;
+				
+			// Memory Functions
+			case "mem":
+				StackOps.cmdMem(cmdInputParam);
+				break;
 
 			// Percent
 			case "%":

@@ -61,6 +61,10 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan     Calculate the trigonometry functions");
 		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan  Calculate the arc trigonometry functions");
 		Output.printColorln(Ansi.Color.WHITE, " log|log10    Calculate the natural (base e) or base10 logarithm");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] add  Add last stack item to memory Slot X (0 to 9)");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr  Clear memory Slot X (0 to 9)");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy Copy number for memory Slot X (0 to 9)");
+		Output.printColorln(Ansi.Color.WHITE, " mem show     Display contents of the memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provided base.  Default is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");

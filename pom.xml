@@ -5,7 +5,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>2020.07.20</version>
+	<version>2020.07.23</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -122,7 +122,7 @@
 		<dependency>
 			<groupId>org.fross</groupId>
 			<artifactId>library</artifactId>
-			<version>2020.06.22</version>
+			<version>2020.07.22</version>
 		</dependency>
 
 	</dependencies>
