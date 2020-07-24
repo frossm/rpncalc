@@ -52,7 +52,7 @@ Saving and loading stacks is fundamental to RPNCalc.  You can have as many saved
 
 Each stack you load (default or a named stack) actually has 2 stacks defined; a primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The order is saved and restored upon loading.
 
-While stacks are saved on shutdown, the memory slots used by the **mem** command are not saved between sessions. The slots are just temporary memory location to use when you wish to save a value to use later in the current session. You can also copy a value with the copy command which placed a copy of the last stack item on top of the stack.
+While stacks are saved on shutdown, the memory slots used by the **mem** command are not saved between sessions. The slots are just temporary memory location to use when you wish to save a value to use later in the current session. You can also copy a value with the copy command which placed a copy of the top stack item onto the stack.
 
 ## Command Line Options
 Currently there are a small number of command line options, and all are optional.
@@ -71,37 +71,37 @@ The following is the list of operands supported by RPNCalc:
 |Operand|Description|
 |-------|-----------|
 |+ |Add the last two items on the stack|
-|- |Subtract the last stack item from the previous item|
-|* |Multiply the last two items in the stack|
-|/ |Divide the second to the last item by the last|
-|^ |The second to the last item to the power of the last|
+|- |Subtract line 1 from line 2|
+|* |Multiply the top two items (line 1 & 2) in the stack|
+|/ |Divide line 2 by line 1|
+|^ |Take line 2 to the power of line 1|
 
 
 ## Calculator Commands
 |Command|Description|
 |-------|-----------|
-|u |Undo last operation.  Before commands and operations are performed, RPNCalc saves a copy of the current stack.  This will replace the current stack with the last saved version.  If you are curious about what the undo stack looks like, run the `listundo` command|
-|f |Flip the sign on the last stack item. This is the same as multiplying by -1|
+|u |Undo last operation.  Before commands and operations are performed, RPNCalc saves a copy of the current stack into an Undo Stack.  Upon an undo command, the current stack will be replaced by the top of the Undo Stack.  If you are curious about what the undo stack looks like at any given point, run the `listundo` command|
+|f |Flip the sign on the top (line 1) stack item. This is the same as multiplying by -1|
 |c |Clear the current stack and the screen|
-|d [#] |Delete the last item in the stack or, optionally, the line number provided|
-|s [#] [#]|Swap the position of the last two stack items or, optionally, the line numbers provided|
-|copy| Copy the item at the top of the stack.  This adds a copy of the last item back to the stack so you'll have two of the last items.|
-|% |Convert the last stack item into it's percentage (multiply by 0.01).  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
-|mod|Modulus is the remainder after a division.  This command will perform a division and put the remainder only back on the stack|
+|d [#] |Delete the last item (line 1) on the stack with just a `d` command or, optionally, delete the line number provided with `d <linenumber`|
+|s [#] [#]|Swap the position of the top two stack items (line 1 & 2) with `s`.  You can swap any two line items in your stack by providing the two line numbers `s # #`|
+|copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
+|% |Convert the top stack item (line 1) into it's percentage number.  This will simply multiply the last value by 0.01.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
+|mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back on the stack|
 |pi| Insert the value of PI onto the stack|
-|phi| Add PHI, also known as the Golden Ratio, to the stack|
-|sqrt|Perform a square root of the last item in the stack|
-|sin, cos, tan|Calculate the trigonometry functions|
-|asin, acos, atan|Calculate the arc trignometry functions|
+|phi| Add PHI, also known as the Golden Ratio, to the stack.  Phi = `1.618033989`|
+|sqrt|Perform a square root of the top item in the stack|
+|sin, cos, tan|Calculate the trigonometry function|
+|asin, acos, atan|Calculate the arc trigonometry function|
 |log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
-|mem X add|Add last stack item into memory slot X.  There are 10 slots, 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  mem add   will add the last stack item into the Slot0|
-|mem X clr|Clear the contents of memory slot X.  There are 10 slots, 0 through 9.  Defaults to Slot0 if no slot is provided|
-|mem X copy|Copy contents of memory slot X (0 through 9) back onto the stack.  Defaults to Slot0 if no slot is provided|
-|mem show|Show the contents of all 10 memory slots|
-|ss|Swap the current stack with the secondary.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit.|
+|mem [slot] add|Add the top stack item (line 1) into the memory slot provided.  There are 10 slots; 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  `mem add`   will add the last stack item into the Slot0|
+|mem [slot] clr|Clear the contents of the memory slot provided.  There are 10 slots, 0 through 9.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
+|mem [slot] copy|Copies the contents of memory slot provided (0 through 9) back onto the stack.  Defaults to Slot0 if no slot number is provided.  `recall` can also be used instead of `copy`|
+|mem show|Display the contents of all 10 memory slots.  `list` can also be used instead of `show`|
+|ss|Swap the current stack with the secondary. The primary and secondary stacks are described above in the Stacks secsion.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
 |rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.|
-|frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this will display the results.  For example, if you had *1.1234* on the stack, frac would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  It auto reduces which is why you get the eight. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
-|dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. Not the most useful command...|
+|frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
+|dice XdY|Roll a Y sided die X times and display the results.  Default is 1d6. While not a normal calculator function, I find it useful.|
 
 
 ## Operational Commands
