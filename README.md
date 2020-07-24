@@ -42,6 +42,8 @@ Saving and loading stacks is fundamental to RPNCalc.  You can have as many saved
 
 Each stack you load (default or a named stack) actually has 2 stacks defined; primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The order is saved and restored upon loading.
 
+While stacks are saved on shutdown, the memory slots used by the **mem** command are not saved between sessions. The slots are there to save off values you wish to use later in that session. You can also copy a value with the copy command.
+
 ## Command Line Options
 Currently there are a small number of command line options, and all are optional.
 
