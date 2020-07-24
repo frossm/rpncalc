@@ -308,11 +308,11 @@ public class Main {
 
 			// Delete
 			case "d":
-				// If Param is empty, assume delete top of stack item
+				// If Param is empty, delete the value on the top of the stack
 				if (cmdInputParam.isEmpty())
-					StackOps.cmdDelete(1);
+					StackOps.cmdDelete("1");
 				else
-					StackOps.cmdDelete(Integer.parseInt(cmdInputParam));
+					StackOps.cmdDelete(cmdInputParam);
 				break;
 
 			// Square Root
@@ -472,6 +472,7 @@ public class Main {
 
 					// Number entered, add to stack.
 				} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
+					// TODO: make sure "2 x" doesn't crash system					
 					// Save to Undo stack
 					undoStack.push((Stack<Double>) calcStack.clone());
 

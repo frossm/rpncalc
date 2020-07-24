@@ -218,7 +218,15 @@ public class StackOps {
 	 * @param item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdDelete(int lineToDelete) {
+	public static void cmdDelete(String arg) {
+		int lineToDelete = 0;
+		try {
+			lineToDelete = Integer.parseInt(arg);
+		} catch (NumberFormatException ex) {
+			Output.printColorln(Ansi.Color.RED, "Line number provided can not be deleted: '" + arg + "'");
+			return;
+		}
+
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
