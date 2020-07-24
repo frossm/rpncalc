@@ -645,18 +645,16 @@ public class StackOps {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void cmdMem(String arg) {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
 		String[] argParse = null;
 		int memSlot = 0;
 
+		// Parse the command string provided. If we can't create an integer from the first
+		// arg then no stack number was provided
 		try {
-			// Parse our slot number and command
 			argParse = arg.split(" ");
 			memSlot = Integer.parseInt(argParse[0]);
 		} catch (NumberFormatException ex) {
-			// No slot number provided, just the command. Set Slot to 0
+			// No slot number provided, just the command. Set Slot to 0 and it will re-parse below
 			arg = "0 " + arg;
 		}
 
@@ -669,16 +667,22 @@ public class StackOps {
 			Output.debugPrint("Memory Command: " + argParse[1]);
 
 			// Ensure provided slot is within range
-			if (memSlot < 0 || memSlot > 9) {
-				Output.printColorln(Ansi.Color.RED, "ERROR: Memory Slot Number must be between 0 and 9");
+			if (memSlot < 0 || memSlot >= memorySlots.length) {
+				Output.printColorln(Ansi.Color.RED, "ERROR: Memory Slot Number must be between 0 and " + (memorySlots.length - 1));
 				return;
 			}
 
-			// Execute provided mem command
+			// Execute provided memory command
 			switch (argParse[1].toLowerCase()) {
+			// Add the last stack item in the memory slot
 			case "add":
-				Output.debugPrint("Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
-				memorySlots[memSlot] = Main.calcStack.peek();
+				// Ensure there is a value to save to the memory slot
+				if (Main.calcStack.size() >= 1) {
+					Output.debugPrint("Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
+					memorySlots[memSlot] = Main.calcStack.peek();
+				} else {
+					Output.printColorln(Ansi.Color.RED, "Error: There must be at least one value on the stack");
+				}
 				break;
 
 			// Clear the provided slot's value
@@ -690,6 +694,10 @@ public class StackOps {
 
 			// Copy the value from the memory slot provided back onto the stack
 			case "copy":
+			case "recall":
+				// Save to undo stack
+				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
 				Output.debugPrint("Copying values from Memory Slot #" + memSlot);
 				if (memorySlots[memSlot] != null)
 					Main.calcStack.add(memorySlots[memSlot]);
@@ -702,7 +710,7 @@ public class StackOps {
 			case "list":
 				Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots-----------------------------");
 				for (int i = 0; i < memorySlots.length; i++) {
-					Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ":  " + memorySlots[i]);
+					Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + memorySlots[i]);
 				}
 				Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
 				break;
