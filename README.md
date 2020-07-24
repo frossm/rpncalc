@@ -1,8 +1,6 @@
-<p align="center"> 
- <img width="80" height = "80" src ="https://github.com/frossm/rpncalc/blob/master/graphics/PostIt-200x200.jpg">
- 
- **RPNCalc: The Command Line Reverse Polish Notation Calculator**
-</p>
+<p align="center"> <img width="80" height = "80" src ="https://github.com/frossm/rpncalc/blob/master/graphics/PostIt-200x200.jpg"> </p> 
+
+<p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator**<i></b></p>
 
 ## INTRODUCTION
 RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are percentiles involved.  For a quick easy example, to perform the following calculation:
