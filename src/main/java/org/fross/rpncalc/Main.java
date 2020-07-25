@@ -410,7 +410,7 @@ public class Main {
 			case "log10":
 				StackOps.cmdLog10();
 				break;
-				
+
 			// Memory Functions
 			case "mem":
 				StackOps.cmdMem(cmdInputParam);
@@ -472,12 +472,11 @@ public class Main {
 
 					// Number entered, add to stack.
 				} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
-					// TODO: make sure "2 x" doesn't crash system					
 					// Save to Undo stack
 					undoStack.push((Stack<Double>) calcStack.clone());
 
-					Output.debugPrint("Adding number onto the stack");
-					calcStack.push(Double.valueOf(cmdInput));
+					Output.debugPrint("Adding number '" + cmdInputCmd + "' onto the stack");
+					calcStack.push(Double.valueOf(cmdInputCmd));
 
 					// Handle numbers with a single operand at the end (a NumOp)
 				} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
