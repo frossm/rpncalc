@@ -108,8 +108,8 @@ The following is the list of operands supported by RPNCalc:
 |Command|Description  |
 |-------|-------------|
 |liststacks|Display the current saved stacks on the system|
-|load NAME|Load the named stack.  You can `load` a stack name even if it doesn't exist, and it will be created.  Exiting the program or loading another stack will save the current stack.
 |listundo|Show the current undo stack|
+|load NAME|Load the named stack.  You can `load` a stack name even if it doesn't exist, and it will be created.  Exiting the program or loading another stack will save the current stack.
 |debug|Toggle debug mode which will display additional information on what's happening internally to the program.  Save as the `-D` command line switch.  Probably not the useful for a normal user.|
 |a <l,d,r>| Align the display output to be l(eft), d(ecimal), or r(ight).  This is the same as the `-a <l, d, r>` command line switch|
 |ver| Display the current version number and copyright.  These can also be seen in the help screen|
