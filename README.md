@@ -3,7 +3,7 @@
 <p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator**<i></b></p>
 
 ## INTRODUCTION
-RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are percentiles involved.  For a quick easy example, to perform the following calculation:
+<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are percentiles involved.  For a quick easy example, to perform the following calculation:
 
 `((5+3) * 8)/2 = x`
 
