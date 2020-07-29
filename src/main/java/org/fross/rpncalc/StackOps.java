@@ -33,11 +33,33 @@ import org.fusesource.jansi.Ansi;
 
 public class StackOps {
 	// Class Constants
-	public static final int MAX_DENOMINATOR = 64; // Smallest Fraction Denominator
+	public static final int DEFAULT_DENOMINATOR = 64;  // Default Smallest Fraction Denominator
+	private static final int DEFAULT_MEMORY_SLOTS = 10;	 // Number of memory slots available for mem command
 
 	// Class Variables
-	// private static Double[] memorySlots = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-	private static Double[] memorySlots = { null, null, null, null, null, null, null, null, null, null };
+	private static Double[] memorySlots = new Double[DEFAULT_MEMORY_SLOTS];
+
+	/**
+	 * SetMaxMemorySlots(): Sets the number of memory slot available to be used
+	 * 
+	 * @param numSlots
+	 */
+	public static void SetMaxMemorySlots(String slots) {
+		try {
+			int numSlots = Integer.parseInt(slots);
+
+			// Ensure we always have at least one memory slot
+			if (numSlots >= 1) {
+				memorySlots = new Double[numSlots];
+			} else {
+				Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
+				memorySlots = new Double[1];
+			}
+
+		} catch (NumberFormatException ex) {
+			Output.fatalError("Could not set the number of memory slots to '" + slots + "'", 4);
+		}
+	}
 
 	/**
 	 * StackDeleteItem(): Delete a stack element
@@ -184,33 +206,48 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdListUndo(StackToDisplay): Display the current undo stack
+	 * cmdList(): Sub commands to list are:
 	 * 
-	 * @param undoStk
+	 * stacks: List the current list of saved stacks from the preferences system
+	 * 
+	 * mem: List the current values in the memory stacks
+	 * 
+	 * undo: List the contents of the undo stack which shows previous stack states
 	 */
-	@SuppressWarnings("rawtypes")
-	public static void cmdListUndo(Stack<Stack> undoStk) {
-		Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack:-------------------------------");
-		for (int i = 0; i < undoStk.size(); i++) {
-			String sn = String.format("%02d:  %s", i + 1, undoStk.get(i));
-			Output.printColorln(Ansi.Color.CYAN, sn);
+	public static void cmdList(String arg) {
+		switch (arg.toLowerCase()) {
+		case "stacks":
+		case "stack":
+			String[] stks = Prefs.QueryStacks();
+
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks:-----------------------------");
+			for (int i = 0; i < stks.length; i++) {
+				String sn = String.format("%02d:  %s", i, stks[i]);
+				Output.printColorln(Ansi.Color.CYAN, sn);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+			break;
+
+		case "mem":
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots-----------------------------");
+			for (int i = 0; i < memorySlots.length; i++) {
+				Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + memorySlots[i]);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+			break;
+
+		case "undo":
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack:-------------------------------");
+			for (int i = 0; i < Main.undoStack.size(); i++) {
+				String sn = String.format("%02d:  %s", i + 1, Main.undoStack.get(i));
+				Output.printColorln(Ansi.Color.CYAN, sn);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+			break;
+
+		default:
+			Output.printColorln(Ansi.Color.RED, "Error:  Unknown list command '" + arg + "'");
 		}
-		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
-	}
-
-	/**
-	 * cmdListStacks(): Display a list of the saved stacks in the preferences system
-	 */
-	public static void cmdListStacks() {
-		String[] stks = Prefs.QueryStacks();
-
-		Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks:-----------------------------");
-		for (int i = 0; i < stks.length; i++) {
-			String sn = String.format("%02d:  %s", i, stks[i]);
-			Output.printColorln(Ansi.Color.CYAN, sn);
-		}
-		Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------");
-
 	}
 
 	/**
@@ -369,7 +406,7 @@ public class StackOps {
 		}
 
 		// The base to convert the fraction to. For example, 64 = 1/64th
-		int denominator = MAX_DENOMINATOR;
+		int denominator = DEFAULT_DENOMINATOR;
 
 		// If no denominator is provided, use it instead of the default
 		if (!param.isEmpty())
@@ -682,13 +719,13 @@ public class StackOps {
 			arg = "0 " + arg;
 		}
 
+		// Now that we have a memory slot (0 was inserted above if none was provided) we can get to work
 		try {
 			argParse = arg.split(" ");
 			memSlot = Integer.parseInt(argParse[0]);
 
-			Output.debugPrint("arg string: " + arg);
-			Output.debugPrint("Memory Slot Selected: " + memSlot);
-			Output.debugPrint("Memory Command: " + argParse[1]);
+			Output.debugPrint("Argument Parsing: Memory Slot Selected: " + memSlot);
+			Output.debugPrint("Argument Parsing: Memory Command: " + argParse[1]);
 
 			// Ensure provided slot is within range
 			if (memSlot < 0 || memSlot >= memorySlots.length) {
@@ -729,22 +766,12 @@ public class StackOps {
 					Output.printColorln(Ansi.Color.RED, "Memory Slot #" + memSlot + " is empty");
 				break;
 
-			// Show the values of the memory stack
-			case "show":
-			case "list":
-				Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots-----------------------------");
-				for (int i = 0; i < memorySlots.length; i++) {
-					Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + memorySlots[i]);
-				}
-				Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
-				break;
-
 			default:
-				// Slot was valid number, but unknown mem commandf
+				// Slot was valid number, but unknown mem command
 				Output.printColorln(Ansi.Color.RED, "Error: Unknown memory command: '" + argParse[1] + "'");
 			}
 		} catch (Exception ex) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'");
+			Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");
 		}
 	}
 

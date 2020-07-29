@@ -117,7 +117,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:vh?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:vh?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
@@ -143,6 +143,11 @@ public class Main {
 					break;
 				}
 				break;
+
+			case 'm':
+				StackOps.SetMaxMemorySlots(optG.getOptarg());
+				break;
+
 			case 'v': // Version Display
 				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
 				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
@@ -301,15 +306,10 @@ public class Main {
 				}
 				break;
 
-			// ListUndo
-			case "listundo":
-				StackOps.cmdListUndo(undoStack);
-				break;
-
-			// ListStacks
-			case "liststack":
-			case "liststacks":
-				StackOps.cmdListStacks();
+			// List
+			// Supported commands are "stacks" | "mem" | "undo"
+			case "list":
+				StackOps.cmdList(cmdInputParam);
 				break;
 
 			// Undo

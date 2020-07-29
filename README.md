@@ -60,8 +60,9 @@ Currently there are a small number of command line options, and all are optional
 |Option|Description|
 |-------|-----------|
 |-D | Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I usually use this as I debug the program, but if you wish to get a bit more insight into what's going on, go for it.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode on/off by entering in the command 'debug' while within the program - you don't have to leave the program|
-|-l name |Load a saved stack by it's name.  This essentiallmosty will "name" your session and store the stack upon exit in the Java preferences system.  You can load the stack with the -l command line option, or from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  All of RPNCalc's saved information is stored as a java preference.  This location will vary by OS.|
+|-l name |Load a saved stack by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load the stack with the -l command line option, or from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  All of RPNCalc's saved information is stored as a java preference.  This location will vary by OS.|
 |-a <l,d,r> |Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I use it as a checkbook, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself using the `a` command.|
+|-m [slots]| Override the default value of 10 available memory slots.  If you need 12 memory slot, just use `-m 12` when starting the program.  Please note that if you have 12 slots, the slot numbers within the program will be 0 - 11|
 |-v|Simply show the version information and exit.  The help command line option (-h or -?) will also show this information|
 |-h or -?|Display the standard help information and exit|
 
@@ -88,8 +89,6 @@ The following is the list of operands supported by RPNCalc:
 |copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
 |% |Convert the top stack item (line 1) into it's percentage number.  This will simply multiply the last value by 0.01.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back on the stack|
-|pi| Insert the value of PI onto the stack|
-|phi| Add PHI, also known as the Golden Ratio, to the stack.  Phi = `1.618033989`|
 |sqrt|Perform a square root of the top item in the stack|
 |sin, cos, tan|Calculate the trigonometry function|
 |asin, acos, atan|Calculate the arc trigonometry function|
@@ -97,18 +96,23 @@ The following is the list of operands supported by RPNCalc:
 |mem [slot] add|Add the top stack item (line 1) into the memory slot provided.  There are 10 slots; 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  `mem add`   will add the last stack item into the Slot0|
 |mem [slot] clr|Clear the contents of the memory slot provided.  There are 10 slots, 0 through 9.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
 |mem [slot] copy|Copies the contents of memory slot provided (0 through 9) back onto the stack.  Defaults to Slot0 if no slot number is provided.  `recall` can also be used instead of `copy`|
-|mem show|Display the contents of all 10 memory slots.  `list` can also be used instead of `show`|
 |ss|Swap the current stack with the secondary. The primary and secondary stacks are described above in the Stacks secsion.  SS will swap them back again.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
 |rand [l] [h]|Generate a random integer number between the provided low and high numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100.|
 |frac [base]|Display the last stack item as a fraction with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
 |dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it useful.|
 
+## Constants
+|Constant|Description|
+|--|--|
+|pi| Insert the value of PI onto the stack.  Pi is approximately `3.14159265359`|
+|phi| Add PHI, also known as the Golden Ratio, to the stack.  Phi is approximately `1.618033989`|
 
 ## Operational Commands
 |Command|Description  |
 |-------|-------------|
-|liststacks|Display the current saved stacks on the system|
-|listundo|Show the current undo stack|
+|list stacks|List the current saved stacks on the system.  `list stack` will also work|
+|list mem|list the contents of all 10 memory slots|
+|list undo|List the current undo stack.  This command will show you the saved undo stacks.  Basically what your stack will look like when you perform an undo|
 |load NAME|Load the named stack.  You can `load` a stack name even if it doesn't exist, and it will be created.  Exiting the program or loading another stack will save the current stack.
 |debug|Toggle debug mode which will display additional information on what's happening internally to the program.  Save as the `-D` command line switch.  Probably not the useful for a normal user.|
 |a <l,d,r>| Align the display output to be l(eft), d(ecimal), or r(ight).  This is the same as the `-a <l, d, r>` command line switch|
@@ -131,12 +135,12 @@ If you are a snap user, I would encourage anyone with a supported Linux platform
 
 `sudo snap install rpncalc`
 
-This will install the application into a sandbox where it is separate from other applications.  I do want to look at packaging it via Flatpak as well, but have not yet done so.
+This will install the application into a sandbox where it is separate from other applications.  I do want to look at packaging it via Flatpak as well, but my understanding is that Maven is not well supported.  However, I need to do more investigation.
 
 ## License
 [The MIT License](https://opensource.org/licenses/MIT)
 
-Copyright 2011-2020 by Michael Fross
+Copyright (C) 2011-2020 by Michael Fross
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

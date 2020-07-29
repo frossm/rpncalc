@@ -52,6 +52,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
 		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of number stack. (l)eft, (r)ight, or (d)ecmimal. Default is left");
+		Output.printColorln(Ansi.Color.WHITE, " -m       Set the number of memory slots for this session.  Default value is 10");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
@@ -70,8 +71,6 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " %         Convert last stack item into a percentage by multipling by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " mod       Perform a division and return the remainder (modulus)");
 		Output.printColorln(Ansi.Color.WHITE, " copy      Copy the last stack item");
-		Output.printColorln(Ansi.Color.WHITE, " pi        Add PI to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " phi       Add the Golden Radio or PHI to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root");
 		Output.printColorln(Ansi.Color.WHITE, " ss        Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan     Calculate the trigonometry functions");
@@ -80,15 +79,19 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] add  Add last stack item to memory Slot X (0 to 9)");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr  Clear memory Slot X (0 to 9)");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy Copy number for memory Slot X (0 to 9)");
-		Output.printColorln(Ansi.Color.WHITE, " mem show     Display contents of the memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provided base.  Default is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
 
+		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
+		Output.printColorln(Ansi.Color.WHITE, " pi        Add PI to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " phi       Add the Golden Radio or PHI to the stack");
+		
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
-		Output.printColorln(Ansi.Color.WHITE, " liststacks   Show the list of saved stacks");
+		Output.printColorln(Ansi.Color.WHITE, " list stacks  Show the list of saved stacks");
+		Output.printColorln(Ansi.Color.WHITE, " list mem     Display contents of the memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " list undo    Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " load         Load or create a named stack");
-		Output.printColorln(Ansi.Color.WHITE, " listundo     Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " a [lrd]      Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver          Display the current version");
