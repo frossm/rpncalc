@@ -3,15 +3,15 @@
 <p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator**<i></b></p>
 
 ## INTRODUCTION
-<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are percentiles involved.  For a quick easy example, to perform the following calculation:
+<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider the following:
 
-`((5+3) * 8)/2 = x`
+`x = SQRT((((5+3) * 8)/2) ^ 6)`
 
-With an RPN Calculator, you would hit the following keys:
+With an RPN Calculator, to solve for x you would start on the inner calculation and work outwards by entering the following:
 
-`5 enter 3 + 8 * 2 /`
+`5 enter 3 + 8 * 2 / 6 ^ SQRT`
 
-You start on the inside and work yourself out.  It's based on a stack and really makes intuitive sense when you use one.  There is no equal sign, but the there is an enter key.
+It's based on a Last In First Out (LIFO) stack and really makes intuitive sense when you use one.  On a RPN calculator, there is no equal sign, but the there is an enter key.
 
 Over the years I've used various RPN calculators on my computer, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one.  It was easy to write, easily extensible, and since it's in Java, should run wherever I need it to run.
 
