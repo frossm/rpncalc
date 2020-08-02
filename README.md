@@ -17,7 +17,8 @@ Now sure I'd know where to start with a standard calculator, but with a RPN Calc
 - `2`
 - `/`
 - `6`
-- `^ SQRT`
+- `^`
+- `SQRT`
 
 RPN is based on a Last In First Out (LIFO) stack and really makes intuitive sense when you use one.  On a RPN calculator, there is no equal sign, but the there is an enter key to put a value on the stack.
 
