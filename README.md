@@ -1,58 +1,86 @@
 <p align="center"> <img width="120" height = "120" src ="https://github.com/frossm/rpncalc/blob/master/graphics/PostIt-200x200.jpg"> </p> 
 
-<p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator**<i></b></p>
+<p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator<i></b></p>
 
 ## INTRODUCTION
-<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider the following:
+<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider solving for X with the following:
 
 `x = SQRT((((5+3) * 8)/2) ^ 6)`
 
-With an RPN Calculator, to solve for x you would start on the inner calculation and work outwards by entering the following:
+Now sure I'd know where to start with a standard calculator, but with a RPN Calculator, to solve for x you would start on the inner calculation and work outwards by entering the following:
+- `5`
+- `Enter`
+- `3`
+- `+`
+- `8`
+- `*`
+- `2`
+- `/`
+- `6`
+- `^ SQRT`
 
-`5 enter 3 + 8 * 2 / 6 ^ SQRT`
+RPN is based on a Last In First Out (LIFO) stack and really makes intuitive sense when you use one.  On a RPN calculator, there is no equal sign, but the there is an enter key to put a value on the stack.
 
-It's based on a Last In First Out (LIFO) stack and really makes intuitive sense when you use one.  On a RPN calculator, there is no equal sign, but the there is an enter key.
+Over the years I've used various RPN calculators on my computer, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one.  It was easy to write, easily extensible, and since it's in Java, should run wherever I need it to run. And, while this calculator doesn't have **every** function a complex calculator would have, I've been using it exclusively and have been successful.  I am continually adding capabilities to it and I think it is fairly fully featured now.  I will, however, continue to add new capabilities based on my ideas and those that I receive.
 
-Over the years I've used various RPN calculators on my computer, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one.  It was easy to write, easily extensible, and since it's in Java, should run wherever I need it to run.
+If you have not heard of an RPN calculator, or just have a passion for various calculator notations, you can read more about it here: [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation) on RPN.
 
-While this calculator doesn't have **every** function of a complex calculator, I've been continually adding to it and it has gotten fairly complete.
-
-If you have not heard of an RPN calculator, or just enjoying reading about various calculator notations, here is a link to the [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation) on RPN.
-
-I have embedded all of the dependencies into the Java jar file.  In order to execute a file, you need to have a Java Run-time Environment, (JRE) installed and and in your path. 
+As for the .jar bundled with a release, I have embedded all of the dependencies into the file.  In order to execute a file, you need to have a Java Run-time Environment, (JRE) installed and and in your path. 
 
 To Execute:
 `java.exe -jar rpncalc.jar`
 
+As I've stated above, this is a java prograam and used maven.  If you download/clone the source, and have maven installed, it should be simple to build:
+
+`mvn package` from the root of the project (the one containing the **pom.xml** file)
+
 ## High Level Usage
-RPNCalc is a console application that must be run from a console.  Executing it with a -h switch, or starting the program and entering the h command will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  
+RPNCalc is a console application that must be run from a console.  Executing it with a -h switch (or -?), or starting the program and entering the h command will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  
 
 On this command line you'll enter numbers and command, then press enter.  The numbers will then be added to the stack.  RPNCalc operates on a stack where the first in is the last out.  You can then enter in an operand, such as + or /, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter `2 [ENTER]` which add the number 2 to the stack.  Then  `3 [ENTER]` which will put it on top of the stack (which is the bottom in the program).  Then `+ [ENTER]` to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip a  step by entering `3+ [ENTER]` and it will perform the shortcut.  I'm not going to into a lot of detail on how a RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hand of it, I rarely use another style.
 
-One note is that the stack always contains decimal numbers.  You can enter in a simple fraction and it will convert it.  
+### Decimals & Fractions
+The stacks always contains decimal numbers.  You can, however, enter in simple fractions and ithey will be converd to decimal and added to the stack.
+
 *For example:*
 
-`1 5/16 [ENTER] will add 1.3125 to the stack`
+`1 5/16 [ENTER]` 
 
-`14/8 [ENTER] will add 1.75 to the stack`
+will add **1.3125** to the stack
 
-While you can never convert it back to a fraction directly as the stacks only support decimals, you can use the `frac <base>` command.  This will convert the fraction to the base provided and then simplify as much as possible.  The default base is 64 which means that it will calculate to a precision of 1/64.  For example:
+`14/8 [ENTER]` 
 
-`12.3456 enter`
-`frac enter`
+will add **1.75** to the stack
+
+While you can never directly convert a decimal number on the stack back to a fraction, you can display what the last stack item would be as a fraction.  You do have to decide on the base which is the smallest denominator that will be used.  RPNCalc will simplify as much as it can.  The default base `1/64` and will be used if none is specified.  Use the `frac [base]` command to display the fractional equivilent.
+
+**Example:**
+`12.3456 [Enter]`
+`frac [Enter]`
 
 Will display `12 11/32`  It reduced from 1/64.  
 
+`1 3/64 pEnter]`
+`frac 16 [Ente]`
+
+will display `1 1/16` as that's as close as it could get with a granulatity of 1/16
+
+
 ## Stacks
-The entire concept of a RPN calculator is based on stacks which you can think of as numbers stacked on top of each other.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  When you start the program you can specify which stack to load.  If none is entered, the default stack is loaded.
+The entire concept of a RPN calculator is based on stacks, which can be thoughts of as numbers stacked on top of each other.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  When you start the program you can specify which stack to load.  If none is entered, the default stack is loaded.
 
-When you perform calculations or commands, they generally work bottom up.  For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute **SQRT**.  This will remove 25 from the stack, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math `add` function, for example, will take the last two numbers off the stack, add then, and then place the result on the stack.  
+When you perform calculations or commands, they generally work from the top of the stack down.  In RPNCalc, the stop of the stack is `line 1`.  When you perform calculations, you are working on your command line and the line above you (line 1 which is the top of the LIFO stack.)  
 
-Saving and loading stacks is fundamental to RPNCalc.  You can have as many saved stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll use the data in the stacks.
+For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute **SQRT**.  This will remove 25 from the stack on Line 1, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math `add` function, for example, will take the last two numbers off the stack, add then, and then place the result on the stack.  
 
-Each stack you load (default or a named stack) actually has 2 stacks defined; a primary and secondary.  You can quickly swap stacks using the **ss** command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The order is saved and restored upon loading.
+### Stack Management
+Saving and loading stacks is fundamental to RPNCalc.  You can have as many named stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll use the data in the stacks.
 
-While stacks are saved on shutdown, the memory slots used by the **mem** command are not saved between sessions. The slots are just temporary memory location to use when you wish to save a value to use later in the current session. You can also copy a value with the copy command which placed a copy of the top stack item onto the stack.
+Each stack you load (default or a named stack) actually has 2 stacks defined; a primary and secondary.  You can quickly swap stacks using the `ss` command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The stack data, as well as the order of the stacks, is saved and restored upon loading.
+
+When you stasrt up RPNCalc, you can load a stack with the `-l name` command.  If the stack exists, it will be loaded.  You can see what stack you are using in the lower right of the dashed bar.  If it does not exist, the stack will be created and when you leave it will be saved.
+
+As a side note, while stacks are saved on shutdown, the memory slots used by the `mem` commands are not saved between sessions. The slots are just temporary memory location to use when you wish to save a value to use later in the current session. You can also copy a value with the copy command which placed a copy of the top stack item onto the stack.
 
 ## Command Line Options
 Currently there are a small number of command line options, and all are optional.
@@ -121,7 +149,7 @@ The following is the list of operands supported by RPNCalc:
 |h or ?|Display the help information|
 |x or q or cx |`x` or `q` will exit the program.  The primary and secondary stacks will be saved.  `cx` will clear the stack before exiting|
 
-## NumOps
+## NumOps Shortcut
 There is an important shortcut that you can (and should use.)  You can append an operand at the end of an entered number and the program will, behind the scenes, place the number on the stack and then execute the operand.  For example:
 
 `2 [Enter]`
