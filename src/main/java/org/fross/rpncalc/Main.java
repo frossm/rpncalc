@@ -441,7 +441,7 @@ public class Main {
 
 			// AddAll
 			case "aa":
-				StackOps.cmdAddAll();
+				StackOps.cmdAddAll(cmdInputParam);
 				break;
 				
 			// Modulus

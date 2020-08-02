@@ -777,22 +777,42 @@ public class StackOps {
 
 	/**
 	 * cmdAddAll(): Add everything on the stack together and return the result to the stack
+	 * 
+	 * @param arg
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdAddAll() {
+	public static void cmdAddAll(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		// Counter to hold total
-		Double aaTotal = 0.0;
+		// Determine if we should keep or clear the stack upon adding
+		boolean keepFlag = false;
+		try {
+			// Just check if the provided command starts with 'k'.  That should be enough
+			if (arg.toLowerCase().charAt(0) == 'k') {
+				keepFlag = true;
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			keepFlag = false;
+		}
 
-		// Loop through the stack items adding them until there is nothing left
-		while (Main.calcStack.empty() == false) {
-			aaTotal += Main.calcStack.pop();
+		// Counter to hold the accumulating total
+		Double totalCounter = 0.0;
+
+		// If the 'keep' flag was sent, get the stack items instead of using pop
+		if (keepFlag == true) {
+			for (int i = 0; i < Main.calcStack.size(); i++) {
+				totalCounter += Main.calcStack.get(i);
+			}
+		} else {
+			// Loop through the stack items popping them off until there is nothing left
+			while (Main.calcStack.empty() == false) {
+				totalCounter += Main.calcStack.pop();
+			}
 		}
 
 		// Add result back to the stack
-		Main.calcStack.push(aaTotal);
+		Main.calcStack.push(totalCounter);
 	}
 
 } // END CLASS

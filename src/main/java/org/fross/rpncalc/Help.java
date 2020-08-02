@@ -51,7 +51,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
-		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of number stack. (l)eft, (r)ight, or (d)ecmimal. Default is left");
+		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of number stack. (l)eft, (r)ight, or (d)ecmimal. Default: left");
 		Output.printColorln(Ansi.Color.WHITE, " -m       Set the number of memory slots for this session.  Default value is 10");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information");
 
@@ -69,7 +69,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " d [#]     Delete the last item in the stack or the row provided");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#] Swap the last two elments in the stack or the elements provided");
 		Output.printColorln(Ansi.Color.WHITE, " %         Convert last stack item into a percentage by multipling by 0.01");
-		Output.printColorln(Ansi.Color.WHITE, " aa        Add all stack items together and return the result to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " aa [keep] Add all stack items. Keep command will keep added elements on stack");
 		Output.printColorln(Ansi.Color.WHITE, " mod       Perform a division and return the remainder (modulus)");
 		Output.printColorln(Ansi.Color.WHITE, " copy      Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root");
