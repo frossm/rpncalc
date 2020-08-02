@@ -439,6 +439,11 @@ public class Main {
 				calcStack.push(calcStack.pop() / 100);
 				break;
 
+			// AddAll
+			case "aa":
+				StackOps.cmdAddAll();
+				break;
+				
 			// Modulus
 			case "mod":
 				StackOps.cmdMod();

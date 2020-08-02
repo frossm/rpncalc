@@ -69,6 +69,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " d [#]     Delete the last item in the stack or the row provided");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#] Swap the last two elments in the stack or the elements provided");
 		Output.printColorln(Ansi.Color.WHITE, " %         Convert last stack item into a percentage by multipling by 0.01");
+		Output.printColorln(Ansi.Color.WHITE, " aa        Add all stack items together and return the result to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " mod       Perform a division and return the remainder (modulus)");
 		Output.printColorln(Ansi.Color.WHITE, " copy      Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root");

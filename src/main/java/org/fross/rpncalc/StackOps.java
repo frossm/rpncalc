@@ -431,7 +431,7 @@ public class StackOps {
 		denominator /= gcd;
 
 		// Output the fractional display
-		Output.printColorln(Ansi.Color.YELLOW, "---Fraction (1/" + (denominator * gcd) + ")---------------------------------");
+		Output.printColorln(Ansi.Color.YELLOW, "\n---Fraction (1/" + (denominator * gcd) + ")---------------------------------");
 		Output.printColorln(Ansi.Color.WHITE, " " + Main.calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
 		Output.printColorln(Ansi.Color.YELLOW, "---------------------------------------------------\n");
 	}
@@ -773,6 +773,26 @@ public class StackOps {
 		} catch (Exception ex) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");
 		}
+	}
+
+	/**
+	 * cmdAddAll(): Add everything on the stack together and return the result to the stack
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdAddAll() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Counter to hold total
+		Double aaTotal = 0.0;
+
+		// Loop through the stack items adding them until there is nothing left
+		while (Main.calcStack.empty() == false) {
+			aaTotal += Main.calcStack.pop();
+		}
+
+		// Add result back to the stack
+		Main.calcStack.push(aaTotal);
 	}
 
 } // END CLASS

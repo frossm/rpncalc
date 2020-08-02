@@ -88,6 +88,7 @@ The following is the list of operands supported by RPNCalc:
 |s [#] [#]|Swap the position of the top two stack items (line 1 & 2) with `s`.  You can swap any two line items in your stack by providing the two line numbers `s # #`|
 |copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
 |% |Convert the top stack item (line 1) into it's percentage number.  This will simply multiply the last value by 0.01.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
+|aa|Add all stack items together and return the result to the stack|
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back on the stack|
 |sqrt|Perform a square root of the top item in the stack|
 |sin, cos, tan|Calculate the trigonometry function|
