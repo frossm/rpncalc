@@ -45,10 +45,11 @@ import org.fross.library.Format;;
  */
 public class Main {
 
-	// Class Constants
+	// Class Constants (or pseudo constants)
+	public static final int STATUSLINEDASHES = 70;
+	public static final String PROPERTIES_FILE = "app.properties";
 	public static String VERSION;
 	public static String COPYRIGHT;
-	public static final String PROPERTIES_FILE = "app.properties";
 
 	// Class Variable
 	@SuppressWarnings("rawtypes")
@@ -58,33 +59,32 @@ public class Main {
 	static char displayAlignment = 'l';
 
 	/**
-	 * DisplayDashedNameLine(): Display the last line of the header and the separator line. This is a
+	 * displayStatusLine(): Display the last line of the header and the separator line. This is a
 	 * separate function given it also inserts the loaded stack and spaced everything correctly.
+	 * 
 	 */
-	public static void displayDashedNameLine() {
-		int dashLineLength = 70;
-
-		// Display the Loaded Stack into Dash line. 70 dashes w/o the name
-		Output.printColor(Ansi.Color.CYAN, "+");
-
-		// Determine how many dashes to use after remove space for the undo and stack
-		// name
-		int numDashes = dashLineLength - 10 - Prefs.QueryLoadedStack().length() - 4;
-
-		// Print the dashes
-		for (int i = 0; i < numDashes; i++) {
-			Output.printColor(Ansi.Color.CYAN, "-");
-		}
+	public static void DisplayStatusLine() {
+		// Format the number of memory slots used
+		String sfMem = String.format("Mem:%02d", StackOps.QueryInUseMemorySlots());
 
 		// Format the undo level to 2 digits. Can't image I'd need over 99 undo levels
-		String sf = String.format("%02d", Main.undoStack.size());
+		String sfUndo = String.format("Undo:%02d", Main.undoStack.size());
 
-		// Print the Undo header information
+		// Determine how many dashes to use after remove space for the undo and stack name
+		int numDashes = STATUSLINEDASHES - sfMem.length() - sfUndo.length() - Prefs.QueryLoadedStack().length() - 11;
+
+		// Print the StatusLine dashes
+		Output.printColor(Ansi.Color.CYAN, "+");
+		Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
+
+		// Print the StatusLine Data
 		Output.printColor(Ansi.Color.CYAN, "[");
-		Output.printColor(Ansi.Color.YELLOW, "Undo:" + sf);
+		Output.printColor(Ansi.Color.YELLOW, sfMem);
+		Output.printColor(Ansi.Color.CYAN, "]-[");
+		Output.printColor(Ansi.Color.YELLOW, sfUndo);
 		Output.printColor(Ansi.Color.CYAN, "]-[");
 		Output.printColor(Ansi.Color.YELLOW, Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum());
-		Output.printColor(Ansi.Color.CYAN, "]");
+		Output.printColor(Ansi.Color.CYAN, "]-");
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
 
@@ -192,17 +192,20 @@ public class Main {
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
 		// Display output header information
-		Output.printColorln(Ansi.Color.CYAN, "+----------------------------------------------------------------------+");
+		// TODO: Create variable dynamic spacing for 3 middle lines so if I change STATUSLINEDASHES it will
+		// all line up
+		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(STATUSLINEDASHES) + "+");
 		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
 		Output.printColorln(Ansi.Color.CYAN, "|      " + COPYRIGHT + "      |");
 		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
+		Output.printColorln(Ansi.Color.CYAN, "|" + " ".repeat(STATUSLINEDASHES) + "|");
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
 			int maxDigitsBeforeDecimal = 0;
 
 			// Display the dashed status line
-			displayDashedNameLine();
+			DisplayStatusLine();
 
 			// Loop through the stack and count the max digits before the decimal for use with the decimal
 			// alignment mode
@@ -247,7 +250,7 @@ public class Main {
 			Output.printColor(Ansi.Color.YELLOW, "\n>>  ");
 			cmdInput = scanner.nextLine();
 
-			// Break each entered line into a command and parameters
+			// Break each line entered into a command and a parameter string
 			try {
 				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
 				cmdInputCmd = ci[0];
@@ -443,7 +446,7 @@ public class Main {
 			case "aa":
 				StackOps.cmdAddAll(cmdInputParam);
 				break;
-				
+
 			// Modulus
 			case "mod":
 				StackOps.cmdMod();

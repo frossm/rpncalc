@@ -62,6 +62,22 @@ public class StackOps {
 	}
 
 	/**
+	 * QueryInUseMemorySlots(): Return the number of memory slots being used
+	 * 
+	 * @return
+	 */
+	public static int QueryInUseMemorySlots() {
+		int inUseCounter = 0;
+
+		for (int i = 0; i < memorySlots.length; i++) {
+			if (memorySlots[i] != null)
+				inUseCounter++;
+		}
+
+		return inUseCounter;
+	}
+
+	/**
 	 * StackDeleteItem(): Delete a stack element
 	 * 
 	 * @param stk
@@ -788,7 +804,7 @@ public class StackOps {
 		// Determine if we should keep or clear the stack upon adding
 		boolean keepFlag = false;
 		try {
-			// Just check if the provided command starts with 'k'.  That should be enough
+			// Just check if the provided command starts with 'k'. That should be enough
 			if (arg.toLowerCase().charAt(0) == 'k') {
 				keepFlag = true;
 			}
