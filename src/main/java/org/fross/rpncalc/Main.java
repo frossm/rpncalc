@@ -46,8 +46,8 @@ import org.fross.library.Format;;
 public class Main {
 
 	// Class Constants (or pseudo constants)
-	public static final int STATUSLINEDASHES = 70;
 	public static final String PROPERTIES_FILE = "app.properties";
+	public static final int STATUSLINEDASHES = 70;
 	public static String VERSION;
 	public static String COPYRIGHT;
 
@@ -59,7 +59,7 @@ public class Main {
 	static char displayAlignment = 'l';
 
 	/**
-	 * displayStatusLine(): Display the last line of the header and the separator line. This is a
+	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a
 	 * separate function given it also inserts the loaded stack and spaced everything correctly.
 	 * 
 	 */
@@ -77,13 +77,13 @@ public class Main {
 		Output.printColor(Ansi.Color.CYAN, "+");
 		Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
 
-		// Print the StatusLine Data
+		// Print the StatusLine Data in chunks to be able to better control color output
 		Output.printColor(Ansi.Color.CYAN, "[");
-		Output.printColor(Ansi.Color.YELLOW, sfMem);
+		Output.printColor(Ansi.Color.WHITE, sfMem);
 		Output.printColor(Ansi.Color.CYAN, "]-[");
-		Output.printColor(Ansi.Color.YELLOW, sfUndo);
+		Output.printColor(Ansi.Color.WHITE, sfUndo);
 		Output.printColor(Ansi.Color.CYAN, "]-[");
-		Output.printColor(Ansi.Color.YELLOW, Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum());
+		Output.printColor(Ansi.Color.WHITE, Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum());
 		Output.printColor(Ansi.Color.CYAN, "]-");
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
