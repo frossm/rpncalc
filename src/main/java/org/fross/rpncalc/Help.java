@@ -52,7 +52,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
 		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of numbers. (l)eft, (r)ight, or (d)ecmimal. Default: left");
-		Output.printColorln(Ansi.Color.WHITE, " -m       Set the number of memory slots for this session.  Default value is 10");
+		Output.printColorln(Ansi.Color.WHITE, " -m num   Set the number of memory slots for this session.  Default value is 10");
 		Output.printColorln(Ansi.Color.WHITE, " -w num   Set Width of header / status line.  Default is 70 characters");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information");
 
