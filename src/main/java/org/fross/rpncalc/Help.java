@@ -40,14 +40,16 @@ public class Help {
 	 * Display(): Show help information
 	 */
 	public static void Display() {
-		Output.printColor(Ansi.Color.YELLOW, "\n+--------------------------------------------------------------------------+\n+");
-		Output.printColor(Ansi.Color.WHITE, "                      RPN Calculator v" + Main.VERSION + "                          ");
-		Output.printColor(Ansi.Color.YELLOW, "+\n+");
-		Output.printColor(Ansi.Color.WHITE, "               " + Main.COPYRIGHT + "                   ");
-		Output.printColorln(Ansi.Color.YELLOW, "+\n+--------------------------------------------------------------------------+");
-		Output.printColorln(Ansi.Color.CYAN, "          RPNCalc is a simple Reverse Polish Notation calculator");
-		Output.printColorln(Ansi.Color.CYAN, "                   https://github.com/frossm/rpncalc");
+		int helpWidth = 80;
 
+		Output.printColor(Ansi.Color.CYAN, "\n+" + "-".repeat(helpWidth) + "+\n+");
+		Output.printColor(Ansi.Color.WHITE, Main.CenterText(helpWidth, ("RPN Calculator v" + Main.VERSION),"",""));
+		Output.printColor(Ansi.Color.CYAN, "+\n+");
+		Output.printColor(Ansi.Color.WHITE, Main.CenterText(helpWidth, Main.COPYRIGHT,"",""));
+		Output.printColorln(Ansi.Color.CYAN, "+\n+" + "-".repeat(helpWidth) + "+");
+		Output.printColorln(Ansi.Color.CYAN, Main.CenterText(helpWidth,  "RPNCalc is a simple Reverse Polish Notation calculator","",""));
+		Output.printColorln(Ansi.Color.CYAN, Main.CenterText(helpWidth,  "https://github.com/frossm/rpncalc","",""));
+		
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
@@ -88,7 +90,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
 		Output.printColorln(Ansi.Color.WHITE, " pi        Add PI to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " phi       Add the Golden Radio or PHI to the stack");
-		
+
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " list stacks  Show the list of saved stacks");
 		Output.printColorln(Ansi.Color.WHITE, " list mem     Display contents of the memory slots");
