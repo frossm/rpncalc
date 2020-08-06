@@ -40,11 +40,11 @@ public class Help {
 	 * Display(): Show help information
 	 */
 	public static void Display() {
-		Output.printColor(Ansi.Color.YELLOW, "\n+----------------------------------------------------------------------+\n+");
-		Output.printColor(Ansi.Color.WHITE, "                    RPN Calculator v" + Main.VERSION + "                        ");
+		Output.printColor(Ansi.Color.YELLOW, "\n+--------------------------------------------------------------------------+\n+");
+		Output.printColor(Ansi.Color.WHITE, "                      RPN Calculator v" + Main.VERSION + "                          ");
 		Output.printColor(Ansi.Color.YELLOW, "+\n+");
-		Output.printColor(Ansi.Color.WHITE, "      " + Main.COPYRIGHT + "      ");
-		Output.printColorln(Ansi.Color.YELLOW, "+\n+----------------------------------------------------------------------+");
+		Output.printColor(Ansi.Color.WHITE, "               " + Main.COPYRIGHT + "                   ");
+		Output.printColorln(Ansi.Color.YELLOW, "+\n+--------------------------------------------------------------------------+");
 		Output.printColorln(Ansi.Color.CYAN, "          RPNCalc is a simple Reverse Polish Notation calculator");
 		Output.printColorln(Ansi.Color.CYAN, "                   https://github.com/frossm/rpncalc");
 
