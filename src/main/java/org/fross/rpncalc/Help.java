@@ -51,8 +51,9 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
-		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of number stack. (l)eft, (r)ight, or (d)ecmimal. Default: left");
+		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of numbers. (l)eft, (r)ight, or (d)ecmimal. Default: left");
 		Output.printColorln(Ansi.Color.WHITE, " -m       Set the number of memory slots for this session.  Default value is 10");
+		Output.printColorln(Ansi.Color.WHITE, " -w num   Set Width of header / status line.  Default is 70 characters");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
@@ -70,7 +71,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#] Swap the last two elments in the stack or the elements provided");
 		Output.printColorln(Ansi.Color.WHITE, " %         Convert last stack item into a percentage by multipling by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " aa [keep] Add all stack items. Keep command will keep added elements on stack");
-		Output.printColorln(Ansi.Color.WHITE, " mod       Perform a division and return the remainder (modulus)");
+		Output.printColorln(Ansi.Color.WHITE, " mod       Modulus. Perform a division and return the remainder");
 		Output.printColorln(Ansi.Color.WHITE, " copy      Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root");
 		Output.printColorln(Ansi.Color.WHITE, " ss        Swap primary and secondary stack");
@@ -92,7 +93,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " list stacks  Show the list of saved stacks");
 		Output.printColorln(Ansi.Color.WHITE, " list mem     Display contents of the memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " list undo    Show the current undo stack");
-		Output.printColorln(Ansi.Color.WHITE, " load         Load or create a named stack");
+		Output.printColorln(Ansi.Color.WHITE, " load         Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " a [lrd]      Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver          Display the current version");
@@ -100,8 +101,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " x|exit       Exit Calculator.  'cx' will clear before exiting");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nNotes:");
-		Output.printColorln(Ansi.Color.WHITE, "  - You can place an operand at the end of a number and execute in one step.");
+		Output.printColorln(Ansi.Color.WHITE, "  - You can place an operand at the end of a number & execute in one step.");
 		Output.printColorln(Ansi.Color.WHITE, "    Example adding two numbers:   2 <enter> 3+ <enter>   will produce 5.");
-		Output.printColorln(Ansi.Color.CYAN, "  - See homepage for additional usage instructions\n");
+		Output.printColorln(Ansi.Color.CYAN, "  - See homepage (listed above) for additional usage instructions\n");
 	}
 }

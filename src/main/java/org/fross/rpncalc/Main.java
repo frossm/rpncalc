@@ -47,7 +47,7 @@ public class Main {
 
 	// Class Constants (or pseudo constants)
 	public static final String PROPERTIES_FILE = "app.properties";
-	public static final int STATUSLINEDASHES = 70;
+	public static int PROGRAMWIDTH = 70;
 	public static String VERSION;
 	public static String COPYRIGHT;
 
@@ -71,7 +71,7 @@ public class Main {
 		String sfUndo = String.format("Undo:%02d", Main.undoStack.size());
 
 		// Determine how many dashes to use after remove space for the undo and stack name
-		int numDashes = STATUSLINEDASHES - sfMem.length() - sfUndo.length() - Prefs.QueryLoadedStack().length() - 11;
+		int numDashes = PROGRAMWIDTH - 2 - sfMem.length() - sfUndo.length() - Prefs.QueryLoadedStack().length() - 11;
 
 		// Print the StatusLine dashes
 		Output.printColor(Ansi.Color.CYAN, "+");
@@ -89,6 +89,27 @@ public class Main {
 	}
 
 	/**
+	 * CenterText(): Center the text within the width provided adding the pre and post string
+	 * 
+	 * Approach: ((Width - length of text - length of pre - length of post) / 2 ) = spaces to add at the
+	 * front & back
+	 * 
+	 * @param width
+	 * @param lineToCenter
+	 * @param pre
+	 * @param post
+	 * @return
+	 */
+	public static String CenterText(int width, String lineToCenter, String pre, String post) {
+		String result = null;
+
+		int spacesToAdd = ((width - lineToCenter.length() - pre.length() - post.length()) / 2);
+		result = pre + " ".repeat(spacesToAdd) + lineToCenter + " ".repeat(spacesToAdd) + post;
+
+		return (result);
+	}
+
+	/**
 	 * Main(): Start of program and holds main command loop
 	 * 
 	 * @param args
@@ -98,9 +119,9 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		boolean ProcessCommandLoop = true;
 		int optionEntry;
-		String cmdInput = "";
-		String cmdInputCmd = "";
-		String cmdInputParam = "";
+		String cmdInput = "";		// What the user enters
+		String cmdInputCmd = "";	// The first field. The command.
+		String cmdInputParam = "";	// The remaining string. Parameters
 
 		// Process application level properties file
 		// Update properties from Maven at build time:
@@ -110,14 +131,13 @@ public class Main {
 			Properties prop = new Properties();
 			prop.load(iStream);
 			VERSION = prop.getProperty("Application.version");
-			COPYRIGHT = "Copyright " + prop.getProperty("Application.inceptionYear") + "-" + org.fross.library.Date.getCurrentYear()
-					+ " by Michael Fross.  All rights reserved";
+			COPYRIGHT = "Copyright (C) " + prop.getProperty("Application.inceptionYear") + "-" + org.fross.library.Date.getCurrentYear() + " by Michael Fross";
 		} catch (IOException ex) {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:vh?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:w:vh?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
@@ -146,6 +166,20 @@ public class Main {
 
 			case 'm':
 				StackOps.SetMaxMemorySlots(optG.getOptarg());
+				break;
+
+			case 'w':
+				try {
+					int newSize = Integer.parseInt(optG.getOptarg());
+					if (newSize < COPYRIGHT.length()) {
+						Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + (COPYRIGHT.length() + 4) + ". Setting width to that value.");
+						PROGRAMWIDTH = COPYRIGHT.length() + 4;
+					} else {
+						PROGRAMWIDTH = newSize;
+					}
+				} catch (NumberFormatException ex) {
+					Output.fatalError("Incorrect width value provided: '" + optG.getOptarg() + "'", 2);
+				}
 				break;
 
 			case 'v': // Version Display
@@ -192,13 +226,11 @@ public class Main {
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
 		// Display output header information
-		// TODO: Create variable dynamic spacing for 3 middle lines so if I change STATUSLINEDASHES it will
-		// all line up
-		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(STATUSLINEDASHES) + "+");
-		Output.printColorln(Ansi.Color.CYAN, "|                           RPN Calculator                 v" + VERSION + " |");
-		Output.printColorln(Ansi.Color.CYAN, "|      " + COPYRIGHT + "      |");
-		Output.printColorln(Ansi.Color.CYAN, "|                 Enter command 'h' for help details                   |");
-		Output.printColorln(Ansi.Color.CYAN, "|" + " ".repeat(STATUSLINEDASHES) + "|");
+		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(PROGRAMWIDTH - 2) + "+");
+		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, "RPN Calculator", "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, ("v" + VERSION + " "), "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
