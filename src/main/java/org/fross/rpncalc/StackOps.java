@@ -236,29 +236,29 @@ public class StackOps {
 		case "stack":
 			String[] stks = Prefs.QueryStacks();
 
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks:-----------------------------");
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks" + "-".repeat(Main.PROGRAMWIDTH - 13));
 			for (int i = 0; i < stks.length; i++) {
 				String sn = String.format("%02d:  %s", i, stks[i]);
 				Output.printColorln(Ansi.Color.CYAN, sn);
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
 			break;
 
 		case "mem":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots-----------------------------");
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots" + "-".repeat(Main.PROGRAMWIDTH - 13));
 			for (int i = 0; i < memorySlots.length; i++) {
 				Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + memorySlots[i]);
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
 			break;
 
 		case "undo":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack:-------------------------------");
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack" + "-".repeat(Main.PROGRAMWIDTH - 11));
 			for (int i = 0; i < Main.undoStack.size(); i++) {
 				String sn = String.format("%02d:  %s", i + 1, Main.undoStack.get(i));
 				Output.printColorln(Ansi.Color.CYAN, sn);
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-------------------------------------------\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
 			break;
 
 		default:
@@ -424,9 +424,14 @@ public class StackOps {
 		// The base to convert the fraction to. For example, 64 = 1/64th
 		int denominator = DEFAULT_DENOMINATOR;
 
-		// If no denominator is provided, use it instead of the default
-		if (!param.isEmpty())
-			denominator = Integer.parseInt(param);
+		// If a denominator is provided, use it instead of the default
+		try {
+			if (!param.isEmpty())
+				denominator = Integer.parseInt(param);
+		} catch (NumberFormatException ex) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: '" + param + "' is not a valid denominator");
+			return;
+		}
 
 		// Determine the integer portion of the number
 		int integerPart = (int) java.lang.Math.floor(Main.calcStack.peek());
@@ -447,7 +452,7 @@ public class StackOps {
 		denominator /= gcd;
 
 		// Output the fractional display
-		Output.printColorln(Ansi.Color.YELLOW, "\n---Fraction (1/" + (denominator * gcd) + ")---------------------------------");
+		Output.printColorln(Ansi.Color.YELLOW, "\n-Fraction (1/" + (denominator * gcd) + ")-----------------------------------");
 		Output.printColorln(Ansi.Color.WHITE, " " + Main.calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
 		Output.printColorln(Ansi.Color.YELLOW, "---------------------------------------------------\n");
 	}
