@@ -424,32 +424,32 @@ public class Main {
 
 			// Tangent
 			case "tan":
-				StackOps.cmdTan();
+				StackOps.cmdTan(cmdInputParam);
 				break;
 
 			// Arc Tangent
 			case "atan":
-				StackOps.cmdATan();
+				StackOps.cmdATan(cmdInputParam);
 				break;
 
 			// Sin
 			case "sin":
-				StackOps.cmdSin();
+				StackOps.cmdSin(cmdInputParam);
 				break;
 
 			// Arc Sin
 			case "asin":
-				StackOps.cmdASin();
+				StackOps.cmdASin(cmdInputParam);
 				break;
 
 			// Cos
 			case "cos":
-				StackOps.cmdCos();
+				StackOps.cmdCos(cmdInputParam);
 				break;
 
 			// Arc Cosine
 			case "acos":
-				StackOps.cmdACos();
+				StackOps.cmdACos(cmdInputParam);
 				break;
 
 			// Natural (base e) Logarithm

@@ -121,8 +121,8 @@ The following is the list of operands supported by RPNCalc:
 |aa [keep]|Add all stack items together and return the result to the stack.  If the optional `keep` command is sent, the elements added will be retained and the total will be added to the top of the stack.  The entire `keep` command is not necessary, anything that starts with `k` will work|
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back on the stack|
 |sqrt|Perform a square root of the top item in the stack|
-|sin, cos, tan|Calculate the trigonometry function|
-|asin, acos, atan|Calculate the arc trigonometry function|
+|sin, cos, tan [rad]|Calculate the trigonometry function.  Angles are input as degrees unless rad parameter is given.  Example: `tan` to calculate the tangent of row 1 in degrees.  `tan rad` if row 1 contains the angle in radians|
+|asin, acos, atan [rad]|Calculate the arc trigonometry function.  Result is returned as degrees unless rad parameter is provided|
 |log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
 |mem [slot] add|Add the top stack item (line 1) into the memory slot provided.  There are 10 slots; 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  `mem add`   will add the last stack item into the Slot0|
 |mem [slot] clr|Clear the contents of the memory slot provided.  There are 10 slots, 0 through 9.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|

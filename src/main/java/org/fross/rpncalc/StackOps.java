@@ -592,17 +592,31 @@ public class StackOps {
 
 	}
 
+	
 	/**
 	 * cmdTan(): Take the tangent of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdTan() {
+	public static void cmdTan(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
+		Double angleRadians = null;
+
+		// Ensure we have at least one value on the stack
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Tan of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.tan(Main.calcStack.pop()));
+			// Calculations are done in radians. Convert if 'rad' is not provided as a parameter
+			try {
+				if (arg.toLowerCase().charAt(0) == 'r') {
+					angleRadians = Main.calcStack.pop();
+				}
+			} catch (StringIndexOutOfBoundsException ex) {
+				angleRadians = java.lang.Math.toRadians(Main.calcStack.pop());
+			}
+
+			// Add result back to the stack
+			Main.calcStack.add(java.lang.Math.tan(angleRadians));
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -612,29 +626,53 @@ public class StackOps {
 	 * cmdATan(): Take the arc tangent of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdATan() {
+	public static void cmdATan(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
+		Double result = null;
+
+		// Ensure we have at least one value on the stack
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Arc Tan of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.atan(Main.calcStack.pop()));
+			result = java.lang.Math.atan(Main.calcStack.pop());
+			try {
+				if (arg.toLowerCase().charAt(0) == 'r') {
+					Main.calcStack.push(result);
+				}
+			} catch (StringIndexOutOfBoundsException ex) {
+				Main.calcStack.push(java.lang.Math.toDegrees(result));
+			}
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
+
 	}
 
 	/**
 	 * cmdSin(): Take the sin of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdSin() {
+	public static void cmdSin(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
+		Double angleRadians = null;
+
+		// Ensure we have at least one value on the stack
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Sin of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.sin(Main.calcStack.pop()));
+			// Calculations are done in radians. Convert if 'rad' is not provided as a parameter
+			try {
+				if (arg.toLowerCase().charAt(0) == 'r') {
+					angleRadians = Main.calcStack.pop();
+				}
+			} catch (StringIndexOutOfBoundsException ex) {
+				angleRadians = java.lang.Math.toRadians(Main.calcStack.pop());
+			}
+
+			// Add result back to the stack
+			Main.calcStack.add(java.lang.Math.sin(angleRadians));
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -644,13 +682,23 @@ public class StackOps {
 	 * cmdASin(): Take the arc sin of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdASin() {
+	public static void cmdASin(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
+		Double result = null;
+
+		// Ensure we have at least one value on the stack
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Arc Sin of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.asin(Main.calcStack.pop()));
+			result = java.lang.Math.asin(Main.calcStack.pop());
+			try {
+				if (arg.toLowerCase().charAt(0) == 'r') {
+					Main.calcStack.push(result);
+				}
+			} catch (StringIndexOutOfBoundsException ex) {
+				Main.calcStack.push(java.lang.Math.toDegrees(result));
+			}
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -660,13 +708,26 @@ public class StackOps {
 	 * cmdCos(): Take the Cos of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdCos() {
+	public static void cmdCos(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
+		Double angleRadians = null;
+
+		// Ensure we have at least one value on the stack
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Cos of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.cos(Main.calcStack.pop()));
+			// Calculations are done in radians. Convert if 'rad' is not provided as a parameter
+			try {
+				if (arg.toLowerCase().charAt(0) == 'r') {
+					angleRadians = Main.calcStack.pop();
+				}
+			} catch (StringIndexOutOfBoundsException ex) {
+				angleRadians = java.lang.Math.toRadians(Main.calcStack.pop());
+			}
+
+			// Add result back to the stack
+			Main.calcStack.add(java.lang.Math.cos(angleRadians));
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -676,13 +737,23 @@ public class StackOps {
 	 * cmdACos(): Take the Arc Cos of the last stack item
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdACos() {
+	public static void cmdACos(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
+		Double result = null;
+
+		// Ensure we have at least one value on the stack
 		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the Arc Cos of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.acos(Main.calcStack.pop()));
+			result = java.lang.Math.acos(Main.calcStack.pop());
+			try {
+				if (arg.toLowerCase().charAt(0) == 'r') {
+					Main.calcStack.push(result);
+				}
+			} catch (StringIndexOutOfBoundsException ex) {
+				Main.calcStack.push(java.lang.Math.toDegrees(result));
+			}
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}

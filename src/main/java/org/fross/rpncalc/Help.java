@@ -77,8 +77,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " copy      Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root");
 		Output.printColorln(Ansi.Color.WHITE, " ss        Swap primary and secondary stack");
-		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan     Calculate the trigonometry functions");
-		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan  Calculate the arc trigonometry functions");
+		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
+		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan [rad] Trig Functions: Result in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " log|log10    Calculate the natural (base e) or base10 logarithm");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] add  Add last stack item to memory Slot X. Default is 0");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr  Clear memory Slot X. Default is 0");
