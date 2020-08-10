@@ -422,34 +422,18 @@ public class Main {
 				calcStack.add(1.61803398874989);
 				break;
 
-			// Tangent
+			// Trig Functions
 			case "tan":
-				StackOps.cmdTan(cmdInputParam);
-				break;
-
-			// Arc Tangent
-			case "atan":
-				StackOps.cmdATan(cmdInputParam);
-				break;
-
-			// Sin
 			case "sin":
-				StackOps.cmdSin(cmdInputParam);
-				break;
-
-			// Arc Sin
-			case "asin":
-				StackOps.cmdASin(cmdInputParam);
-				break;
-
-			// Cos
 			case "cos":
-				StackOps.cmdCos(cmdInputParam);
+				StackOps.cmdTrig(cmdInputCmd, cmdInputParam);
 				break;
-
-			// Arc Cosine
+				
+			// ArcTrig Functions
+			case "atan":
+			case "asin":
 			case "acos":
-				StackOps.cmdACos(cmdInputParam);
+				StackOps.cmdArcTrig(cmdInputCmd, cmdInputParam);
 				break;
 
 			// Natural (base e) Logarithm
