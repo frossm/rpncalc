@@ -54,25 +54,25 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
 		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of numbers. (l)eft, (r)ight, or (d)ecmimal. Default: left");
-		Output.printColorln(Ansi.Color.WHITE, " -m num   Set the number of memory slots for this session.  Default value is 10");
+		Output.printColorln(Ansi.Color.WHITE, " -m num   Set the number of memory slots.  Default value is 10");
 		Output.printColorln(Ansi.Color.WHITE, " -w num   Set Width of header / status line.  Default is 70 characters");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
 		Output.printColorln(Ansi.Color.WHITE, " +    Addition:  Add last two stack elements");
-		Output.printColorln(Ansi.Color.WHITE, " -    Subtraction: Subtract last element from previous element");
+		Output.printColorln(Ansi.Color.WHITE, " -    Subtraction: Subtract row 1 from row 2");
 		Output.printColorln(Ansi.Color.WHITE, " *    Multiplication: Muliply last two stack items");
-		Output.printColorln(Ansi.Color.WHITE, " /    Division: Divide second row by the first row");
-		Output.printColorln(Ansi.Color.WHITE, " ^    Power:  Calculate second row to the power of the first row");
+		Output.printColorln(Ansi.Color.WHITE, " /    Division: Divide row 2 by row 1");
+		Output.printColorln(Ansi.Color.WHITE, " ^    Power:  Calculate row 2 to the power of row 1");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCalculator Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " u         Undo last action");
 		Output.printColorln(Ansi.Color.WHITE, " f         Flip the sign of the last element");
 		Output.printColorln(Ansi.Color.WHITE, " c         Clear everything from the current stack");
-		Output.printColorln(Ansi.Color.WHITE, " d [#]     Delete the last item in the stack or the row provided");
-		Output.printColorln(Ansi.Color.WHITE, " s [#] [#] Swap the last two elments in the stack or the elements provided");
+		Output.printColorln(Ansi.Color.WHITE, " d [#]     Delete the last item in the stack or the row number provided");
+		Output.printColorln(Ansi.Color.WHITE, " s [#] [#] Swap the last two elments in the stack or the rows provided");
 		Output.printColorln(Ansi.Color.WHITE, " %         Convert last stack item into a percentage by multipling by 0.01");
-		Output.printColorln(Ansi.Color.WHITE, " aa [keep] Add all stack items. Keep command will keep added elements on stack");
+		Output.printColorln(Ansi.Color.WHITE, " aa [keep] Add all stack items. Adding Keep will keep added elements");
 		Output.printColorln(Ansi.Color.WHITE, " mod       Modulus. Perform a division and return the remainder");
 		Output.printColorln(Ansi.Color.WHITE, " copy      Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt      Perform a square root");
@@ -80,9 +80,9 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan     Calculate the trigonometry functions");
 		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan  Calculate the arc trigonometry functions");
 		Output.printColorln(Ansi.Color.WHITE, " log|log10    Calculate the natural (base e) or base10 logarithm");
-		Output.printColorln(Ansi.Color.WHITE, " mem [X] add  Add last stack item to memory Slot X (0 to 9)");
-		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr  Clear memory Slot X (0 to 9)");
-		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy Copy number for memory Slot X (0 to 9)");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] add  Add last stack item to memory Slot X. Default is 0");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr  Clear memory Slot X. Default is 0");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy Copy number for memory Slot X. Default is 0");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provided base.  Default is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
