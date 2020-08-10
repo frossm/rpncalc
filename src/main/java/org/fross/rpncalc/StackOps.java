@@ -452,9 +452,10 @@ public class StackOps {
 		denominator /= gcd;
 
 		// Output the fractional display
-		Output.printColorln(Ansi.Color.YELLOW, "\n-Fraction (1/" + (denominator * gcd) + ")-----------------------------------");
+		String stackHeader = "-Fraction (1/" + (denominator * gcd) + ")";
+		Output.printColorln(Ansi.Color.YELLOW, "\n" + stackHeader + "-".repeat(Main.PROGRAMWIDTH - stackHeader.length()));
 		Output.printColorln(Ansi.Color.WHITE, " " + Main.calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
-		Output.printColorln(Ansi.Color.YELLOW, "---------------------------------------------------\n");
+		Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
 	}
 
 	/**
