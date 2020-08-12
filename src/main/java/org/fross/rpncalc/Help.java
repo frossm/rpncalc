@@ -89,7 +89,7 @@ public class Help {
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
 		Output.printColorln(Ansi.Color.WHITE, " pi        Add PI to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " phi       Add the Golden Radio or PHI to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " phi       Add the Golden Ratio or PHI to the stack");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " list stacks  Show the list of saved stacks");
