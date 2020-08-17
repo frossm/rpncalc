@@ -1,6 +1,6 @@
 <p align="center"> <img width="120" height = "120" src ="https://github.com/frossm/rpncalc/blob/master/graphics/PostIt-200x200.jpg"> </p> 
 
-<p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator<i></b></p>
+<p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator</i></b></p>
 
 ## INTRODUCTION
 <img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider solving for X with the following:
