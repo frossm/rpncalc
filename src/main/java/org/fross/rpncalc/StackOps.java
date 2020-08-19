@@ -790,6 +790,14 @@ public class StackOps {
 				memorySlots[memSlot] = null;
 				break;
 
+			case "clrall":
+			case "clearall":
+				Output.debugPrint("Clearing All Memory Slots");
+				for (int i = 0; i < memorySlots.length; i++) {
+					memorySlots[i] = null;
+				}
+				break;
+				
 			// Copy the value from the memory slot provided back onto the stack
 			case "copy":
 			case "recall":

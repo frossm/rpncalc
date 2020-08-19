@@ -125,9 +125,9 @@ The following is the list of operands supported by RPNCalc:
 |asin, acos, atan [rad]|Calculate the arc trigonometry function.  Result is returned as degrees unless rad parameter is provided|
 |log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
 |mem [slot] add|Add the top stack item (line 1) into the memory slot provided.  By default, there are 10 slots; 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  `mem add`   will add the last stack item into Mem Slot0|
-|mem [slot] clr|Clear the contents of the memory slot provided.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
 |mem [slot] copy|Copies the contents of memory slot provided back onto the stack.  Defaults to Slot0 if no slot number is provided.  `recall` can also be used instead of `copy`|
-|ss|Swap the current stack with the secondary. The primary and secondary stacks are described above in the Stacks section.  Executing `ss` again will swap them back.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
+|mem [slot] clr|Clear the contents of the memory slot provided.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
+|mem clearall|Clear the contents of all memory slots.  Not sure why this would be needed, but seems like something that should be here.  There is no need to include a SlotNumber. Note `mem clrall` will also work|
 |rand [l] [h]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
 |frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
 |dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
@@ -145,6 +145,7 @@ The following is the list of operands supported by RPNCalc:
 |list mem|list the contents of all memory slots|
 |list undo|List the current undo stack.  This command will show you the saved undo stacks.  Basically what your stack will look like when you perform an undo|
 |load NAME|Load the named stack.  You can `load` a stack name even if it doesn't exist, and it will be created.  Exiting the program or loading another stack will save the current stack|
+|ss|Swap the current stack with the secondary. The primary and secondary stacks are described above in the Stacks section.  Executing `ss` again will swap them back.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
 |debug|Toggle debug mode which will display additional information on what's happening internally to the program.  Same as the `-D` command line switch.  Probably not the useful for a normal user|
 |a <l,d,r>| Align the display output to be l(eft), d(ecimal), or r(ight).  This is the same as the `-a <l, d, r>` command line switch|
 |ver| Display the current version number and copyright.  These can also be seen in the help screen|
