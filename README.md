@@ -161,6 +161,8 @@ There is an important shortcut that you can (and should use.)  You can append an
 When the second enter is pressed,  2 will be removed from the stack.  Added together, and the result, `5`, will be added back.
 
 ## SNAP
+[![rpncalc](https://snapcraft.io//rpncalc/badge.svg)](https://snapcraft.io/rpncalc)
+
 I would encourage anyone with a supported Linux platform to use snap.  See [Snapcraft Homepage](https://snapcraft.io) for more information. You can download, install, and keep RPNCalc up to date automatically by installing the snap.  You don't even have to have java as it's bundled within the snap virtual machine.  Install via:
 
 `sudo snap install rpncalc`  (Assuming snapd is installed)
