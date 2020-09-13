@@ -104,6 +104,19 @@
 		</plugins>
 	</build>
 
+	<!-- Define my custom Github repository where Library lives -->
+	<repositories>
+		<repository>
+			<id>github</id>
+			<name>GitHub frossm Library Package</name>
+			<url>https://maven.pkg.github.com/frossm/library</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/gnu.getopt/java-getopt -->
 		<dependency>
