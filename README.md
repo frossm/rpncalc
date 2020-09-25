@@ -9,7 +9,6 @@
 
 Not sure I'd know where to start with a standard calculator, but with a RPN Calculator, to solve for x you would start on the inner calculation and work outwards by entering the following:
 - `5`
-- `Enter`
 - `3`
 - `+`
 - `8`
