@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.util.Stack;
+
 import org.fross.library.Debug;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -202,6 +203,15 @@ public class StackOps {
 		Output.debugPrint("Clearing Stack");
 		Main.calcStack.clear();
 
+		// Rather than printing several hundred new lines, use the JANSI clear screen
+		Output.clearScreen();
+	}
+
+	/**
+	 * cmdClean(): Clean the screen by clearing it and then showing existing stack
+	 */
+	public static void cmdClean() {
+		Output.debugPrint("Cleanning Screen");
 		// Rather than printing several hundred new lines, use the JANSI clear screen
 		Output.clearScreen();
 	}
@@ -776,7 +786,7 @@ public class StackOps {
 			case "add":
 				// Ensure there is a value to save to the memory slot
 				if (Main.calcStack.size() >= 1) {
-					Output.debugPrint("Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
+					Output.printColorln(Ansi.Color.YELLOW, "Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
 					memorySlots[memSlot] = Main.calcStack.peek();
 				} else {
 					Output.printColorln(Ansi.Color.RED, "Error: There must be at least one value on the stack");
@@ -786,25 +796,25 @@ public class StackOps {
 			// Clear the provided slot's value
 			case "clr":
 			case "clear":
-				Output.debugPrint("Clearing Memory Slot #" + memSlot);
+				Output.printColorln(Ansi.Color.YELLOW, "Clearing Memory Slot #" + memSlot);
 				memorySlots[memSlot] = null;
 				break;
 
 			case "clrall":
 			case "clearall":
-				Output.debugPrint("Clearing All Memory Slots");
+				Output.printColorln(Ansi.Color.YELLOW, "Clearing All Memory Slots");
 				for (int i = 0; i < memorySlots.length; i++) {
 					memorySlots[i] = null;
 				}
 				break;
-				
+
 			// Copy the value from the memory slot provided back onto the stack
 			case "copy":
 			case "recall":
 				// Save to undo stack
 				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-				Output.debugPrint("Copying values from Memory Slot #" + memSlot);
+				Output.printColorln(Ansi.Color.YELLOW, "Copying values from Memory Slot #" + memSlot);
 				if (memorySlots[memSlot] != null)
 					Main.calcStack.add(memorySlots[memSlot]);
 				else

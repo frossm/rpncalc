@@ -68,7 +68,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCalculator Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " u         Undo last action");
 		Output.printColorln(Ansi.Color.WHITE, " f         Flip the sign of the last element");
-		Output.printColorln(Ansi.Color.WHITE, " c         Clear everything from the current stack");
+		Output.printColorln(Ansi.Color.WHITE, " c         Clear the screen and empty current stack");
+		Output.printColorln(Ansi.Color.WHITE, " clean     Clear screen but save the stack values");
 		Output.printColorln(Ansi.Color.WHITE, " d [#]     Delete the last item in the stack or the row number provided");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#] Swap the last two elments in the stack or the rows provided");
 		Output.printColorln(Ansi.Color.WHITE, " %         Convert last stack item into a percentage by multipling by 0.01");

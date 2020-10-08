@@ -112,7 +112,8 @@ The following is the list of operands supported by RPNCalc:
 |-------|-----------|
 |u |Undo last operation.  Before an operations affecting the stack is performed, RPNCalc saves a copy of the current stack into an Undo Stack.  Upon an undo command, the current stack will be replaced by the Undo Stack.  If you are curious about what the undo stack looks like at any given point, run the `list undo` command|
 |f |Flip the sign on the top stack item (line 1). This is simply done by multiplying by -1|
-|c |Clear the current stack and the screen|
+|c |Clear the screen, and empty the current stack.  Memory data is retained and you can undo the clear with the undo command `u`|
+|clean|Clear the current screen, but keep the stack.  After cleaning, the stack will be displayed at the top of the screen|
 |d [Linenumber] |Delete the top stack item (line 1) with just a `d` command or, optionally, delete the line number provided with `d <linenumber>`|
 |s [Line1] [Line2]|Swap the position of the top two stack items (line 1 & 2) with `s`.  You can swap any two line items in your stack by providing the two line numbers `s # #`|
 |copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|

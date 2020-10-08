@@ -356,6 +356,11 @@ public class Main {
 			case "c":
 				StackOps.cmdClear();
 				break;
+				
+			// Clean the screen and redisplay the stack
+			case "clean":
+				StackOps.cmdClean();
+				break;
 
 			// Delete
 			case "d":
