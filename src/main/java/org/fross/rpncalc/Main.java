@@ -31,11 +31,13 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.Stack;
-import org.fusesource.jansi.Ansi;
-import gnu.getopt.Getopt;
+
 import org.fross.library.Debug;
+import org.fross.library.Format;
 import org.fross.library.Output;
-import org.fross.library.Format;;
+import org.fusesource.jansi.Ansi;
+
+import gnu.getopt.Getopt;;
 
 /**
  * Main - Main program execution class
@@ -298,7 +300,7 @@ public class Main {
 				}
 			}
 
-			// Main switch to process user input into functions
+			// Main switch statement to process user input and call the correct functions
 			switch (cmdInputCmd) {
 
 			// Debug Toggle
@@ -348,21 +350,26 @@ public class Main {
 				break;
 
 			// Undo
+			case "undo":
 			case "u":
 				StackOps.cmdUndo();
 				break;
 
 			// Clear Screen and Stack
+			case "clear":
 			case "c":
 				StackOps.cmdClear();
 				break;
-				
+
 			// Clean the screen and redisplay the stack
 			case "clean":
+			case "cl":
 				StackOps.cmdClean();
 				break;
 
 			// Delete
+			case "delete":
+			case "del":
 			case "d":
 				// If Param is empty, delete the value on the top of the stack
 				if (cmdInputParam.isEmpty())
@@ -399,11 +406,13 @@ public class Main {
 				break;
 
 			// Swap Elements in a stack
+			case "swap":
 			case "s":
 				StackOps.cmdSwapElements(cmdInputParam);
 				break;
 
 			// Flip Sign
+			case "flip":
 			case "f":
 				StackOps.cmdFlipSign();
 				break;
@@ -433,7 +442,7 @@ public class Main {
 			case "cos":
 				StackOps.cmdTrig(cmdInputCmd, cmdInputParam);
 				break;
-				
+
 			// ArcTrig Functions
 			case "atan":
 			case "asin":
@@ -452,6 +461,7 @@ public class Main {
 				break;
 
 			// Memory Functions
+			case "memory":
 			case "mem":
 				StackOps.cmdMem(cmdInputParam);
 				break;
