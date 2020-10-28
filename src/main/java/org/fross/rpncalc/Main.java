@@ -37,7 +37,7 @@ import org.fross.library.Format;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
-import gnu.getopt.Getopt;;
+import gnu.getopt.Getopt;
 
 /**
  * Main - Main program execution class
@@ -204,20 +204,8 @@ public class Main {
 		}
 
 		// Display some useful information about the environment if in Debug Mode
-		Output.debugPrint("System Information:");
-		Output.debugPrint(" - class.path:     " + System.getProperty("java.class.path"));
-		Output.debugPrint("  - java.home:      " + System.getProperty("java.home"));
-		Output.debugPrint("  - java.vendor:    " + System.getProperty("java.vendor"));
-		Output.debugPrint("  - java.version:   " + System.getProperty("java.version"));
-		Output.debugPrint("  - os.name:        " + System.getProperty("os.name"));
-		Output.debugPrint("  - os.version:     " + System.getProperty("os.version"));
-		Output.debugPrint("  - os.arch:        " + System.getProperty("os.arch"));
-		Output.debugPrint("  - user.name:      " + System.getProperty("user.name"));
-		Output.debugPrint("  - user.home:      " + System.getProperty("user.home"));
-		Output.debugPrint("  - user.dir:       " + System.getProperty("user.dir"));
-		Output.debugPrint("  - file.separator: " + System.getProperty("file.separator"));
-		Output.debugPrint("  - library.path:   " + System.getProperty("java.library.path"));
-		Output.debugPrint("\nCommand Line Options");
+		Debug.displaySysInfo();
+		Output.debugPrint("Command Line Options");
 		Output.debugPrint("  -D:  " + Debug.query());
 		Output.debugPrint("  -l:  " + Prefs.QueryLoadedStack());
 		Output.debugPrint("  -a:  " + displayAlignment);
@@ -371,7 +359,7 @@ public class Main {
 			case "delete":
 			case "del":
 			case "d":
-				// If Param is empty, delete the value on the top of the stack
+				// If Parameter is empty, delete the value on the top of the stack
 				if (cmdInputParam.isEmpty())
 					StackOps.cmdDelete("1");
 				else
@@ -425,25 +413,32 @@ public class Main {
 			// Add PI
 			case "pi":
 				undoStack.push((Stack<Double>) calcStack.clone());
-				Output.debugPrint("Adding PI to the end of the stack");
+				Output.printColorln(Ansi.Color.CYAN, "PI to the stack");
 				calcStack.add(java.lang.Math.PI);
 				break;
 
 			// Add PHI also known as The Golden Ratio
 			case "phi":
 				undoStack.push((Stack<Double>) calcStack.clone());
-				Output.debugPrint("Adding Golden Radio (PHI) to the stack");
+				Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, added to the stack");
 				calcStack.add(1.61803398874989);
 				break;
 
-			// Trig Functions
+			// Euler's number
+			case "euler":
+				undoStack.push((Stack<Double>) calcStack.clone());
+				Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
+				calcStack.add(2.7182818284590452353602874713527);
+				break;
+
+			// Trigonometry Functions
 			case "tan":
 			case "sin":
 			case "cos":
 				StackOps.cmdTrig(cmdInputCmd, cmdInputParam);
 				break;
 
-			// ArcTrig Functions
+			// Arc-Trigonometry Functions
 			case "atan":
 			case "asin":
 			case "acos":

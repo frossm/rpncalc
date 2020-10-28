@@ -137,6 +137,7 @@ The following is the list of operands supported by RPNCalc:
 |--|--|
 |pi| Insert the value of PI onto the stack.  Pi is approximately `3.14159265359`|
 |phi| Insert PHI, also known as the Golden Ratio, to the stack.  Phi is approximately `1.618033989`|
+|euler| Insert Euler's number (e) to the stick.  e is approximately `2.7182818284590`|
 
 ## Operational Commands
 |Command|Description  |
