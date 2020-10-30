@@ -19,6 +19,7 @@ parts:
     source: https://github.com/frossm/library.git
     source-tag: master
     source-type: git
+    source-tag: v2020.10.12
     maven-options: [install]
 
   rpncalc:

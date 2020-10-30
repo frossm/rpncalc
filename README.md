@@ -116,21 +116,25 @@ The following is the list of operands supported by RPNCalc:
 |cl \| clean|Clear the current screen, but keep the stack.  After cleaning, the stack will be displayed at the top of the screen|
 |d \| delete [Linenumber]|Delete the top stack item (line 1) with just a `d` command or, optionally, delete the line number provided with `d <linenumber>`|
 |s \| swap [Line1] [Line2]|Swap the position of the top two stack items (line 1 & 2) with `s`.  You can swap any two line items in your stack by providing the two line numbers `s # #`|
-|copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
 |%|Assumes line 1 contains a percent.  This converts that into a number by simply multiplying the last value by 0.01.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
+|sqrt|Perform a square root of the top item in the stack|
 |aa [keep]|Add all stack items together and return the result to the stack.  If the optional `keep` command is sent, the elements added will be retained and the total will be added to the top of the stack.  The entire `keep` command is not necessary, anything that starts with `k` will work|
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back to the stack|
-|sqrt|Perform a square root of the top item in the stack|
+|copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
+|log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
+|rand [l] [h]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
+|dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
+|frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
 |sin, cos, tan [rad]|Calculate the trigonometry function.  Angles are input as degrees unless rad parameter is given.  Example: `tan` to calculate the tangent of row 1 in degrees.  Use `tan rad` if row 1 contains the angle in radians|
 |asin, acos, atan [rad]|Calculate the arc trigonometry function.  Result is returned as degrees unless rad parameter is provided|
-|log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
+
+## Memory Commands
+|Command|Description|
+|-------|-----------|
 |mem [slot] add|Add the top stack item (line 1) into the memory slot provided.  By default, there are 10 slots; 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  `mem add`   will add the last stack item into Mem Slot0|
 |mem [slot] copy|Copies the contents of memory slot provided back onto the stack.  Defaults to Slot0 if no slot number is provided.  `recall` can also be used instead of `copy`|
 |mem [slot] clr|Clear the contents of the memory slot provided.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
 |mem clearall|Clear the contents of all memory slots.  Not sure why this would be needed, but seems like something that should be here.  There is no need to include a SlotNumber. Note `mem clrall` will also work|
-|rand [l] [h]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
-|frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
-|dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
 
 ## Constants
 |Constant|Description|
