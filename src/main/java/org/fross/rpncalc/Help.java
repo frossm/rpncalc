@@ -26,6 +26,7 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import org.fross.library.Format;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -43,12 +44,12 @@ public class Help {
 		int helpWidth = 80;
 
 		Output.printColor(Ansi.Color.CYAN, "\n+" + "-".repeat(helpWidth) + "+\n+");
-		Output.printColor(Ansi.Color.WHITE, Main.CenterText(helpWidth, ("RPN Calculator v" + Main.VERSION), "", ""));
+		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, ("RPN Calculator v" + Main.VERSION), "", ""));
 		Output.printColor(Ansi.Color.CYAN, "+\n+");
-		Output.printColor(Ansi.Color.WHITE, Main.CenterText(helpWidth, Main.COPYRIGHT, "", ""));
+		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, Main.COPYRIGHT, "", ""));
 		Output.printColorln(Ansi.Color.CYAN, "+\n+" + "-".repeat(helpWidth) + "+");
-		Output.printColorln(Ansi.Color.CYAN, Main.CenterText(helpWidth, "RPNCalc is a command line Reverse Polish Notation calculator", "", ""));
-		Output.printColorln(Ansi.Color.CYAN, Main.CenterText(helpWidth, "https://github.com/frossm/rpncalc", "", ""));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "RPNCalc is a command line Reverse Polish Notation calculator", "", ""));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://github.com/frossm/rpncalc", "", ""));
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load saved named stack. Create the stack if it does not exist");

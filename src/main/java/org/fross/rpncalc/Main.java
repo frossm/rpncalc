@@ -91,27 +91,6 @@ public class Main {
 	}
 
 	/**
-	 * CenterText(): Center the text within the width provided adding the pre and post string
-	 * 
-	 * Approach: ((Width - length of text - length of pre - length of post) / 2 ) = spaces to add at the
-	 * front & back
-	 * 
-	 * @param width
-	 * @param lineToCenter
-	 * @param pre
-	 * @param post
-	 * @return
-	 */
-	public static String CenterText(int width, String lineToCenter, String pre, String post) {
-		String result = null;
-
-		int spacesToAdd = ((width - lineToCenter.length() - pre.length() - post.length()) / 2);
-		result = pre + " ".repeat(spacesToAdd) + lineToCenter + " ".repeat(spacesToAdd) + post;
-
-		return (result);
-	}
-
-	/**
 	 * Main(): Start of program and holds main command loop
 	 * 
 	 * @param args
@@ -217,10 +196,10 @@ public class Main {
 
 		// Display output header information
 		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(PROGRAMWIDTH - 2) + "+");
-		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, "RPN Calculator", "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, ("v" + VERSION + " "), "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "RPN Calculator", "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, ("v" + VERSION + " "), "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
