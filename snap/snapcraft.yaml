@@ -17,7 +17,6 @@ parts:
   library:
     plugin: maven
     source: https://github.com/frossm/library.git
-    source-branch: master
     source-type: git
     source-tag: v2020.11.03
     maven-options: [install]
