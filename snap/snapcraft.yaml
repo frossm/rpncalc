@@ -17,7 +17,7 @@ parts:
   library:
     plugin: maven
     source: https://github.com/frossm/library.git
-    source-tag: master
+    source-branch: master
     source-type: git
     source-tag: v2020.11.03
     maven-options: [install]
@@ -25,6 +25,6 @@ parts:
   rpncalc:
     plugin: maven
     source: https://github.com/frossm/rpncalc.git
-    source-tag: master
+    source-branch: master
     source-type: git
     after: [library]
