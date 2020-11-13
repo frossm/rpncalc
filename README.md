@@ -3,7 +3,7 @@
 <p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator</i></b></p>
 
 ## INTRODUCTION
-<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is just an easy to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider solving for X with the following:
+<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is a Reverse Polish Notation (RPN) calculator.  Sounds complicated, but it is an easy to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider solving for X with the following:
 
 `x = SQRT((((5+3) * 8)/2) ^ 6)`
 
@@ -23,36 +23,41 @@ RPN is based on a Last In First Out (LIFO) stack and really makes intuitive sens
 
 Over the years I've used various RPN calculators on my computer, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one.  It was easy to write, easily extensible, and since it's in Java, should run wherever I need it to run. And, while this calculator doesn't have **every** function a complex calculator would have, I've been using it exclusively and have been successful.  I am continually adding capabilities to it and I think it is fairly full featured now.  I will, however, continue to add new capabilities based on my ideas and those that I receive.
 
-If you have not heard of an RPN calculator, or just have a passion for various calculator notations, you can read more about it here: [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation) on RPN.
+If you have not heard of an RPN calculator, or just have a passion for various calculator notations (and who doesn't?), you can read more about it here: [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation) on RPN.
 
 As for the .jar bundled with a release, I have embedded all of the dependencies into the file.  In order to execute a file, you need to have a Java Run-time Environment, (JRE) installed and and in your path. 
 
 To Execute:
+
 `java.exe -jar rpncalc.jar`
+
+If you've installed via SNAP:
+
+`rpncalc`
 
 As I've stated above, this is a java program and uses maven.  If you download/clone the source, and have maven installed, it should be simple to build:
 
 `mvn package` from the root of the project (the one containing the **pom.xml** file)
 
 ## High Level Usage
-RPNCalc is a command line application that must be run from a console.  Executing it with a -h (or -?) switch, or starting the program and entering the h command will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  The screen shot above shows the help screen.
+RPNCalc is a command line application that must be run from a console.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` command will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  The screen shot above shows the help screen.
 
-On the RPNCalc command line you'll enter numbers or commands, then press enter.  The numbers will then be added to the stack.  RPNCalc operates on a stack where the last in is the first out.  You can then enter in an operand, such as + or /, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter `2 [ENTER]` which add the number 2 to the stack.  Then  `3 [ENTER]` which will put it on top of the stack (line 1).  Then `+ [ENTER]` to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip a step by entering `3+ [ENTER]` and it will perform the shortcut.  I'm not going to into a lot of detail on how a RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hang of it, I rarely use another style.
+On the RPNCalc command line you'll enter numbers or commands, then press enter.  The numbers will then be added to the stack.  RPNCalc operates on a stack where the last in is the first out.  You can then enter in an operand, such as `+` or `/`, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter `2 [ENTER]` which adds the number 2 to the stack.  Then  `3 [ENTER]` which will put it on top of the stack (line 1).  Then `+ [ENTER]` to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip the second step by entering `3+ [ENTER]` and it will perform the shortcut.  I'm not going to into a lot of detail on how a RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hang of it, I rarely use another style.
 
 ### Decimals & Fractions
 The stacks always contains decimal numbers.  You can, however, enter in fractions and they will be converted to decimal and added to the stack.
 
-*For example:*
+**Example:**
 
 `1 5/16 [ENTER]` 
 
-will add **1.3125** to the stack
+will add `1.3125` to the stack
 
 `14/8 [ENTER]` 
 
-will add **1.75** to the stack
+will add `1.75` to the stack
 
-While you can never directly convert a decimal number on the stack back to a fraction, you can display what the last stack item would be as a fraction.  You do have to decide on the base which is the smallest denominator that will be used.  The default base `1/64` and will be used if none is specified.  Use the `frac [base]` command to display the fractional equivilent.  RPNCalc will simplify the fraction as much as it can so you won't see `2/4` as a fraction, you'd see `1/2`.
+While you can never directly convert a decimal number on the stack back to a fraction, you can display what the last stack item would be as a fraction.  You do have to decide on the smallest denominator that will be used (called the base.)  The default base is `64` which is the equivilent of `1/64` and will be used if none is specified.  Use the `frac [base]` command to display the fractional equivilent.  RPNCalc will simplify the fraction as much as it can so you won't see `2/4` as a fraction, you'd see `1/2`.
 
 **Example:**
 `12.3456 [Enter]`
