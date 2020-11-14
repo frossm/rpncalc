@@ -162,36 +162,32 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdDebug(): Toggle debug setting
-	 * 
+	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
 	 */
-	public static void cmdDebug() {
-		if (Debug.query()) {
-			Debug.disable();
-			Output.printColorln(Ansi.Color.RED, "Debug Disabled");
+	@SuppressWarnings("unchecked")
+	public static void cmdUndo() {
+		Output.debugPrint("Undoing last command");
+
+		if (Main.undoStack.size() >= 1) {
+			// Replace current stack with the last one on the undo stack
+			Main.calcStack = (Stack<Double>) Main.undoStack.pop().clone();
 		} else {
-			Debug.enable();
-			Output.debugPrint("Debug Enabled");
+			Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
 		}
 	}
 
 	/**
-	 * cmdLoad(stackToLoad): Load the named stack after saving current stack to prefs
+	 * cmdFlipSign(): Change the sign of the last element in the stack
 	 * 
-	 * @param stackToLoad
 	 */
-	public static void cmdLoad(String stackToLoad) {
-		// Save current Stack
-		Prefs.SaveStack(Main.calcStack, "1");
-		Prefs.SaveStack(Main.calcStack2, "2");
+	@SuppressWarnings("unchecked")
+	public static void cmdFlipSign() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		// Set new stack
-		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
-		Prefs.SetLoadedStack(stackToLoad);
-
-		// Load new stack
-		Main.calcStack = Prefs.RestoreStack("1");
-		Main.calcStack2 = Prefs.RestoreStack("2");
+		Output.debugPrint("Changing sign of last stack element");
+		if (!Main.calcStack.isEmpty())
+			Main.calcStack.push(Main.calcStack.pop() * -1);
 	}
 
 	/**
@@ -216,81 +212,6 @@ public class StackOps {
 		Output.debugPrint("Cleanning Screen");
 		// Rather than printing several hundred new lines, use the JANSI clear screen
 		Output.clearScreen();
-	}
-
-	/**
-	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
-	 * 
-	 * @param al
-	 */
-	public static void cmdAlign(char al) {
-		// Validate we have one of the right values
-		if (al != 'l' && al != 'd' && al != 'r') {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
-		} else {
-			Output.debugPrint("Setting display alignment to: " + al);
-			Main.displayAlignment = al;
-		}
-	}
-
-	/**
-	 * cmdList(): Sub commands to list are:
-	 * 
-	 * stacks: List the current list of saved stacks from the preferences system
-	 * 
-	 * mem: List the current values in the memory stacks
-	 * 
-	 * undo: List the contents of the undo stack which shows previous stack states
-	 */
-	public static void cmdList(String arg) {
-		switch (arg.toLowerCase()) {
-		case "stacks":
-		case "stack":
-			String[] stks = Prefs.QueryStacks();
-
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks" + "-".repeat(Main.PROGRAMWIDTH - 13));
-			for (int i = 0; i < stks.length; i++) {
-				String sn = String.format("%02d:  %s", i, stks[i]);
-				Output.printColorln(Ansi.Color.CYAN, sn);
-			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
-			break;
-
-		case "mem":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots" + "-".repeat(Main.PROGRAMWIDTH - 13));
-			for (int i = 0; i < memorySlots.length; i++) {
-				Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + memorySlots[i]);
-			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
-			break;
-
-		case "undo":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack" + "-".repeat(Main.PROGRAMWIDTH - 11));
-			for (int i = 0; i < Main.undoStack.size(); i++) {
-				String sn = String.format("%02d:  %s", i + 1, Main.undoStack.get(i));
-				Output.printColorln(Ansi.Color.CYAN, sn);
-			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
-			break;
-
-		default:
-			Output.printColorln(Ansi.Color.RED, "Error:  Unknown list command '" + arg + "'");
-		}
-	}
-
-	/**
-	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdUndo() {
-		Output.debugPrint("Undoing last command");
-
-		if (Main.undoStack.size() >= 1) {
-			// Replace current stack with the last one on the undo stack
-			Main.calcStack = (Stack<Double>) Main.undoStack.pop().clone();
-		} else {
-			Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
-		}
 	}
 
 	/**
@@ -325,6 +246,45 @@ public class StackOps {
 		} catch (Exception e) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + lineToDelete + "'");
 			Output.debugPrint(e.getMessage());
+		}
+	}
+
+	/**
+	 * cmdSwapElements(): Swap the provided elements within the stack
+	 * 
+	 * @param param
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdSwapElements(String param) {
+		// Default is to swap last two stack items
+		int item1 = 1;
+		int item2 = 2;
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Determine the source and destination elements
+		try {
+			if (!param.isEmpty()) {
+				item1 = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
+				item2 = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
+			}
+
+		} catch (NumberFormatException e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + item1 + "' and '" + item2 + "'");
+			return;
+
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
+		}
+
+		// Make sure the numbers are valid
+		if (item1 < 1 || item1 > Main.calcStack.size() || item2 < 1 || item2 > Main.calcStack.size()) {
+			Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + Main.calcStack.size());
+		} else {
+			Output.debugPrint("Swapping #" + item1 + " and #" + item2 + " stack items");
+
+			Main.calcStack = StackOps.StackSwapItems(Main.calcStack, (item1 - 1), (item2) - 1);
 		}
 	}
 
@@ -394,23 +354,43 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdHypotenuse(): Calculates the hypotenuse by pulling the top two stack items and using them as
-	 * the triangle legs
+	 * cmdAddAll(): Add everything on the stack together and return the result to the stack
 	 * 
+	 * @param arg
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdHypotenuse() {
-		// Ensure we have something on the stack
-		if (Main.calcStack.size() < 2) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be two items on the stack");
-			return;
-		}
-
+	public static void cmdAddAll(String arg) {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		// Pop the two values and push the hypotenuse back onto the stack
-		Main.calcStack.push(java.lang.Math.hypot(Main.calcStack.pop(), Main.calcStack.pop()));
+		// Determine if we should keep or clear the stack upon adding
+		boolean keepFlag = false;
+		try {
+			// Just check if the provided command starts with 'k'. That should be enough
+			if (arg.toLowerCase().charAt(0) == 'k') {
+				keepFlag = true;
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			keepFlag = false;
+		}
+
+		// Counter to hold the accumulating total
+		Double totalCounter = 0.0;
+
+		// If the 'keep' flag was sent, get the stack items instead of using pop
+		if (keepFlag == true) {
+			for (int i = 0; i < Main.calcStack.size(); i++) {
+				totalCounter += Main.calcStack.get(i);
+			}
+		} else {
+			// Loop through the stack items popping them off until there is nothing left
+			while (Main.calcStack.empty() == false) {
+				totalCounter += Main.calcStack.pop();
+			}
+		}
+
+		// Add result back to the stack
+		Main.calcStack.push(totalCounter);
 	}
 
 	/**
@@ -433,19 +413,52 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdSwapStack(): Swap the primary and secondary stacks
+	 * cmdCopy(): Copy the item at the top of the stack
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdSwapStack() {
+	public static void cmdCopy() {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		Output.debugPrint("Swapping primary and secondary stack");
-		Stack<Double> calcStackTemp = (Stack<Double>) Main.calcStack.clone();
-		Main.calcStack = (Stack<Double>) Main.calcStack2.clone();
-		Main.calcStack2 = (Stack<Double>) calcStackTemp.clone();
-		Prefs.ToggleCurrentStackNum();
+		Output.debugPrint("Copying the item at the top of the stack");
+		if (Main.calcStack.size() >= 1) {
+			Main.calcStack.add(Main.calcStack.lastElement());
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be an item in the stack to copy it");
+		}
+	}
+
+	/**
+	 * cmdLog(): Take the natural (base e) logarithm
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdLog() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the natural logarithm of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.log(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdLog10(): Take base10 logarithm
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdLog10() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the base 10 logarithm of " + Main.calcStack.peek());
+			Main.calcStack.add(java.lang.Math.log10(Main.calcStack.pop()));
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
 	}
 
 	/**
@@ -491,6 +504,51 @@ public class StackOps {
 
 		// Add result to the calculator stack
 		Main.calcStack.push((double) randomNumber);
+	}
+
+	/**
+	 * cmdDice(XdY): Roll a Y sided die X times and add the result to the stack.
+	 * 
+	 * @param param
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdDice(String param) {
+		int die = 6;
+		int rolls = 1;
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Parse out the die sides and rolls
+		try {
+			if (!param.isEmpty()) {
+				rolls = Integer.parseInt(param.substring(0).trim().split("[Dd]")[0]);
+				die = Integer.parseInt(param.substring(0).trim().split("[Dd]")[1]);
+			}
+		} catch (NumberFormatException e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing die and rolls.  Rolls: '" + rolls + "' Die: '" + die + "'");
+			return;
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
+		}
+
+		// Display Debug Output
+		Output.debugPrint("Rolls: '" + rolls + "' Die: '" + die + "'");
+
+		// Verify that the entered numbers are valid
+		if (die <= 0) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: die must have greater than zero sides");
+			return;
+		} else if (rolls < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: You have to specify at least 1 roll");
+			return;
+		}
+
+		// Roll them bones
+		for (int i = 0; i < rolls; i++) {
+			Main.calcStack.push((double) new java.util.Random().nextInt(die) + 1);
+		}
+
 	}
 
 	/**
@@ -546,138 +604,43 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdDice(XdY): Roll a Y sided die X times and add the result to the stack.
+	 * cmdRadian(): Convert line1 from degrees to radians.
 	 * 
-	 * @param param
+	 * Formula: radians = degrees (PI/180)
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdDice(String param) {
-		int die = 6;
-		int rolls = 1;
-
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
-		// Parse out the die sides and rolls
-		try {
-			if (!param.isEmpty()) {
-				rolls = Integer.parseInt(param.substring(0).trim().split("[Dd]")[0]);
-				die = Integer.parseInt(param.substring(0).trim().split("[Dd]")[1]);
-			}
-		} catch (NumberFormatException e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing die and rolls.  Rolls: '" + rolls + "' Die: '" + die + "'");
-			return;
-		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
-		}
-
-		// Display Debug Output
-		Output.debugPrint("Rolls: '" + rolls + "' Die: '" + die + "'");
-
-		// Verify that the entered numbers are valid
-		if (die <= 0) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: die must have greater than zero sides");
-			return;
-		} else if (rolls < 1) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: You have to specify at least 1 roll");
+	public static void cmdRadian() {
+		// Ensure we have something on the stack
+		if (Main.calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
 			return;
 		}
 
-		// Roll them bones
-		for (int i = 0; i < rolls; i++) {
-			Main.calcStack.push((double) new java.util.Random().nextInt(die) + 1);
-		}
-
-	}
-
-	/**
-	 * cmdSwapElements(): Swap the provided elements within the stack
-	 * 
-	 * @param param
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdSwapElements(String param) {
-		// Default is to swap last two stack items
-		int item1 = 1;
-		int item2 = 2;
-
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		// Determine the source and destination elements
-		try {
-			if (!param.isEmpty()) {
-				item1 = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
-				item2 = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
-			}
+		// Pull the value, convert and push back
+		Main.calcStack.push(Main.calcStack.pop() * (java.lang.Math.PI / 180));
+	}
 
-		} catch (NumberFormatException e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + item1 + "' and '" + item2 + "'");
+	/**
+	 * cmdDegree(): Convert line1 from radians to degrees
+	 * 
+	 * Formula: degrees = radians * (180 / PI)
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdDegree() {
+		// Ensure we have something on the stack
+		if (Main.calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
 			return;
-
-		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
 		}
 
-		// Make sure the numbers are valid
-		if (item1 < 1 || item1 > Main.calcStack.size() || item2 < 1 || item2 > Main.calcStack.size()) {
-			Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + Main.calcStack.size());
-		} else {
-			Output.debugPrint("Swapping #" + item1 + " and #" + item2 + " stack items");
-
-			Main.calcStack = StackOps.StackSwapItems(Main.calcStack, (item1 - 1), (item2) - 1);
-		}
-	}
-
-	/**
-	 * cmdFlipSign(): Change the sign of the last element in the stack
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdFlipSign() {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		Output.debugPrint("Changing sign of last stack element");
-		if (!Main.calcStack.isEmpty())
-			Main.calcStack.push(Main.calcStack.pop() * -1);
-	}
-
-	/**
-	 * cmdCopy(): Copy the item at the top of the stack
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdCopy() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
-		Output.debugPrint("Copying the item at the top of the stack");
-		if (Main.calcStack.size() >= 1) {
-			Main.calcStack.add(Main.calcStack.lastElement());
-		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be an item in the stack to copy it");
-		}
-	}
-
-	/**
-	 * cmdOperand(): An operand was entered such as + or -
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdOperand(String Op) {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
-		Output.debugPrint("CalcStack has " + Main.calcStack.size() + " elements");
-		Output.debugPrint("Operand entered: '" + Op + "'");
-		// Verify stack contains at least two elements
-		if (Main.calcStack.size() >= 2) {
-			Main.calcStack = Math.Parse(Op, Main.calcStack);
-		} else {
-			Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
-		}
-
+		// Pull the value, convert and push back
+		Main.calcStack.push(Main.calcStack.pop() * (180 / java.lang.Math.PI));
 	}
 
 	/**
@@ -792,35 +755,23 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdLog(): Take the natural (base e) logarithm
+	 * cmdHypotenuse(): Calculates the hypotenuse by pulling the top two stack items and using them as
+	 * the triangle legs
+	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdLog() {
+	public static void cmdHypotenuse() {
+		// Ensure we have something on the stack
+		if (Main.calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be two items on the stack");
+			return;
+		}
+
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the natural logarithm of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.log(Main.calcStack.pop()));
-		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
-		}
-	}
-
-	/**
-	 * cmdLog10(): Take base10 logarithm
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdLog10() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
-		if (Main.calcStack.size() >= 1) {
-			Output.debugPrint("Taking the base 10 logarithm of " + Main.calcStack.peek());
-			Main.calcStack.add(java.lang.Math.log10(Main.calcStack.pop()));
-		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
-		}
+		// Pop the two values and push the hypotenuse back onto the stack
+		Main.calcStack.push(java.lang.Math.hypot(Main.calcStack.pop(), Main.calcStack.pop()));
 	}
 
 	/**
@@ -908,43 +859,132 @@ public class StackOps {
 	}
 
 	/**
-	 * cmdAddAll(): Add everything on the stack together and return the result to the stack
+	 * cmdList(): Sub commands to list are:
 	 * 
-	 * @param arg
+	 * stacks: List the current list of saved stacks from the preferences system
+	 * 
+	 * mem: List the current values in the memory stacks
+	 * 
+	 * undo: List the contents of the undo stack which shows previous stack states
+	 */
+	public static void cmdList(String arg) {
+		switch (arg.toLowerCase()) {
+		case "stacks":
+		case "stack":
+			String[] stks = Prefs.QueryStacks();
+
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks" + "-".repeat(Main.PROGRAMWIDTH - 13));
+			for (int i = 0; i < stks.length; i++) {
+				String sn = String.format("%02d:  %s", i, stks[i]);
+				Output.printColorln(Ansi.Color.CYAN, sn);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			break;
+
+		case "mem":
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots" + "-".repeat(Main.PROGRAMWIDTH - 13));
+			for (int i = 0; i < memorySlots.length; i++) {
+				Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + memorySlots[i]);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			break;
+
+		case "undo":
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack" + "-".repeat(Main.PROGRAMWIDTH - 11));
+			for (int i = 0; i < Main.undoStack.size(); i++) {
+				String sn = String.format("%02d:  %s", i + 1, Main.undoStack.get(i));
+				Output.printColorln(Ansi.Color.CYAN, sn);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			break;
+
+		default:
+			Output.printColorln(Ansi.Color.RED, "Error:  Unknown list command '" + arg + "'");
+		}
+	}
+
+	/**
+	 * cmdLoad(stackToLoad): Load the named stack after saving current stack to prefs
+	 * 
+	 * @param stackToLoad
+	 */
+	public static void cmdLoad(String stackToLoad) {
+		// Save current Stack
+		Prefs.SaveStack(Main.calcStack, "1");
+		Prefs.SaveStack(Main.calcStack2, "2");
+
+		// Set new stack
+		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
+		Prefs.SetLoadedStack(stackToLoad);
+
+		// Load new stack
+		Main.calcStack = Prefs.RestoreStack("1");
+		Main.calcStack2 = Prefs.RestoreStack("2");
+	}
+
+	/**
+	 * cmdSwapStack(): Swap the primary and secondary stacks
+	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdAddAll(String arg) {
+	public static void cmdSwapStack() {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		// Determine if we should keep or clear the stack upon adding
-		boolean keepFlag = false;
-		try {
-			// Just check if the provided command starts with 'k'. That should be enough
-			if (arg.toLowerCase().charAt(0) == 'k') {
-				keepFlag = true;
-			}
-		} catch (StringIndexOutOfBoundsException ex) {
-			keepFlag = false;
-		}
+		Output.debugPrint("Swapping primary and secondary stack");
+		Stack<Double> calcStackTemp = (Stack<Double>) Main.calcStack.clone();
+		Main.calcStack = (Stack<Double>) Main.calcStack2.clone();
+		Main.calcStack2 = (Stack<Double>) calcStackTemp.clone();
+		Prefs.ToggleCurrentStackNum();
+	}
 
-		// Counter to hold the accumulating total
-		Double totalCounter = 0.0;
-
-		// If the 'keep' flag was sent, get the stack items instead of using pop
-		if (keepFlag == true) {
-			for (int i = 0; i < Main.calcStack.size(); i++) {
-				totalCounter += Main.calcStack.get(i);
-			}
+	/**
+	 * cmdDebug(): Toggle debug setting
+	 * 
+	 */
+	public static void cmdDebug() {
+		if (Debug.query()) {
+			Debug.disable();
+			Output.printColorln(Ansi.Color.RED, "Debug Disabled");
 		} else {
-			// Loop through the stack items popping them off until there is nothing left
-			while (Main.calcStack.empty() == false) {
-				totalCounter += Main.calcStack.pop();
-			}
+			Debug.enable();
+			Output.debugPrint("Debug Enabled");
+		}
+	}
+
+	/**
+	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
+	 * 
+	 * @param al
+	 */
+	public static void cmdAlign(char al) {
+		// Validate we have one of the right values
+		if (al != 'l' && al != 'd' && al != 'r') {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
+		} else {
+			Output.debugPrint("Setting display alignment to: " + al);
+			Main.displayAlignment = al;
+		}
+	}
+
+	/**
+	 * cmdOperand(): An operand was entered such as + or -
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdOperand(String Op) {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("CalcStack has " + Main.calcStack.size() + " elements");
+		Output.debugPrint("Operand entered: '" + Op + "'");
+		// Verify stack contains at least two elements
+		if (Main.calcStack.size() >= 2) {
+			Main.calcStack = Math.Parse(Op, Main.calcStack);
+		} else {
+			Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
 		}
 
-		// Add result back to the stack
-		Main.calcStack.push(totalCounter);
 	}
 
 } // END CLASS

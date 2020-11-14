@@ -270,56 +270,19 @@ public class Main {
 			// Main switch statement to process user input and call the correct functions
 			switch (cmdInputCmd) {
 
-			// Debug Toggle
-			case "debug":
-				StackOps.cmdDebug();
-				break;
-
-			// Version
-			case "ver":
-			case "version":
-				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
-				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
-				break;
-
-			// Load
-			case "load":
-				StackOps.cmdLoad(cmdInputParam);
-				break;
-
-			// Clear & Exit
-			case "cx":
-				Main.calcStack.clear();
-				Output.debugPrint("Exiting Command Loop");
-				ProcessCommandLoop = false;
-				break;
-
-			// Exit
-			case "x":
-			case "exit":
-				Output.debugPrint("Exiting Command Loop");
-				ProcessCommandLoop = false;
-				break;
-
-			// Display Alignment
-			case "a":
-				try {
-					StackOps.cmdAlign(cmdInputParam.charAt(0));
-				} catch (StringIndexOutOfBoundsException ex) {
-					Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
-				}
-				break;
-
-			// List
-			// Supported commands are "stacks" | "mem" | "undo"
-			case "list":
-				StackOps.cmdList(cmdInputParam);
-				break;
-
+			/*********************************************
+			 * Calculator Commands
+			 *********************************************/
 			// Undo
 			case "undo":
 			case "u":
 				StackOps.cmdUndo();
+				break;
+
+			// Flip Sign
+			case "flip":
+			case "f":
+				StackOps.cmdFlipSign();
 				break;
 
 			// Clear Screen and Stack
@@ -345,6 +308,19 @@ public class Main {
 					StackOps.cmdDelete(cmdInputParam);
 				break;
 
+			// Percent
+			case "%":
+				Output.debugPrint("Create a percent by dividing by 100");
+				undoStack.push((Stack<Double>) calcStack.clone());
+				calcStack.push(calcStack.pop() / 100);
+				break;
+
+			// Swap Elements in a stack
+			case "swap":
+			case "s":
+				StackOps.cmdSwapElements(cmdInputParam);
+				break;
+
 			// Square Root
 			case "sqrt":
 				StackOps.cmdSqrt();
@@ -354,16 +330,30 @@ public class Main {
 			case "round":
 				StackOps.cmdRound(cmdInputParam);
 				break;
-				
-			// Hypotenuse
-			case "hypot":
-			case "hypotenuse":
-				StackOps.cmdHypotenuse();
+
+			// AddAll
+			case "aa":
+				StackOps.cmdAddAll(cmdInputParam);
 				break;
 
-			// Swap Stack
-			case "ss":
-				StackOps.cmdSwapStack();
+			// Modulus
+			case "mod":
+				StackOps.cmdMod();
+				break;
+
+			// Copy Item
+			case "copy":
+				StackOps.cmdCopy();
+				break;
+
+			// Natural (base e) Logarithm
+			case "log":
+				StackOps.cmdLog();
+				break;
+
+			// Base10 Logarithm
+			case "log10":
+				StackOps.cmdLog10();
 				break;
 
 			// Random Number Generation
@@ -372,34 +362,62 @@ public class Main {
 				StackOps.cmdRandom(cmdInputParam);
 				break;
 
+			// Dice
+			case "dice":
+				StackOps.cmdDice(cmdInputParam);
+				break;
+
 			// Fraction
 			case "frac":
 			case "fraction":
 				StackOps.cmdFraction(cmdInputParam);
 				break;
 
-			// Dice
-			case "dice":
-				StackOps.cmdDice(cmdInputParam);
+			/*********************************************
+			 * Trigonometry Functions
+			 *********************************************/
+			// Radians
+			case "rad":
+			case "radian":
+				StackOps.cmdRadian();
 				break;
 
-			// Swap Elements in a stack
-			case "swap":
-			case "s":
-				StackOps.cmdSwapElements(cmdInputParam);
+			case "deg":
+			case "degree":
+				StackOps.cmdDegree();
 				break;
 
-			// Flip Sign
-			case "flip":
-			case "f":
-				StackOps.cmdFlipSign();
+			// Trigonometry Functions
+			case "tan":
+			case "sin":
+			case "cos":
+				StackOps.cmdTrig(cmdInputCmd, cmdInputParam);
 				break;
 
-			// Copy Item
-			case "copy":
-				StackOps.cmdCopy();
+			// Arc-Trigonometry Functions
+			case "atan":
+			case "asin":
+			case "acos":
+				StackOps.cmdArcTrig(cmdInputCmd, cmdInputParam);
 				break;
 
+			// Hypotenuse
+			case "hypot":
+			case "hypotenuse":
+				StackOps.cmdHypotenuse();
+				break;
+
+			/*********************************************
+			 * Memory Functions
+			 *********************************************/
+			case "memory":
+			case "mem":
+				StackOps.cmdMem(cmdInputParam);
+				break;
+
+			/*********************************************
+			 * Constants
+			 *********************************************/
 			// Add PI
 			case "pi":
 				undoStack.push((Stack<Double>) calcStack.clone());
@@ -421,66 +439,76 @@ public class Main {
 				calcStack.add(2.7182818284590452353602874713527);
 				break;
 
-			// Trigonometry Functions
-			case "tan":
-			case "sin":
-			case "cos":
-				StackOps.cmdTrig(cmdInputCmd, cmdInputParam);
+			/*********************************************
+			 * Operational Commands
+			 *********************************************/
+			// List
+			// Supported commands are "stacks" | "mem" | "undo"
+			case "list":
+				StackOps.cmdList(cmdInputParam);
 				break;
 
-			// Arc-Trigonometry Functions
-			case "atan":
-			case "asin":
-			case "acos":
-				StackOps.cmdArcTrig(cmdInputCmd, cmdInputParam);
+			// Load
+			case "load":
+				StackOps.cmdLoad(cmdInputParam);
 				break;
 
-			// Natural (base e) Logarithm
-			case "log":
-				StackOps.cmdLog();
+			// Swap Stack
+			case "ss":
+				StackOps.cmdSwapStack();
 				break;
 
-			// Base10 Logarithm
-			case "log10":
-				StackOps.cmdLog10();
+			// Debug Toggle
+			case "debug":
+				StackOps.cmdDebug();
 				break;
 
-			// Memory Functions
-			case "memory":
-			case "mem":
-				StackOps.cmdMem(cmdInputParam);
+			// Display Alignment
+			case "a":
+				try {
+					StackOps.cmdAlign(cmdInputParam.charAt(0));
+				} catch (StringIndexOutOfBoundsException ex) {
+					Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
+				}
 				break;
 
-			// Percent
-			case "%":
-				Output.debugPrint("Create a percent by dividing by 100");
-				undoStack.push((Stack<Double>) calcStack.clone());
-				calcStack.push(calcStack.pop() / 100);
+			// Version
+			case "ver":
+			case "version":
+				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
+				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
 				break;
 
-			// AddAll
-			case "aa":
-				StackOps.cmdAddAll(cmdInputParam);
+			// Help
+			case "h":
+			case "?":
+			case "help":
+				Help.Display();
 				break;
 
-			// Modulus
-			case "mod":
-				StackOps.cmdMod();
+			// Clear & Exit
+			case "cx":
+				Main.calcStack.clear();
+				Output.debugPrint("Exiting Command Loop");
+				ProcessCommandLoop = false;
 				break;
 
-			// Operand
+			// Exit
+			case "x":
+			case "exit":
+				Output.debugPrint("Exiting Command Loop");
+				ProcessCommandLoop = false;
+				break;
+
+			/*********************************************
+			 * Operands
+			 *********************************************/
 			case "+":
 			case "-":
 			case "*":
 			case "/":
 			case "^":
 				StackOps.cmdOperand(cmdInputCmd);
-				break;
-
-			case "h":
-			case "?":
-			case "help":
-				Help.Display();
 				break;
 
 			default:
