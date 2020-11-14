@@ -344,7 +344,7 @@ public class StackOps {
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
 		Output.debugPrint("Taking the square root of the last stack item");
-		Math.SquareRoot(Main.calcStack);
+		Main.calcStack.push(java.lang.Math.sqrt(Main.calcStack.pop()));
 	}
 
 	/**
@@ -394,9 +394,38 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdHypotenuse(): Calculates the hypotenuse by pulling the top two stack items and using them as
+	 * the triangle legs
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdHypotenuse() {
+		// Ensure we have something on the stack
+		if (Main.calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be two items on the stack");
+			return;
+		}
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Pop the two values and push the hypotenuse back onto the stack
+		Main.calcStack.push(java.lang.Math.hypot(Main.calcStack.pop(), Main.calcStack.pop()));
+	}
+
+	/**
 	 * cmdMod(): Divide and place the modulus onto the stack
 	 */
+	@SuppressWarnings("unchecked")
 	public static void cmdMod() {
+		// Ensure we have something on the stack
+		if (Main.calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+			return;
+		}
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 		Double b = Main.calcStack.pop();
 		Double a = Main.calcStack.pop();
 		Output.debugPrint("Modulus: " + a + " % " + b + " = " + (a % b));

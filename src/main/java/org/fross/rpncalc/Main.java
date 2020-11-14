@@ -354,6 +354,12 @@ public class Main {
 			case "round":
 				StackOps.cmdRound(cmdInputParam);
 				break;
+				
+			// Hypotenuse
+			case "hypot":
+			case "hypotenuse":
+				StackOps.cmdHypotenuse();
+				break;
 
 			// Swap Stack
 			case "ss":

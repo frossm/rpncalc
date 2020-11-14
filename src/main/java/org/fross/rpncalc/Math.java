@@ -143,17 +143,6 @@ public class Math {
 	}
 
 	/**
-	 * SquareRoot(): Take the square root of the last stack item
-	 * 
-	 * @param stk
-	 * @return
-	 */
-	public static Stack<Double> SquareRoot(Stack<Double> stk) {
-		stk.push(java.lang.Math.sqrt(stk.pop()));
-		return stk;
-	}
-
-	/**
 	 * GreatestCommonDivisor(): Return the largest common number divisible into both numbers. Used in
 	 * rpncalc for fraction reduction.
 	 * 

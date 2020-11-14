@@ -76,6 +76,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " %            Convert last stack item into a percentage by multipling by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root");
 		Output.printColorln(Ansi.Color.WHITE, " round [n]    Round to n decimal places.  Default is 0 decimals");
+		Output.printColorln(Ansi.Color.WHITE, " hypot        Returns the hypotenuse using line1 and line2 as the legs");
 		Output.printColorln(Ansi.Color.WHITE, " aa [keep]    Add all stack items. Adding Keep will keep added elements");
 		Output.printColorln(Ansi.Color.WHITE, " mod          Modulus. Perform a division and return the remainder");
 		Output.printColorln(Ansi.Color.WHITE, " copy         Copy the last stack item");

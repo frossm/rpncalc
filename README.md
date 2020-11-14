@@ -124,6 +124,7 @@ The following is the list of operands supported by RPNCalc:
 |%|Assumes line 1 contains a percent.  This converts that into a number by simply multiplying the last value by 0.01.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |sqrt|Perform a square root of the top item in the stack|
 |round [n]|Round the top stack item to [n] decimal places.  If [n] is not given, round to the nearest integer (zero decimal places).  Example1: `3.14159` `round` would round to `3`.  Example2: `3.14159` `round 4` would round to `3.1416`|
+|hypot|Returns the hypotenuse of the top two stack items.  Specifically, it returns SQRT( (line1)^2 + (line2)^2 ).  `hypotenuse` can also be used|
 |aa [keep]|Add all stack items together and return the result to the stack.  If the optional `keep` command is sent, the elements added will be retained and the total will be added to the top of the stack.  The entire `keep` command is not necessary, anything that starts with `k` will work|
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back to the stack|
 |copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
