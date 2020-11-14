@@ -66,7 +66,7 @@ While you can never directly convert a decimal number on the stack back to a fra
 Will display `12 11/32`  RPNCalc converted it to `12 22/64` and then reduced it.
 
 `1 3/64 [Enter]`
-`frac 16 [Ente]`
+`frac 16 [Enter]`
 
 will display `1 1/16` as that's as close as it could get with a granularity of 1/16.
 
