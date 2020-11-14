@@ -42,10 +42,10 @@ As I've stated above, this is a java program and uses maven.  If you download/cl
 ## High Level Usage
 RPNCalc is a command line application that must be run from a console.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` command will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  The screen shot above shows the help screen.
 
-On the RPNCalc command line you'll enter numbers or commands, then press enter.  The numbers will then be added to the stack.  RPNCalc operates on a stack where the last in is the first out.  You can then enter in an operand, such as `+` or `/`, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter `2 [ENTER]` which adds the number 2 to the stack.  Then  `3 [ENTER]` which will put it on top of the stack (line 1).  Then `+ [ENTER]` to add them.  The 2 and 3 come off the stack and 5 is added.  As a shortcut, for the basic operands, you can skip the second step by entering `3+ [ENTER]` and it will perform the shortcut.  I'm not going to into a lot of detail on how a RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hang of it, I rarely use another style.
+On the RPNCalc command line you'll enter numbers or commands, then press enter.  The numbers will then be added to the stack.  RPNCalc operates on a stack where the last in is the first out.  You can then enter in an operand, such as `+` or `/`, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter `2 [ENTER]` which adds the number 2 to the stack.  Then  `3 [ENTER]` which will put it on top of the stack (line 1).  Then `+ [ENTER]` to add them.  The 2 and 3 come off the stack and 5 is added.  I'm not going to into a lot of detail on how a RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hang of it, I rarely use another style.
 
 ### Decimals & Fractions
-The stacks always contains decimal numbers.  You can, however, enter in fractions and they will be converted to decimal and added to the stack.
+In RPNCalc, the stacks always store numbers as decimals.  You can, however, enter in fractions and they will be converted to a decimal equivalent and added to the stack.
 
 **Example:**
 
@@ -57,35 +57,40 @@ will add `1.3125` to the stack
 
 will add `1.75` to the stack
 
-While you can never directly convert a decimal number on the stack back to a fraction, you can display what the last stack item would be as a fraction.  You do have to decide on the smallest denominator that will be used (called the base.)  The default base is `64` which is the equivilent of `1/64` and will be used if none is specified.  Use the `frac [base]` command to display the fractional equivilent.  RPNCalc will simplify the fraction as much as it can so you won't see `2/4` as a fraction, you'd see `1/2`.
+While you can never directly convert a decimal number on the stack back to a fraction, you can display what the last stack item would be as a fraction.  You do have to decide on the smallest denominator that will be used (called the base.)  The default base is `64` which is the equivalent of `1/64` and will be used if none is specified.  Use the `frac [base]` command to display the fractional equivilent.  RPNCalc will simplify the fraction as much as it can so you won't see `2/4` as a fraction, you'd see `1/2`.
 
 **Example:**
 `12.3456 [Enter]`
 `frac [Enter]`
 
-Will display `12 11/32`  It reduced from `12 22/64`
+Will display `12 11/32`  RPNCalc converted it to `12 22/64` and then reduced it.
 
 `1 3/64 [Enter]`
 `frac 16 [Ente]`
 
-will display `1 1/16` as that's as close as it could get with a granulatity of 1/16
+will display `1 1/16` as that's as close as it could get with a granularity of 1/16.
 
 
 ## Stacks
-The entire concept of a RPN calculator is based on stacks, which can be thoughts of as numbers stacked on top of each other.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  When you start the program you can specify which stack to load.  If none is entered, the `default` stack is loaded.
+The entire concept of a RPN calculator is based on stacks, which can be thoughts of as numbers stacked on top of each other.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  If you didn't specify a stack,  the `default` stack is used.  When you start the program you can specify which stack to load with the `-l` command.  If none is entered, the `default` stack is loaded.
 
-When you perform calculations or commands, they generally work from the top of the stack down.  In RPNCalc, the top of the stack is `line 1`.  When you perform calculations, you are working on your command line and the line above you (line 1).  
+When you perform calculations or commands, they generally work from the top of the stack down.  In RPNCalc, the top of the stack is `line 1` and it's actually at the bottom.  When you perform calculations, you are working on your command line and the line above you (line 1).  This makes a lot of sense when you actually use the calculator.  Trust me.  
 
-For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute `SQRT`.  This will remove 25 from the stack on Line 1, perform the square root, then place the result (5) back onto the stack.  Some operations require more than one stack item.  The math `add` function, for example, will take the last two numbers off the stack, add then, and then place the result on the stack.  
+For example, if you want to take the square root of 25, you enter 25.  Press return to add it to the stack.  Then execute `SQRT`.  This will remove 25 from the stack on Line 1, perform the square root, then place the result `(5)` back onto the stack.  Some operations require more than one stack item.  The math `add` function, for example, will take the last two numbers off the stack, add then, and then place the result on the stack.  Subtraction, division, power, and other commands care about what order the numbers in the stack hold.  For example:
+
+`3`  `2`  `-`  will execute 3 - 2 and will yield `1`
+
+`2`  `3`  `-` will execute 2 - 3 and will yield `-1`
+
 
 ### Stack Management
 Saving and loading stacks is fundamental to RPNCalc.  You can have as many named stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry (HKCU\Software\JavaSoft\Prefs\org\fross\rpn).  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll lose the data in the stacks.
 
 Each stack you load (default or a named stack) actually has 2 stacks defined; a primary and secondary.  You can quickly swap stacks using the `ss` command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The stack data is saved and restored upon loading the stack.
 
-When you stasrt up RPNCalc, you can load a stack with the `-l name` command.  If the stack `name` exists, it will be loaded.  You can see what stack you are using in the lower right of the dashed bar.  If it does not exist, the stack will be created and when you leave the program it will be saved.
+When you start up RPNCalc, you can load a stack with the `-l name` command.  If the stack `name` exists, it will be loaded.  If it does not exist, the stack will be created and when you leave the program it will be saved.  You can always view what stack you are using in the lower right of the dashed bar. The `:1` or `:2` after the stack name will tell you if you are on the primary or "swapped" stack.
 
-As a side note, while stacks are saved on shutdown, the memory slots used by the `mem` commands are not saved between sessions. The slots are just temporary memory location to use when you wish to save a value to use later in the current session. You can also copy a value with the copy command which placed a copy of the top stack item onto the stack.
+As a side note, while stacks are saved on shutdown, the memory slots used by the `mem` commands are not saved between sessions. The memory slots are just temporary memory locations used when you wish to save a value to use later in the current session.
 
 ## Command Line Options
 Currently there are several command line options, and all are optional.
@@ -101,7 +106,7 @@ Currently there are several command line options, and all are optional.
 |-h or -?|Display the program help and exit|
 
 ## Operands
-The following is the list of operands supported by RPNCalc:
+The following is the list of operands supported by RPNCalc.  These are supported by the NumOps shortcut described below.  
 
 |Operand|Description|
 |-------|-----------|
@@ -111,6 +116,13 @@ The following is the list of operands supported by RPNCalc:
 |/ |Divide line 2 by line 1|
 |^ |Take line 2 to the power of line 1|
 
+## NumOps Shortcut
+There is an important shortcut that you can (and should use.)  You can append an operand at the end of an entered number and the program will, behind the scenes, place the number on the stack and then execute the operand.  For example:
+
+`2 [Enter]`
+`3+ [Enter]`
+ 
+When the second enter is pressed,  2 will be removed from the stack.  Added together, and the result, `5`, will be added back.
 
 ## Calculator Commands
 |Command|Description|
@@ -122,18 +134,23 @@ The following is the list of operands supported by RPNCalc:
 |d \| delete [Linenumber]|Delete the top stack item (line 1) with just a `d` command or, optionally, delete the line number provided with `d <linenumber>`|
 |s \| swap [Line1] [Line2]|Swap the position of the top two stack items (line 1 & 2) with `s`.  You can swap any two line items in your stack by providing the two line numbers `s # #`|
 |%|Assumes line 1 contains a percent.  This converts that into a number by simply multiplying the last value by 0.01.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
-|sqrt|Perform a square root of the top item in the stack|
+|sqrt|Perform a [square root](https://en.wikipedia.org/wiki/Square_root) of the top item in the stack|
 |round [n]|Round the top stack item to [n] decimal places.  If [n] is not given, round to the nearest integer (zero decimal places).  Example1: `3.14159` `round` would round to `3`.  Example2: `3.14159` `round 4` would round to `3.1416`|
-|hypot|Returns the hypotenuse of the top two stack items.  Specifically, it returns SQRT( (line1)^2 + (line2)^2 ).  `hypotenuse` can also be used|
 |aa [keep]|Add all stack items together and return the result to the stack.  If the optional `keep` command is sent, the elements added will be retained and the total will be added to the top of the stack.  The entire `keep` command is not necessary, anything that starts with `k` will work|
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back to the stack|
 |copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
-|log, log10|Calculates the natural logarithm (base e) or the base10 logarithm|
+|log, log10|Calculates the [natural logarithm (base e)](https://en.wikipedia.org/wiki/Natural_logarithm) or the [base10 logarithm](https://en.wikipedia.org/wiki/Common_logarithm)|
 |rand [l] [h]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
 |dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
 |frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
-|sin, cos, tan [rad]|Calculate the trigonometry function.  Angles are input as degrees unless rad parameter is given.  Example: `tan` to calculate the tangent of row 1 in degrees.  Use `tan rad` if row 1 contains the angle in radians|
-|asin, acos, atan [rad]|Calculate the arc trigonometry function.  Result is returned as degrees unless rad parameter is provided|
+
+## Trigonometry Functions
+|Command|Description|
+|-------|-----------|
+|sin, cos, tan [rad]|Calculate the [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Angles are input as degrees by default unless the **rad** parameter is given in which case the angles will be in [radians](https://en.wikipedia.org/wiki/Radian).  Example: `tan` will calculate the tangent using row 1 as the angle in degrees.  Use `tan rad` if row 1 contains the angle in radians|
+|asin, acos, atan [rad]|Calculate the arc [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Result is returned in degrees unless **rad** parameter is provided|
+|hypot|Returns the hypotenuse of the top two stack items using the [Pythagorean theorem](https://en.wikipedia.org/wiki/Pythagorean_theorem).  Specifically, it returns SQRT( (line1)^2 + (line2)^2 ).  `hypotenuse` can also be used|
+
 
 ## Memory Commands
 |Command|Description|
@@ -146,9 +163,9 @@ The following is the list of operands supported by RPNCalc:
 ## Constants
 |Constant|Description|
 |--|--|
-|pi| Insert the value of PI onto the stack.  Pi is approximately `3.14159265359`|
-|phi| Insert PHI, also known as the Golden Ratio, to the stack.  Phi is approximately `1.618033989`|
-|euler| Insert Euler's number (e) to the stick.  e is approximately `2.7182818284590`|
+|pi| Insert the value of [PI](https://en.wikipedia.org/wiki/Pi) onto the stack.  Pi is approximately `3.14159265359`|
+|phi| Insert [PHI](https://en.wikipedia.org/wiki/Golden_ratio), also known as the Golden Ratio, to the stack.  Phi is approximately `1.618033989`|
+|euler| Insert [Euler's number (e)](https://en.wikipedia.org/wiki/E_(mathematical_constant)) to the stick.  e is approximately `2.7182818284590`|
 
 ## Operational Commands
 |Command|Description  |
@@ -163,14 +180,6 @@ The following is the list of operands supported by RPNCalc:
 |ver| Display the current version number and copyright.  These can also be seen in the help screen|
 |h or ?|Display the help information|
 |x or q or cx |`x` or `q` will exit the program.  The primary and secondary stacks will be saved.  `cx` will clear the stack before exiting|
-
-## NumOps Shortcut
-There is an important shortcut that you can (and should use.)  You can append an operand at the end of an entered number and the program will, behind the scenes, place the number on the stack and then execute the operand.  For example:
-
-`2 [Enter]`
-`3+ [Enter]`
- 
-When the second enter is pressed,  2 will be removed from the stack.  Added together, and the result, `5`, will be added back.
 
 ## SNAP
 [![rpncalc](https://snapcraft.io//rpncalc/badge.svg)](https://snapcraft.io/rpncalc)
