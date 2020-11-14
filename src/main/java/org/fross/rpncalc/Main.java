@@ -350,6 +350,11 @@ public class Main {
 				StackOps.cmdSqrt();
 				break;
 
+			// Round
+			case "round":
+				StackOps.cmdRound(cmdInputParam);
+				break;
+
 			// Swap Stack
 			case "ss":
 				StackOps.cmdSwapStack();

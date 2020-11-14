@@ -26,6 +26,8 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Stack;
 
 import org.fross.library.Debug;
@@ -346,6 +348,52 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdRound(): Round to the provided decimal place. If none is provided round to the nearest integer
+	 * 
+	 * Reference: https://www.baeldung.com/java-round-decimal-number
+	 * 
+	 * @param arg
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdRound(String arg) {
+		int decimalPlaces = 0;
+		BigDecimal bd;
+
+		// Ensure we have something on the stack
+		if (Main.calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+			return;
+		}
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Convert the arg to the number of decimal places
+		try {
+			decimalPlaces = Integer.parseInt(arg);
+			// Ensure a negative number is not provdied for decimal points to round
+			if (decimalPlaces <= 0) {
+				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' not a valid number of decimal places");
+				return;
+			}
+
+		} catch (NumberFormatException ex) {
+			if (arg.isBlank()) {
+				decimalPlaces = 0;
+			} else {
+				// Error out for any non-valid characters
+				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' not a valid number of decimal places");
+				return;
+			}
+		}
+
+		// Round the top of stack item and return that result to the stack
+		bd = new BigDecimal(Main.calcStack.pop());
+		bd = bd.setScale(decimalPlaces, RoundingMode.HALF_UP);
+		Main.calcStack.push(bd.doubleValue());
+	}
+
+	/**
 	 * cmdMod(): Divide and place the modulus onto the stack
 	 */
 	public static void cmdMod() {
@@ -396,7 +444,7 @@ public class StackOps {
 			Output.printColorln(Ansi.Color.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
 			return;
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "Error:\n" + e.getMessage());
+			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
 		}
 
 		// Display Debug Output
@@ -404,7 +452,7 @@ public class StackOps {
 
 		// Verify that the low number <= the high number
 		if (low > high) {
-			Output.printColorln(Ansi.Color.RED, "Error: the first number much be less than or equal to the high number");
+			Output.printColorln(Ansi.Color.RED, "ERROR: the first number much be less than or equal to the high number");
 			return;
 		}
 
@@ -491,7 +539,7 @@ public class StackOps {
 			Output.printColorln(Ansi.Color.RED, "Error parsing die and rolls.  Rolls: '" + rolls + "' Die: '" + die + "'");
 			return;
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "Error:\n" + e.getMessage());
+			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
 		}
 
 		// Display Debug Output
@@ -789,7 +837,7 @@ public class StackOps {
 					Output.printColorln(Ansi.Color.YELLOW, "Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
 					memorySlots[memSlot] = Main.calcStack.peek();
 				} else {
-					Output.printColorln(Ansi.Color.RED, "Error: There must be at least one value on the stack");
+					Output.printColorln(Ansi.Color.RED, "ERROR: There must be at least one value on the stack");
 				}
 				break;
 
@@ -823,7 +871,7 @@ public class StackOps {
 
 			default:
 				// Slot was valid number, but unknown mem command
-				Output.printColorln(Ansi.Color.RED, "Error: Unknown memory command: '" + argParse[1] + "'");
+				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown memory command: '" + argParse[1] + "'");
 			}
 		} catch (Exception ex) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");
