@@ -29,7 +29,7 @@ As for the .jar bundled with a release, I have embedded all of the dependencies 
 
 To Execute:
 
-`java.exe -jar rpncalc.jar`
+`java -jar rpncalc.jar`
 
 If you've installed via SNAP:
 
@@ -99,9 +99,9 @@ Currently there are several command line options, and all are optional.
 |-------|-----------|
 |-D | Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I usually use this as I debug the program, but if you wish to get a bit more insight into what's going on, go for it.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode on/off by entering in the command `debug` while within the program - you don't have to restart RPNCalc|
 |-l name |Load a saved stack called by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load the stack with the -l command line option, or from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  All of RPNCalc's saved information is stored as a java preference.  This location will vary by OS - see above|
-|-a <l,d,r> |Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I load my saves stack `-l checkbook`, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself using the `a` command.|
+|-a <l,d,r> |Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I load my saved stack `-l checkbook`, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself using the `a` command|
 |-m [slots]| Override the default of ten available memory slots.  If you need 12 memory slots, just use `-m 12` when starting the program.  Please note that if you have 12 slots, the slot numbers within the program will be 0 - 11|
-|-w width|Set the width of the program header and status line.  Default is 70 characters. Useful if you are using a very small terminal.|
+|-w width|Set the width of the program header and status line.  Default is 70 characters. Useful if you are using a very small terminal|
 |-v|Simply display the version information and exit.  The help command line option (-h or -?) will also show this information|
 |-h or -?|Display the program help and exit|
 
@@ -152,7 +152,6 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |sin, cos, tan [rad]|Calculate the [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Angles are input as degrees by default unless the **rad** parameter is given in which case the angles will be in [radians](https://en.wikipedia.org/wiki/Radian).  Example: `tan` will calculate the tangent using row 1 as the angle in degrees.  Use `tan rad` if row 1 contains the angle in radians|
 |asin, acos, atan [rad]|Calculate the arc [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Result is returned in degrees unless **rad** parameter is provided|
 |hypot|Returns the hypotenuse of the top two stack items using the [Pythagorean theorem](https://en.wikipedia.org/wiki/Pythagorean_theorem).  Specifically, it returns SQRT( (line1)^2 + (line2)^2 ).  `hypotenuse` can also be used|
-
 
 ## Memory Commands
 |Command|Description|
