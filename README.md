@@ -25,7 +25,7 @@ Over the years I've used various RPN calculators on my computer, but I failed to
 
 If you have not heard of an RPN calculator, or just have a passion for various calculator notations (and who doesn't?), you can read more about it here: [Wikipedia Article](https://en.wikipedia.org/wiki/Reverse_Polish_notation) on RPN.
 
-As for the .jar bundled with a release, I have embedded all of the dependencies into the file.  In order to execute a file, you need to have a Java Run-time Environment, (JRE) installed and and in your path. 
+As for the .jar bundled with a release, I have embedded all of the dependencies into the file and it is directly executable.  You do not need to install anything, just be able to execute a java program.  You will need a java runtime (JRE) installed in your path. 
 
 To Execute:
 
@@ -35,7 +35,7 @@ If you've installed via SNAP:
 
 `rpncalc`
 
-As I've stated above, this is a java program and uses maven.  If you download/clone the source, and have maven installed, it should be simple to build:
+As I've stated above, this is a java program and uses maven.  If you download/clone the source, and have maven installed, it should be simple to build from source if desired - however, this is not needed.
 
 `mvn package` from the root of the project (the one containing the **pom.xml** file)
 
