@@ -814,7 +814,7 @@ public class StackOps {
 			case "add":
 				// Ensure there is a value to save to the memory slot
 				if (Main.calcStack.size() >= 1) {
-					Output.printColorln(Ansi.Color.YELLOW, "Adding '" + argParse[1] + "' to Memory Slot #" + memSlot);
+					Output.printColorln(Ansi.Color.CYAN, "Adding '" + Main.calcStack.peek() + "' to Memory Slot #" + memSlot);
 					memorySlots[memSlot] = Main.calcStack.peek();
 				} else {
 					Output.printColorln(Ansi.Color.RED, "ERROR: There must be at least one value on the stack");
@@ -824,13 +824,13 @@ public class StackOps {
 			// Clear the provided slot's value
 			case "clr":
 			case "clear":
-				Output.printColorln(Ansi.Color.YELLOW, "Clearing Memory Slot #" + memSlot);
+				Output.printColorln(Ansi.Color.CYAN, "Clearing Memory Slot #" + memSlot);
 				memorySlots[memSlot] = null;
 				break;
 
 			case "clrall":
 			case "clearall":
-				Output.printColorln(Ansi.Color.YELLOW, "Clearing All Memory Slots");
+				Output.printColorln(Ansi.Color.CYAN, "Clearing All Memory Slots");
 				for (int i = 0; i < memorySlots.length; i++) {
 					memorySlots[i] = null;
 				}
@@ -842,7 +842,7 @@ public class StackOps {
 				// Save to undo stack
 				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-				Output.printColorln(Ansi.Color.YELLOW, "Copying values from Memory Slot #" + memSlot);
+				Output.printColorln(Ansi.Color.CYAN, "Copying values from Memory Slot #" + memSlot);
 				if (memorySlots[memSlot] != null)
 					Main.calcStack.add(memorySlots[memSlot]);
 				else
