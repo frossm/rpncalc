@@ -197,7 +197,7 @@ public class Main {
 		// Display output header information
 		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(PROGRAMWIDTH - 2) + "+");
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "RPN Calculator", "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, ("v" + VERSION + " "), "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, (" v" + VERSION + " "), "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
 
