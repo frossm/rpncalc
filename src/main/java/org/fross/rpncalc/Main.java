@@ -194,10 +194,9 @@ public class Main {
 		calcStack2 = Prefs.RestoreStack("2");
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
-		// Display output header information
+		// Display the initial program header information
 		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(PROGRAMWIDTH - 2) + "+");
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "RPN Calculator", "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, (" v" + VERSION + " "), "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "RPN Calculator  v" + VERSION, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
 
