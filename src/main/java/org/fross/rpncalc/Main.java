@@ -118,7 +118,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:w:vh?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:w:vz?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
@@ -169,11 +169,16 @@ public class Main {
 				System.exit(0);
 				break;
 
+			case 'z': // Disable colorized output
+				Output.setColor(false);
+				break;
+
 			case '?': // Help
 			case 'h':
 				Help.Display();
 				System.exit(0);
 				break;
+
 			default:
 				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown Command Line Option: '" + (char) optionEntry + "'");
 				Help.Display();

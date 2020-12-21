@@ -102,6 +102,7 @@ Currently there are several command line options, and all are optional.
 |-a <l,d,r> |Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I load my saved stack `-l checkbook`, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself using the `a` command|
 |-m [slots]| Override the default of ten available memory slots.  If you need 12 memory slots, just use `-m 12` when starting the program.  Please note that if you have 12 slots, the slot numbers within the program will be 0 - 11|
 |-w width|Set the width of the program header and status line.  Default is 70 characters. Useful if you are using a very small terminal|
+|-z|Disable colorized output|
 |-v|Simply display the version information and exit.  The help command line option (-h or -?) will also show this information|
 |-h or -?|Display the program help and exit|
 
