@@ -170,7 +170,7 @@ public class Main {
 				break;
 
 			case 'z': // Disable colorized output
-				Output.setColor(false);
+				Output.enableColor(false);
 				break;
 
 			case '?': // Help
