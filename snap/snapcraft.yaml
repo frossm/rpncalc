@@ -1,5 +1,5 @@
 name: rpncalc
-version: '2.1.1'
+version: '2.2.0'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -9,7 +9,7 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict  # use 'strict' once you have the right plugs and slots
 base: core18
 
-# Enable faszter LZO compression
+# Enable faster LZO compression
 compression: lzo
 
 apps:
@@ -21,7 +21,7 @@ parts:
     plugin: maven
     source: https://github.com/frossm/library.git
     source-type: git
-    source-tag: 'v2020.12.23'
+    source-tag: 'v2021.02.01'
     maven-options: [install]
 
   rpncalc:
@@ -30,3 +30,7 @@ parts:
     source-branch: master
     source-type: git
     after: [library]
+
+plugs:
+   rpncalc-network:
+      interface: network

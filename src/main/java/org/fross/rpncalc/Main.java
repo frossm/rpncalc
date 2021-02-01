@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2020 Michael Fross
+ *  Copyright (c) 2013-2021 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ import java.util.Stack;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
+import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -163,9 +164,11 @@ public class Main {
 				}
 				break;
 
-			case 'v': // Version Display
-				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
+			case 'v': // Display current program version and latest GitHub release
+				Output.printColorln(Ansi.Color.WHITE, "RPNCalc Version: v" + VERSION);
 				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
+				Output.printColorln(Ansi.Color.WHITE, "\nLatest Release on GitHub: " + GitHub.updateCheck("rpncalc"));
+				Output.printColorln(Ansi.Color.CYAN, "HomePage: https://github.com/frossm/rpncalc");
 				System.exit(0);
 				break;
 

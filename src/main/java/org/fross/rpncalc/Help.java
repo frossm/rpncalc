@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2020 Michael Fross
+ *  Copyright (c) 2013-2021 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of numbers. (l)eft, (r)ight, or (d)ecmimal. Default: left");
 		Output.printColorln(Ansi.Color.WHITE, " -m num   Set the number of memory slots.  Default value is 10");
 		Output.printColorln(Ansi.Color.WHITE, " -w num   Set Width of header / status line.  Default is 70 characters");
-		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information");
+		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information as well as latest GitHub release");
 		Output.printColorln(Ansi.Color.WHITE, " -z       Disable colorized output");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
