@@ -103,7 +103,7 @@ Currently there are several command line options, and all are optional.
 |-m [slots]| Override the default of ten available memory slots.  If you need 12 memory slots, just use `-m 12` when starting the program.  Please note that if you have 12 slots, the slot numbers within the program will be 0 - 11|
 |-w width|Set the width of the program header and status line.  Default is 70 characters. Useful if you are using a very small terminal|
 |-z|Disable colorized output|
-|-v|Simply display the version information and exit.  The help command line option (-h or -?) will also show this information|
+|-v|Simply display the version information and exit.  `-v` will also query GitHub and display the latest release|
 |-h or -?|Display the program help and exit|
 
 ## Operands
