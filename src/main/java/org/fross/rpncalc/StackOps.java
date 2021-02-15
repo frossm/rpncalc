@@ -209,7 +209,7 @@ public class StackOps {
 	 * cmdClean(): Clean the screen by clearing it and then showing existing stack
 	 */
 	public static void cmdClean() {
-		Output.debugPrint("Cleanning Screen");
+		Output.debugPrint("Cleaning Screen");
 		// Rather than printing several hundred new lines, use the JANSI clear screen
 		Output.clearScreen();
 	}
