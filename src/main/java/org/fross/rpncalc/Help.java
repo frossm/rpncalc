@@ -83,10 +83,14 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " log|log10    Calculate the natural (base e) or base10 logarithm");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random number between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
+
+		Output.printColorln(Ansi.Color.YELLOW, "\nConversions:");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provided base.  Default is 64th");
+		Output.printColorln(Ansi.Color.WHITE, " mm           Assumes line1 is in inches and converts to millimeters");
+		Output.printColorln(Ansi.Color.WHITE, " in           Assumes line1 is in millimeters and converts to inches");
+		Output.printColorln(Ansi.Color.WHITE, " rad | deg    Converts line1 to radians or degrees");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
-		Output.printColorln(Ansi.Color.WHITE, " rad | deg    Converts line1 to radians or degrees");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan [rad] Trig Functions: Result in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " hypot        Returns the hypotenuse using line1 and line2 as the legs");

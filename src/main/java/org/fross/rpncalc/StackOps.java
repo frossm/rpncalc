@@ -552,6 +552,32 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdConvertMM() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Pop off the last value, convert, and push it back
+		Main.calcStack.push(Main.calcStack.pop() * (1/25.4));
+	}
+
+	/**
+	 * cmdConvertIN(): Assumes Line1 is in millimeters and converts to inches
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdConvertIN() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Pop off the last value, convert, and push it back
+		Main.calcStack.push(Main.calcStack.pop() * 25.4);
+	}
+
+	/**
 	 * cmdFraction(): Display the last stack item as a fraction with a minimum base of the provided
 	 * number. For example, sending 64 would produce a fraction of 1/64th but will be reduced if
 	 * possible.

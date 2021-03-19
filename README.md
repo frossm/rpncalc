@@ -143,13 +143,19 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |log, log10|Calculates the [natural logarithm (base e)](https://en.wikipedia.org/wiki/Natural_logarithm) or the [base10 logarithm](https://en.wikipedia.org/wiki/Common_logarithm)|
 |rand [l] [h]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
 |dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
-|frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity.|
+
+## Conversions
+|Command|Description|
+|-------|-----------|
+|frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity|
+|mm|Assumes line1 is in inches and converts to millimeters|
+|in|Assumes line1 is in millimeters and converts to inches|
+|rad|Convert line1 into [radians](https://en.wikipedia.org/wiki/Radian). Assume line1 contains a value in degrees.  `radian` would also work|
+|deg|Convert line1 into degrees.  Assumes line1 contains radians.  `degree` would also work|
 
 ## Trigonometry Functions
 |Command|Description|
 |-------|-----------|
-|rad|Convert line1 into [radians](https://en.wikipedia.org/wiki/Radian). Assume line1 contains a value in degrees.  `radian` would also work|
-|deg|Convert line1 into degrees.  Assumes line1 contains radians.  `degree` would also work|
 |sin, cos, tan [rad]|Calculate the [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Angles are input as degrees by default unless the **rad** parameter is given in which case the angles will be in [radians](https://en.wikipedia.org/wiki/Radian).  Example: `tan` will calculate the tangent using row 1 as the angle in degrees.  Use `tan rad` if row 1 contains the angle in radians|
 |asin, acos, atan [rad]|Calculate the arc [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Result is returned in degrees unless **rad** parameter is provided|
 |hypot|Returns the hypotenuse of the top two stack items using the [Pythagorean theorem](https://en.wikipedia.org/wiki/Pythagorean_theorem).  Specifically, it returns SQRT( (line1)^2 + (line2)^2 ).  `hypotenuse` can also be used|

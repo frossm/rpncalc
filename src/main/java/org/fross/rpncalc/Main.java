@@ -374,15 +374,23 @@ public class Main {
 				StackOps.cmdDice(cmdInputParam);
 				break;
 
+			/*********************************************
+			 * Conversions
+			 *********************************************/
 			// Fraction
 			case "frac":
 			case "fraction":
 				StackOps.cmdFraction(cmdInputParam);
 				break;
 
-			/*********************************************
-			 * Trigonometry Functions
-			 *********************************************/
+			case "mm":
+				StackOps.cmdConvertMM();
+				break;
+
+			case "in":
+				StackOps.cmdConvertIN();
+				break;
+
 			// Radians
 			case "rad":
 			case "radian":
@@ -394,6 +402,9 @@ public class Main {
 				StackOps.cmdDegree();
 				break;
 
+			/*********************************************
+			 * Trigonometry Functions
+			 *********************************************/
 			// Trigonometry Functions
 			case "tan":
 			case "sin":
