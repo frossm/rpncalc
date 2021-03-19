@@ -86,9 +86,9 @@ public class Help {
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConversions:");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]  Display as a fraction with min provided base.  Default is 64th");
-		Output.printColorln(Ansi.Color.WHITE, " mm           Assumes line1 is in inches and converts to millimeters");
-		Output.printColorln(Ansi.Color.WHITE, " in           Assumes line1 is in millimeters and converts to inches");
-		Output.printColorln(Ansi.Color.WHITE, " rad | deg    Converts line1 to radians or degrees");
+		Output.printColorln(Ansi.Color.WHITE, " 2mm          Assumes line1 is in inches and converts to millimeters");
+		Output.printColorln(Ansi.Color.WHITE, " 2in          Assumes line1 is in millimeters and converts to inches");
+		Output.printColorln(Ansi.Color.WHITE, " 2rad | 2deg  Converts line1 to radians or degrees");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");

@@ -556,12 +556,12 @@ public class StackOps {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdConvertMM() {
+	public static void cmdConvert2MM() {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
 		// Pop off the last value, convert, and push it back
-		Main.calcStack.push(Main.calcStack.pop() * (1/25.4));
+		Main.calcStack.push(Main.calcStack.pop() * 25.4);
 	}
 
 	/**
@@ -569,12 +569,12 @@ public class StackOps {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdConvertIN() {
+	public static void cmdConvert2IN() {
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
 		// Pop off the last value, convert, and push it back
-		Main.calcStack.push(Main.calcStack.pop() * 25.4);
+		Main.calcStack.push(Main.calcStack.pop() / 25.4);
 	}
 
 	/**
