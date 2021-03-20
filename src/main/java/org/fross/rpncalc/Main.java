@@ -383,29 +383,27 @@ public class Main {
 				StackOps.cmdFraction(cmdInputParam);
 				break;
 
-			// Convert to Millimeters
+			// Convert inches to millimeters
+			case "in2mm":
 			case "2mm":
-			case "mm":
 				StackOps.cmdConvert2MM();
 				break;
 
-			// Convert to Inches
+			// Convert millimeters to inches
+			case "mm2in":
 			case "2in":
-			case "in":
 				StackOps.cmdConvert2IN();
 				break;
 
 			// Convert to Radians
+			case "deg2rad":
 			case "2rad":
-			case "rad":
-			case "radian":
 				StackOps.cmdRadian();
 				break;
 
 			// Convert to Degrees
+			case "rad2deg":
 			case "2deg":
-			case "deg":
-			case "degree":
 				StackOps.cmdDegree();
 				break;
 

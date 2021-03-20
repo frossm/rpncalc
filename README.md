@@ -148,10 +148,10 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |Command|Description|
 |-------|-----------|
 |frac [base]|Display a fractional estimate of the last stack item with the maximum granularity of 1/base.  Default is 1/64th.  Only decimals are stored on the stack but this command will display the results.  For example, if you had **1.1234** on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  It would have used a base of 64 (which means maximum granularity would be 1/64.  However, it auto reduces which is why you get the `1 1/8`. if you entered frac 2 (which means 1/2 is maximum granularity, you get `1.1234 is approximately 1 0/1` or just one.  Need to fix that display oddity|
-|2mm|Assumes line1 is in inches and converts to millimeters|
-|2in|Assumes line1 is in millimeters and converts to inches|
-|2rad|Convert line1 into [radians](https://en.wikipedia.org/wiki/Radian). Assume line1 contains a value in degrees.  `radian` or `rad` would also work|
-|2deg|Convert line1 into degrees.  Assumes line1 contains radians.  `degree` or `deg` would also work|
+|in2mm|Converts the value in line1 from inches to millimeters.  `2mm` command will also work|
+|mm2in|Converts the value in line1 from millimeters to inches.  `2in` command will also work||
+|deg2rad|Convert line1 from degrees into [radians](https://en.wikipedia.org/wiki/Radian). `2rad` would also work|
+|rad2deg|Convert line1 from radians into degrees.  `2deg` would also work|
 
 ## Trigonometry Functions
 |Command|Description|
