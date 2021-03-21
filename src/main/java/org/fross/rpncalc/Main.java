@@ -444,7 +444,7 @@ public class Main {
 			// Add PI
 			case "pi":
 				undoStack.push((Stack<Double>) calcStack.clone());
-				Output.printColorln(Ansi.Color.CYAN, "PI to the stack");
+				Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
 				calcStack.add(java.lang.Math.PI);
 				break;
 
