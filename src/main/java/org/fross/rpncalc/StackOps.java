@@ -482,11 +482,10 @@ public class StackOps {
 				low = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
 				high = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
 			}
-		} catch (NumberFormatException e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
-			return;
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
+			Output.printColorln(Ansi.Color.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
+			Output.printColorln(Ansi.Color.RED, "See usage information in the help page");
+			return;
 		}
 
 		// Display Debug Output
