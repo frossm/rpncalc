@@ -35,7 +35,7 @@ If you've installed via SNAP:
 
 `rpncalc`
 
-As I've stated above, this is a java program and uses maven.  If you download/clone the source, and have maven installed, it should be simple to build from source if desired - however, this is not needed.
+As I've stated above, this is a java program and uses maven.  If you download/clone the source, and have maven installed, it should be simple to build from source if desired - however, this is not needed as the binary single file executable is included with each release.
 
 `mvn package` from the root of the project (the one containing the **pom.xml** file)
 
@@ -187,7 +187,8 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |a <l,d,r>| Align the display output to be l(eft), d(ecimal), or r(ight).  This is the same as the `-a <l, d, r>` command line switch|
 |ver| Display the current version number and copyright.  These can also be seen in the help screen|
 |h or ?|Display the help information|
-|x or q or cx |`x` or `q` will exit the program.  The primary and secondary stacks will be saved.  `cx` will clear the stack before exiting|
+|x or q|`x` or `q` will exit the program.  The primary and secondary stacks will be saved|
+|cx|`cx` will clear the stack before exiting|
 
 ## SNAP
 [![rpncalc](https://snapcraft.io//rpncalc/badge.svg)](https://snapcraft.io/rpncalc)
