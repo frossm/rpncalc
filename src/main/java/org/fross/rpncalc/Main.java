@@ -237,7 +237,7 @@ public class Main {
 				if (displayAlignment == 'd') {
 					// Put in spaces to align the decimals
 					int decimalLocation = Format.Comma(calcStack.get(i)).indexOf(".");
-					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation + 1; k++) {
+					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation; k++) {
 						Output.print(" ");
 					}
 					sn = Format.Comma(calcStack.get(i));
