@@ -462,6 +462,46 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdInteger(): Take the integer value of the top stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdInteger() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the integer of " + Main.calcStack.peek());
+			String stackItemString = Main.calcStack.pop().toString();
+			int stackItemInt = Integer.parseInt(stackItemString.substring(0, stackItemString.indexOf(".")));
+			Main.calcStack.add(stackItemInt * 1.0);
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
+	 * cmdAbsoluteValue(): Take the absolute value of the top stack item
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdAbsoluteValue() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		if (Main.calcStack.size() >= 1) {
+			Output.debugPrint("Taking the absolute value of " + Main.calcStack.peek());
+
+			Double value = Main.calcStack.pop();
+			if (value < 0) {
+				Main.calcStack.add(value * -1);
+			} else {
+				Main.calcStack.add(value);
+			}
+		} else {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		}
+	}
+
+	/**
 	 * cmdRandom(): Produce a random number between the Low and High values provided. If there are no
 	 * parameters, produce the number between 0 and 1.
 	 * 

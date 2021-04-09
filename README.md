@@ -141,7 +141,9 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |mod|Modulus is the remainder after a division.  This command will perform a division of the top two stack items using the `/` operand and return the remainder only back to the stack|
 |copy| Adds a copy of the top stack item (line 1) back on the stack.  The result is you'll have two of the same items on top of the stack|
 |log, log10|Calculates the [natural logarithm (base e)](https://en.wikipedia.org/wiki/Natural_logarithm) or the [base10 logarithm](https://en.wikipedia.org/wiki/Common_logarithm)|
-|rand [l] [h]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
+|int| Converts the top stack item (line 1) to it's integer value.  This will discard the decimal portion regardless of it's value.  For example: `4.34` will result in `4`.  `4.999` will also result in `4`|
+|abs| Takes the [absolute value](https://en.wikipedia.org/wiki/Absolute_value#:~:text=In%20mathematics%2C%20the%20absolute%20value,and%20%7C0%7C%20%3D%200) of line 1.  The returns the positive value of the number|
+|rand [low] [high]|Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
 |dice XdY|Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
 
 ## Conversions

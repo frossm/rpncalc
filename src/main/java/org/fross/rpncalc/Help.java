@@ -81,6 +81,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mod          Modulus. Perform a division and return the remainder");
 		Output.printColorln(Ansi.Color.WHITE, " copy         Copy the last stack item");
 		Output.printColorln(Ansi.Color.WHITE, " log|log10    Calculate the natural (base e) or base10 logarithm");
+		Output.printColorln(Ansi.Color.WHITE, " int          Convert top stack item to integer discarding decimal");
+		Output.printColorln(Ansi.Color.WHITE, " abs          Take the absolute value of top stack item");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random integer between X and Y inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
 

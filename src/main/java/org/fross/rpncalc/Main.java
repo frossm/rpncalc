@@ -362,6 +362,16 @@ public class Main {
 			case "log10":
 				StackOps.cmdLog10();
 				break;
+				
+			// Integer
+			case "int":
+				StackOps.cmdInteger();
+				break;
+				
+			// Absolute Value
+			case "abs":
+				StackOps.cmdAbsoluteValue();
+				break;
 
 			// Random Number Generation
 			case "rand":
