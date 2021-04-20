@@ -169,6 +169,7 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |mem [slot] copy|Copies the contents of memory slot provided back onto the stack.  Defaults to Slot0 if no slot number is provided.  `recall` can also be used instead of `copy`|
 |mem [slot] clr|Clear the contents of the memory slot provided.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
 |mem clearall|Clear the contents of all memory slots.  Not sure why this would be needed, but seems like something that should be here.  There is no need to include a SlotNumber. Note `mem clrall` will also work|
+|mem copyall|Copy all items in memory to the stack.  These will be ordered via memory slot number. i.e. Memory slot 0 will be at the top of the stack (line 1).  `recallall` will also work|
 
 ## Constants
 |Constant|Description|

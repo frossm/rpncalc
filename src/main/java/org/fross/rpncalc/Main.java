@@ -119,7 +119,7 @@ public class Main {
 		}
 
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:w:vz?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:w:vzh?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode

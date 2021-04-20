@@ -914,6 +914,20 @@ public class StackOps {
 					Output.printColorln(Ansi.Color.RED, "Memory Slot #" + memSlot + " is empty");
 				break;
 
+			// Copy everything back onto the stack.  Lower number to stop of stack (line 1)
+			case "copyall":
+			case "recallall":
+				// Save to undo stack
+				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+				Output.printColorln(Ansi.Color.CYAN, "Copying all memory items to the stack");
+				for (int i = memorySlots.length - 1; i >= 0; i--) {
+					if (memorySlots[i] != null) {
+						Main.calcStack.add(memorySlots[i]);
+					}
+				}
+				break;
+
 			default:
 				// Slot was valid number, but unknown mem command
 				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown memory command: '" + argParse[1] + "'");

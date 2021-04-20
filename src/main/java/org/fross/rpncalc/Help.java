@@ -59,6 +59,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " -w num   Set Width of header / status line.  Default is 70 characters");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information as well as latest GitHub release");
 		Output.printColorln(Ansi.Color.WHITE, " -z       Disable colorized output");
+		Output.printColorln(Ansi.Color.WHITE, " h | ?    Show this help information.  Either key will work.");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
 		Output.printColorln(Ansi.Color.WHITE, " +    Addition:  Add last two stack elements");
@@ -103,6 +104,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy  Copy number for memory Slot X. Default is 0");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr   Clear memory Slot X. Default is 0");
 		Output.printColorln(Ansi.Color.WHITE, " mem clearall  Clear all memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " mem copyall   Copy all memory items onto the stack");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
 		Output.printColorln(Ansi.Color.WHITE, " pi        Add PI to the stack");
