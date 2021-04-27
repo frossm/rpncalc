@@ -11,13 +11,16 @@ set JarFilename=target\%@Field["\",-1,%@PATH[%@Full[pom.xml]]].jar
 
 :: Ensure the jarfile exists
 iff not exist %JarFilename then
-	echo %JarFilename does not exist
-	echo Run this from the root of the project directory
+	setcolor RED
+	echo ERROR: %JarFilename does not exist
+	echo   - Ensure 'mvn package' has been run
+	echo   - Run this from the root of the project directory
+	setcolor NORMAL
 	quit /b
 endiff
 
-:: Delete an old checksum file if it exists
-iff exist %ChecksumFile.md5 then
+:: Delete an old checksum files if they exist
+iff exist %ChecksumFile%* then
 	del %ChecksumFile%* /Q
 endiff
 
@@ -26,16 +29,16 @@ echo %@Lower[%@MD5[%JarFilename]]  %@Filename[%JarFilename] > %ChecksumFile%.md5
 echo %@Lower[%@SHA1[%JarFilename]]  %@Filename[%JarFilename] > %ChecksumFile%.SHA1
 echo %@Lower[%@SHA256[%JarFilename]]  %@Filename[%JarFilename] > %ChecksumFile%.SHA256
 
-:: Display the file to the console
+:: Display the checksum files to the console
 echos %@Filename[%ChecksumFile].MD5:^t
-type %ChecksumFile%.md5
+type %ChecksumFile.md5
 
 echos %@Filename[%ChecksumFile].SHA1:^t
-type %ChecksumFile%.SHA1
+type %ChecksumFile.SHA1
 
 echos %@Filename[%ChecksumFile].SHA256:
-type %ChecksumFile%.SHA256
+type %ChecksumFile.SHA256
 
 :: Cleanup and exit
-unset ChecksumFile,JarFilename
+unset ChecksumFile JarFilename
 endlocal
