@@ -197,6 +197,9 @@ public class Main {
 		Output.debugPrint("  -l:  " + Prefs.QueryLoadedStack());
 		Output.debugPrint("  -a:  " + displayAlignment);
 
+		// Restore the items in the memory slots during startup
+		StackOps.RestoreMemSlots();
+
 		// Pull the existing stacks from the preferences if they exist
 		calcStack = Prefs.RestoreStack("1");
 		calcStack2 = Prefs.RestoreStack("2");
@@ -362,12 +365,12 @@ public class Main {
 			case "log10":
 				StackOps.cmdLog10();
 				break;
-				
+
 			// Integer
 			case "int":
 				StackOps.cmdInteger();
 				break;
-				
+
 			// Absolute Value
 			case "abs":
 				StackOps.cmdAbsoluteValue();
@@ -612,7 +615,10 @@ public class Main {
 		// Close the scanner
 		scanner.close();
 
-		// Save the primary and secondary stacks
+		// Save the items in the memory slots to the preferences system
+		StackOps.SaveMemSlots();
+
+		// Save the primary and secondary stacks to the preferences system
 		Prefs.SaveStack(calcStack, "1");
 		Prefs.SaveStack(calcStack2, "2");
 

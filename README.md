@@ -90,7 +90,7 @@ Each stack you load (default or a named stack) actually has 2 stacks defined; a 
 
 When you start up RPNCalc, you can load a stack with the `-l name` command.  If the stack `name` exists, it will be loaded.  If it does not exist, the stack will be created and when you leave the program it will be saved.  You can always view what stack you are using in the lower right of the dashed bar. The `:1` or `:2` after the stack name will tell you if you are on the primary or "swapped" stack.
 
-As a side note, while stacks are saved on shutdown, the memory slots used by the `mem` commands are not saved between sessions. The memory slots are just temporary memory locations used when you wish to save a value to use later in the current session.
+As a side note, both stacks and memory slots are saved during shutdown.  While you can have multiple stacks you can load, memory slots are global.  The default stack items are restored at startup (or whatever stack you choose to load.  Memory slots are also restored at startup.  `list mem` will show the saved memory slot's contents and `list stacks` will show the saved stacks.
 
 ## Command Line Options
 Currently there are several command line options, and all are optional.
@@ -100,7 +100,7 @@ Currently there are several command line options, and all are optional.
 |-D | Run program in debug mode.  This will display quite a bit of information on the program as it's running.  I usually use this as I debug the program, but if you wish to get a bit more insight into what's going on, go for it.  I could certainly add a lot more if needed, but it's useful today.  You can also toggle debug mode on/off by entering in the command `debug` while within the program - you don't have to restart RPNCalc|
 |-l name |Load a saved stack called by it's name.  This essentially will "name" your session and store the stack upon exit in the Java preferences system.  You can load the stack with the -l command line option, or from within the program by using the 'load' command.  Please note the name field is whatever you want to call the instance and you can have many of them.  I'm not aware of a limit.  If the name to load does not exist, it will be created.  All of RPNCalc's saved information is stored as a java preference.  This location will vary by OS - see above|
 |-a <l,d,r> |Alignment choice.  Alignment can either be an 'l' for LEFT alignment, an 'r' for RIGHT alignment, or a 'd' to align to the decimal point.  This is a display choice only and doesn't impact the calculations.  For example, when I load my saved stack `-l checkbook`, I align by decimal which makes it a bit easier to read.  Alignments can also be changed within the program itself using the `a` command|
-|-m [slots]| Override the default of ten available memory slots.  If you need 12 memory slots, just use `-m 12` when starting the program.  Please note that if you have 12 slots, the slot numbers within the program will be 0 - 11|
+|-m [slots]| Override the default of ten available memory slots.  If you need 12 memory slots, just use `-m 12` when starting the program.  Please note that if you have 12 slots, the slot numbers within the program will be 0 - 11.  Slots are saved and restored between sessions|
 |-w width|Set the width of the program header and status line.  Default is 70 characters. Useful if you are using a very small terminal|
 |-z|Disable colorized output|
 |-v|Simply display the version information and exit.  `-v` will also query GitHub and display the latest release|
@@ -168,7 +168,7 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |mem [slot] add|Add the top stack item (line 1) into the memory slot provided.  By default, there are 10 slots; 0 through 9.  If you do not provide a slot number it will simply default to slot 0.  Example:  `mem add`   will add the last stack item into Mem Slot0|
 |mem [slot] copy|Copies the contents of memory slot provided back onto the stack.  Defaults to Slot0 if no slot number is provided.  `recall` can also be used instead of `copy`|
 |mem [slot] clr|Clear the contents of the memory slot provided.  Defaults to Slot0 if no slot is provided.  Example: `mem 2 clr`  The command `clear` can also be used instead of `clr`|
-|mem clearall|Clear the contents of all memory slots.  Not sure why this would be needed, but seems like something that should be here.  There is no need to include a SlotNumber. Note `mem clrall` will also work|
+|mem clearall|Clear the contents of all memory slots.  There is no need to include a SlotNumber as they will all be erased.  Note `mem clrall` will also work|
 |mem copyall|Copy all items in memory to the stack.  These will be ordered via memory slot number. i.e. Memory slot 0 will be at the top of the stack (line 1).  `recallall` will also work|
 
 ## Constants

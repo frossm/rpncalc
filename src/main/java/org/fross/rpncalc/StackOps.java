@@ -29,6 +29,7 @@ package org.fross.rpncalc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Stack;
+import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
 import org.fross.library.Output;
@@ -78,6 +79,54 @@ public class StackOps {
 		}
 
 		return inUseCounter;
+	}
+
+	/**
+	 * SaveMemSlots(): Save the memory slots to the preferences system
+	 * 
+	 */
+	public static void SaveMemSlots() {
+		Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
+
+		Output.debugPrint("Saving Memory Slots:");
+		try {
+			// Clear out any slots in the store in prep for writing the current slots
+			p.clear();
+
+			for (int i = 0; i < StackOps.memorySlots.length; i++) {
+				if (memorySlots[i] != null) {
+					Output.debugPrint("  - Slot #" + i + ":  " + memorySlots[i]);
+					p.putDouble(Integer.toString(i), memorySlots[i]);
+				}
+			}
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "Error: Unable to save memory slots to preferences successfully");
+		}
+
+		Output.debugPrint("");
+	}
+
+	/**
+	 * RestoreMemSlots(): Restore the contents of the memory slots from the preferences system.
+	 * Typically done at startup
+	 * 
+	 */
+	public static void RestoreMemSlots() {
+		Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
+
+		Output.debugPrint("Restoring Memory Slots:");
+		try {
+			for (int i = 0; i < StackOps.memorySlots.length; i++) {
+				if (p.getDouble(Integer.toString(i), Double.MAX_VALUE) != Double.MAX_VALUE) {
+					Output.debugPrint("  - Slot #" + i + "  " + p.getDouble(Integer.toString(i), Double.MAX_VALUE));
+					memorySlots[i] = p.getDouble(Integer.toString(i), Double.MAX_VALUE);
+				}
+			}
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "Error: Unable to restore memory slots from preferences");
+		}
+
+		Output.debugPrint("");
 	}
 
 	/**
@@ -914,7 +963,7 @@ public class StackOps {
 					Output.printColorln(Ansi.Color.RED, "Memory Slot #" + memSlot + " is empty");
 				break;
 
-			// Copy everything back onto the stack.  Lower number to stop of stack (line 1)
+			// Copy everything back onto the stack. Lower number to stop of stack (line 1)
 			case "copyall":
 			case "recallall":
 				// Save to undo stack
