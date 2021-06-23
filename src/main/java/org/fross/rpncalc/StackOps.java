@@ -462,6 +462,95 @@ public class StackOps {
 	}
 
 	/**
+	 * cmdAverage(): Calculate the average of the stack items
+	 * 
+	 * @param arg
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdAverage(String arg) {
+		// Ensure we have enough numbers on the stack
+		if (Main.calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  Average requires at least two items on the stack");
+			return;
+		}
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Determine if we should keep or clear the stack
+		boolean keepFlag = false;
+		try {
+			// Just check if the provided command starts with 'k'. That should be enough
+			if (arg.toLowerCase().charAt(0) == 'k') {
+				keepFlag = true;
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			keepFlag = false;
+		}
+
+		// Calculate the mean
+		Double mean = Math.Mean(Main.calcStack);
+
+		// If we are not going to keep the stack (the default) clear it
+		if (keepFlag == false)
+			Main.calcStack.clear();
+
+		// Add the average to the stack
+		Main.calcStack.push(mean);
+	}
+
+	/**
+	 * cmdStdDeviation(): Calculate the Standard Deviation of the stack items
+	 * 
+	 * Reference: https://www.mathsisfun.com/data/standard-deviation-formulas.html
+	 * 
+	 * @param arg
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdStdDeviation(String arg) {
+		// Ensure we have enough numbers on the stack
+		if (Main.calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  Standard Deviation requires at least two items on the stack");
+			return;
+		}
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		// Determine if we should keep or clear the stack
+		boolean keepFlag = false;
+		try {
+			// Just check if the provided command starts with 'k'. That should be enough
+			if (arg.toLowerCase().charAt(0) == 'k') {
+				keepFlag = true;
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			keepFlag = false;
+		}
+
+		// Step1: Get the mean
+		Double mean1 = Math.Mean(Main.calcStack);
+		Output.debugPrint("Inital mean of the numbers: " + mean1);
+
+		// Step2: For each number: subtract the mean from the number and square the result
+		Double[] stdArray = new Double[Main.calcStack.size()];
+		for (int i = 0; i < Main.calcStack.size(); i++) {
+			stdArray[i] = java.lang.Math.pow((Main.calcStack.get(i) - mean1), 2);
+		}
+		
+		// Step3: Work out the mean of those squared differences
+		Double mean2 = Math.Mean(stdArray);
+		Output.debugPrint("Secondary mean of (number-mean)^2: " + mean2);
+		
+		if (keepFlag == false) 
+			Main.calcStack.clear();
+		
+		// Step4: Take the square root of that result and push onto the stack
+		Double result = java.lang.Math.sqrt(mean2);
+		Main.calcStack.push(result);
+	}
+
+	/**
 	 * cmdCopy(): Copy the item at the top of the stack
 	 * 
 	 */

@@ -351,6 +351,18 @@ public class Main {
 				StackOps.cmdMod();
 				break;
 
+			// Average
+			case "mean":
+			case "average":
+			case "avg":
+				StackOps.cmdAverage(cmdInputParam);
+				break;
+				
+			// Standard Deviation
+			case "sd":
+				StackOps.cmdStdDeviation(cmdInputParam);
+				break;
+				
 			// Copy Item
 			case "copy":
 				StackOps.cmdCopy();

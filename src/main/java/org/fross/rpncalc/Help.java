@@ -80,6 +80,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " round [n]    Round to n decimal places.  Default is 0 decimals");
 		Output.printColorln(Ansi.Color.WHITE, " aa [keep]    Add all stack items. Adding 'keep' will keep existing elements");
 		Output.printColorln(Ansi.Color.WHITE, " mod          Modulus. Perform a division and return the remainder");
+		Output.printColorln(Ansi.Color.WHITE, " avg [keep]   Replace stack with average of values.  'keep' will retain stack");
+		Output.printColorln(Ansi.Color.WHITE, " sd [keep]    Standard deviation of stack items.  'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " copy         Copy line1 and add it to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " log | log10  Calculate the natural (base e) or base10 logarithm");
 		Output.printColorln(Ansi.Color.WHITE, " int          Convert line1 to an integer by discarding after the decimal");

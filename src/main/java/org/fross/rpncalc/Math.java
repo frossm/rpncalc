@@ -27,8 +27,9 @@
 package org.fross.rpncalc;
 
 import java.util.Stack;
-import org.fusesource.jansi.Ansi;
+
 import org.fross.library.Output;
+import org.fusesource.jansi.Ansi;
 
 /**
  * Math: The math class contains the methods to parse the operands entered and perform the math
@@ -161,7 +162,7 @@ public class Math {
 	}
 
 	/**
-	 * isNumberic(): Return true or false if provided string is a number
+	 * isNumeric(): Return true or false if provided string is a number
 	 * 
 	 * @param str
 	 * @return
@@ -175,4 +176,41 @@ public class Math {
 		}
 	}
 
-} // END MATH CLASS
+	/**
+	 * mean(): Return the mean from the numbers in a stack of doubles or a double array
+	 * 
+	 * @param stk
+	 * @return
+	 */
+	public static Double Mean(Stack<Double> stk) {
+		Double totalCounter = 0.0;
+		int size = stk.size();
+
+		// Add up the numbers in the stack
+		for (int i = 0; i < size; i++) {
+			totalCounter += stk.get(i);
+		}
+
+		// Return the average
+		return (totalCounter / size);
+
+	}
+
+	/**
+	 * mean(): Return the mean from the numbers in a stack of doubles or a double array
+	 * 
+	 * @param arry
+	 * @return
+	 */
+	public static Double Mean(Double[] arry) {
+		Stack<Double> stk = new Stack<Double>();
+
+		// Convert array into a stack then call Mean again
+		for (int i = 0; i < arry.length; i++) {
+			stk.add(arry[i]);
+		}
+
+		return (Mean(stk));
+	}
+
+}
