@@ -5,7 +5,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>2.6.1</version>
+	<version>2.6.2</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -147,29 +147,6 @@
 				</configuration>
 			</plugin>
 			
-			<!-- Run the GenChecksums.py file to create the MD5, SHA1, and SHA256 checksum files -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-					<execution>
-						<configuration>
-							<executable>python</executable>
-							<workingDirectory>${basedir}</workingDirectory>
-							<arguments>
-								<argument>${basedir}/tools/GenChecksums.py</argument>
-							</arguments>
-						</configuration>
-						<id>python_build</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 		</plugins>
 	</build>
 
