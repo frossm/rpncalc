@@ -72,21 +72,21 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " u            Undo last action");
 		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the element at line1");
 		Output.printColorln(Ansi.Color.WHITE, " c            Clear the screen and empty current stack");
-		Output.printColorln(Ansi.Color.WHITE, " clean        Clear screen but keep the stack values");
-		Output.printColorln(Ansi.Color.WHITE, " d [#]        Delete the line1 value or the line number provided");
+		Output.printColorln(Ansi.Color.WHITE, " cl[ean]      Clear screen but keep the stack values");
+		Output.printColorln(Ansi.Color.WHITE, " d [#]        Delete line1 or the line number provided");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]    Swap the last two elments in the stack or the lines provided");
 		Output.printColorln(Ansi.Color.WHITE, " %            Convert line1 into a percentage by multipling it by 0.01");
-		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root on line1");
+		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root of the line1 value");
 		Output.printColorln(Ansi.Color.WHITE, " round [n]    Round to n decimal places.  Default is 0 decimals");
 		Output.printColorln(Ansi.Color.WHITE, " aa [keep]    Add all stack items. Adding 'keep' will keep existing elements");
 		Output.printColorln(Ansi.Color.WHITE, " mod          Modulus. Perform a division and return the remainder");
 		Output.printColorln(Ansi.Color.WHITE, " avg [keep]   Replace stack with average of values.  'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " sd [keep]    Standard deviation of stack items.  'keep' will retain stack");
-		Output.printColorln(Ansi.Color.WHITE, " copy         Copy line1 and add it to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " copy [#]     Copy line1 or the optional line number and add it to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " log | log10  Calculate the natural (base e) or base10 logarithm");
-		Output.printColorln(Ansi.Color.WHITE, " int          Convert line1 to an integer by discarding after the decimal");
+		Output.printColorln(Ansi.Color.WHITE, " int          Convert line1 to an integer. No rounding is performed");
 		Output.printColorln(Ansi.Color.WHITE, " abs          Take the absolute value of line1");
-		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random integer between X and Y inclusive.  Default is 1-100");
+		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random integer between L and H inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConversions:");

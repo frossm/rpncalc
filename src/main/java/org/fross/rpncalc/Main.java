@@ -308,9 +308,9 @@ public class Main {
 				break;
 
 			// Delete
-			case "delete":
 			case "del":
 			case "d":
+			case "drop":
 				// If Parameter is empty, delete the value on the top of the stack
 				if (cmdInputParam.isEmpty())
 					StackOps.cmdDelete("1");
@@ -365,7 +365,8 @@ public class Main {
 				
 			// Copy Item
 			case "copy":
-				StackOps.cmdCopy();
+			case "dup":
+				StackOps.cmdCopy(cmdInputParam);
 				break;
 
 			// Natural (base e) Logarithm

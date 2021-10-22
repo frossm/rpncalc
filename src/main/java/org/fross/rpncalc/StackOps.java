@@ -537,33 +537,60 @@ public class StackOps {
 		for (int i = 0; i < Main.calcStack.size(); i++) {
 			stdArray[i] = java.lang.Math.pow((Main.calcStack.get(i) - mean1), 2);
 		}
-		
+
 		// Step3: Work out the mean of those squared differences
 		Double mean2 = Math.Mean(stdArray);
 		Output.debugPrint("Secondary mean of (number-mean)^2: " + mean2);
-		
-		if (keepFlag == false) 
+
+		if (keepFlag == false)
 			Main.calcStack.clear();
-		
+
 		// Step4: Take the square root of that result and push onto the stack
 		Double result = java.lang.Math.sqrt(mean2);
 		Main.calcStack.push(result);
 	}
 
 	/**
-	 * cmdCopy(): Copy the item at the top of the stack
+	 * cmdCopy(): Copy the item at the top of the stack or the line number provided
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdCopy() {
+	public static void cmdCopy(String arg) {
+		int lineNum = 1;
+
+		// Ensure we have at least one number to copy
+		if (Main.calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "Error: The stack must contain at least one number to copy");
+			return;
+		}
+
+		// Determine line number to copy
+		try {
+			lineNum = Integer.parseInt(arg);
+		} catch (NumberFormatException ex) {
+			if (!arg.isBlank()) {
+				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid line number");
+				return;
+			}
+		}
+
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		Output.debugPrint("Copying the item at the top of the stack");
-		if (Main.calcStack.size() >= 1) {
-			Main.calcStack.add(Main.calcStack.lastElement());
-		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be an item in the stack to copy it");
+		Output.debugPrint("Copying line" + lineNum + " to line1");
+
+		// Copy the provided number if it's valid
+		try {
+			// Ensure the number entered is is valid
+			if (lineNum < 1 || lineNum > Main.calcStack.size()) {
+				Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineNum);
+			} else {
+				// Perform the copy
+				Main.calcStack.push(Main.calcStack.get(Main.calcStack.size() - lineNum));
+			}
+		} catch (Exception e) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element copy: '" + lineNum + "'");
+			Output.debugPrint(e.getMessage());
 		}
 	}
 
