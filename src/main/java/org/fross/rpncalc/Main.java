@@ -54,9 +54,8 @@ public class Main {
 	public static String VERSION;
 	public static String COPYRIGHT;
 
-	// Class Variable
-	@SuppressWarnings("rawtypes")
-	static Stack<Stack> undoStack = new Stack<Stack>();
+	// Class Variables
+	static Stack<Stack<Double>> undoStack = new Stack<Stack<Double>>();
 	static Stack<Double> calcStack = new Stack<Double>();
 	static Stack<Double> calcStack2 = new Stack<Double>();
 	static char displayAlignment = 'l';
@@ -196,6 +195,8 @@ public class Main {
 		Output.debugPrint("  -D:  " + Debug.query());
 		Output.debugPrint("  -l:  " + Prefs.QueryLoadedStack());
 		Output.debugPrint("  -a:  " + displayAlignment);
+		Output.debugPrint("  -w:  " + PROGRAMWIDTH);
+		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
 
 		// Restore the items in the memory slots during startup
 		StackOps.RestoreMemSlots();
