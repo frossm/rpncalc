@@ -67,7 +67,7 @@ public class Main {
 	 */
 	public static void DisplayStatusLine() {
 		// Format the number of memory slots used
-		String sfMem = String.format("Mem:%02d", StackOps.QueryInUseMemorySlots());
+		String sfMem = String.format("Mem:%02d", StackMemory.QueryInUseMemorySlots());
 
 		// Format the undo level to 2 digits. Can't image I'd need over 99 undo levels
 		String sfUndo = String.format("Undo:%02d", Main.undoStack.size());
@@ -146,7 +146,7 @@ public class Main {
 				break;
 
 			case 'm':
-				StackOps.SetMaxMemorySlots(optG.getOptarg());
+				StackMemory.SetMaxMemorySlots(optG.getOptarg());
 				break;
 
 			case 'w':
@@ -199,7 +199,7 @@ public class Main {
 		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
 
 		// Restore the items in the memory slots during startup
-		StackOps.RestoreMemSlots();
+		StackMemory.RestoreMemSlots();
 
 		// Pull the existing stacks from the preferences if they exist
 		calcStack = Prefs.RestoreStack("1");
@@ -287,25 +287,25 @@ public class Main {
 			// Undo
 			case "undo":
 			case "u":
-				StackOps.cmdUndo();
+				StackCommands.cmdUndo();
 				break;
 
 			// Flip Sign
 			case "flip":
 			case "f":
-				StackOps.cmdFlipSign();
+				StackCommands.cmdFlipSign();
 				break;
 
 			// Clear Screen and Stack
 			case "clear":
 			case "c":
-				StackOps.cmdClear();
+				StackCommands.cmdClear();
 				break;
 
 			// Clean the screen and redisplay the stack
 			case "clean":
 			case "cl":
-				StackOps.cmdClean();
+				StackCommands.cmdClean();
 				break;
 
 			// Delete
@@ -314,9 +314,9 @@ public class Main {
 			case "drop":
 				// If Parameter is empty, delete the value on the top of the stack
 				if (cmdInputParam.isEmpty())
-					StackOps.cmdDelete("1");
+					StackCommands.cmdDelete("1");
 				else
-					StackOps.cmdDelete(cmdInputParam);
+					StackCommands.cmdDelete(cmdInputParam);
 				break;
 
 			// Percent
@@ -329,76 +329,76 @@ public class Main {
 			// Swap Elements in a stack
 			case "swap":
 			case "s":
-				StackOps.cmdSwapElements(cmdInputParam);
+				StackCommands.cmdSwapElements(cmdInputParam);
 				break;
 
 			// Square Root
 			case "sqrt":
-				StackOps.cmdSqrt();
+				StackCommands.cmdSqrt();
 				break;
 
 			// Round
 			case "round":
-				StackOps.cmdRound(cmdInputParam);
+				StackCommands.cmdRound(cmdInputParam);
 				break;
 
 			// AddAll
 			case "aa":
-				StackOps.cmdAddAll(cmdInputParam);
+				StackCommands.cmdAddAll(cmdInputParam);
 				break;
 
 			// Modulus
 			case "mod":
-				StackOps.cmdMod();
+				StackCommands.cmdMod();
 				break;
 
 			// Average
 			case "mean":
 			case "average":
 			case "avg":
-				StackOps.cmdAverage(cmdInputParam);
+				StackCommands.cmdAverage(cmdInputParam);
 				break;
-				
+
 			// Standard Deviation
 			case "sd":
-				StackOps.cmdStdDeviation(cmdInputParam);
+				StackCommands.cmdStdDeviation(cmdInputParam);
 				break;
-				
+
 			// Copy Item
 			case "copy":
 			case "dup":
-				StackOps.cmdCopy(cmdInputParam);
+				StackCommands.cmdCopy(cmdInputParam);
 				break;
 
 			// Natural (base e) Logarithm
 			case "log":
-				StackOps.cmdLog();
+				StackCommands.cmdLog();
 				break;
 
 			// Base10 Logarithm
 			case "log10":
-				StackOps.cmdLog10();
+				StackCommands.cmdLog10();
 				break;
 
 			// Integer
 			case "int":
-				StackOps.cmdInteger();
+				StackCommands.cmdInteger();
 				break;
 
 			// Absolute Value
 			case "abs":
-				StackOps.cmdAbsoluteValue();
+				StackCommands.cmdAbsoluteValue();
 				break;
 
 			// Random Number Generation
 			case "rand":
 			case "random":
-				StackOps.cmdRandom(cmdInputParam);
+				StackCommands.cmdRandom(cmdInputParam);
 				break;
 
 			// Dice
 			case "dice":
-				StackOps.cmdDice(cmdInputParam);
+				StackCommands.cmdDice(cmdInputParam);
 				break;
 
 			/*********************************************
@@ -407,31 +407,31 @@ public class Main {
 			// Fraction
 			case "frac":
 			case "fraction":
-				StackOps.cmdFraction(cmdInputParam);
+				StackConversions.cmdFraction(cmdInputParam);
 				break;
 
 			// Convert inches to millimeters
 			case "in2mm":
 			case "2mm":
-				StackOps.cmdConvert2MM();
+				StackConversions.cmdConvert2MM();
 				break;
 
 			// Convert millimeters to inches
 			case "mm2in":
 			case "2in":
-				StackOps.cmdConvert2IN();
+				StackConversions.cmdConvert2IN();
 				break;
 
 			// Convert to Radians
 			case "deg2rad":
 			case "2rad":
-				StackOps.cmdRadian();
+				StackConversions.cmdRadian();
 				break;
 
 			// Convert to Degrees
 			case "rad2deg":
 			case "2deg":
-				StackOps.cmdDegree();
+				StackConversions.cmdDegree();
 				break;
 
 			/*********************************************
@@ -441,20 +441,20 @@ public class Main {
 			case "tan":
 			case "sin":
 			case "cos":
-				StackOps.cmdTrig(cmdInputCmd, cmdInputParam);
+				StackTrig.cmdTrig(cmdInputCmd, cmdInputParam);
 				break;
 
 			// Arc-Trigonometry Functions
 			case "atan":
 			case "asin":
 			case "acos":
-				StackOps.cmdArcTrig(cmdInputCmd, cmdInputParam);
+				StackTrig.cmdArcTrig(cmdInputCmd, cmdInputParam);
 				break;
 
 			// Hypotenuse
 			case "hypot":
 			case "hypotenuse":
-				StackOps.cmdHypotenuse();
+				StackTrig.cmdHypotenuse();
 				break;
 
 			/*********************************************
@@ -462,7 +462,7 @@ public class Main {
 			 *********************************************/
 			case "memory":
 			case "mem":
-				StackOps.cmdMem(cmdInputParam);
+				StackMemory.cmdMem(cmdInputParam);
 				break;
 
 			/*********************************************
@@ -495,28 +495,28 @@ public class Main {
 			// List
 			// Supported commands are "stacks" | "mem" | "undo"
 			case "list":
-				StackOps.cmdList(cmdInputParam);
+				StackOperations.cmdList(cmdInputParam);
 				break;
 
 			// Load
 			case "load":
-				StackOps.cmdLoad(cmdInputParam);
+				StackOperations.cmdLoad(cmdInputParam);
 				break;
 
 			// Swap Stack
 			case "ss":
-				StackOps.cmdSwapStack();
+				StackOperations.cmdSwapStack();
 				break;
 
 			// Debug Toggle
 			case "debug":
-				StackOps.cmdDebug();
+				StackOperations.cmdDebug();
 				break;
 
 			// Display Alignment
 			case "a":
 				try {
-					StackOps.cmdAlign(cmdInputParam.charAt(0));
+					StackOperations.cmdAlign(cmdInputParam.charAt(0));
 				} catch (StringIndexOutOfBoundsException ex) {
 					Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
 				}
@@ -558,7 +558,7 @@ public class Main {
 			case "*":
 			case "/":
 			case "^":
-				StackOps.cmdOperand(cmdInputCmd);
+				StackCommands.cmdOperand(cmdInputCmd);
 				break;
 
 			default:
@@ -630,7 +630,7 @@ public class Main {
 		scanner.close();
 
 		// Save the items in the memory slots to the preferences system
-		StackOps.SaveMemSlots();
+		StackMemory.SaveMemSlots();
 
 		// Save the primary and secondary stacks to the preferences system
 		Prefs.SaveStack(calcStack, "1");

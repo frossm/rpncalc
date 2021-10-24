@@ -36,8 +36,9 @@ package org.fross.rpncalc;
 import java.util.Stack;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import org.fusesource.jansi.Ansi;
+
 import org.fross.library.Output;
+import org.fusesource.jansi.Ansi;
 
 /**
  * Prefs: Holds the logic and calls to the java preferences system. Used to save and restore the
@@ -65,22 +66,23 @@ public class Prefs {
 		else
 			currentStackNum = 1;
 	}
-	
+
 	/**
 	 * QueryStacks(): Return a string array of all current stacks
+	 * 
 	 * @return
 	 */
 	public static String[] QueryStacks() {
 		String[] stacks = {};
 		Preferences prefsQuery = Preferences.userRoot().node(PREFS_PATH);
-		
+
 		try {
 			stacks = prefsQuery.childrenNames();
 		} catch (BackingStoreException ex) {
-			Output.printColor(Ansi.Color.RED,  "Error Reading Stacks from Java Preferences");
+			Output.printColor(Ansi.Color.RED, "Error Reading Stacks from Java Preferences");
 		}
-		
-		return(stacks);
+
+		return (stacks);
 	}
 
 	/**

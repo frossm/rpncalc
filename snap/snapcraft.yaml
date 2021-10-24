@@ -1,5 +1,5 @@
 name: rpncalc
-version: '2.7.1'
+version: '2.8.0'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -21,7 +21,7 @@ parts:
     plugin: maven
     source: https://github.com/frossm/library.git
     source-type: git
-    source-tag: 'v2021.05.16'
+    source-tag: 'v2021.07.21'
     maven-options: [install]
 
   rpncalc:
