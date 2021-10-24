@@ -146,6 +146,8 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |log10|**LOGARITHM BASE 10:** Calculates the [base10 logarithm](https://en.wikipedia.org/wiki/Common_logarithm)|
 |int| **INTEGER:** Converts the top stack item (line 1) to it's integer value.  This will discard the decimal portion regardless of it's value.  For example: `4.34` will result in `4`.  `4.999` will also result in `4`. If rounding is desired, execute the `round` command prior to `int`|
 |abs| **ABSOLUTE VALUE:** Takes the [absolute value](https://en.wikipedia.org/wiki/Absolute_value#:~:text=In%20mathematics%2C%20the%20absolute%20value,and%20%7C0%7C%20%3D%200) of line 1.  The returns the positive value of the number|
+|Min|**MINIMUM VALUE:** Add the smallest value in the stack to the top of the stack|
+|Max|**MAXIMUM VALUE:** Add the largest value in the stack to the top of the stack|
 |rand \[low\] \[high\] | **RANDOM NUMBER GENERATION:** Generate a random integer number between the provided [l]ow and [h]igh numbers inclusive to both.  If no numbers are provided, then the random number will be between 1 and 100 inclusive|
 |dice XdY| **DICE ROLL:** Roll a Y sided die X times and add the results to the stack.  Default is 1d6. While not a normal calculator function, I find it fun|
 

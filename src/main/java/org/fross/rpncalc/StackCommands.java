@@ -34,7 +34,6 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class StackCommands {
-
 	/**
 	 * cmdOperand(): An operand was entered such as + or -
 	 * 
@@ -548,6 +547,49 @@ public class StackCommands {
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
+	}
+	
+	
+	/** 
+	 * cmdMinimum(): Add minimum value in the stack to the top of the stack
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdMinimum() {
+		Double lowestValue = Double.MAX_VALUE;
+		
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+		
+		// Loop through the stack and look for the lowest value
+		for (int i=0; i < Main.calcStack.size(); i++) {
+			if (Main.calcStack.get(i) < lowestValue)
+				lowestValue = Main.calcStack.get(i);
+		}
+		
+		// Add lowest value to the stack
+		Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + lowestValue);
+		Main.calcStack.push(lowestValue);
+	}
+	
+	/** 
+	 * cmdMaximum(): Add minimum value in the stack to the top of the stack
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdMaximum() {
+		Double largestValue = Double.MIN_VALUE;
+		
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+		
+		// Loop through the stack and look for the largest value
+		for (int i=0; i < Main.calcStack.size(); i++) {
+			if (Main.calcStack.get(i) > largestValue)
+				largestValue = Main.calcStack.get(i);
+		}
+		
+		// Add lowest value to the stack
+		Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + largestValue);
+		Main.calcStack.push(largestValue);
 	}
 
 	/**

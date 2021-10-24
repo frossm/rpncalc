@@ -86,6 +86,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " log | log10  Calculate the natural (base e) or base10 logarithm");
 		Output.printColorln(Ansi.Color.WHITE, " int          Convert line1 to an integer. No rounding is performed");
 		Output.printColorln(Ansi.Color.WHITE, " abs          Take the absolute value of line1");
+		Output.printColorln(Ansi.Color.WHITE, " min | max    Adds the minimum or maximum value to the top of the stack");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H] Random integer between L and H inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY     Roll a Y sided die X times.  Default is 1d6");
 

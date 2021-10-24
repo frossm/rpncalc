@@ -47,7 +47,6 @@ import gnu.getopt.Getopt;
  *
  */
 public class Main {
-
 	// Class Constants (or pseudo constants)
 	public static final String PROPERTIES_FILE = "app.properties";
 	public static int PROGRAMWIDTH = 70;
@@ -282,7 +281,7 @@ public class Main {
 			switch (cmdInputCmd) {
 
 			/*********************************************
-			 * Calculator Commands
+			 * Stack Commands
 			 *********************************************/
 			// Undo
 			case "undo":
@@ -390,6 +389,16 @@ public class Main {
 				StackCommands.cmdAbsoluteValue();
 				break;
 
+			// Minimum Value
+			case "min":
+				StackCommands.cmdMinimum();
+				break;
+
+			// Maximum Value
+			case "max":
+				StackCommands.cmdMaximum();
+				break;
+
 			// Random Number Generation
 			case "rand":
 			case "random":
@@ -402,7 +411,7 @@ public class Main {
 				break;
 
 			/*********************************************
-			 * Conversions
+			 * Stack Conversions
 			 *********************************************/
 			// Fraction
 			case "frac":
@@ -435,7 +444,7 @@ public class Main {
 				break;
 
 			/*********************************************
-			 * Trigonometry Functions
+			 * Stack Trigonometry Functions
 			 *********************************************/
 			// Trigonometry Functions
 			case "tan":
@@ -458,7 +467,7 @@ public class Main {
 				break;
 
 			/*********************************************
-			 * Memory Functions
+			 * Stack Memory Functions
 			 *********************************************/
 			case "memory":
 			case "mem":
@@ -490,7 +499,7 @@ public class Main {
 				break;
 
 			/*********************************************
-			 * Operational Commands
+			 * Stack Operational Commands
 			 *********************************************/
 			// List
 			// Supported commands are "stacks" | "mem" | "undo"
