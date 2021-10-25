@@ -55,45 +55,6 @@ public class StackCommands {
 	}
 
 	/**
-	 * StackDeleteItem(): Delete a stack element
-	 * 
-	 * @param stk
-	 * @param lineToDelete
-	 * @return
-	 */
-	public static Stack<Double> StackDeleteItem(Stack<Double> stk, int elementToDelete) {
-		Stack<Double> tempStack = new Stack<Double>();
-
-		// Copy the elements in the stack to a temporary stack except for the one to
-		// delete
-		try {
-			for (int i = 0; i <= elementToDelete; i++) {
-				if (i != elementToDelete) {
-					Output.debugPrint("Moving line:    #" + (i + 1) + " [" + stk.peek() + "] to a temp stack");
-					tempStack.push(stk.pop());
-				} else {
-					Output.debugPrint("Skipping Line:  #" + (i + 1) + " [" + stk.peek() + "] as it's being deleted");
-					stk.pop();
-				}
-			}
-		} catch (Exception ex) {
-			Output.debugPrint(ex.getMessage());
-		}
-
-		// Copy the elements in the temp stack back to the main one
-		try {
-			while (tempStack.size() > 0) {
-				Output.debugPrint("Restore Value:  " + tempStack.peek());
-				stk.push(tempStack.pop());
-			}
-		} catch (Exception ex) {
-			Output.debugPrint(ex.getMessage());
-		}
-
-		return (stk);
-	}
-
-	/**
 	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
 	 */
 	@SuppressWarnings("unchecked")
@@ -153,26 +114,37 @@ public class StackCommands {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void cmdDelete(String arg) {
-		int lineToDelete = 0;
-		try {
-			lineToDelete = Integer.parseInt(arg);
-		} catch (NumberFormatException ex) {
-			Output.printColorln(Ansi.Color.RED, "Line number provided can not be deleted: '" + arg + "'");
+		int lineToDelete;
+
+		// Ensure we have at least one item on the stack
+		if (Main.calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "There must be at least one item on the stack to delete");
 			return;
 		}
 
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
 
-		// Determine the line number to delete
+		// Determine line to delete by looking at arg
+		try {
+			lineToDelete = Integer.parseInt(arg);
+		} catch (NumberFormatException ex) {
+			if (!arg.isBlank()) {
+				Output.printColorln(Ansi.Color.RED, "Invalid line number provided: '" + arg + "'");
+				return;
+			} else {
+				lineToDelete = 1;
+			}
+		}
 		Output.debugPrint("Line to Delete: " + lineToDelete);
+
 		try {
 			// Ensure the number entered is is valid
 			if (lineToDelete < 1 || lineToDelete > Main.calcStack.size()) {
 				Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineToDelete);
 			} else {
-				Output.debugPrint("Deleting line number: " + lineToDelete);
-				Main.calcStack = StackCommands.StackDeleteItem(Main.calcStack, (lineToDelete - 1));
+				// Finally we can remove the item from the stack
+				Main.calcStack.remove(Main.calcStack.size() - lineToDelete);
 			}
 
 		} catch (Exception e) {
@@ -548,45 +520,44 @@ public class StackCommands {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
 	}
-	
-	
-	/** 
+
+	/**
 	 * cmdMinimum(): Add minimum value in the stack to the top of the stack
 	 */
 	@SuppressWarnings("unchecked")
 	public static void cmdMinimum() {
 		Double lowestValue = Double.MAX_VALUE;
-		
+
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-		
+
 		// Loop through the stack and look for the lowest value
-		for (int i=0; i < Main.calcStack.size(); i++) {
+		for (int i = 0; i < Main.calcStack.size(); i++) {
 			if (Main.calcStack.get(i) < lowestValue)
 				lowestValue = Main.calcStack.get(i);
 		}
-		
+
 		// Add lowest value to the stack
 		Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + lowestValue);
 		Main.calcStack.push(lowestValue);
 	}
-	
-	/** 
+
+	/**
 	 * cmdMaximum(): Add minimum value in the stack to the top of the stack
 	 */
 	@SuppressWarnings("unchecked")
 	public static void cmdMaximum() {
 		Double largestValue = Double.MIN_VALUE;
-		
+
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-		
+
 		// Loop through the stack and look for the largest value
-		for (int i=0; i < Main.calcStack.size(); i++) {
+		for (int i = 0; i < Main.calcStack.size(); i++) {
 			if (Main.calcStack.get(i) > largestValue)
 				largestValue = Main.calcStack.get(i);
 		}
-		
+
 		// Add lowest value to the stack
 		Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + largestValue);
 		Main.calcStack.push(largestValue);

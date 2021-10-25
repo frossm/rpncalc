@@ -266,7 +266,7 @@ public class Main {
 				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
 				cmdInputCmd = ci[0];
 				cmdInputParam = ci[1];
-				Output.debugPrint("Entered: '" + cmdInput + "'  Command: '" + cmdInputCmd + "' Parameter: '" + cmdInputParam + "'");
+				Output.debugPrint("Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
 
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// Ignore if there is no command or parameter entered
@@ -311,11 +311,7 @@ public class Main {
 			case "del":
 			case "d":
 			case "drop":
-				// If Parameter is empty, delete the value on the top of the stack
-				if (cmdInputParam.isEmpty())
-					StackCommands.cmdDelete("1");
-				else
-					StackCommands.cmdDelete(cmdInputParam);
+				StackCommands.cmdDelete(cmdInputParam);
 				break;
 
 			// Percent
