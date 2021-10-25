@@ -344,7 +344,7 @@ public class Main {
 
 			// Modulus
 			case "mod":
-				StackCommands.cmdMod();
+				StackCommands.cmdModulus();
 				break;
 
 			// Average

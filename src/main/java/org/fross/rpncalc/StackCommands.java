@@ -301,15 +301,17 @@ public class StackCommands {
 	 * cmdMod(): Divide and place the modulus onto the stack
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdMod() {
-		// Ensure we have something on the stack
-		if (Main.calcStack.isEmpty()) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+	public static void cmdModulus() {
+		// Ensure we have at least 2 items on the stack
+		if (Main.calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least two items on the stack");
 			return;
 		}
 
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+		
+		// Perform the division and push the result onto the stack
 		Double b = Main.calcStack.pop();
 		Double a = Main.calcStack.pop();
 		Output.debugPrint("Modulus: " + a + " % " + b + " = " + (a % b));
