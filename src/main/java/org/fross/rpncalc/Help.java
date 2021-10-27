@@ -119,7 +119,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " list mem     Display contents of the memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " list undo    Show the current undo stack");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
-		Output.printColorln(Ansi.Color.WHITE, " load         Load (or create if needed) a named stack");
+		Output.printColorln(Ansi.Color.WHITE, " load NAME    Load (or create if needed) a named stack");
+		Output.printColorln(Ansi.Color.WHITE, " import FILE  Replace current stack with file contents (one number per line)");
 		Output.printColorln(Ansi.Color.WHITE, " a [lrd]      Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver          Display the current version");
