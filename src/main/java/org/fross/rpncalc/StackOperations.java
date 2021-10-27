@@ -26,6 +26,11 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import org.fross.library.Debug;
@@ -88,7 +93,7 @@ public class StackOperations {
 		switch (arg.toLowerCase()) {
 		case "stacks":
 		case "stack":
-			String[] stks = Prefs.QueryStacks();
+			String[] stks = StackManagement.QueryStacks();
 
 			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks" + "-".repeat(Main.PROGRAMWIDTH - 13));
 			for (int i = 0; i < stks.length; i++) {
@@ -127,16 +132,16 @@ public class StackOperations {
 	 */
 	public static void cmdLoad(String stackToLoad) {
 		// Save current Stack
-		Prefs.SaveStack(Main.calcStack, "1");
-		Prefs.SaveStack(Main.calcStack2, "2");
+		StackManagement.SaveStack(Main.calcStack, "1");
+		StackManagement.SaveStack(Main.calcStack2, "2");
 
 		// Set new stack
 		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
-		Prefs.SetLoadedStack(stackToLoad);
+		StackManagement.SetLoadedStack(stackToLoad);
 
 		// Load new stack
-		Main.calcStack = Prefs.RestoreStack("1");
-		Main.calcStack2 = Prefs.RestoreStack("2");
+		Main.calcStack = StackManagement.RestoreStack("1");
+		Main.calcStack2 = StackManagement.RestoreStack("2");
 	}
 
 	/**
@@ -152,7 +157,7 @@ public class StackOperations {
 		Stack<Double> calcStackTemp = (Stack<Double>) Main.calcStack.clone();
 		Main.calcStack = (Stack<Double>) Main.calcStack2.clone();
 		Main.calcStack2 = (Stack<Double>) calcStackTemp.clone();
-		Prefs.ToggleCurrentStackNum();
+		StackManagement.ToggleCurrentStackNum();
 	}
 
 	/**
@@ -182,6 +187,46 @@ public class StackOperations {
 			Output.debugPrint("Setting display alignment to: " + al);
 			Main.displayAlignment = al;
 		}
+	}
+
+	/**
+	 * LoadStackFromDisk(): Load the contents of a file into the stack. The file should have one stack
+	 * item per line
+	 * 
+	 * @param arg
+	 */
+	@SuppressWarnings("unchecked")
+	public static void LoadStackFromDisk(String arg) {
+		Stack<Double> newItemsStack = new Stack<>();
+		String fileName = arg.trim();
+
+		try {
+			// Verify the filename provided is a file and can be read
+			if (new File(fileName).canRead() && new File(fileName).isFile()) {
+				// Read lines from the file into the ArrayList
+				ArrayList<String> linesRead = new ArrayList<>(Files.readAllLines(Paths.get(fileName)));
+
+				// Convert the strings to double values
+				for (int i = 0; i < linesRead.size(); i++) {
+					newItemsStack.add(Double.parseDouble(linesRead.get(i)));
+				}
+
+			} else {
+				throw new IOException();
+			}
+		} catch (IOException ex) {
+			Output.printColorln(Ansi.Color.RED, "Error: Could not read from the file '" + fileName + "'");
+
+		} catch (NumberFormatException ex) {
+			Output.printColorln(Ansi.Color.RED,
+					"The data in '" + fileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
+		}
+
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Main.calcStack.clear();
+		Main.calcStack = (Stack<Double>) newItemsStack.clone();
 	}
 
 }

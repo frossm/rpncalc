@@ -55,8 +55,8 @@ public class Main {
 
 	// Class Variables
 	static Stack<Stack<Double>> undoStack = new Stack<Stack<Double>>();
-	static Stack<Double> calcStack = new Stack<Double>();
-	static Stack<Double> calcStack2 = new Stack<Double>();
+	static Stack<Double> calcStack = new Stack<>();
+	static Stack<Double> calcStack2 = new Stack<>();
 	static char displayAlignment = 'l';
 
 	/**
@@ -72,7 +72,7 @@ public class Main {
 		String sfUndo = String.format("Undo:%02d", Main.undoStack.size());
 
 		// Determine how many dashes to use after remove space for the undo and stack name
-		int numDashes = PROGRAMWIDTH - 2 - sfMem.length() - sfUndo.length() - Prefs.QueryLoadedStack().length() - 11;
+		int numDashes = PROGRAMWIDTH - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
 
 		// Print the StatusLine dashes
 		Output.printColor(Ansi.Color.CYAN, "+");
@@ -84,7 +84,7 @@ public class Main {
 		Output.printColor(Ansi.Color.CYAN, "]-[");
 		Output.printColor(Ansi.Color.WHITE, sfUndo);
 		Output.printColor(Ansi.Color.CYAN, "]-[");
-		Output.printColor(Ansi.Color.WHITE, Prefs.QueryLoadedStack() + ":" + Prefs.QueryCurrentStackNum());
+		Output.printColor(Ansi.Color.WHITE, StackManagement.QueryLoadedStack() + ":" + StackManagement.QueryCurrentStackNum());
 		Output.printColor(Ansi.Color.CYAN, "]-");
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
@@ -124,7 +124,7 @@ public class Main {
 				Debug.enable();
 				break;
 			case 'l':
-				Prefs.SetLoadedStack(String.valueOf(optG.getOptarg()));
+				StackManagement.SetLoadedStack(String.valueOf(optG.getOptarg()));
 				break;
 			case 'a':
 				if (optG.getOptarg().charAt(0) == 'r') {
@@ -192,7 +192,7 @@ public class Main {
 		Debug.displaySysInfo();
 		Output.debugPrint("Command Line Options");
 		Output.debugPrint("  -D:  " + Debug.query());
-		Output.debugPrint("  -l:  " + Prefs.QueryLoadedStack());
+		Output.debugPrint("  -l:  " + StackManagement.QueryLoadedStack());
 		Output.debugPrint("  -a:  " + displayAlignment);
 		Output.debugPrint("  -w:  " + PROGRAMWIDTH);
 		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
@@ -201,8 +201,8 @@ public class Main {
 		StackMemory.RestoreMemSlots();
 
 		// Pull the existing stacks from the preferences if they exist
-		calcStack = Prefs.RestoreStack("1");
-		calcStack2 = Prefs.RestoreStack("2");
+		calcStack = StackManagement.RestoreStack("1");
+		calcStack2 = StackManagement.RestoreStack("2");
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
 		// Display the initial program header information
@@ -507,6 +507,11 @@ public class Main {
 			case "load":
 				StackOperations.cmdLoad(cmdInputParam);
 				break;
+				
+			// Import stack from disk
+			case "import":
+				StackOperations.LoadStackFromDisk(cmdInputParam);
+				break;
 
 			// Swap Stack
 			case "ss":
@@ -638,8 +643,8 @@ public class Main {
 		StackMemory.SaveMemSlots();
 
 		// Save the primary and secondary stacks to the preferences system
-		Prefs.SaveStack(calcStack, "1");
-		Prefs.SaveStack(calcStack2, "2");
+		StackManagement.SaveStack(calcStack, "1");
+		StackManagement.SaveStack(calcStack2, "2");
 
 	} // End Main
 

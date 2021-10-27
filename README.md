@@ -188,12 +188,13 @@ When the second enter is pressed,  2 will be removed from the stack.  Added toge
 |list mem|list the contents of all memory slots|
 |list undo|List the current undo stack.  This command will show you the saved undo stacks.  Basically what your stack will look like when you perform an undo|
 |load NAME|Load the named stack.  You can `load` a stack name even if it doesn't exist, and it will be created.  Exiting the program or loading another stack will save the current stack|
+|import FILENAME|With `import` RPNCalc can replace the current stack with one loaded from a file.  The file format is simple, just one number per line.  Do not include any comments or alphanumeric/special characters.  Just one number per line|
 |ss|Swap the current stack with the secondary. The primary and secondary stacks are described above in the Stacks section.  Executing `ss` again will swap them back.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
 |debug|Toggle debug mode which will display additional information on what's happening internally to the program.  Same as the `-D` command line switch.  Probably not the useful for a normal user|
 |a <l,d,r>| Align the display output to be l(eft), d(ecimal), or r(ight).  This is the same as the `-a <l, d, r>` command line switch|
 |ver| Display the current version number and copyright.  These can also be seen in the help screen|
-|h or ?|Display the help information|
-|x or q|`x` or `q` will exit the program.  The primary and secondary stacks will be saved|
+|h \| ?|Display the help information|
+|x \| exit|`x` or `q` will exit the program.  The primary and secondary stacks will be saved|
 |cx|`cx` will clear the stack before exiting|
 
 ## SNAP
