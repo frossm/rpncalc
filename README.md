@@ -1,4 +1,4 @@
-<p align="center"> <img width="120" height = "120" src ="https://github.com/frossm/rpncalc/blob/master/graphics/ReadmeHeader.jpg"> </p> 
+<p align="center"> <img width="1024" src ="https://github.com/frossm/rpncalc/blob/master/graphics/ReadmeHeader.jpg"> </p> 
 
 <p align="center"> <b><i>RPNCalc: The Command Line Reverse Polish Notation Calculator</i></b></p>
 
