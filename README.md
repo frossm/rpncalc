@@ -35,12 +35,12 @@ If you've installed via SNAP:
 
 `rpncalc`
 
-As I've stated above, this is a java program and uses maven.  If you download/clone the source, and have maven installed, it should be simple to build from source if desired - however, this is not needed as the binary single file executable is included with each release.
+As I've stated above, this is a java program and uses maven.  If you download/clone the source, along with my [library package](https://github.com/frossm/library), and have maven installed, it should be simple to build from source if desired.  However, this is not needed as the binary single file executable is included with each release.
 
 `mvn package` from the root of the project (the one containing the **pom.xml** file)
 
 ## High Level Usage
-RPNCalc is a command line application that must be run from a console.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` command will display the in-program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  The screen shot above shows the help screen.
+RPNCalc is a command line application that must be run from a console.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` command will display the program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  The screen shot above shows the help screen.
 
 On the RPNCalc command line you'll enter numbers or commands, then press enter.  The numbers will then be added to the stack.  RPNCalc operates on a stack where the last in is the first out.  You can then enter in an operand, such as `+` or `/`, to perform the action on the items at the end of the stack.  So to add two numbers you can simply enter `2 [ENTER]` which adds the number 2 to the stack.  Then  `3 [ENTER]` which will put it on top of the stack (line 1).  Then `+ [ENTER]` to add them.  The 2 and 3 come off the stack and 5 is added.  I'm not going to into a lot of detail on how a RPN calculator works, that's Wikipedia's job, but it's fairly easy.  Once I got the hang of it, I rarely use another style.
 
