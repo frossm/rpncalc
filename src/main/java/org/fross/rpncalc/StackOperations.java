@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
 import org.fross.library.Output;
@@ -116,6 +117,28 @@ public class StackOperations {
 			for (int i = 0; i < Main.undoStack.size(); i++) {
 				String sn = String.format("%02d:  %s", i + 1, Main.undoStack.get(i));
 				Output.printColorln(Ansi.Color.CYAN, sn);
+			}
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			break;
+
+		case "function":
+		case "func":
+			try {
+				Output.printColorln(Ansi.Color.YELLOW, "\n-User Defined Functions" + "-".repeat(Main.PROGRAMWIDTH - 23));
+				Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
+
+				// Loop through each function (child of the root) and display the details
+				for (String functionName : p.childrenNames()) {
+					Output.printColorln(Ansi.Color.WHITE, functionName);
+					Preferences functionPref = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS + "/" + functionName);
+					for (int i = 0; i < Integer.parseInt(functionPref.get("FunctionSteps", "Error")); i++) {
+						Output.printColorln(Ansi.Color.CYAN, "   Step " + i + ":  " + functionPref.get("Step" + i, "Error"));
+					}
+					Output.println("");
+				}
+			} catch (Exception ex) {
+				Output.printColorln(Ansi.Color.RED, "Error reading preferences system");
+				return;
 			}
 			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
 			break;

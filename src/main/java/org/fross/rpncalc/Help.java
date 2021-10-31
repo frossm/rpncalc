@@ -110,14 +110,22 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mem copyall   Copy all memory items onto the stack");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
-		Output.printColorln(Ansi.Color.WHITE, " pi            Add PI to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " phi           Add the Golden Ratio (phi) to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " euler         Add Euler's number (e) to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " pi             Add PI to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " phi            Add the Golden Ratio (phi) to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " euler          Add Euler's number (e) to the stack");
+		
+		Output.printColorln(Ansi.Color.YELLOW, "\nUser Defined Functions:");
+		Output.printColorln(Ansi.Color.WHITE, " record on      Turn on command recording");
+		Output.printColorln(Ansi.Color.WHITE, " record off     Disable recording");
+		Output.printColorln(Ansi.Color.WHITE, " func del NAME  Delete named user defined function");
+		Output.printColorln(Ansi.Color.WHITE, " func run NAME  Run the named user function on current stack");
+				
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " list stacks  Show the list of saved stacks");
 		Output.printColorln(Ansi.Color.WHITE, " list mem     Display contents of the memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " list undo    Show the current undo stack");
+		Output.printColorln(Ansi.Color.WHITE, " list func    Display the detailed user defined functions");
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " load NAME    Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " import FILE  Replace current stack with file contents (one number per line)");

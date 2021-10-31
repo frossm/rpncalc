@@ -154,6 +154,19 @@ public class StackCommands {
 	}
 
 	/**
+	 * cmdPercent(): Turn a number into a percent by dividing by 100
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdPercent() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.debugPrint("Create a percent by dividing by 100");
+		Main.calcStack.push(Main.calcStack.pop() / 100);
+	}
+
+	/**
 	 * cmdSwapElements(): Swap the provided elements within the stack
 	 * 
 	 * @param param
@@ -310,7 +323,7 @@ public class StackCommands {
 
 		// Save to undo stack
 		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-		
+
 		// Perform the division and push the result onto the stack
 		Double b = Main.calcStack.pop();
 		Double a = Main.calcStack.pop();

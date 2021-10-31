@@ -49,7 +49,8 @@ import gnu.getopt.Getopt;
 public class Main {
 	// Class Constants (or pseudo constants)
 	public static final String PROPERTIES_FILE = "app.properties";
-	public static int PROGRAMWIDTH = 70;
+	public static int PROGRAMWIDTH = 80;
+	public static int PROGRAM_MINIMUM_WIDTH = 46;
 	public static String VERSION;
 	public static String COPYRIGHT;
 
@@ -58,10 +59,12 @@ public class Main {
 	static Stack<Double> calcStack = new Stack<>();
 	static Stack<Double> calcStack2 = new Stack<>();
 	static char displayAlignment = 'l';
+	static Scanner scanner = new Scanner(System.in);
+	static boolean ProcessCommandLoop = true;
 
 	/**
 	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a
-	 * separate function given it also inserts the loaded stack and spaced everything correctly.
+	 * separate function given it also inserts the loaded stack and spaces everything correctly.
 	 * 
 	 */
 	public static void DisplayStatusLine() {
@@ -74,11 +77,20 @@ public class Main {
 		// Determine how many dashes to use after remove space for the undo and stack name
 		int numDashes = PROGRAMWIDTH - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
 
+		// [Recording] appears if it's turned on. Make room if it's enabled
+		if (UserFunctions.recordingEnabled == true)
+			numDashes -= 12;
+
 		// Print the StatusLine dashes
 		Output.printColor(Ansi.Color.CYAN, "+");
 		Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
 
 		// Print the StatusLine Data in chunks to be able to better control color output
+		if (UserFunctions.recordingEnabled == true) {
+			Output.printColor(Ansi.Color.CYAN, "[");
+			Output.printColor(Ansi.Color.RED, "Recording");
+			Output.printColor(Ansi.Color.CYAN, "]-");
+		}
 		Output.printColor(Ansi.Color.CYAN, "[");
 		Output.printColor(Ansi.Color.WHITE, sfMem);
 		Output.printColor(Ansi.Color.CYAN, "]-[");
@@ -94,10 +106,7 @@ public class Main {
 	 * 
 	 * @param args
 	 */
-	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		boolean ProcessCommandLoop = true;
 		int optionEntry;
 		String cmdInput = "";		// What the user enters
 		String cmdInputCmd = "";	// The first field. The command.
@@ -151,9 +160,9 @@ public class Main {
 			case 'w':
 				try {
 					int newSize = Integer.parseInt(optG.getOptarg());
-					if (newSize < COPYRIGHT.length()) {
-						Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + (COPYRIGHT.length() + 4) + ". Setting width to that value.");
-						PROGRAMWIDTH = COPYRIGHT.length() + 4;
+					if (newSize < PROGRAM_MINIMUM_WIDTH) {
+						Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + (PROGRAM_MINIMUM_WIDTH) + ". Setting width to that value.");
+						PROGRAMWIDTH = PROGRAM_MINIMUM_WIDTH;
 					} else {
 						PROGRAMWIDTH = newSize;
 					}
@@ -210,6 +219,7 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "RPN Calculator  v" + VERSION, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "", "|", "|"));
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
@@ -229,7 +239,7 @@ public class Main {
 				}
 			}
 
-			// Display the current stack
+			// Display the current stack contents
 			for (int i = 0; i < calcStack.size(); i++) {
 
 				// Display Stack Row Number
@@ -270,365 +280,20 @@ public class Main {
 
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// Ignore if there is no command or parameter entered
-				Output.debugPrint("Entered: '" + cmdInput + "'  Command: '" + cmdInputCmd + "' Parameter: '" + cmdInputParam + "'");
+				Output.debugPrint("Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
 				if (cmdInputCmd.isEmpty()) {
 					Output.debugPrint("Blank line entered");
 					continue;
 				}
 			}
 
-			// Main switch statement to process user input and call the correct functions
-			switch (cmdInputCmd) {
-
-			/*********************************************
-			 * Stack Commands
-			 *********************************************/
-			// Undo
-			case "undo":
-			case "u":
-				StackCommands.cmdUndo();
-				break;
-
-			// Flip Sign
-			case "flip":
-			case "f":
-				StackCommands.cmdFlipSign();
-				break;
-
-			// Clear Screen and Stack
-			case "clear":
-			case "c":
-				StackCommands.cmdClear();
-				break;
-
-			// Clean the screen and redisplay the stack
-			case "clean":
-			case "cl":
-				StackCommands.cmdClean();
-				break;
-
-			// Delete
-			case "del":
-			case "d":
-			case "drop":
-				StackCommands.cmdDelete(cmdInputParam);
-				break;
-
-			// Percent
-			case "%":
-				Output.debugPrint("Create a percent by dividing by 100");
-				undoStack.push((Stack<Double>) calcStack.clone());
-				calcStack.push(calcStack.pop() / 100);
-				break;
-
-			// Swap Elements in a stack
-			case "swap":
-			case "s":
-				StackCommands.cmdSwapElements(cmdInputParam);
-				break;
-
-			// Square Root
-			case "sqrt":
-				StackCommands.cmdSqrt();
-				break;
-
-			// Round
-			case "round":
-				StackCommands.cmdRound(cmdInputParam);
-				break;
-
-			// AddAll
-			case "aa":
-				StackCommands.cmdAddAll(cmdInputParam);
-				break;
-
-			// Modulus
-			case "mod":
-				StackCommands.cmdModulus();
-				break;
-
-			// Average
-			case "mean":
-			case "average":
-			case "avg":
-				StackCommands.cmdAverage(cmdInputParam);
-				break;
-
-			// Standard Deviation
-			case "sd":
-				StackCommands.cmdStdDeviation(cmdInputParam);
-				break;
-
-			// Copy Item
-			case "copy":
-			case "dup":
-				StackCommands.cmdCopy(cmdInputParam);
-				break;
-
-			// Natural (base e) Logarithm
-			case "log":
-				StackCommands.cmdLog();
-				break;
-
-			// Base10 Logarithm
-			case "log10":
-				StackCommands.cmdLog10();
-				break;
-
-			// Integer
-			case "int":
-				StackCommands.cmdInteger();
-				break;
-
-			// Absolute Value
-			case "abs":
-				StackCommands.cmdAbsoluteValue();
-				break;
-
-			// Minimum Value
-			case "min":
-				StackCommands.cmdMinimum();
-				break;
-
-			// Maximum Value
-			case "max":
-				StackCommands.cmdMaximum();
-				break;
-
-			// Random Number Generation
-			case "rand":
-			case "random":
-				StackCommands.cmdRandom(cmdInputParam);
-				break;
-
-			// Dice
-			case "dice":
-				StackCommands.cmdDice(cmdInputParam);
-				break;
-
-			/*********************************************
-			 * Stack Conversions
-			 *********************************************/
-			// Fraction
-			case "frac":
-			case "fraction":
-				StackConversions.cmdFraction(cmdInputParam);
-				break;
-
-			// Convert inches to millimeters
-			case "in2mm":
-			case "2mm":
-				StackConversions.cmdConvert2MM();
-				break;
-
-			// Convert millimeters to inches
-			case "mm2in":
-			case "2in":
-				StackConversions.cmdConvert2IN();
-				break;
-
-			// Convert to Radians
-			case "deg2rad":
-			case "2rad":
-				StackConversions.cmdRadian();
-				break;
-
-			// Convert to Degrees
-			case "rad2deg":
-			case "2deg":
-				StackConversions.cmdDegree();
-				break;
-
-			/*********************************************
-			 * Stack Trigonometry Functions
-			 *********************************************/
-			// Trigonometry Functions
-			case "tan":
-			case "sin":
-			case "cos":
-				StackTrig.cmdTrig(cmdInputCmd, cmdInputParam);
-				break;
-
-			// Arc-Trigonometry Functions
-			case "atan":
-			case "asin":
-			case "acos":
-				StackTrig.cmdArcTrig(cmdInputCmd, cmdInputParam);
-				break;
-
-			// Hypotenuse
-			case "hypot":
-			case "hypotenuse":
-				StackTrig.cmdHypotenuse();
-				break;
-
-			/*********************************************
-			 * Stack Memory Functions
-			 *********************************************/
-			case "memory":
-			case "mem":
-				StackMemory.cmdMem(cmdInputParam);
-				break;
-
-			/*********************************************
-			 * Constants
-			 *********************************************/
-			// Add PI
-			case "pi":
-				undoStack.push((Stack<Double>) calcStack.clone());
-				Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
-				calcStack.add(java.lang.Math.PI);
-				break;
-
-			// Add PHI also known as The Golden Ratio
-			case "phi":
-				undoStack.push((Stack<Double>) calcStack.clone());
-				Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, added to the stack");
-				calcStack.add(1.61803398874989);
-				break;
-
-			// Euler's number
-			case "euler":
-				undoStack.push((Stack<Double>) calcStack.clone());
-				Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
-				calcStack.add(2.7182818284590452353602874713527);
-				break;
-
-			/*********************************************
-			 * Stack Operational Commands
-			 *********************************************/
-			// List
-			// Supported commands are "stacks" | "mem" | "undo"
-			case "list":
-				StackOperations.cmdList(cmdInputParam);
-				break;
-
-			// Load
-			case "load":
-				StackOperations.cmdLoad(cmdInputParam);
-				break;
-				
-			// Import stack from disk
-			case "import":
-				StackOperations.LoadStackFromDisk(cmdInputParam);
-				break;
-
-			// Swap Stack
-			case "ss":
-				StackOperations.cmdSwapStack();
-				break;
-
-			// Debug Toggle
-			case "debug":
-				StackOperations.cmdDebug();
-				break;
-
-			// Display Alignment
-			case "a":
-				try {
-					StackOperations.cmdAlign(cmdInputParam.charAt(0));
-				} catch (StringIndexOutOfBoundsException ex) {
-					Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
-				}
-				break;
-
-			// Version
-			case "ver":
-			case "version":
-				Output.printColorln(Ansi.Color.YELLOW, "Version: v" + VERSION);
-				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
-				break;
-
-			// Help
-			case "h":
-			case "?":
-			case "help":
-				Help.Display();
-				break;
-
-			// Clear & Exit
-			case "cx":
-				Main.calcStack.clear();
-				Output.debugPrint("Exiting Command Loop");
-				ProcessCommandLoop = false;
-				break;
-
-			// Exit
-			case "x":
-			case "exit":
-				Output.debugPrint("Exiting Command Loop");
-				ProcessCommandLoop = false;
-				break;
-
-			/*********************************************
-			 * Operands
-			 *********************************************/
-			case "+":
-			case "-":
-			case "*":
-			case "/":
-			case "^":
-				StackCommands.cmdOperand(cmdInputCmd);
-				break;
-
-			default:
-				// Check for a fraction. If number entered contains a '/' but it's not at the
-				// end, then it must be a fraction.
-				if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
-					long fracInteger = 0;
-					double fracDecimalEquiv = 0.0;
-
-					// If there wasn't an integer entered, move the fraction to the parameter
-					// variable
-					if (cmdInputCmd.contains("/")) {
-						cmdInputParam = cmdInputCmd;
-					} else {
-						fracInteger = Long.parseLong(cmdInputCmd);
-					}
-
-					double fracTop = Double.parseDouble(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
-					double fracBottom = Double.parseDouble(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
-
-					// Divide the fraction and get a decimal equivalent
-					fracDecimalEquiv = fracTop / fracBottom;
-
-					// Simply convert the fraction to a decimal and add it to the stack
-					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
-
-					// Add the decimal number to the stack and continue with next command
-					calcStack.add(fracInteger + fracDecimalEquiv);
-
-					// Number entered, add to stack.
-				} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
-					// Save to Undo stack
-					undoStack.push((Stack<Double>) calcStack.clone());
-
-					Output.debugPrint("Adding number '" + cmdInputCmd + "' onto the stack");
-					calcStack.push(Double.valueOf(cmdInputCmd));
-
-					// Handle numbers with a single operand at the end (a NumOp)
-				} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
-					// Save to Undo stack
-					undoStack.push((Stack<Double>) calcStack.clone());
-
-					Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
-					// Verify stack contains at least one element
-					if (calcStack.size() >= 1) {
-						String TempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
-						String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-						Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
-						Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
-						calcStack.push(Double.valueOf(TempNum));
-						calcStack = Math.Parse(TempOp, calcStack);
-					} else {
-						Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
-					}
-
-				} else {
-					Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
-				}
-				break;
+			// If recording is enabled, send the user input to be recorded
+			if (UserFunctions.recordingEnabled == true) {
+				UserFunctions.RecordCommand(cmdInputCmd + " " + cmdInputParam);
 			}
+
+			// Call the parser to send the command to the correct function to execute
+			CommandParser.Parse(cmdInput, cmdInputCmd, cmdInputParam);
 
 			// Clear input parameters before we start again
 			cmdInputCmd = "";
