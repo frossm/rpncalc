@@ -131,7 +131,7 @@ When the second enter is pressed,  the two stack items will be removed, added to
 ## Calculator Commands
 |Command|Description|
 |-------|-----------|
-|u <br> undo| **UNDO:** Undo the last operation.  Before an operations affecting the stack is performed, RPNCalc saves a copy of the current stack into an Undo Stack.  Upon an undo command, the current stack will be replaced by the Undo Stack.  If you are curious about what the undo stack looks like at any given point, run the `list undo` command to show the various stacks undo has saved|
+|u [#]<br> undo [#]| **UNDO:** By default, undo the last operation.  However, if an undo stack line number is given, as displayed in the `list undo` command, undo will restore the stack back to that step.  Please keep in mind that if you restore back to a previous undo state, later undo states will be discarded.  Typically, however, `u` undo is used to undo the previous step|
 |f <br> flip | **FLIP SIGN:** Flip the sign on the top stack item / line1|
 |c <br> clear| **CLEAR:** Clear the screen, and empty the current stack.  Memory data is retained and you can undo the clear with the `u` undo command|
 |cl <br> clean| **CLEAN SCREEN:** Clear the current screen, but keep the stack.  After cleaning, the stack will be displayed at the top of the screen|

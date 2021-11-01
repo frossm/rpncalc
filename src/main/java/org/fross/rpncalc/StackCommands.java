@@ -58,12 +58,40 @@ public class StackCommands {
 	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
 	 */
 	@SuppressWarnings("unchecked")
-	public static void cmdUndo() {
-		Output.debugPrint("Undoing last command");
+	public static void cmdUndo(String arg) {
+		Output.debugPrint("Undoing command");
+		int lineNum = 0;	// Undo line number NOT the position on the stack. That is one less.
+
+		// Determine if a line number was provided
+		try {
+			lineNum = Integer.parseInt(arg);
+
+			// Ensure number provided as > 0 and less than the size of the undo stack
+			if (lineNum <= 0 || lineNum > Main.undoStack.size()) {
+				Output.printColorln(Ansi.Color.RED, "An invalid undo line number entered: '" + arg + "'");
+				return;
+			}
+		} catch (NumberFormatException ex) {
+			if (arg.isEmpty()) {
+				// No number was provided, use the top stack item
+				lineNum = Main.undoStack.size();
+			} else {
+				Output.printColorln(Ansi.Color.RED, "An invalid undo line number entered: '" + arg + "'");
+				return;
+			}
+		}
+
+		Output.debugPrint("  - Restoring back to line number: " + lineNum);
 
 		if (Main.undoStack.size() >= 1) {
-			// Replace current stack with the last one on the undo stack
-			Main.calcStack = (Stack<Double>) Main.undoStack.pop().clone();
+			// Replace current stack with the one in lineNum
+			Main.calcStack = (Stack<Double>) Main.undoStack.get(lineNum - 1).clone();
+
+			// Clear the stack items after lineNum
+			for (int i = Main.undoStack.size() - 1; i >= lineNum - 1; i--) {
+				Output.debugPrint("  - Removing later undo stack at line " + (i + 1) + " / position: " + i + ":  " + Main.undoStack.get(i));
+				Main.undoStack.remove(i);
+			}
 		} else {
 			Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
 		}

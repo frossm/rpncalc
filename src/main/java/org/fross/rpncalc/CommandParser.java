@@ -50,7 +50,7 @@ public class CommandParser {
 		// Undo
 		case "undo":
 		case "u":
-			StackCommands.cmdUndo();
+			StackCommands.cmdUndo(cmdInputParam);
 			break;
 
 		// Flip Sign

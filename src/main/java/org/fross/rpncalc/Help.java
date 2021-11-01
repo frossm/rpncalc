@@ -69,7 +69,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ^    Power:  Calculate line2 to the power of line1");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCalculator Commands:");
-		Output.printColorln(Ansi.Color.WHITE, " u            Undo last action");
+		Output.printColorln(Ansi.Color.WHITE, " u [STACK #]  Undo last action or back to the undo stack defined in 'list undo'");
 		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the element at line1");
 		Output.printColorln(Ansi.Color.WHITE, " c            Clear the screen and empty current stack");
 		Output.printColorln(Ansi.Color.WHITE, " cl[ean]      Clear screen but keep the stack values");
