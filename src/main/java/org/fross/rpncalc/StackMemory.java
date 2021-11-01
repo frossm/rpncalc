@@ -126,7 +126,7 @@ public class StackMemory {
 	}
 
 	/**
-	 * cmdMem(): Manage the memory slots
+	 * cmdMem(): Process mem commands from user
 	 * 
 	 * @param cmd
 	 */
@@ -214,9 +214,27 @@ public class StackMemory {
 				}
 				break;
 
+			// Copy all of the stack items into memory slots
+			case "addall":
+				// Ensure we have enough memory slots and then add the values to the slots
+				try {
+					if (Main.calcStack.size() <= memorySlots.length) {
+						for (int i = Main.calcStack.size() - 1; i >= 0; i--) {
+							memorySlots[Main.calcStack.size() - 1 - i] = Main.calcStack.get(i);
+						}
+					} else {
+						Output.printColorln(Ansi.Color.RED, "ERROR: There are not enough memory slots to hold the stack. See -m switch");
+						return;
+					}
+				} catch (Exception ex) {
+					Output.printColorln(Ansi.Color.RED, "ERROR: An uknown error occured copying stack to memory slots");
+					return;
+				}
+				break;
+
 			default:
 				// Slot was valid number, but unknown mem command
-				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown memory command: '" + argParse[1] + "'");
+				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown memory command: '" + argParse[1] + "'.  See help");
 			}
 		} catch (Exception ex) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");

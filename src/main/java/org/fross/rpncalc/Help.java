@@ -108,6 +108,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr   Clear memory from slot X. Default slot0");
 		Output.printColorln(Ansi.Color.WHITE, " mem clearall  Clear all memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " mem copyall   Copy all memory items onto the stack");
+		Output.printColorln(Ansi.Color.WHITE, " mem addall    Add all stack items to memory slots");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
 		Output.printColorln(Ansi.Color.WHITE, " pi             Add PI to the stack");
