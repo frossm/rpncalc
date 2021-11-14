@@ -190,14 +190,23 @@ Simply add the value of the requested constant to the top of the stack / line1
 |euler| Insert [Euler's number (e)](https://en.wikipedia.org/wiki/E_(mathematical_constant)) to the stick.  e is approximately `2.7182818284590`|
 
 ## User Defined Functions
-RPNCalc can record your commands and save the as a user defined function.  You can then run this function on demand.  Using import will also help automate repetitive tasks.  These functions are stored in the preferences system much like the stacks and memory slots.
+RPNCalc can record your commands and save them as a user defined function.  You can then run this function on demand.  So create your stack as you envision it being used in the future.  Then enable recording, process the stack as you like, then stop the recording.  Give a name to your user defined function and it will be saved.  Then, you can build or import a stack, then run your function against it.  These functions are stored in the preferences system much like the stacks and memory slots.   `list func` will show a list of functions and their steps.
+
 |Command|Description|
 |-------|-----------|
-|record on|Turn on recording.  Most commands and numbers entered after record is enabled will be saved|
-|record off| Turn off recording.  The user will be prompted to enter in a name of this function and that name will be used to run it in the future.  If you do not enter in a name the recording is canceled and  nothing will be saved|
+|record on|Turn on recording.  Most commands and numbers entered after record is enabled will be saved.  There are some that are excluded from being recorded|
+|record off| Turn off recording.  The user will be prompted to enter in a name for this function and that name will be used to run it in the future.  If you do not enter in a name the recording is canceled and  nothing will be saved|
 |func del NAME|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`|
 |func run|Execute the saved user defined function with the current stack as the starting point|
 
+**Example:**
+- `c`   Clear the stack
+- `3 [Enter]`  Add the number 3 to the stack
+- `record on`  Start recording
+- `2`  Add 2 to the stack
+- `^`  Square the 3
+- `record off` Stop recording and give the name "square" to the user defined function
+- `func run square` will square the top item on the stack
 
 ## Operational Commands
 Commands that are used that do not impact the stack
