@@ -74,14 +74,29 @@ public class UserFunctions {
 		String command[] = args.toLowerCase().trim().split("\\s", 2);
 
 		try {
-			if (command[0].startsWith("del")) {
+			if (command[0].equals("del")) {
 				try {
 					FunctionDelete(command[1]);
 				} catch (ArrayIndexOutOfBoundsException ex) {
 					Output.printColorln(Ansi.Color.RED, "ERROR: 'function del' requires a valid function name to delete");
 					return;
 				}
-			} else if (command[0].startsWith("run")) {
+
+			} else if (command[0].equals("delall")) {
+				Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
+
+				// Loop through each function (child of the root) and delete it
+				try {
+					for (String functionName : p.childrenNames()) {
+						Output.debugPrint("Removing function: " + functionName);
+						FunctionDelete(functionName);
+					}
+				} catch (BackingStoreException e) {
+					Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
+					return;
+				}
+				
+			} else if (command[0].equals("run")) {
 				try {
 					FunctionRun(command[1]);
 				} catch (ArrayIndexOutOfBoundsException ex) {
@@ -114,7 +129,7 @@ public class UserFunctions {
 	 */
 	public static void RecordCommand(String arg) {
 		// Ignore the following commands from recording
-		String[] ignore = { "list", "debug", "ver", "h", "?", "record", "function", "cx", "x", "exit" };
+		String[] ignore = { "frac", "list", "debug", "ver", "h", "?", "record", "function", "cx", "x", "exit" };
 
 		// If the command starts with an ignored item, just return before adding it to the recording
 		for (int i = 0; i < ignore.length; i++) {

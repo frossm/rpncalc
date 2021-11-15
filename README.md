@@ -192,12 +192,23 @@ Simply add the value of the requested constant to the top of the stack / line1
 ## User Defined Functions
 RPNCalc can record your commands and save them as a user defined function.  You can then run this function on demand.  So create your stack as you envision it being used in the future.  Then enable recording, process the stack as you like, then stop the recording.  Give a name to your user defined function and it will be saved.  Then, you can build or import a stack, then run your function against it.  These functions are stored in the preferences system much like the stacks and memory slots.   `list func` will show a list of functions and their steps.
 
+The following commands are not recorded.
+- frac
+- list
+- debug
+- ver
+- h or ?
+- record
+- function
+- cx or x or exit
+
 |Command|Description|
 |-------|-----------|
 |record on|Turn on recording.  Most commands and numbers entered after record is enabled will be saved.  There are some that are excluded from being recorded|
 |record off| Turn off recording.  The user will be prompted to enter in a name for this function and that name will be used to run it in the future.  If you do not enter in a name the recording is canceled and  nothing will be saved|
-|func del NAME|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`|
 |func run|Execute the saved user defined function with the current stack as the starting point|
+|func del NAME|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`.  Undo will not recover a deleted function|
+|func delall|Delete all saved user defined functions.  Please note that undo will not recover deleted functions|
 
 **Example:**
 - `c`   Clear the stack

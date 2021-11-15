@@ -118,9 +118,10 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nUser Defined Functions:");
 		Output.printColorln(Ansi.Color.WHITE, " record on      Turn on command recording");
 		Output.printColorln(Ansi.Color.WHITE, " record off     Disable recording");
-		Output.printColorln(Ansi.Color.WHITE, " func del NAME  Delete named user defined function");
 		Output.printColorln(Ansi.Color.WHITE, " func run NAME  Run the named user function on current stack");
-				
+		Output.printColorln(Ansi.Color.WHITE, " func del NAME  Delete named user defined function");
+		Output.printColorln(Ansi.Color.WHITE, " func delall    Delete all user defined functions");
+						
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " list stacks  Show the list of saved stacks");
