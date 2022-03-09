@@ -1,5 +1,5 @@
 name: rpncalc
-version: '3.2.3'
+version: '3.2.4'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -32,7 +32,7 @@ parts:
     after: [library]
     override-prime: |
       snapcraftctl prime
-      rm -vf usr/lib/jvm/java-11-openjdk-amd64/lib/security/blacklisted.certs
+      rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
        
 plugs:
    rpncalc-network:
