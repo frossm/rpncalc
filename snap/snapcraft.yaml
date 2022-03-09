@@ -1,12 +1,12 @@
 name: rpncalc
-version: '3.2.2'
+version: '3.2.3'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
   Notation (RPN) calculator.
 
-grade: stable # must be 'stable' to release into candidate/stable channels
-confinement: strict  # use 'strict' once you have the right plugs and slots
+grade: stable
+confinement: strict
 base: core18
 
 # Enable faster LZO compression
@@ -30,7 +30,10 @@ parts:
     source-branch: master
     source-type: git
     after: [library]
-
+    override-prime: |
+      snapcraftctl prime
+      rm -vf usr/lib/jvm/java-11-openjdk-amd64/lib/security/blacklisted.certs
+       
 plugs:
    rpncalc-network:
       interface: network
