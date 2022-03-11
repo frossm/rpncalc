@@ -16,6 +16,9 @@ apps:
   rpncalc:
     command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/rpncalc.jar
 
+    plugs:
+      - network
+
 parts:
   library:
     plugin: maven
@@ -33,7 +36,3 @@ parts:
     override-prime: |
       snapcraftctl prime
       rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
-       
-plugs:
-   rpncalc-network:
-      interface: network
