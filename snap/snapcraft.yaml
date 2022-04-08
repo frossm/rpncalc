@@ -12,7 +12,7 @@ description: |
   For a quick summary of usage, run the program with the -h switch or head
   over to the homepage for detailed usage instructions.
   
-  https://github.com/frossm/rpncalc
+  Homepage: https://github.com/frossm/rpncalc
 
 grade: stable
 confinement: strict
