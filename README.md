@@ -1,7 +1,7 @@
-<p align="center"> <img width="1024" src ="https://github.com/frossm/rpncalc/blob/master/graphics/ReadmeHeader.jpg"> </p> 
+<p align="center"> <img width="1024" src ="https://github.com/frossm/rpncalc/raw/master/graphics/ReadmeHeader.jpg"> </p> 
 
 ## INTRODUCTION
-<img align="right" width="50%" src="https://github.com/frossm/rpncalc/blob/master/graphics/ScreenShot.jpg">RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator.  RPN calculators make it very simple to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider solving for X with the following:
+<img align="right" width="50%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot.jpg">RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator.  RPN calculators make it very simple to do complex calculations, especially if there are parentheses involved.  For a quick easy example, consider solving for X with the following:
 
 `x = SQRT((((5+3) * 8)/2) ^ 6)`
 
@@ -89,7 +89,7 @@ For example, if you want to take the square root of 25, you enter `25 [ENTER]` a
 ### Stack Management
 Saving and loading stacks is fundamental to RPNCalc.  You can have as many named stacks as you like.  They are stored in the Java Preferences location which varies by OS.  Windows stores them in the registry *(HKCU\Software\JavaSoft\Prefs\org\fross\rpn)*.  Linux uses the .java directory in your home directory.  It is safe to delete these if you wish to stay tidy, but of course you'll lose the data.
 
-<img align="right" width="120" height = "120" src ="https://github.com/frossm/rpncalc/blob/master/graphics/PostIt-200x200.jpg">Each stack you load (default or a named stack) actually has 2 internal stacks defined; a primary and secondary.  You can quickly swap stacks using the swap stack `ss` command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The primary and secondadry stack data is saved and restored upon loading the stack.
+<img align="right" width="120" height = "120" src ="https://github.com/frossm/rpncalc/raw/master/graphics/PostIt-200x200.jpg">Each stack you load (default or a named stack) actually has 2 internal stacks defined; a primary and secondary.  You can quickly swap stacks using the swap stack `ss` command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The primary and secondadry stack data is saved and restored upon loading the stack.
 
 When you start up RPNCalc, you can load a named stack with the `-l name` command.  If the stack `name` exists, it will be loaded.  If it does not exist, the stack will be created and when you leave the program it will be saved.  You can always view what stack you are using in the lower right of the dashed bar. The `:1` or `:2` after the stack name will tell you if you are on the primary or "swapped" stack.
 
