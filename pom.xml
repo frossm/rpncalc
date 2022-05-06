@@ -5,7 +5,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>3.2.5</version>
+	<version>3.2.6</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -82,17 +82,17 @@
 				</executions>
 			</plugin>
 
-			<!-- Copy the jar with dependencies output to one simply called the <ProjectName>.jar -->
+			<!-- Move the jar with dependencies output to one simply called the <ProjectName>.jar -->
 			<plugin>
 				<groupId>com.coderplus.maven.plugins</groupId>
 				<artifactId>copy-rename-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>1.0.1</version>
 				<executions>
 					<execution>
-						<id>copy-file</id>
+						<id>rename-file</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy</goal>
+							<goal>rename</goal>
 						</goals>
 						<configuration>
 							<sourceFile>${basedir}/target/${project.artifactId}-${project.version}-jar-with-dependencies.jar</sourceFile>
