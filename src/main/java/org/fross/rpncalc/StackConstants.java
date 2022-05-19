@@ -71,4 +71,17 @@ public class StackConstants {
 		Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
 		Main.calcStack.add(2.7182818284590452353602874713527);
 	}
+
+	/**
+	 * cmdSpeedOfLight(): Add the speed of light in m/s to the stack
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static void cmdSpeedOfLight() {
+		// Save to undo stack
+		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+
+		Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
+		Main.calcStack.add((double) 299792458);
+	}
 }

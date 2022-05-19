@@ -111,9 +111,10 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mem addall    Add all stack items to memory slots");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
-		Output.printColorln(Ansi.Color.WHITE, " pi             Add PI to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " phi            Add the Golden Ratio (phi) to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " euler          Add Euler's number (e) to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " pi            Add Archimede's constant (PI)");
+		Output.printColorln(Ansi.Color.WHITE, " phi           Add the Golden Ratio (phi)");
+		Output.printColorln(Ansi.Color.WHITE, " euler         Add Euler's exponential growth constant (e)");
+		Output.printColorln(Ansi.Color.WHITE, " sol           Add the Speed of Light (c)");
 		
 		Output.printColorln(Ansi.Color.YELLOW, "\nUser Defined Functions:");
 		Output.printColorln(Ansi.Color.WHITE, " record on      Turn on command recording");

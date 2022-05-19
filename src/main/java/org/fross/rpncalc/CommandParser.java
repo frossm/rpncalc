@@ -250,6 +250,11 @@ public class CommandParser {
 			StackConstants.cmdEuler();
 			break;
 
+		// Speed of light
+		case "sol":
+			StackConstants.cmdSpeedOfLight();
+			break;
+
 		/*******************************************************************************
 		 * User Defined Functions
 		 ******************************************************************************/

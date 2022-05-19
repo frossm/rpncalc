@@ -185,9 +185,10 @@ The conversion commands make assumption as to the unit of the numbers and will c
 Simply add the value of the requested constant to the top of the stack / line1
 |Constant|Description|
 |--|--|
-|pi| Insert the value of [PI](https://en.wikipedia.org/wiki/Pi) onto the stack.  Pi is approximately `3.14159265359`|
+|pi| Archimedes' constant, or PI, is the name given to the ratio of the circumference of a circle to the diameter. `PI` inserts the value of [PI](https://en.wikipedia.org/wiki/Pi) onto the stack.  Pi is approximately `3.14159265359`|
 |phi| Insert [PHI](https://en.wikipedia.org/wiki/Golden_ratio), also known as the Golden Ratio, to the stack.  Phi is approximately `1.618033989`|
-|euler| Insert [Euler's number (e)](https://en.wikipedia.org/wiki/E_(mathematical_constant)) to the stick.  e is approximately `2.7182818284590`|
+|euler| Euler's number is also known as the exponential growth constant. It is the base for natural logarithms and is found in many areas of mathematics. The command `euler` inserts [Euler's number (e)](https://en.wikipedia.org/wiki/E_(mathematical_constant)) onto the stack.  e is approximately `2.7182818284590`|
+|sol|Inserts the speed of light onto the stack in meters/second.  e = 299,792,458 m/s|
 
 ## User Defined Functions
 RPNCalc can record your commands and save them as a user defined function.  You can then run this function on demand.  So create your stack as you envision it being used in the future.  Then enable recording, process the stack as you like, then stop the recording.  Give a name to your user defined function and it will be saved.  Then, you can build or import a stack, then run your function against it.  These functions are stored in the preferences system much like the stacks and memory slots.   `list func` will show a list of functions and their steps.
