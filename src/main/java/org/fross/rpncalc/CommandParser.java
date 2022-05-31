@@ -350,28 +350,33 @@ public class CommandParser {
 			// Check for a fraction. If number entered contains a '/' but it's not at the
 			// end, then it must be a fraction.
 			if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
-				long fracInteger = 0;
-				double fracDecimalEquiv = 0.0;
+				try {
+					long fracInteger = 0;
+					double fracDecimalEquiv = 0.0;
 
-				// If there wasn't an integer entered, move the fraction to the parameter
-				// variable
-				if (cmdInputCmd.contains("/")) {
-					cmdInputParam = cmdInputCmd;
-				} else {
-					fracInteger = Long.parseLong(cmdInputCmd);
+					// If there wasn't an integer entered, move the fraction to the parameter
+					// variable
+					if (cmdInputCmd.contains("/")) {
+						cmdInputParam = cmdInputCmd;
+					} else {
+						fracInteger = Long.parseLong(cmdInputCmd);
+					}
+
+					double fracTop = Double.parseDouble(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
+					double fracBottom = Double.parseDouble(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
+
+					// Divide the fraction and get a decimal equivalent
+					fracDecimalEquiv = fracTop / fracBottom;
+
+					// Simply convert the fraction to a decimal and add it to the stack
+					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
+
+					// Add the decimal number to the stack and continue with next command
+					Main.calcStack.add(fracInteger + fracDecimalEquiv);
+				} catch (NumberFormatException ex) {
+					Output.printColorln(Ansi.Color.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
+					break;
 				}
-
-				double fracTop = Double.parseDouble(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
-				double fracBottom = Double.parseDouble(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
-
-				// Divide the fraction and get a decimal equivalent
-				fracDecimalEquiv = fracTop / fracBottom;
-
-				// Simply convert the fraction to a decimal and add it to the stack
-				Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
-
-				// Add the decimal number to the stack and continue with next command
-				Main.calcStack.add(fracInteger + fracDecimalEquiv);
 
 				// Number entered, add to stack.
 			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
