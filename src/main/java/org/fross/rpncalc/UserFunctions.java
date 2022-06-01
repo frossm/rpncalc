@@ -95,14 +95,6 @@ public class UserFunctions {
 					Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
 					return;
 				}
-				
-			} else if (command[0].equals("run")) {
-				try {
-					FunctionRun(command[1]);
-				} catch (ArrayIndexOutOfBoundsException ex) {
-					Output.printColorln(Ansi.Color.RED, "ERROR: 'function run' requires a valid function name to execute");
-					return;
-				}
 
 			} else {
 				Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for function command.  Please see help");
@@ -144,8 +136,8 @@ public class UserFunctions {
 	}
 
 	/**
-	 * RemoveItemFromRecording(): Remove the value at index from the recording Most likely used if user
-	 * inputs an invalid command
+	 * RemoveItemFromRecording(): Remove the value at index from the recording Most likely used if user inputs an invalid
+	 * command
 	 * 
 	 * @param index
 	 */
@@ -225,20 +217,16 @@ public class UserFunctions {
 		} catch (BackingStoreException e) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Could not remove the function named: " + fname);
 		}
+
+		Output.printColorln(Ansi.Color.CYAN, "User defined function deleted: '" + fname + "'");
 	}
 
 	/**
-	 * FunctionRun(): Execute the user defined function provided
+	 * FunctionRun(): Execute the user defined function provided. Assumes functionName has been checked and is valid
 	 * 
 	 * @param func
 	 */
 	public static void FunctionRun(String functionName) {
-		// Verify user defined function exists
-		if (FunctionExists(functionName) == false) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: '" + functionName + "' is not a valid user defined function");
-			return;
-		}
-
 		Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
 		Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
 

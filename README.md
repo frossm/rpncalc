@@ -191,7 +191,11 @@ Simply add the value of the requested constant to the top of the stack / line1
 |sol|Inserts the speed of light onto the stack in meters/second.  **c = 299,792,458 m/s**|
 
 ## User Defined Functions
-RPNCalc can record your commands and save them as a user defined function.  You can then run this function on demand.  So create your stack as you envision it being used in the future.  Then enable recording, process the stack as you like, then stop the recording.  Give a name to your user defined function and it will be saved.  Then, you can build or import a stack, then run your function against it.  These functions are stored in the preferences system much like the stacks and memory slots.   `list func` will show a list of functions and their steps.
+RPNCalc can record your commands and save them as a user defined function.  You can then run this function on demand. You'll need to think about what data will need to be in your stack and what commands you wish to record.
+
+Start by adding data to your stack that would emulate when you would run your function.  This data will **not** be part of your recording.  When you are ready, enter the `record on` command.  Anything you add during this period will be recorded with the exception of the commands listed below.  Enter your commands, numbers, etc. until you are done.  Then enter `record off` to complete your recording.  Give a name to your user defined function and it will be saved. Choose a name without spaces and that is easy to type when you wish to execute the function in the future.
+
+Then you can run your function whever you like on the stack currently available.  To run the function, simply type the name of your function as a standard command. To see a list of the saved functions, execute `list func` and it will display the name and the steps you recorded.
 
 The following commands are not recorded.
 - frac
@@ -207,7 +211,6 @@ The following commands are not recorded.
 |-------|-----------|
 |record on|Turn on recording.  Most commands and numbers entered after record is enabled will be saved.  There are some that are excluded from being recorded|
 |record off| Turn off recording.  The user will be prompted to enter in a name for this function and that name will be used to run it in the future.  If you do not enter in a name the recording is canceled and  nothing will be saved|
-|func run|Execute the saved user defined function with the current stack as the starting point|
 |func del NAME|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`.  Undo will not recover a deleted function|
 |func delall|Delete all saved user defined functions.  Please note that undo will not recover deleted functions|
 

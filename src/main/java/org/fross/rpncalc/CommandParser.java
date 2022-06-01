@@ -347,9 +347,15 @@ public class CommandParser {
 			break;
 
 		default:
-			// Check for a fraction. If number entered contains a '/' but it's not at the
-			// end, then it must be a fraction.
-			if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
+			// Determine if the command is a user defined function
+			// Verify user defined function exists
+			if (UserFunctions.FunctionExists(cmdInput) == true) {
+				Output.debugPrint("Executing User Defined Function: '" + cmdInput + "'");
+				UserFunctions.FunctionRun(cmdInput);
+
+				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction.
+			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
+				Output.debugPrint("Fraction has been entered");
 				try {
 					long fracInteger = 0;
 					double fracDecimalEquiv = 0.0;
