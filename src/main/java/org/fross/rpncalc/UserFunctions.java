@@ -55,7 +55,7 @@ public class UserFunctions {
 				recordingEnabled = false;
 				SaveRecordingToPrefs();
 			} else {
-				Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Please see help");
+				Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
 				return;
 			}
 		} catch (StringIndexOutOfBoundsException ex) {
@@ -121,7 +121,7 @@ public class UserFunctions {
 	 */
 	public static void RecordCommand(String arg) {
 		// Ignore the following commands from recording
-		String[] ignore = { "frac", "list", "debug", "ver", "h", "?", "record", "function", "cx", "x", "exit" };
+		String[] ignore = { "frac", "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "cx", "x", "exit" };
 
 		// If the command starts with an ignored item, just return before adding it to the recording
 		for (int i = 0; i < ignore.length; i++) {
@@ -164,17 +164,30 @@ public class UserFunctions {
 	 * 
 	 */
 	public static void SaveRecordingToPrefs() {
-		// Request a name for the user function. No name cancels the save
-		Output.printColor(Ansi.Color.YELLOW, "Please enter the name of this function. No name will cancel the recording\n>> ");
-		String functionName = Main.scanner.nextLine();
-		Output.debugPrint("Function's Name set to: '" + functionName + "'");
+		boolean functionNameValid = false;
+		String functionName = "";
 
-		// If no name is given, cancel the recording information
-		if (functionName.isBlank() == true) {
-			Output.printColorln(Ansi.Color.YELLOW, "Canceling the recording");
-			recording.clear();
-			return;
+		while (functionNameValid == false) {
+			// Request a name for the user function. No name cancels the save
+			Output.printColor(Ansi.Color.YELLOW, "\nPlease enter the name of this function. No name will cancel the recording\n>> ");
+			functionName = Main.scanner.nextLine();
+
+			// If no name is given, cancel the recording information
+			if (functionName.isBlank()) {
+				Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
+				recording.clear();
+				return;
+			}
+
+			// Ensure there are no spaces in the name
+			if (functionName.contains(" ")) {
+				Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
+			} else {
+				functionNameValid = true;
+			}
 		}
+
+		Output.debugPrint("Function's Name set to: '" + functionName + "'");
 
 		// Save the recording and clear it
 		Output.debugPrint("Save Recordings: " + PREFS_PATH_FUNCTIONS + "/" + functionName);

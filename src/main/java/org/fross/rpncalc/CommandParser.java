@@ -252,6 +252,7 @@ public class CommandParser {
 
 		// Speed of light
 		case "sol":
+		case "speedoflight":
 			StackConstants.cmdSpeedOfLight();
 			break;
 
@@ -259,13 +260,14 @@ public class CommandParser {
 		 * User Defined Functions
 		 ******************************************************************************/
 		// Turn recording on or off
+		case "rec":
 		case "record":
 			UserFunctions.cmdRecord(cmdInputParam);
 			break;
 
 		// Allows for running or deleting functions
-		case "function":
 		case "func":
+		case "function":
 			UserFunctions.cmdFunction(cmdInputParam);
 			break;
 
