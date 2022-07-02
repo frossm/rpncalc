@@ -37,6 +37,8 @@ As I've stated above, this is a java program and uses maven.  If you download/cl
 
 `mvn package` from the root of the project (the one containing the **pom.xml** file)
 
+To Install the library, you would be the the main library directory (the one containing the **pom.xml** file) and execute `mvn install`
+
 ## High Level Usage
 RPNCalc is a command line application that must be run from a console.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` command will display the program help page.  This lists all of the commands and operands that can be used, but it is fairly terse.  The screen shot above shows the help screen.  This document is meant as a more comprehensive guide.
 
@@ -203,7 +205,7 @@ User defined functions can be deleted with the `func del NAME` command or you ca
 
 Functions are global and can work across any stack.  They are saved in the preferences system and will be reloaded when RPNCalc starts.  They are saved immediatly after you give a new recording a name and press enter.
 
-When you execute a function, the steps of that function are executed one after the other.  Therefore when you execute `undo` you will undo back through your function step by step. You do not `undo` the entire function in one command.
+When you execute a function, the steps of that function are executed one after the other.  Therefore when you execute `undo` you will undo back through your function step by step. You do not `undo` the entire function in one command.  Of course you can always run `undo NUM` where num is the steps to undo.
 
 The following commands can be entered during a recording, but are not recorded.
 - frac
