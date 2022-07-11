@@ -379,8 +379,12 @@ public class CommandParser {
 					// Simply convert the fraction to a decimal and add it to the stack
 					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
 
+					// Save to Undo stack
+					Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+					
 					// Add the decimal number to the stack and continue with next command
 					Main.calcStack.add(fracInteger + fracDecimalEquiv);
+					
 				} catch (NumberFormatException ex) {
 					Output.printColorln(Ansi.Color.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
 					break;
