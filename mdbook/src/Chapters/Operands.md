@@ -1,6 +1,6 @@
-# Operands
-
 <img align="right" width="20%" src="../Images/Operands.png">
+
+# Operands
 
 Operands are the standard symbols used for basic mathematics on numbers.  The following is the list of operands supported by RPNCalc.  These are also supported by the NumOps shortcut described below.  
 

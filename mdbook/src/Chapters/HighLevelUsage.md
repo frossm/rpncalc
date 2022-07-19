@@ -1,5 +1,6 @@
+<img align="right" width="125" src="../Images/HighLevelUsage.png">
+
 # High Level Usage
-<img align="right" width="25%" src="../Images/CalcIcon.png">
 
 RPNCalc is a command line application that must be run from a console / command prompt.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` command will display the in-program help page.  This page lists all of the commands and operands that can be used, but it is fairly terse  This can be viewed at the bottom of the `Introduction` page of this guide. This document is meant as a more comprehensive guide.
 

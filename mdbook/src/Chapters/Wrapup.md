@@ -1,5 +1,9 @@
+<img align="right" width="125" src="../Images/WrapUp.png">
+
 # Wrapup
 
-<img align="right" width="200" src ="https://github.com/frossm/rpncalc/raw/master/graphics/PostIt-200x200.jpg">
+Well, if you've read this far you probably know more about RPNCalc than I do.  I needed a command line based RPN calculator and have been very happy with this one.  I've added features as I've needed them and use it daily for many years now.  Some time ago I decided to make the program, source, and documentation available so others could use it if they wished.  For those that have, I hope you found it useful.
 
-I'm making this available in the hope that others may find this useful.  Please let me know if you have any issues, thoughts or suggestions for enhancements by sending an email to rpncalc@fross.org.  
+I'll continue to add new features as I think about them.  If you have suggestions, issues, or ideas, the links to reach out to me are on the Introduction page.
+
+Best wishes and happy calculating...

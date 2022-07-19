@@ -1,4 +1,9 @@
+<img align="right" width="175" src="../Images/License.png">
+
 # License
+
+The RPNCalc software as well as this User Guide are licensed via the MIT License.  You can read more about this license in the link below.
+
 [The MIT License](https://opensource.org/licenses/MIT)
 
 Copyright (C) 2011-2022 by Michael Fross

@@ -1,6 +1,6 @@
-# Command Line Options
+<img align="right" width="150" src="../Images/CmdLine.png">
 
-<img align="right" width="150" src="../Images/CalcIcon.png">
+# Command Line Options
 
 Currently there are several command line options, and all are optional.  Normally, one would simply run the program and you would enter in numbers, operands, and commands.
 

@@ -1,8 +1,15 @@
 [book]
+title = "RPNCalc User Guide"
 authors = ["Michael Fross"]
+description = "The RPNCalc User Guide"
 language = "en"
 multilingual = false
 src = "src"
-title = "RPN Calc User Guide"
+
+[build]
+build-dir = "RPNCalc-UserGuide"
+create-missing = true
+
+[output.html]
 default-theme = "ayu"
 preferred-dark-theme = "ayu"

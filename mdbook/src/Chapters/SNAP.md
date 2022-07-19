@@ -1,11 +1,13 @@
+<img align="right" width="175" src="../Images/Snap.png">
+
 # SNAP
 [![rpncalc](https://snapcraft.io//rpncalc/badge.svg)](https://snapcraft.io/rpncalc)
 
-I would encourage anyone with a supported Linux platform to use the Snap package of RPNCalc.  You can learn more about Snap from the [Snapcraft Homepage](https://snapcraft.io).  
+**I would encourage anyone with a supported Linux platform to use the Snap package of RPNCalc.**  You can learn more about Snap from the [Snapcraft Homepage](https://snapcraft.io).  
 
 At a high level, a Snap is a fully contained container with your application and it's dependencies bundled in.  It runs in a `sandbox` so it can't interfere with other parts of your system until it's given access.  Snaps are automatically kept up to date and are easily removed leaving no trace on the system.  There is even a nice [App Store](https://snapcraft.io/store) where you can find software. 
 
-As an example, RPNCalc uses Java, but you don't have to have Java installed on your machine as it's bundled in with the Snap.
+RPNCalc is a Java application, but you don't have to have Java installed on your machine as it's bundled in with the Snap.
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/rpncalc)
 
@@ -15,7 +17,7 @@ While I'm a fan of Snaps, there are positives and negatives to using them.
 
 ## Snap: The Good and the Bad
 
-***<center>-- Thanks to the good folks at MakeUseOf.com for this! --</center>***
+*<center>-- Thanks to the good folks at MakeUseOf.com for this! --</center>*
 
 [MakeUseOf.com](https://www.makeuseof.com/everything-you-need-to-know-about-snap-and-snap-store/) has a good breakdown of everything that's good and bad about Snap.  
 

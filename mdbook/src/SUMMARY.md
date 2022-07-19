@@ -14,6 +14,7 @@
 - [User Defined Functions](./Chapters/UserDefinedFunctions.md)
 - [Operational Commands](./Chapters/OperationalCommands.md)
 - [Building RPNCalc](./Chapters/BuildingRPNCalc.md)
-- [SNAP Usage](./Chapters/SNAP.md)
+- [Snap Usage](./Chapters/Snap.md)
 - [Wrapup](./Chapters/Wrapup.md)
 - [License](./Chapters/License.md)
+- [Acknowlegements](./Chapters/Acknowledgements.md)

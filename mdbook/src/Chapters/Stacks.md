@@ -1,5 +1,7 @@
-## Stacks
 <img align="right" width="200" src="../Images/Plates.png">
+
+# Stacks
+
 The entire concept of a RPN calculator is based on a stack, which can be thoughts of as numbers stacked on top of each other.  You add numbers to the stack and they are normally processed Last In First Out (LIFO). 
 
 With RPNCalc, when you leave the program, the current (and secondary) stacks are saved.  If you didn't specify a named stack,  the `default` stack is used.  When you start the program you can specify which stack to load with the `-l` command.  If none is entered, the `default` stack is loaded.  You may also load / create a new stack inside of the program with the `load` command.
@@ -11,7 +13,7 @@ For example, if you want to take the square root of 25, you enter `25 [ENTER]` a
 The order of the numbers on the stack is important for some of the operands.  This is detailed out in the `Operand` chapter.
 
 
-### Stack Management
+## Stack Management
 
 Saving and loading stacks is fundamental to RPNCalc.  You can have as many named stacks as you like.  They are stored in the Java Preferences location which varies by OS:
 

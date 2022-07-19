@@ -1,4 +1,7 @@
+<img align="right" width="150" src="../Images/UDF.png">
+
 # User Defined Functions
+
 RPNCalc can record your commands and save them as a user defined function.  In essence, you are creating a new command that can be run.
 
 When recording a new function, start by adding data to your stack that would emulate when you would run your function.  The only data that will be part of your recording will be data & commands entered ***after*** recording has been turned on.  When you are ready, enter the `record on` command.  A red `[Recording]` alert will appear in the status line. Anything you add during this period will be recorded with the exception of the commands listed below.  Enter your commands, numbers, etc. until you are done.
@@ -30,14 +33,17 @@ The following commands can be entered during a recording, but are not recorded.
 |func del NAME|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`.  Undo will not recover a deleted function|
 |func delall|Delete all saved user defined functions. Please note that undo will not recover deleted functions|
 
-TODO: Talk about the example here
+### Example
+Here is a full real world example.  Lets say you'd like to make a user defined function to take the cube of number.  Here are the steps you'd take to do that.
 
-|Command|Description|
-|-------|-----------|
-|`c`|Clear the stack|
-|`3 [Enter]`|Add the number 3 to the stack
-|`record on`|Start recording
-|`2`|Add 2 to the stack
-|`^`|Square the 3
-|`record off`|Stop recording and give the name "square" to the user defined function
-|`square`|Square the top item on the stack
+|Number|Command|Description|
+|------|-------|-----------|
+|1|`c`|Clear the stack.  Not really needed, but let's start off tidy|
+|2|`3 [Enter]`|Add the number 3 to the stack.  This can be any number really as it's not part of the recording|
+|3|`record on`|Start recording.  From now on anything you do (mostly) will be recorded|
+|4|`3`|Add 3 to the stack|
+|5|`^`|Take `line1` value to the power of 3|
+|6|`record off`|Stop recording and give the function the name "cube"|
+|7|`list func`|Show the user defined functions including the `cube` command you just made|
+
+From now on, just type `cube` and `line1` will be cubed!

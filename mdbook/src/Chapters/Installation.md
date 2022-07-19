@@ -1,6 +1,7 @@
+<img align="right" width="125" src="../Images/Install.png">
+
 # Installation
 
-<img align="right" width="20%" src="../Images/InstallIcon.png">
 There are two ways to install RPNCalc.  The first is simply download `rpncalc.jar` file from the latest release on [GitHub](https://github.com/frossm/rpncalc).  I have embedded all of the dependencies into this one file and it is directly executable.  You do not need to install anything.  Of course, you will need a java runtime (JRE) installed in your path. 
 
 The second is to run it as a [Snap](https://en.wikipedia.org/wiki/Snap_(software)).  There are many advantages to using it as a snap and I'll get into that in the SNAP secion of this user guide.  My personal preference is install it via Snap.  No Java to worry about, I'm protected as it runs in a sandbox, no aliases needed, always kept up to date, etc.
