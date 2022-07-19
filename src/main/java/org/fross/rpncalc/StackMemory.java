@@ -26,7 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import java.util.Stack;
 import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
@@ -103,8 +102,7 @@ public class StackMemory {
 	}
 
 	/**
-	 * RestoreMemSlots(): Restore the contents of the memory slots from the preferences system.
-	 * Typically done at startup
+	 * RestoreMemSlots(): Restore the contents of the memory slots from the preferences system. Typically done at startup
 	 * 
 	 */
 	public static void RestoreMemSlots() {
@@ -130,8 +128,7 @@ public class StackMemory {
 	 * 
 	 * @param cmd
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdMem(String arg) {
+	public static void cmdMem(StackObj calcStack, String arg) {
 		String[] argParse = null;
 		int memSlot = 0;
 
@@ -164,9 +161,9 @@ public class StackMemory {
 			// Add the last stack item in the memory slot
 			case "add":
 				// Ensure there is a value to save to the memory slot
-				if (Main.calcStack.size() >= 1) {
-					Output.printColorln(Ansi.Color.CYAN, "Adding '" + Main.calcStack.peek() + "' to Memory Slot #" + memSlot);
-					memorySlots[memSlot] = Main.calcStack.peek();
+				if (calcStack.size() >= 1) {
+					Output.printColorln(Ansi.Color.CYAN, "Adding '" + calcStack.peek() + "' to Memory Slot #" + memSlot);
+					memorySlots[memSlot] = calcStack.peek();
 				} else {
 					Output.printColorln(Ansi.Color.RED, "ERROR: There must be at least one value on the stack");
 				}
@@ -190,12 +187,12 @@ public class StackMemory {
 			// Copy the value from the memory slot provided back onto the stack
 			case "copy":
 			case "recall":
-				// Save to undo stack
-				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
 
-				Output.printColorln(Ansi.Color.CYAN, "Copying values from Memory Slot #" + memSlot);
+				Output.printColorln(Ansi.Color.CYAN, "Copying value from Memory Slot #" + memSlot);
 				if (memorySlots[memSlot] != null)
-					Main.calcStack.add(memorySlots[memSlot]);
+					calcStack.push(memorySlots[memSlot]);
 				else
 					Output.printColorln(Ansi.Color.RED, "Memory Slot #" + memSlot + " is empty");
 				break;
@@ -203,13 +200,13 @@ public class StackMemory {
 			// Copy everything back onto the stack. Lower number to stop of stack (line 1)
 			case "copyall":
 			case "recallall":
-				// Save to undo stack
-				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
 
 				Output.printColorln(Ansi.Color.CYAN, "Copying all memory items to the stack");
 				for (int i = memorySlots.length - 1; i >= 0; i--) {
 					if (memorySlots[i] != null) {
-						Main.calcStack.add(memorySlots[i]);
+						calcStack.push(memorySlots[i]);
 					}
 				}
 				break;
@@ -218,9 +215,9 @@ public class StackMemory {
 			case "addall":
 				// Ensure we have enough memory slots and then add the values to the slots
 				try {
-					if (Main.calcStack.size() <= memorySlots.length) {
-						for (int i = Main.calcStack.size() - 1; i >= 0; i--) {
-							memorySlots[Main.calcStack.size() - 1 - i] = Main.calcStack.get(i);
+					if (calcStack.size() <= memorySlots.length) {
+						for (int i = calcStack.size() - 1; i >= 0; i--) {
+							memorySlots[calcStack.size() - 1 - i] = calcStack.get(i);
 						}
 					} else {
 						Output.printColorln(Ansi.Color.RED, "ERROR: There are not enough memory slots to hold the stack. See -m switch");

@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.Stack;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
@@ -55,16 +54,15 @@ public class Main {
 	public static String COPYRIGHT;
 
 	// Class Variables
-	static Stack<Stack<Double>> undoStack = new Stack<Stack<Double>>();
-	static Stack<Double> calcStack = new Stack<>();
-	static Stack<Double> calcStack2 = new Stack<>();
 	static char displayAlignment = 'l';
 	static Scanner scanner = new Scanner(System.in);
 	static boolean ProcessCommandLoop = true;
+	static StackObj calcStack = new StackObj();
+	static StackObj calcStack2 = new StackObj();
 
 	/**
-	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a
-	 * separate function given it also inserts the loaded stack and spaces everything correctly.
+	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it
+	 * also inserts the loaded stack and spaces everything correctly.
 	 * 
 	 */
 	public static void DisplayStatusLine() {
@@ -72,7 +70,7 @@ public class Main {
 		String sfMem = String.format("Mem:%02d", StackMemory.QueryInUseMemorySlots());
 
 		// Format the undo level to 2 digits. Can't image I'd need over 99 undo levels
-		String sfUndo = String.format("Undo:%02d", Main.undoStack.size());
+		String sfUndo = String.format("Undo:%02d", calcStack.undoSize());
 
 		// Determine how many dashes to use after remove space for the undo and stack name
 		int numDashes = PROGRAMWIDTH - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
@@ -276,16 +274,15 @@ public class Main {
 				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
 				cmdInputCmd = ci[0];
 				cmdInputParam = ci[1];
-				Output.debugPrint("Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
 
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// Ignore if there is no command or parameter entered
-				Output.debugPrint("Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
 				if (cmdInputCmd.isEmpty()) {
 					Output.debugPrint("Blank line entered");
 					continue;
 				}
 			}
+			Output.debugPrint("Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
 			if (UserFunctions.recordingEnabled == true) {
@@ -293,7 +290,7 @@ public class Main {
 			}
 
 			// Call the parser to send the command to the correct function to execute
-			CommandParser.Parse(cmdInput, cmdInputCmd, cmdInputParam);
+			CommandParser.Parse(calcStack, calcStack2, cmdInput, cmdInputCmd, cmdInputParam);
 
 			// Clear input parameters before we start again
 			cmdInputCmd = "";

@@ -26,8 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import java.util.Stack;
-
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -37,51 +35,47 @@ public class StackConstants {
 	 * cmdPI(): Add the value of PI to the stack
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdPI() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdPI(StackObj calcStack) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
-		Main.calcStack.add(java.lang.Math.PI);
+		calcStack.push(java.lang.Math.PI);
 	}
 
 	/**
 	 * cmdPHI(): Add the value PHI (Golden Ratio) to the stack
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdPHI() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdPHI(StackObj calcStack) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, added to the stack");
-		Main.calcStack.add(1.61803398874989);
+		calcStack.push(1.61803398874989);
 	}
 
 	/**
 	 * cmdEuler(): Add the Euler constant to the stack
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdEuler() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdEuler(StackObj calcStack) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
-		Main.calcStack.add(2.7182818284590452353602874713527);
+		calcStack.push(2.7182818284590452353602874713527);
 	}
 
 	/**
 	 * cmdSpeedOfLight(): Add the speed of light in m/s to the stack
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdSpeedOfLight() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdSpeedOfLight(StackObj calcStack) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
-		Main.calcStack.add((double) 299792458);
+		calcStack.push((double) 299792458);
 	}
 }

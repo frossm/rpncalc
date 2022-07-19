@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
@@ -40,45 +39,32 @@ import org.fusesource.jansi.Ansi;
 
 public class StackOperations {
 	/**
-	 * StackSwapItems(): Swap two elements in the stack
+	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
 	 * 
-	 * Approach: Empty the stack into an array. Replace the existing values with the swapped values.
-	 * Then recreate the stack.
-	 * 
-	 * @param stk
-	 * @param item1
-	 * @param item2
-	 * @return
+	 * @param al
 	 */
-	public static Stack<Double> StackSwapItems(Stack<Double> stk, int item1, int item2) {
-		int stkSize = stk.size();
-		Double tempArray[] = new Double[stkSize];
-		Double value1;
-		Double value2;
-
-		// Populate the array with the contents of the stack
-		Output.debugPrint("Size of Stack is: " + stkSize);
-		for (int i = 0; i < stkSize; i++) {
-			// System.out.println("i = " + i);
-			Output.debugPrint("Backup: Array[" + i + "] = " + stk.peek());
-			tempArray[i] = stk.pop();
+	public static void cmdAlign(char al) {
+		// Validate we have one of the right values
+		if (al != 'l' && al != 'd' && al != 'r') {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
+		} else {
+			Output.debugPrint("Setting display alignment to: " + al);
+			Main.displayAlignment = al;
 		}
+	}
 
-		// Grab the initial values
-		value1 = tempArray[item1];
-		value2 = tempArray[item2];
-
-		// Swap with the new values
-		tempArray[item1] = value2;
-		tempArray[item2] = value1;
-
-		// Recreate the stack
-		for (int i = stkSize - 1; i >= 0; i--) {
-			Output.debugPrint("Restore: Array[" + i + "] = " + tempArray[i] + " -> Stack");
-			stk.push(tempArray[i]);
+	/**
+	 * cmdDebug(): Toggle debug setting
+	 * 
+	 */
+	public static void cmdDebug() {
+		if (Debug.query()) {
+			Debug.disable();
+			Output.printColorln(Ansi.Color.RED, "Debug Disabled");
+		} else {
+			Debug.enable();
+			Output.debugPrint("Debug Enabled");
 		}
-
-		return (stk);
 	}
 
 	/**
@@ -90,7 +76,7 @@ public class StackOperations {
 	 * 
 	 * undo: List the contents of the undo stack which shows previous stack states
 	 */
-	public static void cmdList(String arg) {
+	public static void cmdList(StackObj calcStack, String arg) {
 		switch (arg.toLowerCase()) {
 		case "stacks":
 		case "stack":
@@ -114,8 +100,8 @@ public class StackOperations {
 
 		case "undo":
 			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack" + "-".repeat(Main.PROGRAMWIDTH - 11));
-			for (int i = 0; i < Main.undoStack.size(); i++) {
-				String sn = String.format("%02d:  %s", i + 1, Main.undoStack.get(i));
+			for (int i = 0; i < calcStack.undoSize(); i++) {
+				String sn = String.format("%02d:  %s", i + 1, calcStack.undoGet(i));
 				Output.printColorln(Ansi.Color.CYAN, sn);
 			}
 			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
@@ -153,74 +139,41 @@ public class StackOperations {
 	 * 
 	 * @param stackToLoad
 	 */
-	public static void cmdLoad(String stackToLoad) {
+	public static void cmdLoad(StackObj calcStack, StackObj calcStack2, String stackToLoad) {
 		// Save current Stack
-		StackManagement.SaveStack(Main.calcStack, "1");
-		StackManagement.SaveStack(Main.calcStack2, "2");
+		StackManagement.SaveStack(calcStack, "1");
+		StackManagement.SaveStack(calcStack2, "2");
 
 		// Set new stack
 		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
 		StackManagement.SetLoadedStack(stackToLoad);
 
 		// Load new stack
-		Main.calcStack = StackManagement.RestoreStack("1");
-		Main.calcStack2 = StackManagement.RestoreStack("2");
+		calcStack = StackManagement.RestoreStack("1");
+		calcStack2 = StackManagement.RestoreStack("2");
 	}
 
 	/**
 	 * cmdSwapStack(): Swap the primary and secondary stacks
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdSwapStack() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdSwapStack(StackObj calcStack, StackObj calcStack2) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		Output.debugPrint("Swapping primary and secondary stack");
-		Stack<Double> calcStackTemp = (Stack<Double>) Main.calcStack.clone();
-		Main.calcStack = (Stack<Double>) Main.calcStack2.clone();
-		Main.calcStack2 = (Stack<Double>) calcStackTemp.clone();
+		StackObj calcStackTemp = calcStack;
+		calcStack = calcStack2;
+		calcStack2 = calcStackTemp;
 		StackManagement.ToggleCurrentStackNum();
 	}
 
 	/**
-	 * cmdDebug(): Toggle debug setting
-	 * 
-	 */
-	public static void cmdDebug() {
-		if (Debug.query()) {
-			Debug.disable();
-			Output.printColorln(Ansi.Color.RED, "Debug Disabled");
-		} else {
-			Debug.enable();
-			Output.debugPrint("Debug Enabled");
-		}
-	}
-
-	/**
-	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
-	 * 
-	 * @param al
-	 */
-	public static void cmdAlign(char al) {
-		// Validate we have one of the right values
-		if (al != 'l' && al != 'd' && al != 'r') {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
-		} else {
-			Output.debugPrint("Setting display alignment to: " + al);
-			Main.displayAlignment = al;
-		}
-	}
-
-	/**
-	 * LoadStackFromDisk(): Load the contents of a file into the stack. The file should have one stack
-	 * item per line
+	 * LoadStackFromDisk(): Load the contents of a file into the stack. The file should have one stack item per line
 	 * 
 	 * @param arg
 	 */
-	@SuppressWarnings("unchecked")
-	public static void LoadStackFromDisk(String arg) {
-		Stack<Double> newItemsStack = new Stack<>();
+	public static void LoadStackFromDisk(StackObj calcStack, String arg) {
 		String fileName = arg.trim();
 
 		try {
@@ -231,7 +184,7 @@ public class StackOperations {
 
 				// Convert the strings to double values
 				for (int i = 0; i < linesRead.size(); i++) {
-					newItemsStack.add(Double.parseDouble(linesRead.get(i)));
+					calcStack.push(Double.parseDouble(linesRead.get(i)));
 				}
 
 			} else {
@@ -245,11 +198,51 @@ public class StackOperations {
 					"The data in '" + fileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
 		}
 
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
-		Main.calcStack.clear();
-		Main.calcStack = (Stack<Double>) newItemsStack.clone();
+		calcStack.clear();
+	}
+
+	/**
+	 * StackSwapItems(): Swap two elements in the stack
+	 * 
+	 * Approach: Empty the stack into an array. Replace the existing values with the swapped values. Then recreate the
+	 * stack.
+	 * 
+	 * @param stk
+	 * @param item1
+	 * @param item2
+	 * @return
+	 */
+	public static StackObj StackSwapItems(StackObj stk, int item1, int item2) {
+		int stkSize = stk.size();
+		Double tempArray[] = new Double[stkSize];
+		Double value1;
+		Double value2;
+
+		// Populate the array with the contents of the stack
+		Output.debugPrint("Size of Stack is: " + stkSize);
+		for (int i = 0; i < stkSize; i++) {
+			Output.debugPrint("Backup: Array[" + i + "] = " + stk.peek());
+			tempArray[i] = stk.pop();
+		}
+
+		// Grab the initial values
+		value1 = tempArray[item1];
+		value2 = tempArray[item2];
+
+		// Swap with the new values
+		tempArray[item1] = value2;
+		tempArray[item2] = value1;
+
+		// Recreate the stack
+		for (int i = stkSize - 1; i >= 0; i--) {
+			Output.debugPrint("Restore: Array[" + i + "] = " + tempArray[i] + " -> Stack");
+			stk.push(tempArray[i]);
+		}
+
+		return (stk);
 	}
 
 }

@@ -26,7 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import java.util.Stack;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -48,7 +47,7 @@ public class StackManagement {
 	 * @param stk       - Stack to Save
 	 * @param stackSlot - Stack Save slot number. Should be default, 1, or 2.
 	 */
-	public static void SaveStack(Stack<Double> stk, String stackSlot) {
+	public static void SaveStack(StackObj stk, String stackSlot) {
 		Output.debugPrint("SaveStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
 
 		// Override the default stack location with the provided one
@@ -67,31 +66,30 @@ public class StackManagement {
 
 		// Loop through each member of the stack and save it to the preferences
 		for (int i = 0; i <= (int) stk.size() - 1; i++) {
-			Output.debugPrint("  - Saving #" + (stk.size() - i) + ":  " + stk.elementAt(i));
-			p.putDouble("Stack" + i, stk.elementAt(i));
+			Output.debugPrint("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i));
+			p.putDouble("Stack" + i, stk.get(i));
 		}
 
 	}
 
 	/**
-	 * RestoreStack(): Read the stack, as designated by the stack slot (1 or 2) from the preferences
-	 * system
+	 * RestoreStack(): Read the stack, as designated by the stack slot (1 or 2) from the preferences system
 	 * 
 	 * @param stackSlot - The slot (default, 1, or 2) to pull from.
 	 * @return
 	 */
-	public static Stack<Double> RestoreStack(String stackSlot) {
+	public static StackObj RestoreStack(String stackSlot) {
 		Output.debugPrint("RestoreStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
 
 		// Override the default stack location with the provided one
 		prefs = Preferences.userRoot().node(PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
 		int numElements = prefs.getInt("StackElements", 0);
-		Stack<Double> stk = new Stack<Double>();
+		StackObj stk = new StackObj();
 
 		Output.debugPrint("Restoring Stack:");
 		for (int i = 0; i <= numElements - 1; i++) {
 			stk.push(prefs.getDouble("Stack" + i, 0.0));
-			Output.debugPrint("  - Restoring #" + (numElements - i) + ":  " + stk.elementAt(i));
+			Output.debugPrint("  - Restoring #" + (numElements - i) + ":  " + stk.get(i));
 		}
 
 		return stk;
@@ -136,8 +134,8 @@ public class StackManagement {
 	}
 
 	/**
-	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is
-	 * important for saving and restoring data from the preferences system
+	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is important for
+	 * saving and restoring data from the preferences system
 	 * 
 	 * @return
 	 */

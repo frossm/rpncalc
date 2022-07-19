@@ -26,14 +26,12 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import java.util.Stack;
-
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 /**
- * Math: The math class contains the methods to parse the operands entered and perform the math
- * tasks. It was done strictly so it will be easily to grow the list of functions at a later date.
+ * Math: The math class contains the methods to parse the operands entered and perform the math tasks. It was done
+ * strictly so it will be easily to grow the list of functions at a later date.
  * 
  * @author michael.d.fross
  *
@@ -46,26 +44,31 @@ public class Math {
 	 * @param stk - Stack containing the list of Doubles to process
 	 * @return
 	 */
-	public static Stack<Double> Parse(String op, Stack<Double> stk) {
-		Stack<Double> result = new Stack<Double>();
+	public static StackObj Parse(String op, StackObj stk) {
+		StackObj result = new StackObj();
 
 		// Addition
 		switch (op) {
 		case "+":
 			result = Add(stk);
 			break;
+
 		case "-":
 			result = Subtract(stk);
 			break;
+
 		case "*":
 			result = Multiply(stk);
 			break;
+
 		case "/":
 			result = Divide(stk);
 			break;
+
 		case "^":
 			result = Power(stk);
 			break;
+
 		default:
 			Output.printColorln(Ansi.Color.RED, "ERROR:  Illegal Operand Sent to Math.Parse(): '" + op + "'");
 		}
@@ -79,7 +82,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Stack<Double> Add(Stack<Double> stk) {
+	public static StackObj Add(StackObj stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
 		Output.debugPrint("Adding: " + a + " + " + b + " = " + (a + b));
@@ -93,7 +96,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Stack<Double> Subtract(Stack<Double> stk) {
+	public static StackObj Subtract(StackObj stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
 		Output.debugPrint("Subtracting: " + a + " - " + b + " = " + (a - b));
@@ -107,7 +110,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Stack<Double> Multiply(Stack<Double> stk) {
+	public static StackObj Multiply(StackObj stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
 		Output.debugPrint("Multiplying: " + a + " * " + b + " = " + (a * b));
@@ -121,7 +124,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Stack<Double> Divide(Stack<Double> stk) {
+	public static StackObj Divide(StackObj stk) {
 		Double b = stk.pop();
 		Double a = stk.pop();
 		Output.debugPrint("Dividing: " + a + " / " + b + " = " + (a / b));
@@ -135,7 +138,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Stack<Double> Power(Stack<Double> stk) {
+	public static StackObj Power(StackObj stk) {
 		Double power = stk.pop();
 		Double base = stk.pop();
 		Output.debugPrint("Base=" + base + "   Power=" + power);
@@ -144,8 +147,8 @@ public class Math {
 	}
 
 	/**
-	 * GreatestCommonDivisor(): Return the largest common number divisible into both numbers. Used in
-	 * rpncalc for fraction reduction.
+	 * GreatestCommonDivisor(): Return the largest common number divisible into both numbers. Used in rpncalc for fraction
+	 * reduction.
 	 * 
 	 * https://www.baeldung.com/java-greatest-common-divisor
 	 * 
@@ -182,7 +185,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Double Mean(Stack<Double> stk) {
+	public static Double Mean(StackObj stk) {
 		Double totalCounter = 0.0;
 		int size = stk.size();
 
@@ -203,11 +206,11 @@ public class Math {
 	 * @return
 	 */
 	public static Double Mean(Double[] arry) {
-		Stack<Double> stk = new Stack<Double>();
+		StackObj stk = new StackObj();
 
 		// Convert array into a stack then call Mean again
 		for (int i = 0; i < arry.length; i++) {
-			stk.add(arry[i]);
+			stk.push(arry[i]);
 		}
 
 		return (Mean(stk));

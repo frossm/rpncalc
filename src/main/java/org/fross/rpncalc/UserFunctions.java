@@ -262,7 +262,7 @@ public class UserFunctions {
 			}
 
 			Output.debugPrint("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
-			CommandParser.Parse(fullCommand, command, param);
+			CommandParser.Parse(Main.calcStack, Main.calcStack2, fullCommand, command, param);
 		}
 
 	}

@@ -26,8 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import java.util.Stack;
-
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -39,39 +37,55 @@ public class StackConversions {
 	 * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdConvert2MM() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdConvert2MM(StackObj calcStack) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		// Pop off the last value, convert, and push it back
-		Main.calcStack.push(Main.calcStack.pop() * 25.4);
+		calcStack.push(calcStack.pop() * 25.4);
 	}
 
 	/**
 	 * cmdConvertIN(): Assumes Line1 is in millimeters and converts to inches
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdConvert2IN() {
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+	public static void cmdConvert2IN(StackObj calcStack) {
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		// Pop off the last value, convert, and push it back
-		Main.calcStack.push(Main.calcStack.pop() / 25.4);
+		calcStack.push(calcStack.pop() / 25.4);
 	}
 
 	/**
-	 * cmdFraction(): Display the last stack item as a fraction with a minimum base of the provided
-	 * number. For example, sending 64 would produce a fraction of 1/64th but will be reduced if
-	 * possible.
+	 * cmdDegree(): Convert line1 from radians to degrees
+	 * 
+	 * Formula: degrees = radians * (180 / PI)
+	 */
+	public static void cmdDegree(StackObj calcStack) {
+		// Ensure we have something on the stack
+		if (calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Pull the value, convert and push back
+		calcStack.push(calcStack.pop() * (180 / java.lang.Math.PI));
+	}
+
+	/**
+	 * cmdFraction(): Display the last stack item as a fraction with a minimum base of the provided number. For example,
+	 * sending 64 would produce a fraction of 1/64th but will be reduced if possible.
 	 * 
 	 * @param param
 	 */
-	public static void cmdFraction(String param) {
+	public static void cmdFraction(StackObj calcStack, String param) {
 		// Make sure the stack is not empty
 		// Verify we have an item on the stack
-		if (Main.calcStack.isEmpty()) {
+		if (calcStack.isEmpty()) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
 			return;
 		}
@@ -89,10 +103,10 @@ public class StackConversions {
 		}
 
 		// Determine the integer portion of the number
-		int integerPart = (int) java.lang.Math.floor(Main.calcStack.peek());
+		int integerPart = (int) java.lang.Math.floor(calcStack.peek());
 
 		// Determine the fractional portion as an double
-		double decimalPart = Main.calcStack.peek() - integerPart;
+		double decimalPart = calcStack.peek() - integerPart;
 
 		// Convert to a fraction with provided base
 		long numerator = java.lang.Math.round(decimalPart * denominator);
@@ -109,7 +123,7 @@ public class StackConversions {
 		// Output the fractional display
 		String stackHeader = "-Fraction (1/" + (denominator * gcd) + ")";
 		Output.printColorln(Ansi.Color.YELLOW, "\n" + stackHeader + "-".repeat(Main.PROGRAMWIDTH - stackHeader.length()));
-		Output.printColorln(Ansi.Color.WHITE, " " + Main.calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
+		Output.printColorln(Ansi.Color.WHITE, " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
 		Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
 	}
 
@@ -118,39 +132,18 @@ public class StackConversions {
 	 * 
 	 * Formula: radians = degrees (PI/180)
 	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdRadian() {
+	public static void cmdRadian(StackObj calcStack) {
 		// Ensure we have something on the stack
-		if (Main.calcStack.isEmpty()) {
+		if (calcStack.isEmpty()) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
 			return;
 		}
 
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		// Pull the value, convert and push back
-		Main.calcStack.push(Main.calcStack.pop() * (java.lang.Math.PI / 180));
-	}
-
-	/**
-	 * cmdDegree(): Convert line1 from radians to degrees
-	 * 
-	 * Formula: degrees = radians * (180 / PI)
-	 */
-	@SuppressWarnings("unchecked")
-	public static void cmdDegree() {
-		// Ensure we have something on the stack
-		if (Main.calcStack.isEmpty()) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
-			return;
-		}
-
-		// Save to undo stack
-		Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-
-		// Pull the value, convert and push back
-		Main.calcStack.push(Main.calcStack.pop() * (180 / java.lang.Math.PI));
+		calcStack.push(calcStack.pop() * (java.lang.Math.PI / 180));
 	}
 
 }

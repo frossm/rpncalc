@@ -26,8 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import java.util.Stack;
-
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -39,8 +37,7 @@ public class CommandParser {
 	 * @param cmdInputCmd
 	 * @param cmdInputParam
 	 */
-	@SuppressWarnings("unchecked")
-	public static void Parse(String cmdInput, String cmdInputCmd, String cmdInputParam) {
+	public static void Parse(StackObj calcStack, StackObj calcStack2, String cmdInput, String cmdInputCmd, String cmdInputParam) {
 		// Main switch statement to process user input and call the correct functions
 		switch (cmdInputCmd) {
 
@@ -50,19 +47,19 @@ public class CommandParser {
 		// Undo
 		case "undo":
 		case "u":
-			StackCommands.cmdUndo(cmdInputParam);
+			StackCommands.cmdUndo(calcStack, cmdInputParam);
 			break;
 
 		// Flip Sign
 		case "flip":
 		case "f":
-			StackCommands.cmdFlipSign();
+			StackCommands.cmdFlipSign(calcStack);
 			break;
 
 		// Clear Screen and Stack
 		case "clear":
 		case "c":
-			StackCommands.cmdClear();
+			StackCommands.cmdClear(calcStack);
 			break;
 
 		// Clean the screen and redisplay the stack
@@ -75,97 +72,97 @@ public class CommandParser {
 		case "del":
 		case "d":
 		case "drop":
-			StackCommands.cmdDelete(cmdInputParam);
+			StackCommands.cmdDelete(calcStack, cmdInputParam);
 			break;
 
 		// Percent
 		case "%":
-			StackCommands.cmdPercent();
+			StackCommands.cmdPercent(calcStack);
 			break;
 
 		// Swap Elements in a stack
 		case "swap":
 		case "s":
-			StackCommands.cmdSwapElements(cmdInputParam);
+			StackCommands.cmdSwapElements(calcStack, cmdInputParam);
 			break;
 
 		// Square Root
 		case "sqrt":
-			StackCommands.cmdSqrt();
+			StackCommands.cmdSqrt(calcStack);
 			break;
 
 		// Round
 		case "round":
-			StackCommands.cmdRound(cmdInputParam);
+			StackCommands.cmdRound(calcStack, cmdInputParam);
 			break;
 
 		// AddAll
 		case "aa":
-			StackCommands.cmdAddAll(cmdInputParam);
+			StackCommands.cmdAddAll(calcStack, cmdInputParam);
 			break;
 
 		// Modulus
 		case "mod":
-			StackCommands.cmdModulus();
+			StackCommands.cmdModulus(calcStack);
 			break;
 
 		// Average
 		case "mean":
 		case "average":
 		case "avg":
-			StackCommands.cmdAverage(cmdInputParam);
+			StackCommands.cmdAverage(calcStack, cmdInputParam);
 			break;
 
 		// Standard Deviation
 		case "sd":
-			StackCommands.cmdStdDeviation(cmdInputParam);
+			StackCommands.cmdStdDeviation(calcStack, cmdInputParam);
 			break;
 
 		// Copy Item
 		case "copy":
 		case "dup":
-			StackCommands.cmdCopy(cmdInputParam);
+			StackCommands.cmdCopy(calcStack, cmdInputParam);
 			break;
 
 		// Natural (base e) Logarithm
 		case "log":
-			StackCommands.cmdLog();
+			StackCommands.cmdLog(calcStack);
 			break;
 
 		// Base10 Logarithm
 		case "log10":
-			StackCommands.cmdLog10();
+			StackCommands.cmdLog10(calcStack);
 			break;
 
 		// Integer
 		case "int":
-			StackCommands.cmdInteger();
+			StackCommands.cmdInteger(calcStack);
 			break;
 
 		// Absolute Value
 		case "abs":
-			StackCommands.cmdAbsoluteValue();
+			StackCommands.cmdAbsoluteValue(calcStack);
 			break;
 
 		// Minimum Value
 		case "min":
-			StackCommands.cmdMinimum();
+			StackCommands.cmdMinimum(calcStack);
 			break;
 
 		// Maximum Value
 		case "max":
-			StackCommands.cmdMaximum();
+			StackCommands.cmdMaximum(calcStack);
 			break;
 
 		// Random Number Generation
 		case "rand":
 		case "random":
-			StackCommands.cmdRandom(cmdInputParam);
+			StackCommands.cmdRandom(calcStack, cmdInputParam);
 			break;
 
 		// Dice
 		case "dice":
-			StackCommands.cmdDice(cmdInputParam);
+			StackCommands.cmdDice(calcStack, cmdInputParam);
 			break;
 
 		/*******************************************************************************
@@ -174,31 +171,31 @@ public class CommandParser {
 		// Fraction
 		case "frac":
 		case "fraction":
-			StackConversions.cmdFraction(cmdInputParam);
+			StackConversions.cmdFraction(calcStack, cmdInputParam);
 			break;
 
 		// Convert inches to millimeters
 		case "in2mm":
 		case "2mm":
-			StackConversions.cmdConvert2MM();
+			StackConversions.cmdConvert2MM(calcStack);
 			break;
 
 		// Convert millimeters to inches
 		case "mm2in":
 		case "2in":
-			StackConversions.cmdConvert2IN();
+			StackConversions.cmdConvert2IN(calcStack);
 			break;
 
 		// Convert to Radians
 		case "deg2rad":
 		case "2rad":
-			StackConversions.cmdRadian();
+			StackConversions.cmdRadian(calcStack);
 			break;
 
 		// Convert to Degrees
 		case "rad2deg":
 		case "2deg":
-			StackConversions.cmdDegree();
+			StackConversions.cmdDegree(calcStack);
 			break;
 
 		/*******************************************************************************
@@ -208,20 +205,20 @@ public class CommandParser {
 		case "tan":
 		case "sin":
 		case "cos":
-			StackTrig.cmdTrig(cmdInputCmd, cmdInputParam);
+			StackTrig.cmdTrig(calcStack, cmdInputCmd, cmdInputParam);
 			break;
 
 		// Arc-Trigonometry Functions
 		case "atan":
 		case "asin":
 		case "acos":
-			StackTrig.cmdArcTrig(cmdInputCmd, cmdInputParam);
+			StackTrig.cmdArcTrig(calcStack, cmdInputCmd, cmdInputParam);
 			break;
 
 		// Hypotenuse
 		case "hypot":
 		case "hypotenuse":
-			StackTrig.cmdHypotenuse();
+			StackTrig.cmdHypotenuse(calcStack);
 			break;
 
 		/*******************************************************************************
@@ -229,7 +226,7 @@ public class CommandParser {
 		 ******************************************************************************/
 		case "memory":
 		case "mem":
-			StackMemory.cmdMem(cmdInputParam);
+			StackMemory.cmdMem(calcStack, cmdInputParam);
 			break;
 
 		/*******************************************************************************
@@ -237,23 +234,23 @@ public class CommandParser {
 		 ******************************************************************************/
 		// Add PI
 		case "pi":
-			StackConstants.cmdPI();
+			StackConstants.cmdPI(calcStack);
 			break;
 
 		// Add PHI also known as The Golden Ratio
 		case "phi":
-			StackConstants.cmdPHI();
+			StackConstants.cmdPHI(calcStack);
 			break;
 
 		// Euler's number
 		case "euler":
-			StackConstants.cmdEuler();
+			StackConstants.cmdEuler(calcStack);
 			break;
 
 		// Speed of light
 		case "sol":
 		case "speedoflight":
-			StackConstants.cmdSpeedOfLight();
+			StackConstants.cmdSpeedOfLight(calcStack);
 			break;
 
 		/*******************************************************************************
@@ -274,25 +271,24 @@ public class CommandParser {
 		/*******************************************************************************
 		 * Stack Operational Commands
 		 ******************************************************************************/
-		// List
-		// Supported commands are "stacks" | "mem" | "undo"
+		// List - Supported commands are "stacks" | "mem" | "undo"
 		case "list":
-			StackOperations.cmdList(cmdInputParam);
+			StackOperations.cmdList(calcStack, cmdInputParam);
 			break;
 
 		// Load
 		case "load":
-			StackOperations.cmdLoad(cmdInputParam);
+			StackOperations.cmdLoad(calcStack, calcStack2, cmdInputParam);
 			break;
 
 		// Import stack from disk
 		case "import":
-			StackOperations.LoadStackFromDisk(cmdInputParam);
+			StackOperations.LoadStackFromDisk(calcStack, cmdInputParam);
 			break;
 
 		// Swap Stack
 		case "ss":
-			StackOperations.cmdSwapStack();
+			StackOperations.cmdSwapStack(calcStack, calcStack2);
 			break;
 
 		// Debug Toggle
@@ -325,7 +321,7 @@ public class CommandParser {
 
 		// Clear & Exit
 		case "cx":
-			Main.calcStack.clear();
+			calcStack.clear();
 			Output.debugPrint("Exiting Command Loop");
 			Main.ProcessCommandLoop = false;
 			break;
@@ -345,7 +341,7 @@ public class CommandParser {
 		case "*":
 		case "/":
 		case "^":
-			StackCommands.cmdOperand(cmdInputCmd);
+			StackCommands.cmdOperand(calcStack, cmdInputCmd);
 			break;
 
 		default:
@@ -379,12 +375,12 @@ public class CommandParser {
 					// Simply convert the fraction to a decimal and add it to the stack
 					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
 
-					// Save to Undo stack
-					Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
-					
+					// Save current calcStack to the undoStack
+					calcStack.saveUndo();
+
 					// Add the decimal number to the stack and continue with next command
-					Main.calcStack.add(fracInteger + fracDecimalEquiv);
-					
+					calcStack.push(fracInteger + fracDecimalEquiv);
+
 				} catch (NumberFormatException ex) {
 					Output.printColorln(Ansi.Color.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
 					break;
@@ -392,26 +388,26 @@ public class CommandParser {
 
 				// Number entered, add to stack.
 			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
-				// Save to Undo stack
-				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
 
 				Output.debugPrint("Adding number '" + cmdInputCmd + "' onto the stack");
 				Main.calcStack.push(Double.valueOf(cmdInputCmd));
 
 				// Handle numbers with a single operand at the end (a NumOp)
 			} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
-				// Save to Undo stack
-				Main.undoStack.push((Stack<Double>) Main.calcStack.clone());
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
 
-				Output.debugPrint("CalcStack has " + Main.calcStack.size() + " elements");
+				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
 				// Verify stack contains at least one element
-				if (Main.calcStack.size() >= 1) {
+				if (calcStack.size() >= 1) {
 					String TempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
 					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
 					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
 					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
-					Main.calcStack.push(Double.valueOf(TempNum));
-					Main.calcStack = Math.Parse(TempOp, Main.calcStack);
+					calcStack.push(Double.valueOf(TempNum));
+					calcStack = Math.Parse(TempOp, calcStack);
 				} else {
 					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
 				}
