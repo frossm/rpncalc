@@ -28,6 +28,7 @@ package org.fross.rpncalc;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Stack;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -645,14 +646,17 @@ public class StackCommands {
 	/**
 	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
 	 * 
+	 * The approach is to determine the index of the undo stack we'll be "undoing" back to and then restore the undo stack
+	 * from that location to the main stack
+	 * 
 	 */
 	public static void cmdUndo(StackObj calcStack, String arg) {
 		Output.debugPrint("Undoing command");
 		int lineNum = 0;	// Undo line number NOT the position on the stack. That is one less.
 
-		// Determine if a line number was provided
+		// Determine if an "undo back to" line number was provided. If not use the last entry
 		try {
-			lineNum = Integer.parseInt(arg);
+			lineNum = Integer.parseInt(arg);  // This is a line number so is one more than the index number
 
 			// Ensure number provided as > 0 and less than the size of the undo stack
 			if (lineNum <= 0 || lineNum > calcStack.undoSize()) {
@@ -669,17 +673,19 @@ public class StackCommands {
 			}
 		}
 
-		Output.debugPrint("  - Restoring back to line number: " + lineNum);
+		Output.debugPrint("  - Restoring back to line number: " + lineNum + "  |  index number: " + (lineNum - 1));
 
 		if (calcStack.undoSize() >= 1) {
-			// Save current calcStack to the undoStack
-			calcStack.saveUndo();
+			// Replace the calcStack items with the correct undo stack ones
+			Stack<Stack<Double>> currentUndoStack = calcStack.undoGet();
+			calcStack.replaceStack(currentUndoStack.get(lineNum - 1));
 
-			// Clear the stack items after lineNum
-			for (int i = (calcStack.undoSize() - 1); i >= lineNum - 1; i--) {
-				Output.debugPrint("  - Removing later undo stack at line " + (i + 1) + " / position: " + i + ":  " + calcStack.undoGet(i));
-				calcStack.undoRemove(i);
+			// Discard the items in the Undo stack after the selected index
+			for (int i = calcStack.undoSize(); i > lineNum - 1; i--) {
+				Output.debugPrint("  - Removing unneeded undo stack item at line " + (i) + " / index: " + (i-1) + ":  " + calcStack.undoGet(i - 1));
+				calcStack.undoRemove(i - 1);
 			}
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
 		}

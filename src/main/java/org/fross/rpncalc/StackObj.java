@@ -31,11 +31,11 @@ import java.util.Stack;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
-public class StackObj {
+public class StackObj implements Cloneable {
 	// private static final long serialVersionUID = 1L; // Required for Serialization Warning
 
-	Stack<Double> calcStack = new Stack<>();
-	Stack<Stack<Double>> undoStack = new Stack<>();
+	protected Stack<Double> calcStack = new Stack<>();
+	protected Stack<Stack<Double>> undoStack = new Stack<>();
 
 	/**
 	 * clear(): Remove all items from the calculator stack
@@ -47,6 +47,14 @@ public class StackObj {
 
 		// Clear the stack
 		calcStack.clear();
+	}
+
+	/**
+	 * clone(): Return a clone of the calcStack object
+	 */
+	@Override
+	public StackObj clone() throws CloneNotSupportedException {
+		return (StackObj) super.clone();
 	}
 
 	/**
@@ -81,11 +89,11 @@ public class StackObj {
 	}
 
 	/**
-	 * overwriteStack(): Replace the existing calc stack in this object with the one provided
+	 * replaceStack(): Replace the existing calc stack with the provided one
 	 * 
 	 * @param stk
 	 */
-	public void overwriteStack(StackObj stk) {
+	public void replaceStack(Stack<Double> stk) {
 		calcStack.clear();
 		for (int i = 0; i < stk.size(); i++) {
 			calcStack.add(i, stk.get(i));
@@ -162,12 +170,21 @@ public class StackObj {
 	}
 
 	/**
+	 * undoGet(): If no index is provided, return the entire undo stack
+	 * 
+	 * @return
+	 */
+	public Stack<Stack<Double>> undoGet() {
+		return undoStack;
+	}
+
+	/**
 	 * undoRemove(): Remove the undo stack item at the index provided
 	 * 
 	 * @param index
 	 */
 	public void undoRemove(int index) {
-		calcStack.remove(index);
+		undoStack.remove(index);
 	}
 
 	/**

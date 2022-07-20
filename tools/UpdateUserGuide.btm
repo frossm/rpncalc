@@ -17,4 +17,3 @@ cd RPNCalc-UserGuide
 echocolor WHITE "  - Copying the book"
 copy ..\..\rpncalc\mdbook\RPNCalc-UserGuide\* . /e/s/v/q
 cd ..
-

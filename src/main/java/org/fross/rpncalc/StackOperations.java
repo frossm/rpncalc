@@ -99,7 +99,7 @@ public class StackOperations {
 			break;
 
 		case "undo":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack" + "-".repeat(Main.PROGRAMWIDTH - 11));
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack for Stack #: " + StackManagement.QueryCurrentStackNum() + "-".repeat(Main.PROGRAMWIDTH - 26));
 			for (int i = 0; i < calcStack.undoSize(); i++) {
 				String sn = String.format("%02d:  %s", i + 1, calcStack.undoGet(i));
 				Output.printColorln(Ansi.Color.CYAN, sn);
@@ -158,14 +158,22 @@ public class StackOperations {
 	 * 
 	 */
 	public static void cmdSwapStack(StackObj calcStack, StackObj calcStack2) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		Output.debugPrint("Swapping primary and secondary stack");
-		StackObj calcStackTemp = calcStack;
-		calcStack = calcStack2;
-		calcStack2 = calcStackTemp;
+
+		// Swap the stacks from the objects into their new homes
+		StackObj tempStack = new StackObj();
+		tempStack.calcStack = calcStack.calcStack;
+		tempStack.undoStack = calcStack.undoStack;
+
+		calcStack.calcStack = calcStack2.calcStack;
+		calcStack.undoStack = calcStack2.undoStack;
+
+		calcStack2.calcStack = tempStack.calcStack;
+		calcStack2.undoStack = tempStack.undoStack;
+
+		// Update the current stack number for the status line refresh
 		StackManagement.ToggleCurrentStackNum();
+
 	}
 
 	/**

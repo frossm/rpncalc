@@ -1,4 +1,6 @@
+mdbook/RPNCalc-UserGuide
 target/
+build/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -9,5 +11,3 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 .README.md.html
-
-mdbook/book
