@@ -1,0 +1,20 @@
+:: Build the book
+echocolor YELLOW "Building the User Guide"
+cd mdbook
+mdbook clean
+mdbook build
+echo.
+
+echocolor YELLOW "Moving User Guide to frossm.github.io
+
+:: Move the book
+cd ..\..\frossm.github.io
+echocolor WHITE "  - Removing old RPNCalc-UserGuide directory"
+del /E /S /T /X /Y /Z /K /Q /Nnt RPNCalc-UserGuide
+mkdir RPNCalc-UserGuide
+cd RPNCalc-UserGuide
+
+echocolor WHITE "  - Copying the book"
+copy ..\..\rpncalc\mdbook\RPNCalc-UserGuide\* . /e/s/v/q
+cd ..
+
