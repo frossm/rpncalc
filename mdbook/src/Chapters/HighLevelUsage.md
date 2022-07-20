@@ -6,11 +6,15 @@ RPNCalc is a command line application that must be run from a console / command 
 
 There are various command line switches that can be used when starting the program as are detailed in the `Command Line Options` page.  They generally exist so that aliases can be used to control several key parameters.  
 
-Once inside the program, you'll be presented a prompt where numbers, operands, and commands may be entered.  Numbers will be added to the stack which you can think of a stack of plates.  The top stack item (represented by `line1` in the program).  You can think of this stack of plates as a Last In First Out (LIFO) arrangement.
+Once inside the program, you'll be presented a prompt where numbers, operands, and commands may be entered.  Numbers will be added to the stack which you can think of as an upside down stack of plates.  The top stack item (represented by `line1` in the program) is on the bottom.  You can think of this stack of plates as a Last In First Out (LIFO) arrangement.
 
-For example, you could enter `2 [ENTER]` it would be in the `line1` position and would be on the top of the stack.  If you then enter `3 [ENTER]` the `2` would move up and the `3` would then be on `line1` and be on the top of the stack.  You can then enter in an operand, such as `+` to perform the action on the items opn the top of the stack.  To continue our example, pressing `+ [ENTER]` would take the top two items off of the stack, add them, and put the result back on top of the stack.  
+For example, you could enter `2 [ENTER]` it would be in the `line1` position and would be on the top of the stack.  If you then enter `3 [ENTER]` the `2` would move up go `line2` and the `3` would then be on `line1` and be on the top of the stack.  You can then enter in an operand, such as `+` to perform the action on the items opn the top of the stack. To continue our example, pressing `+ [ENTER]` would take the top two items off of the stack, add them, and put the result back on top of the stack (`line1`).  
 
-I'll go into a bit more detail below on using stacks, but it's fairly easy and intutive.  Once you get the hang of it, you'll regret having to use a standard calculator in the future.
+I'll go into a bit more detail below on using stacks, but it's fairly easy and intutive.  Once you get the hang of it, you'll regret having to use a standard calculator in the future.  
+
+#### Why is the stack "upside down?"
+
+One question I get with RPNCalc is why is the top of the stack on the bottom?  The reason is that it's simply more intutitive.  The command line is on the bottom.  You are usually dealing with the top of the stack so having `line1` directly above makes sense.  Also, for some operations, the order is important (think subtraction or division).  Having `line1` "underneath" `line2` is easy to understand as that's how we learned to do subtraction.  `line1` is subtracted from `line2`.
 
 ### Decimals & Fractions
 

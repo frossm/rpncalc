@@ -31,9 +31,10 @@ If you have not heard of reverse Polish notation, or just have a passion for var
 
 <img align="right" width="150" src ="https://github.com/frossm/rpncalc/raw/master/graphics/PostIt-200x200.jpg">
 
-Over the years I've used various RPN calculators, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one back in 2011.  One key goal was to make it extensible so I could easily add new features, constants, and capabilities.  A second goal was to allow it to run everywhere I needed it to run, which is mostly Windows and Linux.  Therefore it's written in Java, it should run just about anywhere Java is supported.  And, while this calculator doesn't have ***every*** function a complex calculator would have, it has the basics covered.
+I studied Engineering in college and used the HP15C calculator (yes, I'm old.) I grew to love RPN and over the years I've used various RPN calculators, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one back in 2011.  
 
-If there are ideas, suggestions, or complaints, drop me an email at RPNCalc@fross.org or leave a comment in the GitHub issues tracker.  I am continually adding new capabilities to it when the need arises.
+One key goal was to make it extensible so I could easily add new features, constants, and capabilities.  A second goal was to allow it to run everywhere I needed it to run, which is mostly Windows and Linux.  Therefore it's written in Java, it should run just about anywhere Java is supported.  And, while this calculator doesn't have ***every*** function a complex calculator would have, it has the basics covered.
+
 
 ## Contact Options & Links
 
