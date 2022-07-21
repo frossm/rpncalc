@@ -1,5 +1,5 @@
 /******************************************************************************
- * RPNCalc
+/ * RPNCalc
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
@@ -298,6 +298,8 @@ public class CommandParser {
 
 		// Display Alignment
 		case "a":
+		case "align":
+		case "alignment":
 			try {
 				StackOperations.cmdAlign(cmdInputParam.charAt(0));
 			} catch (StringIndexOutOfBoundsException ex) {

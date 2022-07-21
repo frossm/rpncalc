@@ -14,7 +14,7 @@ Operational commands are commands that do not directly impact your stack numbers
 |import FILENAME|With `import` RPNCalc will replace the current stack with one loaded from a file.  The file format is simple, just one number per line.  Do not include any comments or alphanumeric/special characters.  Just one number per line with the last number being `line1` - just like the display in RPNCalc|
 |ss|Swap the current stack with the secondary. The primary and secondary stacks are described in the Stacks section.  Executing `ss` again will swap them back.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
 |debug|Toggle debug mode which will display additional information on what's happening internally in the program.  Same as the `-D` command line switch.  Probably not the useful for a normal user|
-|a l <br> a d <br> a r| Align the display output to be `l(eft)`, `d(ecimal)`, or `r(ight)`.  This is the same as the `-a <l, d, r>` command line switch|
+|a l <br> a d <br> a r| Align the display output to be `l(eft)`, `d(ecimal)`, or `r(ight)`.  This is the same as the `-a <l, d, r>` command line switch. `align` or `alignment` may also be used|
 |ver| Display the current version number and copyright as well as the latest GitHub release.  This is equivalent to the `-v` command line option.  Users of Snap installations will automatically be up to date.|
 |h <br> ?|`h` or `?` will display the in-program help page|
 |cx|`cx` will clear the stack and then exit the program|
