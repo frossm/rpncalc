@@ -177,13 +177,13 @@ public class CommandParser {
 		// Convert inches to millimeters
 		case "in2mm":
 		case "2mm":
-			StackConversions.cmdConvert2MM(calcStack);
+			StackConversions.cmdConvertIN2MM(calcStack);
 			break;
 
 		// Convert millimeters to inches
 		case "mm2in":
 		case "2in":
-			StackConversions.cmdConvert2IN(calcStack);
+			StackConversions.cmdConvertMM2IN(calcStack);
 			break;
 
 		// Convert to Radians

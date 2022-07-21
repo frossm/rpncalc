@@ -37,7 +37,13 @@ public class StackConversions {
 	 * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
 	 * 
 	 */
-	public static void cmdConvert2MM(StackObj calcStack) {
+	public static void cmdConvertIN2MM(StackObj calcStack) {
+		// Verify at least one elements exists
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
@@ -49,7 +55,13 @@ public class StackConversions {
 	 * cmdConvertIN(): Assumes Line1 is in millimeters and converts to inches
 	 * 
 	 */
-	public static void cmdConvert2IN(StackObj calcStack) {
+	public static void cmdConvertMM2IN(StackObj calcStack) {
+		// Verify at least one elements exists
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 

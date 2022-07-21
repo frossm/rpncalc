@@ -222,12 +222,13 @@ public class Main {
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
 			int maxDigitsBeforeDecimal = 0;
+			int maxLenOfNumbers = 0;
 
 			// Display the dashed status line
 			DisplayStatusLine();
 
 			// Loop through the stack and count the max digits before the decimal for use with the decimal
-			// alignment mode
+			// alignment mode & overall length for right alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
 				int decimalIndex = Format.Comma(calcStack.get(k)).indexOf(".");
 				// If current stack item has more digits ahead of decimal make that the max.
@@ -235,7 +236,15 @@ public class Main {
 				if (maxDigitsBeforeDecimal < decimalIndex) {
 					maxDigitsBeforeDecimal = decimalIndex;
 				}
+
+				// Determine the length of the longest item in the stack for right alignment
+				if (Format.Comma(calcStack.get(k)).length() > maxLenOfNumbers) {
+					maxLenOfNumbers = Format.Comma(calcStack.get(k)).length();
+				}
 			}
+
+			Output.debugPrint("Max digits before the decimal: " + maxDigitsBeforeDecimal);
+			Output.debugPrint("Max length of longest item in stack: " + maxLenOfNumbers);
 
 			// Display the current stack contents
 			for (int i = 0; i < calcStack.size(); i++) {
@@ -254,8 +263,7 @@ public class Main {
 					sn = Format.Comma(calcStack.get(i));
 
 				} else if (displayAlignment == 'r') {
-					// Add a few extra digits to maxDigitsBeforeDecimal
-					sn = String.format("%" + (maxDigitsBeforeDecimal + 7) + "s", Format.Comma(calcStack.get(i)));
+					sn = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i)));
 
 				} else {
 					sn = Format.Comma(calcStack.get(i));

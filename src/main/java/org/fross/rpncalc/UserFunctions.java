@@ -50,10 +50,18 @@ public class UserFunctions {
 		// Determine the record command that was given
 		try {
 			if (args.toLowerCase().trim().startsWith("on")) {
-				recordingEnabled = true;
+				if (recordingEnabled == false) {
+					recordingEnabled = true;
+				} else {
+					Output.printColorln(Ansi.Color.RED, "Recording is already turned on");
+				}
 			} else if (args.toLowerCase().trim().startsWith("off")) {
-				recordingEnabled = false;
-				SaveRecordingToPrefs();
+				if (recordingEnabled == true) {
+					recordingEnabled = false;
+					SaveRecordingToPrefs();
+				} else {
+					Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
+				}
 			} else {
 				Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
 				return;

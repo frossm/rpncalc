@@ -106,7 +106,7 @@ public class StackObj implements Cloneable {
 	 * @return
 	 */
 	public Double peek() {
-		return calcStack.get(0);
+		return calcStack.peek();
 	}
 
 	/**
