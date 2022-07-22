@@ -1,4 +1,4 @@
-<img align="right" width="150" src="../Images/Constants.png">
+<img align="right" width="125" src="../Images/Constants.png">
 
 # Constants
 

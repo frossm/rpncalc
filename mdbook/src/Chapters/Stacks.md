@@ -1,4 +1,4 @@
-<img align="right" width="200" src="../Images/Plates.png">
+<img align="right" width="150" src="../Images/Plates.png">
 
 # Stacks
 
