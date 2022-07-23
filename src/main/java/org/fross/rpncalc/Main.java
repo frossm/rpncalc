@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
@@ -48,17 +49,23 @@ import gnu.getopt.Getopt;
 public class Main {
 	// Class Constants (or pseudo constants)
 	public static final String PROPERTIES_FILE = "app.properties";
-	public static int PROGRAMWIDTH = 80;
 	public static int PROGRAM_MINIMUM_WIDTH = 46;
+	public static int CONFIG_DEFAULT_PROGRAM_WIDTH = 80;
+	public static int CONFIG_DEFAULT_MEMORY_SLOTS = 10;
+	public static String CONFIG_DEFAULT_ALIGNMENT = "l";
 	public static String VERSION;
 	public static String COPYRIGHT;
 
 	// Class Variables
-	static char displayAlignment = 'l';
 	static Scanner scanner = new Scanner(System.in);
 	static boolean ProcessCommandLoop = true;
 	static StackObj calcStack = new StackObj();
 	static StackObj calcStack2 = new StackObj();
+
+	// Configuration Values
+	static int configProgramWidth = -1;
+	static int configMemorySlots = -1;
+	static String configAlignment = "Error";
 
 	/**
 	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it
@@ -73,7 +80,7 @@ public class Main {
 		String sfUndo = String.format("Undo:%02d", calcStack.undoSize());
 
 		// Determine how many dashes to use after remove space for the undo and stack name
-		int numDashes = PROGRAMWIDTH - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
+		int numDashes = configProgramWidth - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
 
 		// [Recording] appears if it's turned on. Make room if it's enabled
 		if (UserFunctions.recordingEnabled == true)
@@ -109,6 +116,7 @@ public class Main {
 		String cmdInput = "";		// What the user enters
 		String cmdInputCmd = "";	// The first field. The command.
 		String cmdInputParam = "";	// The remaining string. Parameters
+		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config"); // Persistent configuration settings
 
 		// Process application level properties file
 		// Update properties from Maven at build time:
@@ -123,50 +131,32 @@ public class Main {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
 		}
 
+		// Add default values to the configuration if none exist
+		if (prefConfig.get("alignment", "none") == "none") {
+			prefConfig.put("alignment", CONFIG_DEFAULT_ALIGNMENT);
+		}
+		if (prefConfig.getInt("programwidth", -1) == -1) {
+			prefConfig.putInt("programwidth", CONFIG_DEFAULT_PROGRAM_WIDTH);
+		}
+		if (prefConfig.getInt("memoryslots", -1) == -1) {
+			prefConfig.putInt("memoryslots", CONFIG_DEFAULT_MEMORY_SLOTS);
+		}
+
+		// Set configuration variables from preferences
+		configProgramWidth = prefConfig.getInt("programwidth", -1);
+		configMemorySlots = prefConfig.getInt("memoryslots", -1);
+		configAlignment = prefConfig.get("alignment", "Error");
+
 		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:a:m:w:vzh?");
+		Getopt optG = new Getopt("RPNCalc", args, "Dl:vzh?");
 		while ((optionEntry = optG.getopt()) != -1) {
 			switch (optionEntry) {
 			case 'D': // Debug Mode
 				Debug.enable();
 				break;
+
 			case 'l':
 				StackManagement.SetLoadedStack(String.valueOf(optG.getOptarg()));
-				break;
-			case 'a':
-				if (optG.getOptarg().charAt(0) == 'r') {
-					Output.debugPrint("RIGHT alignment selected");
-					displayAlignment = 'r';
-				} else if (optG.getOptarg().charAt(0) == 'd') {
-					Output.debugPrint("DECIMAL alignment selected");
-					displayAlignment = 'd';
-				} else if (optG.getOptarg().charAt(0) == 'l') {
-					Output.debugPrint("LEFT alignment selected");
-					displayAlignment = 'l';
-				} else {
-					Output.printColorln(Ansi.Color.RED, "ERROR: The -a alignment must be either a 'l', 'r', or 'd'");
-					Help.Display();
-					System.exit(0);
-					break;
-				}
-				break;
-
-			case 'm':
-				StackMemory.SetMaxMemorySlots(optG.getOptarg());
-				break;
-
-			case 'w':
-				try {
-					int newSize = Integer.parseInt(optG.getOptarg());
-					if (newSize < PROGRAM_MINIMUM_WIDTH) {
-						Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + (PROGRAM_MINIMUM_WIDTH) + ". Setting width to that value.");
-						PROGRAMWIDTH = PROGRAM_MINIMUM_WIDTH;
-					} else {
-						PROGRAMWIDTH = newSize;
-					}
-				} catch (NumberFormatException ex) {
-					Output.fatalError("Incorrect width value provided: '" + optG.getOptarg() + "'", 2);
-				}
 				break;
 
 			case 'v': // Display current program version and latest GitHub release
@@ -200,8 +190,9 @@ public class Main {
 		Output.debugPrint("Command Line Options");
 		Output.debugPrint("  -D:  " + Debug.query());
 		Output.debugPrint("  -l:  " + StackManagement.QueryLoadedStack());
-		Output.debugPrint("  -a:  " + displayAlignment);
-		Output.debugPrint("  -w:  " + PROGRAMWIDTH);
+		Output.debugPrint("  -a:  " + configAlignment);
+		Output.debugPrint("  -w:  " + configProgramWidth);
+		Output.debugPrint("  -m:  " + configMemorySlots);
 		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
 
 		// Restore the items in the memory slots during startup
@@ -213,11 +204,11 @@ public class Main {
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
 		// Display the initial program header information
-		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(PROGRAMWIDTH - 2) + "+");
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "RPN Calculator  v" + VERSION, "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, COPYRIGHT, "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "Enter command 'h' for help details", "|", "|"));
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(PROGRAMWIDTH, "", "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(configProgramWidth - 2) + "+");
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "RPN Calculator  v" + VERSION, "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, COPYRIGHT, "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "Enter command 'h' for help details", "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "", "|", "|"));
 
 		// Start Main Command Loop
 		while (ProcessCommandLoop == true) {
@@ -254,7 +245,7 @@ public class Main {
 				Output.printColor(Ansi.Color.CYAN, sn);
 
 				// Configure the alignment based on the -a: option
-				if (displayAlignment == 'd') {
+				if (configAlignment.compareTo("d") == 0) {
 					// Put in spaces to align the decimals
 					int decimalLocation = Format.Comma(calcStack.get(i)).indexOf(".");
 					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation; k++) {
@@ -262,7 +253,7 @@ public class Main {
 					}
 					sn = Format.Comma(calcStack.get(i));
 
-				} else if (displayAlignment == 'r') {
+				} else if (configAlignment.compareTo("r") == 0) {
 					sn = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i)));
 
 				} else {
@@ -316,6 +307,5 @@ public class Main {
 		StackManagement.SaveStack(calcStack, "1");
 		StackManagement.SaveStack(calcStack2, "2");
 
-	} // End Main
-
-} // End Class
+	}
+}

@@ -271,7 +271,7 @@ public class CommandParser {
 		/*******************************************************************************
 		 * Stack Operational Commands
 		 ******************************************************************************/
-		// List - Supported commands are "stacks" | "mem" | "undo"
+		// List
 		case "list":
 			StackOperations.cmdList(calcStack, cmdInputParam);
 			break;
@@ -296,15 +296,14 @@ public class CommandParser {
 			StackOperations.cmdDebug();
 			break;
 
-		// Display Alignment
-		case "a":
-		case "align":
-		case "alignment":
-			try {
-				StackOperations.cmdAlign(cmdInputParam.charAt(0));
-			} catch (StringIndexOutOfBoundsException ex) {
-				Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
-			}
+		// Set configuration options
+		case "set":
+			StackOperations.cmdSet(cmdInputParam);
+			break;
+			
+		// Reset configuration to defaults
+		case "reset":
+			StackOperations.cmdReset();
 			break;
 
 		// Version

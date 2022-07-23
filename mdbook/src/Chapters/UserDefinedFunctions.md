@@ -14,7 +14,7 @@ User defined functions can be deleted with the `func del NAME` command or you ca
 
 Functions are global and can work across any stack.  They are saved in the preferences system and will be reloaded when RPNCalc starts.  They are saved immediatly after you give a new recording a name and press enter.
 
-When you execute a function, the steps of that function are executed one after the other.  Therefore when you execute `undo` you will undo back through your function step by step. You do not `undo` the entire function in one command.  Of course you can always run `undo NUM` where num is the steps to undo.
+When you execute a function, the steps of that function are executed one after the other.  Therefore when you execute `undo` you will undo back through your function step by step. You do not `undo` the entire function in one command.  Of course you can always run `undo NUM` where `NUM` is the steps to undo.
 
 The following commands can be entered during a recording, but are not recorded.
 - frac
@@ -30,7 +30,7 @@ The following commands can be entered during a recording, but are not recorded.
 |-------|-----------|
 |record on<br>rec on|Turn on recording.  Most commands and numbers entered after record is enabled will be saved.  There are some that are excluded from being recorded as detailed above|
 |record off<br>rec off| Turn off recording.  The user will be prompted to enter in a name for this function and that name will be used to run it in the future.  If you do not enter in a name the recording is canceled and  nothing will be saved|
-|func del NAME|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`.  Undo will not recover a deleted function|
+|func del `NAME`|Delete a saved function.  The name must match the one given when saved.  A list of functions can be viewed with `list func`.  Undo will not recover a deleted function|
 |func delall|Delete all saved user defined functions. Please note that undo will not recover deleted functions|
 
 ### Example

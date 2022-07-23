@@ -32,11 +32,8 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class StackMemory {
-	// Class Constants
-	private static final int DEFAULT_MEMORY_SLOTS = 10;	 // Number of memory slots available for mem command
-
 	// Class Variables
-	protected static Double[] memorySlots = new Double[DEFAULT_MEMORY_SLOTS];
+	protected static Double[] memorySlots = new Double[Main.configMemorySlots];
 
 	/**
 	 * SetMaxMemorySlots(): Sets the number of memory slot available to be used
@@ -44,19 +41,24 @@ public class StackMemory {
 	 * @param numSlots
 	 */
 	public static void SetMaxMemorySlots(String slots) {
+		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 		try {
-			int numSlots = Integer.parseInt(slots);
+			int requestedSlots = Integer.parseInt(slots);
 
 			// Ensure we always have at least one memory slot
-			if (numSlots >= 1) {
-				memorySlots = new Double[numSlots];
+			if (requestedSlots >= 1) {
+				memorySlots = new Double[requestedSlots];
 			} else {
 				Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
 				memorySlots = new Double[1];
 			}
+			
+			Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + slots + "'");
+			Main.configMemorySlots = Integer.parseInt(slots);
+			prefConfig.putInt("memoryslots", Integer.parseInt(slots));
 
 		} catch (NumberFormatException ex) {
-			Output.fatalError("Could not set the number of memory slots to '" + slots + "'", 4);
+			Output.printColorln(Ansi.Color.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
 		}
 	}
 

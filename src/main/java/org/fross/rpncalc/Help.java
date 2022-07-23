@@ -54,9 +54,6 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load a saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
-		Output.printColorln(Ansi.Color.WHITE, " -a [lrd] Alignment of numbers. (l)eft, (r)ight, or (d)ecmimal. Default: left");
-		Output.printColorln(Ansi.Color.WHITE, " -m num   Set the number of memory slots.  Default value is 10");
-		Output.printColorln(Ansi.Color.WHITE, " -w num   Set Width of header / status line.  Default is 70 characters");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information as well as latest GitHub release");
 		Output.printColorln(Ansi.Color.WHITE, " -z       Disable colorized output");
 		Output.printColorln(Ansi.Color.WHITE, " -h | ?   Show this help information.  Either key will work.");
@@ -130,15 +127,14 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ss           Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " load NAME    Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " import FILE  Replace current stack with file contents (one number per line)");
-		Output.printColorln(Ansi.Color.WHITE, " a [lrd]      Set display alignment to be (l)eft, (r)ight, or (d)ecmial");
+		Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
+		Output.printColorln(Ansi.Color.WHITE, " set width num     Set the width of the display to num");
+		Output.printColorln(Ansi.Color.WHITE, " set memslots num  Set the number of memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " reset        Resets configurations set with 'set' back to defaults");
 		Output.printColorln(Ansi.Color.WHITE, " debug        Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver          Display the current version");
 		Output.printColorln(Ansi.Color.WHITE, " h|?          Show this help information.  Either key will work.");
 		Output.printColorln(Ansi.Color.WHITE, " cx|x|exit    Exit Calculator.  'cx' will clear before exiting");
 
-		Output.printColorln(Ansi.Color.YELLOW, "\nNotes:");
-		Output.printColorln(Ansi.Color.WHITE, "  - You can place an operand at the end of a number & execute in one step.");
-		Output.printColorln(Ansi.Color.WHITE, "    Example adding two numbers:   2 <enter> 3+ <enter>   will produce 5.");
-		Output.printColorln(Ansi.Color.CYAN, "  - See GitHub homepage (listed above) for more detailed usage instructions\n");
 	}
 }

@@ -39,21 +39,6 @@ import org.fusesource.jansi.Ansi;
 
 public class StackOperations {
 	/**
-	 * cmdAlign(alignment): Set display alignment to l(eft), r(ight), or d(ecimal)
-	 * 
-	 * @param al
-	 */
-	public static void cmdAlign(char al) {
-		// Validate we have one of the right values
-		if (al != 'l' && al != 'd' && al != 'r') {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must provide an alignment value of 'l'eft, 'd'ecimal, or 'r'ight");
-		} else {
-			Output.debugPrint("Setting display alignment to: " + al);
-			Main.displayAlignment = al;
-		}
-	}
-
-	/**
 	 * cmdDebug(): Toggle debug setting
 	 * 
 	 */
@@ -82,35 +67,36 @@ public class StackOperations {
 		case "stack":
 			String[] stks = StackManagement.QueryStacks();
 
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks" + "-".repeat(Main.PROGRAMWIDTH - 13));
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Saved Stacks" + "-".repeat(Main.configProgramWidth - 13));
 			for (int i = 0; i < stks.length; i++) {
 				String sn = String.format("%02d:  %s", i, stks[i]);
 				Output.printColorln(Ansi.Color.CYAN, sn);
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
 			break;
 
 		case "mem":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots" + "-".repeat(Main.PROGRAMWIDTH - 13));
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Memory Slots" + "-".repeat(Main.configProgramWidth - 13));
 			for (int i = 0; i < StackMemory.memorySlots.length; i++) {
 				Output.printColorln(Ansi.Color.CYAN, "Slot #" + i + ": " + StackMemory.memorySlots[i]);
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
 			break;
 
 		case "undo":
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack for Stack #: " + StackManagement.QueryCurrentStackNum() + "-".repeat(Main.PROGRAMWIDTH - 26));
+			Output.printColorln(Ansi.Color.YELLOW,
+					"\n-Undo Stack for Stack #: " + StackManagement.QueryCurrentStackNum() + "-".repeat(Main.configProgramWidth - 26));
 			for (int i = 0; i < calcStack.undoSize(); i++) {
 				String sn = String.format("%02d:  %s", i + 1, calcStack.undoGet(i));
 				Output.printColorln(Ansi.Color.CYAN, sn);
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
 			break;
 
 		case "function":
 		case "func":
 			try {
-				Output.printColorln(Ansi.Color.YELLOW, "\n-User Defined Functions" + "-".repeat(Main.PROGRAMWIDTH - 23));
+				Output.printColorln(Ansi.Color.YELLOW, "\n-User Defined Functions" + "-".repeat(Main.configProgramWidth - 23));
 				Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
 
 				// Loop through each function (child of the root) and display the details
@@ -126,7 +112,7 @@ public class StackOperations {
 				Output.printColorln(Ansi.Color.RED, "Error reading preferences system");
 				return;
 			}
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
 			break;
 
 		default:
@@ -151,6 +137,84 @@ public class StackOperations {
 		// Load new stack
 		calcStack = StackManagement.RestoreStack("1");
 		calcStack2 = StackManagement.RestoreStack("2");
+	}
+
+	/**
+	 * set(): Set configuration Options
+	 * 
+	 */
+	public static void cmdSet(String arg) {
+		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+		String[] argParse = null;
+		String command = "";
+		String value = "";
+
+		// Parse the provided argument into a command and value
+		try {
+			argParse = arg.split(" ");
+			command = argParse[0];
+			value = argParse[1];
+
+			Output.debugPrint("Set Command: '" + command + "'");
+			Output.debugPrint("Set Value:   '" + value + "'");
+
+			switch (command.toLowerCase()) {
+			case "align":
+			case "alignment":
+				if (value.toLowerCase().compareTo("l") != 0 && value.toLowerCase().compareTo("d") != 0 && value.toLowerCase().compareTo("r") != 0) {
+					Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for mem command usage");
+					return;
+				}
+				Main.configAlignment = value;
+				prefConfig.put("alignment", value);
+				Output.printColorln(Ansi.Color.CYAN, "Alignment set to '" + value + "'");
+				break;
+
+			case "width":
+				if (Integer.parseInt(value) < Main.PROGRAM_MINIMUM_WIDTH) {
+					Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + (Main.PROGRAM_MINIMUM_WIDTH) + ". Setting width to that value.");
+					value = "" + Main.PROGRAM_MINIMUM_WIDTH;
+				}
+				Main.configProgramWidth = Integer.parseInt(value);
+				prefConfig.putInt("programwidth", Integer.parseInt(value));
+				Output.printColorln(Ansi.Color.CYAN, "Program Width set to '" + value + "'");
+				break;
+
+			case "mem":
+			case "memslots":
+			case "memoryslots":
+				StackMemory.SetMaxMemorySlots(value);
+				break;
+
+			default:
+				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown set command: '" + command + "'");
+				return;
+			}
+
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "Error parsing set command: 'set " + arg + "'  See help for mem command usage");
+			return;
+		}
+	}
+
+	/**
+	 * reset(): Resets the configuration variables back to default
+	 */
+	public static void cmdReset() {
+		Output.printColorln(Ansi.Color.CYAN, "Alignment, Width, and Memory slots reset to default values");
+		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+
+		// Reset Alignment
+		prefConfig.put("alignment", Main.CONFIG_DEFAULT_ALIGNMENT);
+		Main.configAlignment = Main.CONFIG_DEFAULT_ALIGNMENT;
+
+		// Reset Width
+		prefConfig.putInt("programwidth", Main.CONFIG_DEFAULT_PROGRAM_WIDTH);
+		Main.configProgramWidth = Main.CONFIG_DEFAULT_PROGRAM_WIDTH;
+
+		// Reset the number of Memory Slots
+		prefConfig.putInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
+		Main.configMemorySlots = Main.CONFIG_DEFAULT_MEMORY_SLOTS;
 	}
 
 	/**

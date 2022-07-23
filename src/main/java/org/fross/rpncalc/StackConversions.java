@@ -134,9 +134,9 @@ public class StackConversions {
 
 		// Output the fractional display
 		String stackHeader = "-Fraction (1/" + (denominator * gcd) + ")";
-		Output.printColorln(Ansi.Color.YELLOW, "\n" + stackHeader + "-".repeat(Main.PROGRAMWIDTH - stackHeader.length()));
+		Output.printColorln(Ansi.Color.YELLOW, "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length()));
 		Output.printColorln(Ansi.Color.WHITE, " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
-		Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.PROGRAMWIDTH) + "\n");
+		Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
 	}
 
 	/**

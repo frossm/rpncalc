@@ -25,14 +25,8 @@ Saving and loading stacks is fundamental to RPNCalc.  You can have as many named
 
 It is safe to delete these if you wish to stay tidy, but of course you'll lose any saved stacks, memory slots, and user defined functions which are stored there.  They will be recreated again when RPNCalc is started.
 
-Each stack you load (default or a named stack) actually has 2 internal stacks defined; a primary and secondary.  You can quickly swap stacks using the swap stack `ss` command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The primary and secondadry stack data is saved and restored upon loading the stack.
+Each stack you load (default or a named stack) actually has 2 internal stacks defined; a primary and secondary.  You can quickly swap stacks using the swap stack `ss` command.  For example, you are working on something and need to do a few calculations that you wish to keep separate from your main work.  You can swap stacks, do the work, then swap back.  They do not communicate in any way and are distinctly separate.  The primary and secondadry stack data is saved and restored upon loading the stack.  The primary and secondary stacks have their own unique undo stacks as of version 4.5.  This was long standing issue that's now been resolved.
 
 When you start up RPNCalc, you can load a named stack with the `-l name` command.  If the stack `name` exists, it will be loaded.  If it does not exist, the stack will be created and when you leave the program it will be saved.  You can always view what stack you are using in the lower right of the dashed bar. The `:1` or `:2` after the stack name will tell you if you are on the primary or secondary stack.
 
 As a side note, both stacks and memory slots are saved during shutdown.  While the data in a stack is specific to that stack, memory slots are global.  The default stack items are restored at startup (or whatever stack you choose to load with `-l name`.)  Memory slots are also restored at startup.  `list mem` will show the values in current memory, and `list stacks` will show the saved stacks available to load.
-
-<hr>
-
-***`Please note that the undo functionality is shared (and shouldn't be) so you could undo on one stack and restore the other.  I'm looking into correcting this or perhaps removing the secondary stack as I'm not sure how much it's being used`***
-
-<hr>

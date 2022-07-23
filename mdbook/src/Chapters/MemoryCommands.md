@@ -2,7 +2,11 @@
 
 # Memory Commands
 
-The memory capabilities are fairly flexible.  By default, there are 10 memory slots you can use (numbers 0 - 9).  This amount can be increased with the `-m NumSlots` command.  But be aware, that if you use the `-m` command, it only applies for that instance.  
+The memory capabilities are fairly flexible.  By default, there are 10 memory slots you can use (numbers 0 - 9).  This amount can be increased with the `set memslots` command.  If you increase or decrease the number of memory slots, it is persistent across RPNCalc executions.  You can change it as will, but if you decrease the number of slots, anything held in the "no longer there" slots will be discarded.
+
+For example, say you `set memslots 20` and store values in all of them.  If you later `set memslots 10`, the values in the upper 10 slots will be gone.
+
+The operational command `reset` will set the number of memory slots back to the default of 10.
 
 The basic need to is to save a value from the current `line1` into a memory slot and copy it back later.  The memory slots are saved between program executions so if you need it in a later session, it will be there.  It's saved in the Java preferences system as discussed earlier.
 

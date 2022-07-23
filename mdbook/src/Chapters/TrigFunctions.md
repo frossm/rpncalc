@@ -4,8 +4,6 @@
 
 RPNCalc does not consider itself a scientific calculator (at least not currently).  However, it's certainly beyond a very basic calculator.  The trigonometry commands listed here are very basic, but do fill a need if you need to do a few basic calculations.  
 
-
-
 Lastly, I'm happy to add more capabilities if there is a desire (and an offer to help test).
 
 |Command|Description|
