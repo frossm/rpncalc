@@ -4,7 +4,7 @@
 
 Operands are the standard symbols used for basic mathematics on numbers.  The following is the list of operands supported by RPNCalc.  These are also supported by the NumOps shortcut described below.  
 
-With the exception of the addition (`+`) and multiplication (`*`) operand the order is important.  It's faily intuitive when you look at it in the calculator, but refer to the following table if needed.
+With the exception of the addition (`+`) and multiplication (`*`) operand the order is important.  It's fairly intuitive when you look at it in the calculator, but refer to the following table if needed.
 
 |Operand|Math|Description|
 |-------|----|-------|

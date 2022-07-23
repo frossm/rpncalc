@@ -1,6 +1,6 @@
 <img align="right" width="175" src="../Images/Acknowlegement.png">
 
-# Acknowlegements
+# Acknowledgments
 
 This is a simple user guide for a tiny piece of software.  But I have used other people's art and applications to create RPNCalc and I want to ensure I recognize them and give them thanks.
 
@@ -28,7 +28,7 @@ I'd like to thank FlatIcon.com for their non-commercial use license for the top 
 
 - User Defined Functions: <a href="https://www.flaticon.com/free-icons/path" title="path icons">Path icons created by Freepik - Flaticon</a>
 
-- Acknowlegement: <a href="https://www.flaticon.com/free-icons/agreement" title="agreement icons">Agreement icons created by Freepik - Flaticon</a>
+- Acknowledgment: <a href="https://www.flaticon.com/free-icons/agreement" title="agreement icons">Agreement icons created by Freepik - Flaticon</a>
 
 - Other icons were sourced from [IconFinder](https://iconfinder.com) and/or were licensed via the [Creative Commons License](https://creativecommons.org/licenses/)
 

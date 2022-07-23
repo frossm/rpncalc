@@ -8,9 +8,9 @@ I've included the ones I use the most, but I'm happy to include others if you'd 
 
 ## Fractional Display
 
-The RPNCalc stack only contains decimal numbers.  Therefore, we can't directly store fractional values on the stack.  If a fraction is entered, it is converted to a decimal.  There could be a loss of percision when this is done.  For example, there is no exact fractional equivalent for `PI` much like there is no exact decimal equivalent for `1/3`.  However, the difference is usually so small that it's acceptable.
+The RPNCalc stack only contains decimal numbers.  Therefore, we can't directly store fractional values on the stack.  If a fraction is entered, it is converted to a decimal.  There could be a loss of precision when this is done.  For example, there is no exact fractional equivalent for `PI` much like there is no exact decimal equivalent for `1/3`.  However, the difference is usually so small that it's acceptable.
 
-The `frac [base]` command takes the item on the top of the stack (`line1`) and displays the fractional equivalent.  `[base]` sets the percision of the calculation. If a `base` is not provided, RPNCalc will use 1/64 as the default.  
+The `frac [base]` command takes the item on the top of the stack (`line1`) and displays the fractional equivalent.  `[base]` sets the precision of the calculation. If a `base` is not provided, RPNCalc will use 1/64 as the default.  
 
 **For example**, if you had `1.1234` on the stack, `frac` would show you `1.1234 is approximately 1 1/8`  So base was given so it would have used a base of 64 (which means maximum granularity would be 1/64) and auto reduced the result which is why you get the `1 1/8`. 
 
