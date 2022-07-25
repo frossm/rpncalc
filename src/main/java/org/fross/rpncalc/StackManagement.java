@@ -134,8 +134,8 @@ public class StackManagement {
 	}
 
 	/**
-	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is important for
-	 * saving and restoring data from the preferences system
+	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is important for saving and
+	 * restoring data from the preferences system
 	 * 
 	 * @return
 	 */

@@ -33,7 +33,7 @@ import org.fusesource.jansi.Ansi;
 /**
  * Help(): Display the help page when users enters 'h' or '?' command.
  * 
- * @author michael.d.fross
+ * @author Michael Fross (michael@fross.org)
  *
  */
 public class Help {

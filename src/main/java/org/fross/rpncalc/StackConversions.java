@@ -70,36 +70,19 @@ public class StackConversions {
 	}
 
 	/**
-	 * cmdDegree(): Convert line1 from radians to degrees
-	 * 
-	 * Formula: degrees = radians * (180 / PI)
-	 */
-	public static void cmdDegree(StackObj calcStack) {
-		// Ensure we have something on the stack
-		if (calcStack.isEmpty()) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
-			return;
-		}
-
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
-		// Pull the value, convert and push back
-		calcStack.push(calcStack.pop() * (180 / java.lang.Math.PI));
-	}
-
-	/**
-	 * cmdFraction(): Display the last stack item as a fraction with a minimum base of the provided number. For example,
-	 * sending 64 would produce a fraction of 1/64th but will be reduced if possible.
+	 * cmdFraction(): Display the last stack item as a fraction with a minimum base of the provided number. For example, sending
+	 * 64 would produce a fraction of 1/64th but will be reduced if possible.
 	 * 
 	 * @param param
 	 */
-	public static void cmdFraction(StackObj calcStack, String param) {
+	public static String[] cmdFraction(StackObj calcStack, String param) {
+		String[] outputString = new String[4];
+
 		// Make sure the stack is not empty
 		// Verify we have an item on the stack
 		if (calcStack.isEmpty()) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
-			return;
+			return outputString;
 		}
 
 		// The base to convert the fraction to. For example, 64 = 1/64th
@@ -111,7 +94,7 @@ public class StackConversions {
 				denominator = Integer.parseInt(param);
 		} catch (NumberFormatException ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: '" + param + "' is not a valid denominator");
-			return;
+			return outputString;
 		}
 
 		// Determine the integer portion of the number
@@ -134,9 +117,31 @@ public class StackConversions {
 
 		// Output the fractional display
 		String stackHeader = "-Fraction (1/" + (denominator * gcd) + ")";
-		Output.printColorln(Ansi.Color.YELLOW, "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length()));
-		Output.printColorln(Ansi.Color.WHITE, " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'");
-		Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
+		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
+		outputString[1] = " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
+		outputString[2] = "-".repeat(Main.configProgramWidth) + "\n";
+		outputString[3] = integerPart + " " + numerator + "/" + denominator;
+
+		return outputString;
+	}
+
+	/**
+	 * cmdDegree(): Convert line1 from radians to degrees
+	 * 
+	 * Formula: degrees = radians * (180 / PI)
+	 */
+	public static void cmdRad2Deg(StackObj calcStack) {
+		// Ensure we have something on the stack
+		if (calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Pull the value, convert and push back
+		calcStack.push(calcStack.pop() * (180 / java.lang.Math.PI));
 	}
 
 	/**
@@ -144,7 +149,7 @@ public class StackConversions {
 	 * 
 	 * Formula: radians = degrees (PI/180)
 	 */
-	public static void cmdRadian(StackObj calcStack) {
+	public static void cmdDeg2Rad(StackObj calcStack) {
 		// Ensure we have something on the stack
 		if (calcStack.isEmpty()) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");

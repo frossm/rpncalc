@@ -52,7 +52,7 @@ public class StackMemory {
 				Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
 				memorySlots = new Double[1];
 			}
-			
+
 			Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + slots + "'");
 			Main.configMemorySlots = Integer.parseInt(slots);
 			prefConfig.putInt("memoryslots", Integer.parseInt(slots));

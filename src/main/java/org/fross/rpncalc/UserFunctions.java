@@ -144,8 +144,7 @@ public class UserFunctions {
 	}
 
 	/**
-	 * RemoveItemFromRecording(): Remove the value at index from the recording Most likely used if user inputs an invalid
-	 * command
+	 * RemoveItemFromRecording(): Remove the value at index from the recording Most likely used if user inputs an invalid command
 	 * 
 	 * @param index
 	 */
@@ -247,7 +246,7 @@ public class UserFunctions {
 	 * 
 	 * @param func
 	 */
-	public static void FunctionRun(String functionName) {
+	public static void FunctionRun(StackObj calcStack, StackObj calcStack2, String functionName) {
 		Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
 		Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
 
@@ -270,7 +269,7 @@ public class UserFunctions {
 			}
 
 			Output.debugPrint("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
-			CommandParser.Parse(Main.calcStack, Main.calcStack2, fullCommand, command, param);
+			CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
 		}
 
 	}

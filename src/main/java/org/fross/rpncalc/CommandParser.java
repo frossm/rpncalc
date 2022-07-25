@@ -147,11 +147,13 @@ public class CommandParser {
 		// Minimum Value
 		case "min":
 			StackCommands.cmdMinimum(calcStack);
+			Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + calcStack.peek());
 			break;
 
 		// Maximum Value
 		case "max":
 			StackCommands.cmdMaximum(calcStack);
+			Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + calcStack.peek());
 			break;
 
 		// Random Number Generation
@@ -171,7 +173,10 @@ public class CommandParser {
 		// Fraction
 		case "frac":
 		case "fraction":
-			StackConversions.cmdFraction(calcStack, cmdInputParam);
+			String[] outString = StackConversions.cmdFraction(calcStack, cmdInputParam);
+			Output.printColorln(Ansi.Color.YELLOW, outString[0]);
+			Output.printColorln(Ansi.Color.WHITE, outString[1]);
+			Output.printColorln(Ansi.Color.YELLOW, outString[2]);
 			break;
 
 		// Convert inches to millimeters
@@ -189,13 +194,13 @@ public class CommandParser {
 		// Convert to Radians
 		case "deg2rad":
 		case "2rad":
-			StackConversions.cmdRadian(calcStack);
+			StackConversions.cmdDeg2Rad(calcStack);
 			break;
 
 		// Convert to Degrees
 		case "rad2deg":
 		case "2deg":
-			StackConversions.cmdDegree(calcStack);
+			StackConversions.cmdRad2Deg(calcStack);
 			break;
 
 		/*******************************************************************************
@@ -235,22 +240,26 @@ public class CommandParser {
 		// Add PI
 		case "pi":
 			StackConstants.cmdPI(calcStack);
+			Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
 			break;
 
 		// Add PHI also known as The Golden Ratio
 		case "phi":
 			StackConstants.cmdPHI(calcStack);
+			Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, added to the stack");
 			break;
 
 		// Euler's number
 		case "euler":
 			StackConstants.cmdEuler(calcStack);
+			Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
 			break;
 
 		// Speed of light
 		case "sol":
 		case "speedoflight":
 			StackConstants.cmdSpeedOfLight(calcStack);
+			Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
 			break;
 
 		/*******************************************************************************
@@ -300,7 +309,7 @@ public class CommandParser {
 		case "set":
 			StackOperations.cmdSet(cmdInputParam);
 			break;
-			
+
 		// Reset configuration to defaults
 		case "reset":
 			StackOperations.cmdReset();
@@ -350,7 +359,7 @@ public class CommandParser {
 			// Verify user defined function exists
 			if (UserFunctions.FunctionExists(cmdInput) == true) {
 				Output.debugPrint("Executing User Defined Function: '" + cmdInput + "'");
-				UserFunctions.FunctionRun(cmdInput);
+				UserFunctions.FunctionRun(calcStack, calcStack2, cmdInput);
 
 				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction.
 			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
@@ -393,7 +402,7 @@ public class CommandParser {
 				calcStack.saveUndo();
 
 				Output.debugPrint("Adding number '" + cmdInputCmd + "' onto the stack");
-				Main.calcStack.push(Double.valueOf(cmdInputCmd));
+				calcStack.push(Double.valueOf(cmdInputCmd));
 
 				// Handle numbers with a single operand at the end (a NumOp)
 			} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {

@@ -30,10 +30,10 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 /**
- * Math: The math class contains the methods to parse the operands entered and perform the math tasks. It was done
- * strictly so it will be easily to grow the list of functions at a later date.
+ * Math: The math class contains the methods to parse the operands entered and perform the math tasks. It was done strictly
+ * so it will be easily to grow the list of functions at a later date.
  * 
- * @author michael.d.fross
+ * @author Michael Fross (michael@fross.org)
  *
  */
 public class Math {

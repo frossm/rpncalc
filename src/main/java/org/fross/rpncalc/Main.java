@@ -34,16 +34,13 @@ import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
-import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
-
-import gnu.getopt.Getopt;
 
 /**
  * Main - Main program execution class
  * 
- * @author michael.d.fross
+ * @author Michael Fross (michael@fross.org)
  *
  */
 public class Main {
@@ -63,13 +60,13 @@ public class Main {
 	static StackObj calcStack2 = new StackObj();
 
 	// Configuration Values
-	static int configProgramWidth = -1;
-	static int configMemorySlots = -1;
-	static String configAlignment = "Error";
+	static int configProgramWidth = 80;
+	static int configMemorySlots = 10;
+	static String configAlignment = "l";
 
 	/**
-	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it
-	 * also inserts the loaded stack and spaces everything correctly.
+	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it also
+	 * inserts the loaded stack and spaces everything correctly.
 	 * 
 	 */
 	public static void DisplayStatusLine() {
@@ -106,13 +103,12 @@ public class Main {
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
 
-	/**
+	/*
 	 * Main(): Start of program and holds main command loop
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int optionEntry;
 		String cmdInput = "";		// What the user enters
 		String cmdInputCmd = "";	// The first field. The command.
 		String cmdInputParam = "";	// The remaining string. Parameters
@@ -147,43 +143,8 @@ public class Main {
 		configMemorySlots = prefConfig.getInt("memoryslots", -1);
 		configAlignment = prefConfig.get("alignment", "Error");
 
-		// Process Command Line Options and set flags where needed
-		Getopt optG = new Getopt("RPNCalc", args, "Dl:vzh?");
-		while ((optionEntry = optG.getopt()) != -1) {
-			switch (optionEntry) {
-			case 'D': // Debug Mode
-				Debug.enable();
-				break;
-
-			case 'l':
-				StackManagement.SetLoadedStack(String.valueOf(optG.getOptarg()));
-				break;
-
-			case 'v': // Display current program version and latest GitHub release
-				Output.printColorln(Ansi.Color.WHITE, "RPNCalc Version: v" + VERSION);
-				Output.printColorln(Ansi.Color.CYAN, COPYRIGHT);
-				Output.printColorln(Ansi.Color.WHITE, "\nLatest Release on GitHub: " + GitHub.updateCheck("rpncalc"));
-				Output.printColorln(Ansi.Color.CYAN, "HomePage: https://github.com/frossm/rpncalc");
-				System.exit(0);
-				break;
-
-			case 'z': // Disable colorized output
-				Output.enableColor(false);
-				break;
-
-			case '?': // Help
-			case 'h':
-				Help.Display();
-				System.exit(0);
-				break;
-
-			default:
-				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown Command Line Option: '" + (char) optionEntry + "'");
-				Help.Display();
-				System.exit(0);
-				break;
-			}
-		}
+		// Process Command Line Options
+		CommandLineArgs.ProcessCommandLine(args);
 
 		// Display some useful information about the environment if in Debug Mode
 		Debug.displaySysInfo();

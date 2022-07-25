@@ -31,8 +31,7 @@ import org.fusesource.jansi.Ansi;
 
 public class StackTrig {
 	/**
-	 * cmdTrig(): Calculate the trig functions. There was so much overlap in the functions I consolidated the operations
-	 * together
+	 * cmdTrig(): Calculate the trig functions. There was so much overlap in the functions I consolidated the operations together
 	 * 
 	 * @param cmd
 	 * @param arg

@@ -368,7 +368,6 @@ public class StackCommands {
 		}
 
 		// Add lowest value to the stack
-		Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + largestValue);
 		calcStack.push(largestValue);
 	}
 
@@ -388,7 +387,6 @@ public class StackCommands {
 		}
 
 		// Add lowest value to the stack
-		Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + lowestValue);
 		calcStack.push(lowestValue);
 	}
 
@@ -445,8 +443,8 @@ public class StackCommands {
 	}
 
 	/**
-	 * cmdRandom(): Produce a random number between the Low and High values provided. If there are no parameters, produce
-	 * the number between 1 and 100.
+	 * cmdRandom(): Produce a random number between the Low and High values provided. If there are no parameters, produce the
+	 * number between 1 and 100.
 	 * 
 	 * @param param
 	 */
@@ -646,8 +644,8 @@ public class StackCommands {
 	/**
 	 * cmdUndo(): Undo last change be restoring the last stack from the undo stack
 	 * 
-	 * The approach is to determine the index of the undo stack we'll be "undoing" back to and then restore the undo stack
-	 * from that location to the main stack
+	 * The approach is to determine the index of the undo stack we'll be "undoing" back to and then restore the undo stack from
+	 * that location to the main stack
 	 * 
 	 */
 	public static void cmdUndo(StackObj calcStack, String arg) {
@@ -682,7 +680,7 @@ public class StackCommands {
 
 			// Discard the items in the Undo stack after the selected index
 			for (int i = calcStack.undoSize(); i > lineNum - 1; i--) {
-				Output.debugPrint("  - Removing unneeded undo stack item at line " + (i) + " / index: " + (i-1) + ":  " + calcStack.undoGet(i - 1));
+				Output.debugPrint("  - Removing unneeded undo stack item at line " + (i) + " / index: " + (i - 1) + ":  " + calcStack.undoGet(i - 1));
 				calcStack.undoRemove(i - 1);
 			}
 

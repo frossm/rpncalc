@@ -26,9 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
-
 public class StackConstants {
 
 	/**
@@ -39,7 +36,6 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
 		calcStack.push(java.lang.Math.PI);
 	}
 
@@ -51,7 +47,6 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, added to the stack");
 		calcStack.push(1.61803398874989);
 	}
 
@@ -63,7 +58,6 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
 		calcStack.push(2.7182818284590452353602874713527);
 	}
 
@@ -75,7 +69,6 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
 		calcStack.push((double) 299792458);
 	}
 }

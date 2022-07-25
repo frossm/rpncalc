@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.5.0</version>
+	<version>4.5.1</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -40,8 +38,6 @@
 	</properties>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -51,52 +47,51 @@
 
 		<plugins>
 			<plugin>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.10.1</version>
 				<configuration>
 					<release>${maven.compiler.release}</release>
 				</configuration>
 			</plugin>
 
-			<!-- Build single executable "Fat Jar" with all dependencies added -->
+			<!-- Maven's Automated Testing Surefire plugin -->
 			<plugin>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>org.fross.${project.name}.Main</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</execution>
-				</executions>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M7</version>
 			</plugin>
 
-			<!-- Move the jar with dependencies output to one simply called the <ProjectName>.jar -->
+			<!-- Build single executable "Fat Jar" with all dependencies included -->
 			<plugin>
-				<groupId>com.coderplus.maven.plugins</groupId>
-				<artifactId>copy-rename-maven-plugin</artifactId>
-				<version>1.0.1</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
-						<id>rename-file</id>
 						<phase>package</phase>
 						<goals>
-							<goal>rename</goal>
+							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<sourceFile>${basedir}/target/${project.artifactId}-${project.version}-jar-with-dependencies.jar</sourceFile>
-							<destinationFile>${basedir}/target/${project.artifactId}.jar</destinationFile>
+							<finalName>${project.name}</finalName>
+							<artifactSet>
+								<excludes>
+									<exclude>org.junit.jupiter</exclude>
+								</excludes>
+							</artifactSet>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>org.fross.${project.name}.Main</Main-Class>
+										<Built-By>Michael Fross (michael@fross.org)</Built-By>
+										<X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+										<X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+									</manifestEntries>
+								</transformer>
+							</transformers>
 						</configuration>
 					</execution>
 				</executions>
@@ -119,7 +114,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Update snapcraft.yaml file to set the program and library version -->
+			<!-- Update snapcraft.yaml file to set the program and library versions -->
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -164,11 +159,11 @@
 	</repositories>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/gnu.getopt/java-getopt -->
+		<!-- https://mvnrepository.com/artifact/com.beust/jcommander -->
 		<dependency>
-			<groupId>gnu.getopt</groupId>
-			<artifactId>java-getopt</artifactId>
-			<version>1.0.13</version>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+			<version>1.82</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
@@ -182,6 +177,16 @@
 			<groupId>org.fross</groupId>
 			<artifactId>library</artifactId>
 			<version>2022.06.28</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
+		<!-- This will pull in needed junit5 dependencies  -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.9.0-RC1</version>
+			<scope>test</scope>
+
 		</dependency>
 
 	</dependencies>

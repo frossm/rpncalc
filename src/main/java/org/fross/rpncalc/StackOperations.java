@@ -279,8 +279,7 @@ public class StackOperations {
 	/**
 	 * StackSwapItems(): Swap two elements in the stack
 	 * 
-	 * Approach: Empty the stack into an array. Replace the existing values with the swapped values. Then recreate the
-	 * stack.
+	 * Approach: Empty the stack into an array. Replace the existing values with the swapped values. Then recreate the stack.
 	 * 
 	 * @param stk
 	 * @param item1
