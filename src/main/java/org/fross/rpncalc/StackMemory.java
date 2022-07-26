@@ -53,7 +53,6 @@ public class StackMemory {
 				memorySlots = new Double[1];
 			}
 
-			Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + slots + "'");
 			Main.configMemorySlots = Integer.parseInt(slots);
 			prefConfig.putInt("memoryslots", Integer.parseInt(slots));
 

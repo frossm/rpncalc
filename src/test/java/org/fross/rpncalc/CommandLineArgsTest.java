@@ -4,6 +4,7 @@
 package org.fross.rpncalc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,10 +31,10 @@ class CommandLineArgsTest {
 		jc = JCommander.newBuilder().addObject(cli).build();
 		jc.parse(argv1);
 
-		assertEquals(true, cli.clDebug);
-		assertEquals(true, cli.clNoColor);
-		assertEquals(true, cli.clVersion);
-		assertEquals(true, cli.clHelp);
+		assertTrue(cli.clDebug);
+		assertTrue(cli.clNoColor);
+		assertTrue(cli.clVersion);
+		assertTrue(cli.clHelp);
 		assertEquals("LoadFile.txt", cli.clLoad);
 
 	}

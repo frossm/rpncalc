@@ -118,7 +118,7 @@ public class UserFunctions {
 	 * 
 	 * @return
 	 */
-	public static boolean RecordingEnabled() {
+	public static boolean recordingIsEnabled() {
 		return recordingEnabled;
 	}
 

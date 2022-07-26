@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.5.1</version>
+	<version>4.5.2</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -47,7 +47,9 @@
 
 		<plugins>
 			<plugin>
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+				<!-- ========================================================================================== -->
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin          -->
+				<!-- ========================================================================================== -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.10.1</version>
@@ -56,7 +58,9 @@
 				</configuration>
 			</plugin>
 
-			<!-- Maven's Automated Testing Surefire plugin -->
+			<!-- ========================================================================================== -->
+			<!-- Maven's Automated Testing Surefire plugin                                                  -->
+			<!-- ========================================================================================== -->
 			<plugin>
 				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
 				<groupId>org.apache.maven.plugins</groupId>
@@ -64,7 +68,9 @@
 				<version>3.0.0-M7</version>
 			</plugin>
 
-			<!-- Build single executable "Fat Jar" with all dependencies included -->
+			<!-- ========================================================================================== -->
+			<!-- Build single executable "FatJar" with all dependencies included using Apache Shade         -->
+			<!-- ========================================================================================== -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -77,18 +83,23 @@
 						</goals>
 						<configuration>
 							<finalName>${project.name}</finalName>
-							<artifactSet>
-								<excludes>
-									<exclude>org.junit.jupiter</exclude>
-								</excludes>
-							</artifactSet>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>org.junit.jupiter</exclude>
+										<exclude>META-INF/MANIFEST.MF</exclude>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
 										<Main-Class>org.fross.${project.name}.Main</Main-Class>
-										<Built-By>Michael Fross (michael@fross.org)</Built-By>
-										<X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
-										<X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
 									</manifestEntries>
 								</transformer>
 							</transformers>
@@ -97,9 +108,11 @@
 				</executions>
 			</plugin>
 
-			<!-- Set a pom variable to the version numbers of the defined dependencies -->
-			<!-- https://gitlab.com/josh-cain/dependencyversion-maven-plugin -->
-			<!-- Example: The library dependency version reference is ${org.fross:library:jar.version} -->
+			<!-- ========================================================================================== -->
+			<!-- Set a pom variable to the version numbers of the defined dependencies                      -->
+			<!-- https://gitlab.com/josh-cain/dependencyversion-maven-plugin                                -->
+			<!-- Example: The library dependency version reference is ${org.fross:library:jar.version}      -->
+			<!-- ========================================================================================== -->
 			<plugin>
 				<groupId>io.reformanda.semper</groupId>
 				<artifactId>dependencyversion-maven-plugin</artifactId>
@@ -114,7 +127,9 @@
 				</executions>
 			</plugin>
 
+			<!-- ========================================================================================== -->
 			<!-- Update snapcraft.yaml file to set the program and library versions -->
+			<!-- ========================================================================================== -->
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -184,7 +199,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.9.0-RC1</version>
+			<version>5.9.0</version>
 			<scope>test</scope>
 
 		</dependency>

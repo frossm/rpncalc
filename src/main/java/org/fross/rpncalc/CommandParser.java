@@ -292,7 +292,7 @@ public class CommandParser {
 
 		// Import stack from disk
 		case "import":
-			StackOperations.LoadStackFromDisk(calcStack, cmdInputParam);
+			StackOperations.importStackFromDisk(calcStack, cmdInputParam);
 			break;
 
 		// Swap Stack

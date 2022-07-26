@@ -184,6 +184,7 @@ public class StackOperations {
 			case "memslots":
 			case "memoryslots":
 				StackMemory.SetMaxMemorySlots(value);
+				Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + value + "'");
 				break;
 
 			default:
@@ -213,6 +214,7 @@ public class StackOperations {
 		Main.configProgramWidth = Main.CONFIG_DEFAULT_PROGRAM_WIDTH;
 
 		// Reset the number of Memory Slots
+		StackMemory.SetMaxMemorySlots(Main.CONFIG_DEFAULT_MEMORY_SLOTS + "");
 		prefConfig.putInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
 		Main.configMemorySlots = Main.CONFIG_DEFAULT_MEMORY_SLOTS;
 	}
@@ -245,7 +247,7 @@ public class StackOperations {
 	 * 
 	 * @param arg
 	 */
-	public static void LoadStackFromDisk(StackObj calcStack, String arg) {
+	public static void importStackFromDisk(StackObj calcStack, String arg) {
 		String fileName = arg.trim();
 
 		try {

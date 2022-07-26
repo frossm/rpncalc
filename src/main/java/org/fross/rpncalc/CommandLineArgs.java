@@ -53,7 +53,7 @@ public class CommandLineArgs {
 	boolean clDebug = false;
 
 	@Parameter(names = { "-l", "--load" }, description = "Load saved stack file")
-	String clLoad = "stack.txt";
+	String clLoad = "";
 
 	// ---------------------------------------------------------------------------------------------
 	// Process command line parameters with the following methods
@@ -77,8 +77,10 @@ public class CommandLineArgs {
 			Debug.enable();
 
 		// Load Stack
-		if (cli.clLoad.isBlank()) {
+		if (!cli.clLoad.isBlank()) {
 			StackManagement.SetLoadedStack(cli.clLoad);
+		} else {
+			StackManagement.SetLoadedStack("default");
 		}
 
 		// Version Switch
