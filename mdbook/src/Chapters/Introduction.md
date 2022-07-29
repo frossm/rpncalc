@@ -1,30 +1,17 @@
 <p align="center"> <img width="1024" src ="https://github.com/frossm/rpncalc/raw/master/graphics/ReadmeHeader.jpg"> </p> 
 
 # INTRODUCTION
-RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator.  RPN calculators make it very simple to do complex calculations, especially if there are parentheses involved.  For a quick example, consider solving for x with the following:
+RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator.  RPN calculators make it very simple to do complex calculations, especially if there are parentheses involved.  In essence, you enter your numbers first, then the operator.
 
-`x = SQRT((((5+3) * 8)/2) ^ 6)`
+So, to add 2 and 3 to get 5, you would first add the number 2 to the stack:  `2 [Enter]`.  Then you would add 5 to the stack (pushing the 2 to the second position:  `3 [Enter]`.  Now, to add them y ou would enter: `+ [Enter]` and RPNCalc would remove the 2 and 3 from the stack, add them, and push 5 back onto the stack.
 
-This can be tricky with a traditional calculator.  However, with a RPN Calculator, to solve for x you would start on the inner calculation and work outwards by entering the following:
+The following example can be tricky to get your head around in a traditional calculator but is quite easy with RPN.  The chapter `What is an RPN Calculator` will go through solving this step by step.
 
-- `5`
-- `3`
-- `+`
-- `8`
-- `*`
-- `2`
-- `/`
-- `6`
-- `^`
-- `SQRT`
+`x = SQRT(((((5+3) * 8)/2) * (2+1)) ^ 2)`
 
-(This can also be dramatically shortened using the `NumOps` shortcut - see the `Operands` chapter)
+RPN is based on a Last In First Out (LIFO) stack framework which sounds complicated, but makes intuitive sense when you use it.  You can think of it as a stack of plates.  When you put one on the top of the stack, everyone other one shifts down by one. On a RPN calculator, there is no equal sign, but there is an enter key to put a value onto the stack.  The chapter on `Stacks` talks more about how this works with RPNCalc.
 
-RPN is based on a Last In First Out (LIFO) stack framework which sounds complicated, but makes intuitive sense when you use it.  On a RPN calculator, there is no equal sign, but there is an enter key to put a value onto the stack.  
-
-So, in the above example, when you enter **`5 [ENTER]`** , 5 is put on top of the stack.  You then enter **`3 [ENTER]`** which add that to the top.  5 is pushed down to 2nd.  When **`+`** is entered, the top two stack items are removed from the stack, added, and the result is placed on the top.  I'll talk more about stacks and how RPNCalc uses them in future chapters.
-
-If you have not heard of reverse Polish notation, or just have a passion for various calculator notations (and seriously, who doesn't?), you can read more about RPN on [Wikipedia](https://en.wikipedia.org/wiki/Reverse_Polish_notation).
+If you have not heard of reverse Polish notation, or just have a passion for various calculator notations (and seriously, who doesn't?), you can read more about RPN on [Wikipedia](https://en.wikipedia.org/wiki/Reverse_Polish_notation) or a (very) quick summary in the `What is an RPN Calculator` chapter.
 
 
 ## A Brief History of RPNCalc

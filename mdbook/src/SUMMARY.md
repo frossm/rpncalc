@@ -1,9 +1,10 @@
 # Summary
 
 - [Introduction](./Chapters/Introduction.md)
+- [What is an RPN Calculator](./Chapters/WhatIsRPN.md)
 - [Installation](./Chapters/Installation.md)
-- [High Level Usage](./Chapters/HighLevelUsage.md)
 - [Stacks](./Chapters/Stacks.md)
+- [High Level Usage](./Chapters/HighLevelUsage.md)
 - [Command Line Options](./Chapters/CommandLineOptions.md)
 - [Operands](./Chapters/Operands.md)
 - [Calculator Commands](./Chapters/CalculatorCommands.md)
