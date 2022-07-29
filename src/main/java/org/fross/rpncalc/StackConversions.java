@@ -78,10 +78,9 @@ public class StackConversions {
 	public static String[] cmdFraction(StackObj calcStack, String param) {
 		String[] outputString = new String[4];
 
-		// Make sure the stack is not empty
 		// Verify we have an item on the stack
-		if (calcStack.isEmpty()) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
 			return outputString;
 		}
 

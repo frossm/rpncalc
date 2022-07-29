@@ -34,6 +34,7 @@ import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
+import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -46,14 +47,15 @@ import org.fusesource.jansi.Ansi;
 public class Main {
 	// Class Constants (or pseudo constants)
 	public static final String PROPERTIES_FILE = "app.properties";
-	public static int PROGRAM_MINIMUM_WIDTH = 46;
-	public static int CONFIG_DEFAULT_PROGRAM_WIDTH = 80;
-	public static int CONFIG_DEFAULT_MEMORY_SLOTS = 10;
-	public static String CONFIG_DEFAULT_ALIGNMENT = "l";
+	public static final int PROGRAM_MINIMUM_WIDTH = 46;
+	public static final int CONFIG_DEFAULT_PROGRAM_WIDTH = 80;
+	public static final int CONFIG_DEFAULT_MEMORY_SLOTS = 10;
+	public static final String CONFIG_DEFAULT_ALIGNMENT = "l";
+
+	// Class Variables
 	public static String VERSION;
 	public static String COPYRIGHT;
 
-	// Class Variables
 	static Scanner scanner = new Scanner(System.in);
 	static boolean ProcessCommandLoop = true;
 	static StackObj calcStack = new StackObj();
@@ -63,6 +65,17 @@ public class Main {
 	static int configProgramWidth = 80;
 	static int configMemorySlots = 10;
 	static String configAlignment = "l";
+
+	/**
+	 * Display Version(): Show the program version, copyright, and latest GitHub release
+	 * 
+	 */
+	public static void DisplayVersion() {
+		Output.printColorln(Ansi.Color.WHITE, "RPNCalc Version: v" + Main.VERSION);
+		Output.printColorln(Ansi.Color.CYAN, Main.COPYRIGHT);
+		Output.printColorln(Ansi.Color.WHITE, "\nLatest Release on GitHub: " + GitHub.updateCheck("rpncalc"));
+		Output.printColorln(Ansi.Color.CYAN, "HomePage: https://github.com/frossm/rpncalc");
+	}
 
 	/**
 	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it also
@@ -80,7 +93,7 @@ public class Main {
 		int numDashes = configProgramWidth - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
 
 		// [Recording] appears if it's turned on. Make room if it's enabled
-		if (UserFunctions.recordingEnabled == true)
+		if (UserFunctions.recordingIsEnabled() == true)
 			numDashes -= 12;
 
 		// Print the StatusLine dashes
@@ -88,7 +101,7 @@ public class Main {
 		Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
 
 		// Print the StatusLine Data in chunks to be able to better control color output
-		if (UserFunctions.recordingEnabled == true) {
+		if (UserFunctions.recordingIsEnabled() == true) {
 			Output.printColor(Ansi.Color.CYAN, "[");
 			Output.printColor(Ansi.Color.RED, "Recording");
 			Output.printColor(Ansi.Color.CYAN, "]-");
@@ -109,9 +122,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String cmdInput = "";		// What the user enters
-		String cmdInputCmd = "";	// The first field. The command.
-		String cmdInputParam = "";	// The remaining string. Parameters
+		String cmdInput = "";		// What the user enters in totality
+		String cmdInputCmd = "";	// The first field - the command
+		String cmdInputParam = "";	// The remaining string - Parameters
 		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config"); // Persistent configuration settings
 
 		// Process application level properties file
@@ -127,7 +140,7 @@ public class Main {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
 		}
 
-		// Add default values to the configuration if none exist
+		// Add default values to the persistent configuration items if none exist
 		if (prefConfig.get("alignment", "none") == "none") {
 			prefConfig.put("alignment", CONFIG_DEFAULT_ALIGNMENT);
 		}
@@ -139,9 +152,9 @@ public class Main {
 		}
 
 		// Set configuration variables from preferences
-		configProgramWidth = prefConfig.getInt("programwidth", -1);
-		configMemorySlots = prefConfig.getInt("memoryslots", -1);
-		configAlignment = prefConfig.get("alignment", "Error");
+		configProgramWidth = prefConfig.getInt("programwidth", CONFIG_DEFAULT_PROGRAM_WIDTH);
+		configMemorySlots = prefConfig.getInt("memoryslots", CONFIG_DEFAULT_MEMORY_SLOTS);
+		configAlignment = prefConfig.get("alignment", CONFIG_DEFAULT_ALIGNMENT);
 
 		// Process Command Line Options
 		CommandLineArgs.ProcessCommandLine(args);
@@ -151,7 +164,6 @@ public class Main {
 		Output.debugPrint("Command Line Options");
 		Output.debugPrint("  -D:  " + Debug.query());
 		Output.debugPrint("  -l:  " + StackManagement.QueryLoadedStack());
-		Output.debugPrint("  -a:  " + configAlignment);
 		Output.debugPrint("  -w:  " + configProgramWidth);
 		Output.debugPrint("  -m:  " + configMemorySlots);
 		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
@@ -159,7 +171,7 @@ public class Main {
 		// Restore the items in the memory slots during startup
 		StackMemory.RestoreMemSlots();
 
-		// Pull the existing stacks from the preferences if they exist
+		// Restore the existing stacks from the preferences if they exist
 		calcStack = StackManagement.RestoreStack("1");
 		calcStack2 = StackManagement.RestoreStack("2");
 		Output.debugPrint("Elements in the Stack: " + calcStack.size());
@@ -183,8 +195,7 @@ public class Main {
 			// alignment mode & overall length for right alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
 				int decimalIndex = Format.Comma(calcStack.get(k)).indexOf(".");
-				// If current stack item has more digits ahead of decimal make that the max.
-				// Commas are included.
+				// If current stack item has more digits ahead of decimal make that the max - commas are included.
 				if (maxDigitsBeforeDecimal < decimalIndex) {
 					maxDigitsBeforeDecimal = decimalIndex;
 				}
@@ -195,8 +206,8 @@ public class Main {
 				}
 			}
 
-			Output.debugPrint("Max digits before the decimal: " + maxDigitsBeforeDecimal);
-			Output.debugPrint("Max length of longest item in stack: " + maxLenOfNumbers);
+			Output.debugPrint("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
+			Output.debugPrint("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
 
 			// Display the current stack contents
 			for (int i = 0; i < calcStack.size(); i++) {
@@ -205,7 +216,7 @@ public class Main {
 				String sn = String.format("%02d:  ", calcStack.size() - i);
 				Output.printColor(Ansi.Color.CYAN, sn);
 
-				// Configure the alignment based on the -a: option
+				// Configure the alignment
 				if (configAlignment.compareTo("d") == 0) {
 					// Put in spaces to align the decimals
 					int decimalLocation = Format.Comma(calcStack.get(i)).indexOf(".");
@@ -221,7 +232,6 @@ public class Main {
 					sn = Format.Comma(calcStack.get(i));
 				}
 
-				// Output.printColorln(Ansi.Color.WHITE, Math.Comma(calcStack.get(i)));
 				Output.printColorln(Ansi.Color.WHITE, sn);
 			}
 
@@ -242,10 +252,10 @@ public class Main {
 					continue;
 				}
 			}
-			Output.debugPrint("Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
+			Output.debugPrint("Input Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
-			if (UserFunctions.recordingEnabled == true) {
+			if (UserFunctions.recordingIsEnabled() == true) {
 				UserFunctions.RecordCommand(cmdInputCmd + " " + cmdInputParam);
 			}
 

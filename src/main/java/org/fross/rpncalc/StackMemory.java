@@ -40,7 +40,7 @@ public class StackMemory {
 	 * 
 	 * @param numSlots
 	 */
-	public static void SetMaxMemorySlots(String slots) {
+	public static boolean SetMaxMemorySlots(String slots) {
 		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 		try {
 			int requestedSlots = Integer.parseInt(slots);
@@ -58,7 +58,10 @@ public class StackMemory {
 
 		} catch (NumberFormatException ex) {
 			Output.printColorln(Ansi.Color.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
+			return false;
 		}
+		
+		return true;
 	}
 
 	/**

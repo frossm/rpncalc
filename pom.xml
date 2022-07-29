@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.5.3</version>
+	<version>4.5.4</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -60,9 +60,9 @@
 
 			<!-- ========================================================================================== -->
 			<!-- Maven's Automated Testing Surefire plugin                                                  -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin          -->
 			<!-- ========================================================================================== -->
 			<plugin>
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M7</version>
@@ -70,6 +70,7 @@
 
 			<!-- ========================================================================================== -->
 			<!-- Build single executable "FatJar" with all dependencies included using Apache Shade         -->
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-shade-plugin             -->
 			<!-- ========================================================================================== -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -109,14 +110,16 @@
 			</plugin>
 
 			<!-- ========================================================================================== -->
-			<!-- Set a pom variable to the version numbers of the defined dependencies                      -->
-			<!-- https://gitlab.com/josh-cain/dependencyversion-maven-plugin                                -->
-			<!-- Example: The library dependency version reference is ${org.fross:library:jar.version}      -->
+			<!-- Set a pom property to the version numbers of the defined dependencies                      -->
+			<!-- https://mvnrepository.com/artifact/io.reformanda.semper/dependencyversion-maven-plugin     -->
+			<!--                                                                                            -->
+			<!-- Reference: https://gitlab.com/josh-cain/dependencyversion-maven-plugin                     -->
+			<!-- Example: The library dependency version reference is: ${org.fross:library:jar.version}     -->
 			<!-- ========================================================================================== -->
 			<plugin>
 				<groupId>io.reformanda.semper</groupId>
 				<artifactId>dependencyversion-maven-plugin</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.1</version>
 				<executions>
 					<execution>
 						<id>set-all</id>
@@ -127,9 +130,10 @@
 				</executions>
 			</plugin>
 
-			<!-- ========================================================================================== -->
-			<!-- Update snapcraft.yaml file to set the program and library versions -->
-			<!-- ========================================================================================== -->
+			<!-- ============================================================================================== -->
+			<!-- Update snapcraft.yaml file to set the program and library versions                             -->
+			<!-- https://mvnrepository.com/artifact/com.google.code.maven-replacer-plugin/maven-replacer-plugin -->
+			<!-- ============================================================================================== -->
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -195,7 +199,7 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
-		<!-- This will pull in needed junit5 dependencies  -->
+		<!-- This will pull in needed junit5 dependencies and is all you need  -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>

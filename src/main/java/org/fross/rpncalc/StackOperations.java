@@ -183,8 +183,9 @@ public class StackOperations {
 			case "mem":
 			case "memslots":
 			case "memoryslots":
-				StackMemory.SetMaxMemorySlots(value);
-				Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + value + "'");
+				if (StackMemory.SetMaxMemorySlots(value) == true) {
+					Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + value + "'");
+				}
 				break;
 
 			default:

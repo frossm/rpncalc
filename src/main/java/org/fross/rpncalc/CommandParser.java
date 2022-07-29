@@ -26,6 +26,7 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -34,11 +35,14 @@ public class CommandParser {
 	/**
 	 * Parse(): Take the user input and send it to the executing function
 	 * 
+	 * @param calcStack
+	 * @param calcStack2
+	 * @param cmdInput
 	 * @param cmdInputCmd
 	 * @param cmdInputParam
 	 */
 	public static void Parse(StackObj calcStack, StackObj calcStack2, String cmdInput, String cmdInputCmd, String cmdInputParam) {
-		// Main switch statement to process user input and call the correct functions
+		// Massive switch statement to process user input and call the correct functions
 		switch (cmdInputCmd) {
 
 		/*******************************************************************************
@@ -146,14 +150,16 @@ public class CommandParser {
 
 		// Minimum Value
 		case "min":
-			StackCommands.cmdMinimum(calcStack);
-			Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + calcStack.peek());
+			if (StackCommands.cmdMinimum(calcStack) == true) {
+				Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + calcStack.peek());
+			}
 			break;
 
 		// Maximum Value
 		case "max":
-			StackCommands.cmdMaximum(calcStack);
-			Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + calcStack.peek());
+			if (StackCommands.cmdMaximum(calcStack) == true) {
+				Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + calcStack.peek());
+			}
 			break;
 
 		// Random Number Generation
@@ -285,7 +291,7 @@ public class CommandParser {
 			StackOperations.cmdList(calcStack, cmdInputParam);
 			break;
 
-		// Load
+		// Load new or existing stack
 		case "load":
 			StackOperations.cmdLoad(calcStack, calcStack2, cmdInputParam);
 			break;
@@ -318,8 +324,7 @@ public class CommandParser {
 		// Version
 		case "ver":
 		case "version":
-			Output.printColorln(Ansi.Color.YELLOW, "Version: v" + Main.VERSION);
-			Output.printColorln(Ansi.Color.CYAN, Main.COPYRIGHT);
+			Main.DisplayVersion();
 			break;
 
 		// Help
@@ -329,14 +334,9 @@ public class CommandParser {
 			Help.Display();
 			break;
 
-		// Clear & Exit
+		// Exit
 		case "cx":
 			calcStack.clear();
-			Output.debugPrint("Exiting Command Loop");
-			Main.ProcessCommandLoop = false;
-			break;
-
-		// Exit
 		case "x":
 		case "exit":
 			Output.debugPrint("Exiting Command Loop");

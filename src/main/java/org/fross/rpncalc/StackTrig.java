@@ -37,29 +37,28 @@ public class StackTrig {
 	 * @param arg
 	 */
 	public static void cmdTrig(StackObj calcStack, String cmd, String arg) {
+		// Ensure we have at least one item on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();		// Save current calcStack to the undoStack
 
 		Double angle = null;
 
-		// Ensure we have at least one value on the stack
-		if (calcStack.size() >= 1) {
-			try {
-				angle = calcStack.pop();
+		try {
+			angle = calcStack.pop();
 
-				// Calculations are done in radians. Convert if 'rad' is not provided as a parameter
-				if (arg.toLowerCase().charAt(0) != 'r') {
-					Output.printColorln(Ansi.Color.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
-					calcStack.push(angle);
-					return;
-				}
-			} catch (StringIndexOutOfBoundsException ex) {
-				angle = java.lang.Math.toRadians(angle);
+			// Calculations are done in radians. Convert if 'rad' is NOT provided as a parameter
+			if (arg.toLowerCase().charAt(0) != 'r') {
+				Output.printColorln(Ansi.Color.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
+				calcStack.push(angle);
+				return;
 			}
-
-		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
-			return;
+		} catch (StringIndexOutOfBoundsException ex) {
+			angle = java.lang.Math.toRadians(angle);
 		}
 
 		// Push the result back onto the stack
@@ -89,37 +88,37 @@ public class StackTrig {
 	 * @param arg
 	 */
 	public static void cmdArcTrig(StackObj calcStack, String cmd, String arg) {
+		// Ensure we have at least one item on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();		// Save current calcStack to the undoStack
 
 		Double result = null;
 		Double originalValue = null;
 
-		// Ensure we have at least one value on the stack
-		if (calcStack.size() >= 1) {
-			originalValue = calcStack.peek();
+		originalValue = calcStack.peek();
 
-			// Calculate the arc trig function
-			switch (cmd) {
-			case "asin":
-				result = java.lang.Math.asin(calcStack.pop());
-				break;
+		// Calculate the arc trig function
+		switch (cmd) {
+		case "asin":
+			result = java.lang.Math.asin(calcStack.pop());
+			break;
 
-			case "acos":
-				result = java.lang.Math.acos(calcStack.pop());
-				break;
+		case "acos":
+			result = java.lang.Math.acos(calcStack.pop());
+			break;
 
-			case "atan":
-				result = java.lang.Math.atan(calcStack.pop());
-				break;
+		case "atan":
+			result = java.lang.Math.atan(calcStack.pop());
+			break;
 
-			default:
-				Output.printColorln(Ansi.Color.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
-				calcStack.push(originalValue);
-				return;
-			}
-		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+		default:
+			Output.printColorln(Ansi.Color.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
+			calcStack.push(originalValue);
 			return;
 		}
 
@@ -142,9 +141,9 @@ public class StackTrig {
 	 * 
 	 */
 	public static void cmdHypotenuse(StackObj calcStack) {
-		// Ensure we have something on the stack
+		// Ensure we have two items on the stack
 		if (calcStack.size() < 2) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be two items on the stack");
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be two items on the stack to calculate the hypotenuse");
 			return;
 		}
 

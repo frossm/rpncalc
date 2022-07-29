@@ -21,7 +21,8 @@ class StackMemoryTest {
 		// Save current number of memory slots given changes are persistent
 		int currentSlots = StackMemory.memorySlots.length;
 
-		StackMemory.SetMaxMemorySlots("99");
+		boolean result = StackMemory.SetMaxMemorySlots("99");
+		assertTrue(result);
 		assertEquals(99, StackMemory.memorySlots.length);
 
 		// Set slots back to what they were originally

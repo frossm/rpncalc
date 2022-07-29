@@ -42,9 +42,6 @@ public class StackObj implements Cloneable {
 	 * 
 	 */
 	public void clear() {
-		// Save current calcStack to the undoStack
-		saveUndo();
-
 		// Clear the stack
 		calcStack.clear();
 	}
@@ -110,7 +107,7 @@ public class StackObj implements Cloneable {
 	}
 
 	/**
-	 * pop(): Remove and return the items on the top of the calculator stack
+	 * pop(): Remove and return the item on the top of the calculator stack
 	 * 
 	 * @return
 	 */

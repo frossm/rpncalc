@@ -40,6 +40,12 @@ public class StackCommands {
 	 * @param arg
 	 */
 	public static void cmdAddAll(StackObj calcStack, String arg) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least two items on the stack");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
@@ -77,20 +83,22 @@ public class StackCommands {
 	 * cmdAbsoluteValue(): Take the absolute value of the top stack item
 	 */
 	public static void cmdAbsoluteValue(StackObj calcStack) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		if (calcStack.size() >= 1) {
-			Output.debugPrint("Taking the absolute value of " + calcStack.peek());
+		Output.debugPrint("Taking the absolute value of " + calcStack.peek());
 
-			Double value = calcStack.pop();
-			if (value < 0) {
-				calcStack.push(value * -1);
-			} else {
-				calcStack.push(value);
-			}
+		Double value = calcStack.pop();
+		if (value < 0) {
+			calcStack.push(value * -1);
 		} else {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+			calcStack.push(value);
 		}
 	}
 
@@ -135,8 +143,6 @@ public class StackCommands {
 	 * cmdClean(): Clean the screen by clearing it and then showing existing stack
 	 */
 	public static void cmdClean() {
-		Output.debugPrint("Cleaning Screen");
-
 		// Rather than printing several hundred new lines, use the JANSI clear screen
 		Output.clearScreen();
 	}
@@ -148,10 +154,10 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("Clearing Stack");
+		// Empty the stack
 		calcStack.clear();
 
-		// Rather than printing several hundred new lines, use the JANSI clear screen
+		// Use JANSI clear screen
 		Output.clearScreen();
 	}
 
@@ -160,7 +166,8 @@ public class StackCommands {
 	 * 
 	 */
 	public static void cmdCopy(StackObj calcStack, String arg) {
-		int lineNum = 1;
+		// Line number to copy
+		int lineNumToCopy = 1;
 
 		// Ensure we have at least one number to copy
 		if (calcStack.size() < 1) {
@@ -170,7 +177,7 @@ public class StackCommands {
 
 		// Determine line number to copy
 		try {
-			lineNum = Integer.parseInt(arg);
+			lineNumToCopy = Integer.parseInt(arg);
 		} catch (NumberFormatException ex) {
 			if (!arg.isBlank()) {
 				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid line number");
@@ -181,19 +188,19 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("Copying line" + lineNum + " to line1");
+		Output.debugPrint("Copying line" + lineNumToCopy + " to line1");
 
 		// Copy the provided number if it's valid
 		try {
 			// Ensure the number entered is is valid
-			if (lineNum < 1 || lineNum > calcStack.size()) {
-				Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineNum);
+			if (lineNumToCopy < 1 || lineNumToCopy > calcStack.size()) {
+				Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineNumToCopy);
 			} else {
 				// Perform the copy
-				calcStack.push(calcStack.get(calcStack.size() - lineNum));
+				calcStack.push(calcStack.get(calcStack.size() - lineNumToCopy));
 			}
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element copy: '" + lineNum + "'");
+			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element copy: '" + lineNumToCopy + "'");
 			Output.debugPrint(e.getMessage());
 		}
 	}
@@ -270,7 +277,7 @@ public class StackCommands {
 		}
 
 		// Display Debug Output
-		Output.debugPrint("Rolls: '" + rolls + "' Die: '" + die + "'");
+		Output.debugPrint("Rolls: '" + rolls + "'  |  Die: '" + die + "'");
 
 		// Verify that the entered numbers are valid
 		if (die <= 0) {
@@ -293,12 +300,12 @@ public class StackCommands {
 	 * 
 	 */
 	public static void cmdFlipSign(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		if (calcStack.size() < 1) {
 			Output.printColorln(Ansi.Color.RED, "Error: There must be at least one item on the stack to flip it's sign");
 		} else {
+			// Save current calcStack to the undoStack
+			calcStack.saveUndo();
+
 			Output.debugPrint("Changing sign of last stack element");
 			calcStack.push(calcStack.pop() * -1);
 		}
@@ -308,14 +315,16 @@ public class StackCommands {
 	 * cmdInteger(): Take the integer value of the top stack item
 	 */
 	public static void cmdInteger(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		if (calcStack.size() >= 1) {
+			// Save current calcStack to the undoStack
+			calcStack.saveUndo();
+
 			Output.debugPrint("Taking the integer of " + calcStack.peek());
+
 			String stackItemString = calcStack.pop().toString();
 			int stackItemInt = Integer.parseInt(stackItemString.substring(0, stackItemString.indexOf(".")));
 			calcStack.push(stackItemInt * 1.0);
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -325,10 +334,10 @@ public class StackCommands {
 	 * cmdLog(): Take the natural (base e) logarithm
 	 */
 	public static void cmdLog(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		if (calcStack.size() >= 1) {
+			// Save current calcStack to the undoStack
+			calcStack.saveUndo();
+
 			Output.debugPrint("Taking the natural logarithm of " + calcStack.peek());
 			calcStack.push(java.lang.Math.log(calcStack.pop()));
 
@@ -341,12 +350,13 @@ public class StackCommands {
 	 * cmdLog10(): Take base10 logarithm
 	 */
 	public static void cmdLog10(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		if (calcStack.size() >= 1) {
+			// Save current calcStack to the undoStack
+			calcStack.saveUndo();
+
 			Output.debugPrint("Taking the base 10 logarithm of " + calcStack.peek());
 			calcStack.push(java.lang.Math.log10(calcStack.pop()));
+
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -355,8 +365,14 @@ public class StackCommands {
 	/**
 	 * cmdMaximum(): Add minimum value in the stack to the top of the stack
 	 */
-	public static void cmdMaximum(StackObj calcStack) {
+	public static boolean cmdMaximum(StackObj calcStack) {
 		Double largestValue = Double.MIN_VALUE;
+
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+			return false;
+		}
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
@@ -369,13 +385,21 @@ public class StackCommands {
 
 		// Add lowest value to the stack
 		calcStack.push(largestValue);
+
+		return true;
 	}
 
 	/**
 	 * cmdMinimum(): Add minimum value in the stack to the top of the stack
 	 */
-	public static void cmdMinimum(StackObj calcStack) {
+	public static boolean cmdMinimum(StackObj calcStack) {
 		Double lowestValue = Double.MAX_VALUE;
+
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+			return false;
+		}
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
@@ -388,6 +412,8 @@ public class StackCommands {
 
 		// Add lowest value to the stack
 		calcStack.push(lowestValue);
+
+		return true;
 	}
 
 	/**
@@ -435,6 +461,12 @@ public class StackCommands {
 	 * 
 	 */
 	public static void cmdPercent(StackObj calcStack) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+			return;
+		}
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
@@ -580,7 +612,7 @@ public class StackCommands {
 	public static void cmdSqrt(StackObj calcStack) {
 		// Verify we have an item on the stack
 		if (calcStack.isEmpty()) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
 			return;
 		}
 
@@ -633,12 +665,12 @@ public class StackCommands {
 		Double mean2 = Math.Mean(stdArray);
 		Output.debugPrint("Secondary mean of (number-mean)^2: " + mean2);
 
-		if (keepFlag == false)
+		if (keepFlag == false) {
 			calcStack.clear();
+		}
 
 		// Step4: Take the square root of that result and push onto the stack
-		Double result = java.lang.Math.sqrt(mean2);
-		calcStack.push(result);
+		calcStack.push(java.lang.Math.sqrt(mean2));
 	}
 
 	/**

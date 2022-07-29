@@ -41,19 +41,19 @@ public class CommandLineArgs {
 	// ---------------------------------------------------------------------------------------------
 
 	@Parameter(names = { "-h", "-?", "--help" }, help = true, description = "Display RPNCalc help and exit")
-	boolean clHelp = false;
+	protected boolean clHelp = false;
 
 	@Parameter(names = { "-z", "--no-color" }, description = "Disable colorized output")
-	boolean clNoColor = false;
+	protected boolean clNoColor = false;
 
 	@Parameter(names = { "-v", "--version" }, description = "Show current program version and latest release on GitHub")
-	boolean clVersion = false;
+	protected boolean clVersion = false;
 
 	@Parameter(names = { "-D", "--debug" }, description = "Turn on Debug mode to display extra program information")
-	boolean clDebug = false;
+	protected boolean clDebug = false;
 
 	@Parameter(names = { "-l", "--load" }, description = "Load saved stack file")
-	String clLoad = "";
+	protected String clLoad = "";
 
 	// ---------------------------------------------------------------------------------------------
 	// Process command line parameters with the following methods
@@ -62,6 +62,7 @@ public class CommandLineArgs {
 		CommandLineArgs cli = new CommandLineArgs();
 		JCommander jc = new JCommander();
 
+		// JCommander parses the command line
 		try {
 			jc.setProgramName("RPNCalc");
 			jc = JCommander.newBuilder().addObject(cli).build();
@@ -72,6 +73,9 @@ public class CommandLineArgs {
 			System.exit(0);
 		}
 
+		// ---------------------------------------------------------------------------------------------
+		// Process the parsed command line options
+		// ---------------------------------------------------------------------------------------------
 		// Debug Switch
 		if (cli.clDebug == true)
 			Debug.enable();
@@ -85,19 +89,16 @@ public class CommandLineArgs {
 
 		// Version Switch
 		if (cli.clVersion == true) {
-			Output.printColorln(Ansi.Color.WHITE, "RPNCalc Version: v" + Main.VERSION);
-			Output.printColorln(Ansi.Color.CYAN, Main.COPYRIGHT);
-			Output.printColorln(Ansi.Color.WHITE, "\nLatest Release on GitHub: " + GitHub.updateCheck("rpncalc"));
-			Output.printColorln(Ansi.Color.CYAN, "HomePage: https://github.com/frossm/rpncalc");
+			Main.DisplayVersion();
 			System.exit(0);
 		}
 
-		// Disable Colorized Output
+		// Disable Colorized Output Switch
 		if (cli.clNoColor == true) {
 			Output.enableColor(false);
 		}
 
-		// Show Help and exit
+		// Show Help and Exit
 		if (cli.clHelp == true) {
 			Help.Display();
 			System.exit(0);
