@@ -22,7 +22,7 @@ class CommandParserTest {
 	 *
 	 */
 	@Test
-	void testParse() {
+	void testParsingOfNumbersFractionsNumOp() {
 		StackObj stk1 = new StackObj();
 		StackObj stk2 = new StackObj();
 
@@ -40,10 +40,14 @@ class CommandParserTest {
 		// NumOp
 		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
+		CommandParser.Parse(stk1, stk2, "2+", "2+", "");
 		CommandParser.Parse(stk1, stk2, "16-", "16-", "");
+		CommandParser.Parse(stk1, stk2, "2*", "2*", "");
+		CommandParser.Parse(stk1, stk2, "10/", "10/", "");
+		CommandParser.Parse(stk1, stk2, ".12^", ".12^", "");
 		assertEquals(1, stk1.size());
-		assertEquals(107, stk1.get(0));
-
+		StackCommands.cmdRound(stk1, "5");
+		assertEquals(1.44749, stk1.get(0));
 	}
 
 }

@@ -4,6 +4,7 @@
 package org.fross.rpncalc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,8 @@ class StackCommandsTest {
 
 		StackCommands.cmdAddAll(stk, "");
 		assertEquals(34.49999999999999, stk.peek());
+		StackCommands.cmdRound(stk, "1");
+		assertEquals(34.5, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -41,15 +44,15 @@ class StackCommandsTest {
 	void testCmdAbsoluteValue() {
 		StackObj stk = new StackObj();
 
-		stk.push(123.0);
+		stk.push(123.456);
 		StackCommands.cmdAbsoluteValue(stk);
-		assertEquals(123.0, stk.pop());
-		assertEquals(0, stk.size());
+		assertEquals(123.456, stk.peek());
+		assertEquals(1, stk.size());
 
-		stk.push(-123.0);
+		stk.push(-789.123);
 		StackCommands.cmdAbsoluteValue(stk);
-		assertEquals(123.0, stk.pop());
-		assertEquals(0, stk.size());
+		assertEquals(789.123, stk.peek());
+		assertEquals(2, stk.size());
 	}
 
 	/**
@@ -70,8 +73,8 @@ class StackCommandsTest {
 		assertEquals(5, stk.size());
 
 		StackCommands.cmdAverage(stk, "");
-		assertEquals(3.45, stk.pop());
-		assertEquals(0, stk.size());
+		assertEquals(3.45, stk.peek());
+		assertEquals(1, stk.size());
 	}
 
 	/**
@@ -86,18 +89,26 @@ class StackCommandsTest {
 		stk.push(3.45);
 		stk.push(4.56);
 		stk.push(5.67);
+		stk.push(-1000.001);
 
-		// Copy line1 item
+		// Copy line1
 		StackCommands.cmdCopy(stk, "");
-		assertEquals(6, stk.size());
-		assertEquals(5.67, stk.get(stk.size() - 1));
-		assertEquals(5.67, stk.get(stk.size() - 2));
-
-		// Copy line4 item
-		StackCommands.cmdCopy(stk, "4");
 		assertEquals(7, stk.size());
-		assertEquals(3.45, stk.get(stk.size() - 1));
-		assertEquals(5.67, stk.get(stk.size() - 2));
+		assertEquals(-1000.001, stk.get(stk.size() - 1));
+		assertEquals(-1000.001, stk.get(stk.size() - 2));
+		assertEquals(5.67, stk.get(stk.size() - 3));
+		assertEquals(1.23, stk.get(0));
+
+		// Copy line4
+		StackCommands.cmdCopy(stk, "4");
+		assertEquals(8, stk.size());
+		assertEquals(4.56, stk.pop());
+		assertEquals(-1000.001, stk.pop());
+		assertEquals(-1000.001, stk.pop());
+		assertEquals(5.67, stk.pop());
+		assertEquals(4.56, stk.pop());
+		assertEquals(3.45, stk.pop());
+		assertEquals(1.23, stk.get(0));
 	}
 
 	/**
@@ -113,15 +124,23 @@ class StackCommandsTest {
 		stk.push(4.56);
 		stk.push(5.67);
 
-		// Delete top stack item (line1)
+		// Delete top stack item (line1) by not providing a line number
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(4, stk.size());
 		assertEquals(4.56, stk.peek());
+		assertEquals(1.23, stk.get(0));
 
 		// Delete line 3
 		StackCommands.cmdDelete(stk, "3");
 		assertEquals(3, stk.size());
 		assertEquals(4.56, stk.peek());
+		assertEquals(4.56, stk.get(2));
+
+		// Remove top of stack item again
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(2, stk.size());
+		assertEquals(3.45, stk.peek());
+		assertEquals(1.23, stk.get(0));
 	}
 
 	/**
@@ -131,11 +150,14 @@ class StackCommandsTest {
 	void testCmdDice() {
 		StackObj stk = new StackObj();
 
+		StackCommands.cmdDice(stk, "10d4");
+		assertEquals(10, stk.size());
+
 		StackCommands.cmdDice(stk, "6d10");
-		assertEquals(6, stk.size());
+		assertEquals(16, stk.size());
 
 		StackCommands.cmdDice(stk, "4d10");
-		assertEquals(10, stk.size());
+		assertEquals(20, stk.size());
 	}
 
 	/**
@@ -146,13 +168,16 @@ class StackCommandsTest {
 		StackObj stk = new StackObj();
 
 		stk.push(123.0);
+
 		StackCommands.cmdFlipSign(stk);
 		assertEquals(-123.0, stk.peek());
 		assertEquals(1, stk.size());
 
-		StackCommands.cmdAbsoluteValue(stk);
+		StackCommands.cmdFlipSign(stk);
 		assertEquals(123.0, stk.peek());
 		assertEquals(1, stk.size());
+
+		StackCommands.cmdFlipSign(stk);
 	}
 
 	/**
@@ -169,6 +194,10 @@ class StackCommandsTest {
 		stk.push(0.999);
 		StackCommands.cmdInteger(stk);
 		assertEquals(0, stk.pop());
+
+		stk.push(101.0);
+		StackCommands.cmdInteger(stk);
+		assertEquals(101, stk.pop());
 	}
 
 	/**
@@ -181,6 +210,15 @@ class StackCommandsTest {
 		stk.push(123.456);
 		StackCommands.cmdLog(stk);
 		assertEquals(4.815884817283264, stk.pop());
+
+		stk.push(123.456);
+		StackCommands.cmdLog(stk);
+		assertEquals(4.815884817283264, stk.pop());
+
+		stk.push(12332.12333);
+		StackCommands.cmdLog(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(9.41996, stk.pop());
 	}
 
 	/**
@@ -190,9 +228,15 @@ class StackCommandsTest {
 	void testCmdLog10() {
 		StackObj stk = new StackObj();
 
-		stk.push(123.456);
+		stk.push(9.41996);
 		StackCommands.cmdLog10(stk);
-		assertEquals(2.0915122016277716, stk.pop());
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(.97405, stk.pop());
+
+		stk.push(1588.963);
+		StackCommands.cmdLog10(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(3.20111, stk.pop());
 	}
 
 	/**
@@ -210,7 +254,14 @@ class StackCommandsTest {
 		stk.push(3.45);
 
 		StackCommands.cmdMaximum(stk);
+		assertEquals(7, stk.size());
 		assertEquals(5.67, stk.peek());
+
+		stk.push(5.68);
+		StackCommands.cmdMaximum(stk);
+		assertEquals(9, stk.size());
+		assertEquals(5.68, stk.peek());
+		assertEquals(5.68, stk.get(stk.size() - 1));
 	}
 
 	/**
@@ -228,7 +279,14 @@ class StackCommandsTest {
 		stk.push(3.45);
 
 		StackCommands.cmdMinimum(stk);
+		assertEquals(7, stk.size());
 		assertEquals(1.23, stk.peek());
+
+		stk.push(1.22);
+		StackCommands.cmdMinimum(stk);
+		assertEquals(9, stk.size());
+		assertEquals(1.22, stk.peek());
+		assertEquals(1.22, stk.get(stk.size() - 1));
 	}
 
 	/**
@@ -242,7 +300,8 @@ class StackCommandsTest {
 		stk.push(2.34);
 
 		StackCommands.cmdModulus(stk);
-		assertEquals(0.9900000000000002, stk.pop());
+		StackCommands.cmdRound(stk, "2");
+		assertEquals(0.99, stk.pop());
 
 		stk.push(88.0);
 		stk.push(5.0);
@@ -263,13 +322,26 @@ class StackCommandsTest {
 		assertEquals(.0234, stk.pop());
 	}
 
-//	/**
-//	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdRandom(org.fross.rpncalc.StackObj, java.lang.String)}.
-//	 */
-//	@Test
-//	void testCmdRandom() {
-//		fail("Not yet implemented");
-//	}
+	/**
+	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdRandom(org.fross.rpncalc.StackObj, java.lang.String)}.
+	 */
+	@Test
+	void testCmdRandom() {
+		StackObj stk = new StackObj();
+
+		// Generate 500 numbers between 1 and 10 inclusive
+		for (int i = 0; i < 500; i++) {
+			StackCommands.cmdRandom(stk, "1 10");
+		}
+
+		// Ensure there are 500 numbers and they are all in the correct range
+		assertEquals(500, stk.size());
+		for (int i=0; i < 500; i++) {
+			if (stk.get(i) < 1 || stk.get(i) > 100) {
+				fail();
+			}
+		}
+	}
 
 	/**
 	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdRound(org.fross.rpncalc.StackObj, java.lang.String)}.

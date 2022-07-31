@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.5.4</version>
+	<version>4.5.5</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -164,8 +164,10 @@
 		</plugins>
 	</build>
 
-	<!-- Define my custom Github repository where Library lives -->
+	<!-- Define additional package repositories.  Maven is included by default -->
 	<repositories>
+	
+		<!-- Define my custom Github repository where Library lives -->
 		<repository>
 			<id>github</id>
 			<name>GitHub frossm Library Package</name>
@@ -175,6 +177,7 @@
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
 		</repository>
+
 	</repositories>
 
 	<dependencies>

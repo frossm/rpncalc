@@ -35,7 +35,8 @@ class StackConversionsTest {
 
 		stk.push(666.0);
 		StackConversions.cmdConvertMM2IN(stk);
-		assertEquals(26.220472440944885, stk.peek());
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(26.2205, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -48,7 +49,8 @@ class StackConversionsTest {
 
 		stk.push(4.321);
 		StackConversions.cmdRad2Deg(stk);
-		assertEquals(247.57506327602871, stk.peek());
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(247.5751, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -61,7 +63,8 @@ class StackConversionsTest {
 
 		stk.push(189.6);
 		StackConversions.cmdDeg2Rad(stk);
-		assertEquals(3.3091442617812485, stk.peek());
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(3.3091, stk.peek());
 		assertEquals(1, stk.size());
 	}
 

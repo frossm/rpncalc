@@ -17,5 +17,5 @@
 - [Building RPNCalc](./Chapters/BuildingRPNCalc.md)
 - [Snap Usage](./Chapters/Snap.md)
 - [Wrapup](./Chapters/Wrapup.md)
-- [License](./Chapters/License.md)
+- [Licenses](./Chapters/License.md)
 - [Acknowlegements](./Chapters/Acknowledgements.md)

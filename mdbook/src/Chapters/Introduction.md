@@ -3,7 +3,7 @@
 # INTRODUCTION
 RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator.  RPN calculators make it very simple to do complex calculations, especially if there are parentheses involved.  In essence, you enter your numbers first, then the operator.
 
-So, to add 2 and 3 to get 5, you would first add the number 2 to the stack:  `2 [Enter]`.  Then you would add 5 to the stack (pushing the 2 to the second position:  `3 [Enter]`.  Now, to add them y ou would enter: `+ [Enter]` and RPNCalc would remove the 2 and 3 from the stack, add them, and push 5 back onto the stack.
+So, to add 2 and 3 to get 5, you would first add the number 2 to the stack:  `2 [Enter]`.  Then you would add 5 to the stack (pushing the 2 to the second position:  `3 [Enter]`.  Now, to add them you would enter: `+ [Enter]` and RPNCalc would remove the 2 and 3 from the stack, add them, and push 5 back onto the stack.
 
 The following example can be tricky to get your head around in a traditional calculator but is quite easy with RPN.  The chapter `What is an RPN Calculator` will go through solving this step by step.
 

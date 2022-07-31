@@ -1,4 +1,4 @@
-<img align="right" width="125" src="../Images/Install.png">
+<img align="right" width="150" src="../Images/Install.png">
 
 # Installation
 

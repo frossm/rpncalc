@@ -4,9 +4,23 @@
 
 This is a simple user guide for a tiny piece of software.  But I have used other people's art and applications to create RPNCalc and I want to ensure I recognize them and give them thanks.
 
+## Libraries
+
+Extensive use of several libraries were used in RPNCalc.  I'd like to publicly thank the authors and give them credit for their hard work. The licenses for these libraries is detailed in the `Licenses` chapter.
+
+- [JCommander](ttps://jcommander.org) is used to parse the command line for options and parameters
+
+- [jAnsi](https://github.com/fusesource/jansi) allows for colorized output in the consoles
+
+- [jUnit5](https://github.com/junit-team/junit5) is used for automated unit testing
+
+- [Maven](https://maven.apache.org/) build tool is used extensively in RPNCalc
+
+- [OpenJDK](https://adoptium.net) is the engine that runs Java on my systems.  You may be running another Java Development Kit (JDK) or Java Runtime Environment (JRE)
+
 ## Graphics
 
-I'd like to thank FlatIcon.com for their non-commercial use license for the top right icons used in this guide as well as IconFinder.
+I'd like to give recognition and attribution to the authors of the icons used in this guide.
 
 - Install: <a href="https://www.flaticon.com/free-icons/easy-installation" title="easy installation icons">Easy installation icons created by Freepik - Flaticon</a>
 
@@ -30,8 +44,9 @@ I'd like to thank FlatIcon.com for their non-commercial use license for the top 
 
 - Acknowledgment: <a href="https://www.flaticon.com/free-icons/agreement" title="agreement icons">Agreement icons created by Freepik - Flaticon</a>
 
-- Other icons were sourced from [IconFinder](https://iconfinder.com) and/or were licensed via the [Creative Commons License](https://creativecommons.org/licenses/)
+- Other icons were sourced from [IconFinder](https://iconfinder.com) and were licensed via the [Creative Commons License](https://creativecommons.org/licenses/)
 
 ## mdBook
 
 This book was generated using [mdBook](https://github.com/rust-lang/mdBook).  mdBook is a utility to create modern online books from Markdown files and it is fantastic.  If you need to do something like this, mdBook is where you shoud look first in my humble opinion.
+

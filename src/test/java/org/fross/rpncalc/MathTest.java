@@ -46,7 +46,7 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(5.80245, Math.Add(stk).peek());
+		assertEquals(5.80245, Math.Parse("+", stk).peek());
 		assertEquals(1, stk.size());
 	};
 
@@ -61,7 +61,7 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(-3.33333, Math.Subtract(stk).peek());
+		assertEquals(-3.33333, Math.Parse("-", stk).peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -76,7 +76,7 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(5.639334278400001, Math.Multiply(stk).peek());
+		assertEquals(5.639334278400001, Math.Parse("*", stk).peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -91,7 +91,7 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(0.270269205256694, Math.Divide(stk).peek());
+		assertEquals(0.270269205256694, Math.Parse("/", stk).peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -106,7 +106,7 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(2.6182895397375354, Math.Power(stk).peek());
+		assertEquals(2.6182895397375354, Math.Parse("^", stk).peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -129,6 +129,7 @@ class MathTest {
 	 */
 	@Test
 	void testIsNumeric() {
+		assertEquals(true, Math.isNumeric("432123434232334.325474458"));
 		assertEquals(true, Math.isNumeric("-123.4567"));
 		assertEquals(true, Math.isNumeric("1"));
 		assertEquals(true, Math.isNumeric(".000002"));
@@ -138,6 +139,8 @@ class MathTest {
 		assertEquals(false, Math.isNumeric("--123"));
 		assertEquals(false, Math.isNumeric(" "));
 		assertEquals(false, Math.isNumeric(""));
+		assertEquals(false, Math.isNumeric("!"));
+		assertEquals(false, Math.isNumeric("-"));
 
 	}
 
@@ -145,7 +148,7 @@ class MathTest {
 	 * Test method for {@link org.fross.rpncalc.Math#Mean(org.fross.rpncalc.StackObj)}.
 	 */
 	@Test
-	void testMeanStackObj() {
+	void testMeanIfStackObjIsProvided() {
 		StackObj stk = new StackObj();
 
 		// Add test data to stack
@@ -162,7 +165,7 @@ class MathTest {
 	 * Test method for {@link org.fross.rpncalc.Math#Mean(java.lang.Double[])}.
 	 */
 	@Test
-	void testMeanDoubleArray() {
+	void testMeanIfDoubleArrayIsProvided() {
 		Double[] arry = { 1.23456, 4.56789, 10.234, 12.1354, -1.23 };
 
 		assertEquals(5.38837, Math.Mean(arry));

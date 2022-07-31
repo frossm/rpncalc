@@ -27,9 +27,7 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Debug;
-import org.fross.library.GitHub;
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
