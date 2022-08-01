@@ -248,8 +248,8 @@ public class Main {
 					cmdInput = scanner.readLine("\n>> ");
 				}
 			} catch (UserInterruptException ex) {
-				// User entered Ctrl-c which would halt the program and not exit gracefully
-				Output.printColorln(Ansi.Color.RED, "Please use 'x' or 'exit' to leave RPNCalc");
+				// User entered Ctrl-c so exit the program gracefully
+				cmdInput = "exit";
 			} catch (Exception ex) {
 				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
 			}
