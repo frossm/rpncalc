@@ -32,6 +32,7 @@ import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
+import org.jline.reader.UserInterruptException;
 
 public class UserFunctions {
 	// Class Constants
@@ -176,8 +177,16 @@ public class UserFunctions {
 
 		while (functionNameValid == false) {
 			// Request a name for the user function. No name cancels the save
-			Output.printColor(Ansi.Color.YELLOW, "\nPlease enter the name of this function. No name will cancel the recording\n>> ");
-			functionName = Main.scanner.nextLine();
+			Output.printColorln(Ansi.Color.YELLOW, "\nPlease enter the name of this function. A blank name will cancel the recording");
+
+			// Read the user input. If ctrl-C is entered, discard the function
+			try {
+				functionName = Main.scanner.readLine(">> ");
+			} catch (UserInterruptException ex) {
+				functionName = "";
+			} catch (Exception e) {
+				Output.fatalError("Could not read user input", 5);
+			}
 
 			// If no name is given, cancel the recording information
 			if (functionName.isBlank()) {

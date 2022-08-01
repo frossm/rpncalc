@@ -26,10 +26,11 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
@@ -37,6 +38,10 @@ import org.fross.library.Format;
 import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.Attribute;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.UserInterruptException;
 
 /**
  * Main - Main program execution class
@@ -55,8 +60,7 @@ public class Main {
 	// Class Variables
 	public static String VERSION;
 	public static String COPYRIGHT;
-
-	static Scanner scanner = new Scanner(System.in);
+	static LineReader scanner = LineReaderBuilder.builder().build();
 	static boolean ProcessCommandLoop = true;
 	static StackObj calcStack = new StackObj();
 	static StackObj calcStack2 = new StackObj();
@@ -129,7 +133,7 @@ public class Main {
 
 		// Process application level properties file
 		// Update properties from Maven at build time:
-		// https://stackoverflow.com/questions/3697449/retrieve-version-from-maven-pom-xml-in-code
+		// Ref: https://stackoverflow.com/questions/3697449/retrieve-version-from-maven-pom-xml-in-code
 		try {
 			InputStream iStream = Main.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
 			Properties prop = new Properties();
@@ -236,8 +240,19 @@ public class Main {
 			}
 
 			// Input command from user
-			Output.printColor(Ansi.Color.YELLOW, "\n>>  ");
-			cmdInput = scanner.nextLine();
+			try {
+				if (Output.queryColorEnabled() == true) {
+					// Give the prompt some color if colorized output is not disabled
+					cmdInput = scanner.readLine(ansi().a(Attribute.INTENSITY_BOLD).fg(Ansi.Color.YELLOW).a("\n>> ").reset().toString());
+				} else {
+					cmdInput = scanner.readLine("\n>> ");
+				}
+			} catch (UserInterruptException ex) {
+				// User entered Ctrl-c which would halt the program and not exit gracefully
+				Output.printColorln(Ansi.Color.RED, "Please use 'x' or 'exit' to leave RPNCalc");
+			} catch (Exception ex) {
+				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
+			}
 
 			// Break each line entered into a command and a parameter string
 			try {
@@ -263,13 +278,10 @@ public class Main {
 			CommandParser.Parse(calcStack, calcStack2, cmdInput, cmdInputCmd, cmdInputParam);
 
 			// Clear input parameters before we start again
-			cmdInputCmd = "";
-			cmdInputParam = "";
+			cmdInputCmd = null;
+			cmdInputParam = null;
 
 		} // End While Loop
-
-		// Close the scanner
-		scanner.close();
 
 		// Save the items in the memory slots to the preferences system
 		StackMemory.SaveMemSlots();

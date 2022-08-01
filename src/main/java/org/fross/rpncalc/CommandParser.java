@@ -26,7 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 

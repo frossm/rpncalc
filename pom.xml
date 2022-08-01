@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.5.5</version>
+	<version>4.6.0</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -89,7 +89,7 @@
 								<filter>
 									<artifact>*:*</artifact>
 									<excludes>
-										<exclude>org.junit.jupiter</exclude>
+										<exclude>org.junit.jupiter:junit-jupiter</exclude>
 										<exclude>META-INF/MANIFEST.MF</exclude>
 										<exclude>META-INF/*.SF</exclude>
 										<exclude>META-INF/*.DSA</exclude>
@@ -166,7 +166,6 @@
 
 	<!-- Define additional package repositories.  Maven is included by default -->
 	<repositories>
-	
 		<!-- Define my custom Github repository where Library lives -->
 		<repository>
 			<id>github</id>
@@ -176,6 +175,13 @@
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
+		</repository>
+
+		<!-- Liferay is where JLine3 lives -->
+		<repository>
+			<id>liferay</id>
+			<name>LifeRay Public Repository</name>
+			<url>https://repository.liferay.com/nexus/content/repositories/public</url>
 		</repository>
 
 	</repositories>
@@ -202,12 +208,18 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
-		<!-- This will pull in needed junit5 dependencies and is all you need  -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<version>5.9.0</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.jline/jline3 -->
+		<dependency>
+			<groupId>com.github.jline</groupId>
+			<artifactId>jline3</artifactId>
+			<version>jline-3.3.1</version>
 		</dependency>
 
 	</dependencies>
