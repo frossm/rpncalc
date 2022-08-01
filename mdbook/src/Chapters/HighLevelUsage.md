@@ -55,3 +55,5 @@ Numbers, whether decimal or fractions, can be entered on the command line and th
 Operands perform basic match functions on those numbers.
 
 Commands do the more exciting things.  You can add the speed of light constant to the stack (`sol`) or PI (`pi`), take the sine of the number, add it to a memory slot, and then save that as a user defined function.  Most of the rest of this guide will be talking about the various RPNCalc commands.
+
+Lastly, as of `v4.6.0`, the arrow keys can be used within RPNCalc.  Up/Down will move you through your historical entries, and Left/Right will move you within the current command line.  This is probably what you would have expected it to do as it behaves similar to common consoles.
