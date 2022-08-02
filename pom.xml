@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.6.2</version>
+	<version>4.6.3</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -215,11 +215,18 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.github.jline/jline3 -->
+		<!-- https://mvnrepository.com/artifact/org.jline/jline-reader -->
 		<dependency>
-			<groupId>com.github.jline</groupId>
-			<artifactId>jline3</artifactId>
-			<version>jline-3.3.1</version>
+			<groupId>org.jline</groupId>
+			<artifactId>jline-reader</artifactId>
+			<version>3.21.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
+		<dependency>
+			<groupId>org.jline</groupId>
+			<artifactId>jline-terminal-jansi</artifactId>
+			<version>3.21.0</version>
 		</dependency>
 
 	</dependencies>

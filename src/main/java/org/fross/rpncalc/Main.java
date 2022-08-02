@@ -237,6 +237,7 @@ public class Main {
 			} catch (UserInterruptException ex) {
 				// User entered Ctrl-c so exit the program gracefully
 				cmdInput = "exit";
+				Output.printColorln(Ansi.Color.CYAN, "Exiting RPNCalc...");
 			} catch (Exception ex) {
 				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
 			}
