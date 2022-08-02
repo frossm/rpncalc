@@ -338,6 +338,7 @@ public class CommandParser {
 			calcStack.clear();
 		case "x":
 		case "exit":
+		case "quit":
 			Output.debugPrint("Exiting Command Loop");
 			Main.ProcessCommandLoop = false;
 			break;

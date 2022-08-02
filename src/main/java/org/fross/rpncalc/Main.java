@@ -26,8 +26,6 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import static org.fusesource.jansi.Ansi.ansi;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -38,7 +36,6 @@ import org.fross.library.Format;
 import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.Ansi.Attribute;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
@@ -257,7 +254,7 @@ public class Main {
 					continue;
 				}
 			}
-			Output.debugPrint("Input Entered: '" + cmdInput + "'  |  Command: '" + cmdInputCmd + "'  |  Parameter: '" + cmdInputParam + "'");
+			Output.debugPrint("Complete Input: '" + cmdInput + "'  |  InputCommand '" + cmdInputCmd + "'  |  InputParameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
 			if (UserFunctions.recordingIsEnabled() == true) {
