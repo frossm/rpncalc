@@ -76,7 +76,9 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(5.639334278400001, Math.Parse("*", stk).peek());
+		Math.Parse("*", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(5.63933, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -91,7 +93,9 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(0.270269205256694, Math.Parse("/", stk).peek());
+		Math.Parse("/", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(0.27027, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -106,7 +110,9 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 
-		assertEquals(2.6182895397375354, Math.Parse("^", stk).peek());
+		Math.Parse("^", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(2.61829, stk.peek());
 		assertEquals(1, stk.size());
 	}
 

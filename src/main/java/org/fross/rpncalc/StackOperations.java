@@ -132,11 +132,8 @@ public class StackOperations {
 
 		// Set new stack
 		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
-		StackManagement.SetLoadedStack(stackToLoad);
-
-		// Load new stack
-		calcStack = StackManagement.RestoreStack("1");
-		calcStack2 = StackManagement.RestoreStack("2");
+		calcStack.setStackNameAndRestore(stackToLoad, "1");
+		calcStack2.setStackNameAndRestore(stackToLoad, "2");
 	}
 
 	/**
@@ -229,18 +226,21 @@ public class StackOperations {
 
 		// Swap the stacks from the objects into their new homes
 		StackObj tempStack = new StackObj();
+
+		tempStack.stackName = calcStack.stackName;
 		tempStack.calcStack = calcStack.calcStack;
 		tempStack.undoStack = calcStack.undoStack;
 
+		calcStack.stackName = calcStack2.stackName;
 		calcStack.calcStack = calcStack2.calcStack;
 		calcStack.undoStack = calcStack2.undoStack;
 
+		calcStack2.stackName = tempStack.stackName;
 		calcStack2.calcStack = tempStack.calcStack;
 		calcStack2.undoStack = tempStack.undoStack;
 
 		// Update the current stack number for the status line refresh
 		StackManagement.ToggleCurrentStackNum();
-
 	}
 
 	/**

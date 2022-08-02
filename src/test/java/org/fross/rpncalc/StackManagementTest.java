@@ -21,9 +21,12 @@ class StackManagementTest {
 		StackObj stk2 = new StackObj();
 
 		assertEquals(1, StackManagement.QueryCurrentStackNum());
+
 		StackOperations.cmdSwapStack(stk1, stk2);
 		assertEquals(2, StackManagement.QueryCurrentStackNum());
+
 		StackOperations.cmdSwapStack(stk1, stk2);
+		assertEquals(1, StackManagement.QueryCurrentStackNum());
 	}
 
 	/**
@@ -44,9 +47,10 @@ class StackManagementTest {
 	 */
 	@Test
 	void testQueryLoadedStack() {
-		StackManagement.SetLoadedStack("jUnitTestingStack");
-		assertEquals("jUnitTestingStack", StackManagement.QueryLoadedStack());
+		StackObj stk = new StackObj();
 
+		stk.setStackNameAndRestore("junittest", "1");
+		assertEquals("junittest", stk.queryStackName());
 	}
 
 }

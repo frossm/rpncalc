@@ -78,11 +78,13 @@ public class CommandLineArgs {
 		if (cli.clDebug == true)
 			Debug.enable();
 
-		// Load Stack
+		// Set the stack name and restore stack from Preferences
 		if (!cli.clLoad.isBlank()) {
-			StackManagement.SetLoadedStack(cli.clLoad);
+			Main.calcStack.setStackNameAndRestore(cli.clLoad, "1");
+			Main.calcStack2.setStackNameAndRestore(cli.clLoad, "2");
 		} else {
-			StackManagement.SetLoadedStack("default");
+			Main.calcStack.setStackNameAndRestore("default", "1");
+			Main.calcStack2.setStackNameAndRestore("default", "2");
 		}
 
 		// Version Switch

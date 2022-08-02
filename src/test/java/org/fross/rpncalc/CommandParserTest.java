@@ -30,6 +30,12 @@ class CommandParserTest {
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
 		CommandParser.Parse(stk1, stk2, "456.789", "456.789", "");
 		assertEquals(2, stk1.size());
+		
+		// Swap the stack and the size should be 0
+		CommandParser.Parse(stk1,  stk2,  "ss", "ss", "");
+		assertEquals(0, stk1.size());
+		CommandParser.Parse(stk1,  stk2,  "ss", "ss", "");
+		assertEquals(2, stk1.size());
 
 		// Fraction Input
 		stk1.clear();

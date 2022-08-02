@@ -94,7 +94,7 @@ public class Main {
 		String sfUndo = String.format("Undo:%02d", calcStack.undoSize());
 
 		// Determine how many dashes to use after remove space for the undo and stack name
-		int numDashes = configProgramWidth - 2 - sfMem.length() - sfUndo.length() - StackManagement.QueryLoadedStack().length() - 11;
+		int numDashes = configProgramWidth - 2 - sfMem.length() - sfUndo.length() - calcStack.queryStackName().length() - 11;
 
 		// [Recording] appears if it's turned on. Make room if it's enabled
 		if (UserFunctions.recordingIsEnabled() == true)
@@ -115,7 +115,7 @@ public class Main {
 		Output.printColor(Ansi.Color.CYAN, "]-[");
 		Output.printColor(Ansi.Color.WHITE, sfUndo);
 		Output.printColor(Ansi.Color.CYAN, "]-[");
-		Output.printColor(Ansi.Color.WHITE, StackManagement.QueryLoadedStack() + ":" + StackManagement.QueryCurrentStackNum());
+		Output.printColor(Ansi.Color.WHITE, calcStack.queryStackName() + ":" + StackManagement.QueryCurrentStackNum());
 		Output.printColor(Ansi.Color.CYAN, "]-");
 		Output.printColorln(Ansi.Color.CYAN, "+");
 	}
@@ -167,18 +167,13 @@ public class Main {
 		Debug.displaySysInfo();
 		Output.debugPrint("Command Line Options");
 		Output.debugPrint("  -D:  " + Debug.query());
-		Output.debugPrint("  -l:  " + StackManagement.QueryLoadedStack());
+		Output.debugPrint("  -l:  " + calcStack.queryStackName());
 		Output.debugPrint("  -w:  " + configProgramWidth);
 		Output.debugPrint("  -m:  " + configMemorySlots);
 		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
 
 		// Restore the items in the memory slots during startup
 		StackMemory.RestoreMemSlots();
-
-		// Restore the existing stacks from the preferences if they exist
-		calcStack = StackManagement.RestoreStack("1");
-		calcStack2 = StackManagement.RestoreStack("2");
-		Output.debugPrint("Elements in the Stack: " + calcStack.size());
 
 		// Display the initial program header information
 		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(configProgramWidth - 2) + "+");
@@ -241,12 +236,7 @@ public class Main {
 
 			// Input command from user
 			try {
-				if (Output.queryColorEnabled() == true) {
-					// Give the prompt some color if colorized output is not disabled
-					cmdInput = scanner.readLine(ansi().a(Attribute.INTENSITY_BOLD).fg(Ansi.Color.YELLOW).a("\n>> ").reset().toString());
-				} else {
-					cmdInput = scanner.readLine("\n>> ");
-				}
+				cmdInput = scanner.readLine("\n>> ");
 			} catch (UserInterruptException ex) {
 				// User entered Ctrl-c so exit the program gracefully
 				cmdInput = "exit";
@@ -278,8 +268,8 @@ public class Main {
 			CommandParser.Parse(calcStack, calcStack2, cmdInput, cmdInputCmd, cmdInputParam);
 
 			// Clear input parameters before we start again
-			cmdInputCmd = null;
-			cmdInputParam = null;
+			cmdInputCmd = "";
+			cmdInputParam = "";
 
 		} // End While Loop
 

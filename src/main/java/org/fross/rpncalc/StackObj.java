@@ -27,22 +27,28 @@
 package org.fross.rpncalc;
 
 import java.util.Stack;
+import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class StackObj implements Cloneable {
-	// private static final long serialVersionUID = 1L; // Required for Serialization Warning
-
+	// Class Variables
+	protected String stackName;
 	protected Stack<Double> calcStack = new Stack<>();
 	protected Stack<Stack<Double>> undoStack = new Stack<>();
+
+	// Constructor
+	StackObj() {
+		// Initialize class variables
+		this.stackName = "default";
+	}
 
 	/**
 	 * clear(): Remove all items from the calculator stack
 	 * 
 	 */
 	public void clear() {
-		// Clear the stack
 		calcStack.clear();
 	}
 
@@ -125,6 +131,15 @@ public class StackObj implements Cloneable {
 	}
 
 	/**
+	 * queryStackName(): Return the name of this stack
+	 * 
+	 * @return
+	 */
+	public String queryStackName() {
+		return this.stackName;
+	}
+
+	/**
 	 * remove(): Remove an item from the calculator stack at the index provided
 	 * 
 	 * @param index
@@ -143,6 +158,37 @@ public class StackObj implements Cloneable {
 			undoStack.push((Stack<Double>) calcStack.clone());
 		} catch (ClassCastException ex) {
 			Output.printColor(Ansi.Color.RED, "Error saving to the undo state");
+		}
+
+	}
+
+	/**
+	 * setStackNameAndRestore(): Set the name of this stack and load it from the saved stacks in preferences
+	 * 
+	 * @param name
+	 */
+	public void setStackNameAndRestore(String name, String slot) {
+		final String PREFS_PATH = "/org/fross/rpn/stacks";
+		this.stackName = name;
+
+		// Clear this stack before restoring
+		this.clear();
+
+		Output.debugPrint("RestoreStack: " + PREFS_PATH + "/" + this.queryStackName() + "/" + slot);
+
+		// Override the default stack location with the provided one
+		Preferences prefs = Preferences.userRoot().node(PREFS_PATH + "/" + this.queryStackName() + "/" + slot);
+		int numElements = prefs.getInt("StackElements", 0);
+
+		Output.debugPrint("Restoring Stack:");
+		for (int i = 0; i < numElements; i++) {
+			this.push(prefs.getDouble("Stack" + i, 0.0));
+			Output.debugPrint("  - Restoring #" + (numElements - i) + ":  " + this.get(i));
+		}
+
+		// Set the stack number to be 1 on a newly restored stack
+		if (StackManagement.QueryCurrentStackNum() == 2) {
+			StackManagement.ToggleCurrentStackNum();
 		}
 
 	}

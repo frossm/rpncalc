@@ -37,8 +37,6 @@ public class StackManagement {
 	protected static final String PREFS_PATH = "/org/fross/rpn/stacks";
 
 	// Class Variables
-	private static Preferences prefs = Preferences.userRoot().node(PREFS_PATH);
-	private static String currentLoadedStack = "default";
 	private static int currentStackNum = 1;
 
 	/**
@@ -48,12 +46,12 @@ public class StackManagement {
 	 * @param stackSlot - Stack Save slot number. Should be default, 1, or 2.
 	 */
 	public static void SaveStack(StackObj stk, String stackSlot) {
-		Output.debugPrint("SaveStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
+		Output.debugPrint("SaveStack: " + PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
 
 		// Override the default stack location with the provided one
-		Preferences p = Preferences.userRoot().node(PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
+		Preferences p = Preferences.userRoot().node(PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
 
-		// Lets clear out any stack prefs that may exist
+		// Lets clear out any stack values that may exist
 		try {
 			p.clear();
 		} catch (BackingStoreException e) {
@@ -70,29 +68,6 @@ public class StackManagement {
 			p.putDouble("Stack" + i, stk.get(i));
 		}
 
-	}
-
-	/**
-	 * RestoreStack(): Read the stack, as designated by the stack slot (1 or 2) from the preferences system
-	 * 
-	 * @param stackSlot - The slot (default, 1, or 2) to pull from.
-	 * @return
-	 */
-	public static StackObj RestoreStack(String stackSlot) {
-		Output.debugPrint("RestoreStack: " + PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
-
-		// Override the default stack location with the provided one
-		prefs = Preferences.userRoot().node(PREFS_PATH + "/" + QueryLoadedStack() + "/" + stackSlot);
-		int numElements = prefs.getInt("StackElements", 0);
-		StackObj stk = new StackObj();
-
-		Output.debugPrint("Restoring Stack:");
-		for (int i = 0; i <= numElements - 1; i++) {
-			stk.push(prefs.getDouble("Stack" + i, 0.0));
-			Output.debugPrint("  - Restoring #" + (numElements - i) + ":  " + stk.get(i));
-		}
-
-		return stk;
 	}
 
 	/**
@@ -131,25 +106,6 @@ public class StackManagement {
 		}
 
 		return (stacks);
-	}
-
-	/**
-	 * QueryLoadedStack(): Returns the name of the current stack that is in use The loaded stack name is important for saving and
-	 * restoring data from the preferences system
-	 * 
-	 * @return
-	 */
-	public static String QueryLoadedStack() {
-		return currentLoadedStack;
-	}
-
-	/**
-	 * SetLoadedStack(): Name the current stack that is being used
-	 * 
-	 * @param s
-	 */
-	public static void SetLoadedStack(String s) {
-		currentLoadedStack = s;
 	}
 
 }
