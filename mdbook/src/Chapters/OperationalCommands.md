@@ -21,4 +21,4 @@ Operational commands are commands that do not directly impact your stack numbers
 |ver| Display the current version number and copyright as well as the latest GitHub release.  This is equivalent to the `-v` command line option.  Users of Snap installations will automatically be up to date.|
 |h <br> ?|`h` or `?` will display the in-program help page|
 |cx|`cx` will clear the stack and then exit the program|
-|x <br> exit|`x` or `q` will exit the program.  The primary stack, secondary stack, and memory slots will be saved upon exit|
+|x <br>exit<br>quit<br>ctrl-c|Exit the program.  The primary stack, secondary stack, and memory slots will be saved upon exit|

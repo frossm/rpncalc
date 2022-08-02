@@ -1,3 +1,9 @@
+:: Ensure we're in the root project directory.  Look for the pom.xml file
+iff not exist %@Filename[pom.xml] then
+	echocolor RED, "Error: Must run from the root directory of a maven project"
+	quit /b
+endiff
+
 :: Build the book
 echocolor YELLOW "Building the User Guide"
 cd mdbook
