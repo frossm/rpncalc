@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.6.3</version>
+	<version>4.6.4</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -177,13 +177,6 @@
 			</snapshots>
 		</repository>
 
-		<!-- Liferay is where JLine3 lives -->
-		<repository>
-			<id>liferay</id>
-			<name>LifeRay Public Repository</name>
-			<url>https://repository.liferay.com/nexus/content/repositories/public</url>
-		</repository>
-
 	</repositories>
 
 	<dependencies>
@@ -222,12 +215,14 @@
 			<version>3.21.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
+		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi
+		I believed this was needed due to the jline documentation, but lets
+		see if that is correct and I'll remove this later if everything is good
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-terminal-jansi</artifactId>
 			<version>3.21.0</version>
-		</dependency>
+		</dependency>-->
 
 	</dependencies>
 
