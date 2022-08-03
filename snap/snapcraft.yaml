@@ -1,5 +1,5 @@
 name: rpncalc
-version: '4.6.4'
+version: '4.6.5'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -32,7 +32,7 @@ compression: lzo
 
 apps:
   rpncalc:
-    command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -jar $SNAP/jar/rpncalc.jar
+    command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar $SNAP/jar/rpncalc.jar
 
     plugs:
       - network
