@@ -215,6 +215,14 @@
 			<version>3.21.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
+		<!-- Needed to remove jline warning when app starts -->
+		<dependency>
+			<groupId>org.jline</groupId>
+			<artifactId>jline-terminal-jansi</artifactId>
+			<version>3.21.0</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
