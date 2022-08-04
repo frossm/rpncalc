@@ -18,18 +18,15 @@ This is much too long to type every time you need to run it, so I simply create 
 
 `alias rpncalc='java -jar /path/to/rpncalc.jar`
 
-Now, I just need to type RPNCalc to run it.
+Now, I just need to type `rpncalc` to run it.
 
 ## Standard Uninstall
 
 If you wish to uninstall RPNCalc, just delete the file and, if you created an alias, remove that as well.  Easy and simple.  
 
-However, RPNCalc does use the Java preferences to store data.  It's located in different places depending on the OS:
+However, RPNCalc does use the Java preferences to store the persistent stack contents, settings, and persistent memory slots.  This system is located in different places depending on the OS and these are listed in the `Stacks Chapter`.
 
-- Windows keeps it in the registry `(HKCU\Software\JavaSoft\Prefs)`
-- Linux in a hidden directory in your home folder `(~/.java/userPrefs)`
-
-It is very small and removing it is not really necessary, but if you like to keep things tidy, delete the `org.fross.rpn` entry in the preference system.
+It is very small and removing it is not really necessary, but if you like to keep things tidy, delete the `org.fross.rpn` entry in the preference system..
 
 ## Snap Installation
 

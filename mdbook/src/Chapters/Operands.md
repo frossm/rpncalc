@@ -4,23 +4,38 @@
 
 Operands are the standard symbols used for basic mathematics on numbers.  The following is the list of operands supported by RPNCalc.  These are also supported by the NumOps shortcut described below.  
 
-With the exception of the addition (`+`) and multiplication (`*`) operand the order is important.  It's fairly intuitive when you look at it in the calculator, but refer to the following table if needed.
+With the exception of the addition (`+`) and multiplication (`*`) operand the order of the items in the stack is important.  It's fairly intuitive when you look at it in the calculator, but refer to the following table if needed.
 
 |Operand|Math|Description|
-|-------|----|-------|
-|+  |`ADDITION`| Add `line2` and `line`|
-|-  |`SUBTRACTION`| Subtract `line1` from `line2`|
-|\* |`MULTIPLICATION`| Multiply `line1` and `line2`|
-|/  |`DIVISION`| Divide `line2` by `line1`|
-|^  |`POWER`| Take `line2` to the power of `line1`|
+|:-------:|:----:|-------|
+|+  |`Addition`| Add `line2` and `line`|
+|-  |`Subtraction`| Subtract `line1` from `line2`|
+|\* |`Multiplication`|Multiply`line1` and `line2`|
+|/  |`Division`| Divide `line2` by `line1`|
+|^  |`Exponent`| Take `line2` to the power of `line1`|
 
-For example:
+Below are two very simple examples that show the order is important
 
-`3` `[Enter]` `2` `[Enter]` `-`  will execute 3 - 2 and will yield `1`
+|Line Num|Stack|
+|:------:|:---:|
+|`line2`|3|
+|`line1`|2|
 
-`2` `[Enter]` `3` `[Enter]` `-` will execute 2 - 3 and will yield `-1`
+Example: Minus `-`  will execute 3 - 2 and will yield `1`
 
-Hint: We'll discuss commands in later chapters, but the Swap command `s` will swap the top two items in the stack (`line1` and `line2`).  Swap will also swap any to line numbers provided.  Jump to the `Calculator Commands` chapter for more information.
+|Line Num|Stack|
+|:------:|:---:|
+|`line2`|2|
+|`line1`|3|
+
+Example: Minus `-` will execute 2 - 3 and will yield `-1`
+
+
+<br>
+<hr>
+<br>
+
+`Hint:` We'll discuss commands in later chapters, but the `swap` command `s` will swap the top two items in the stack (`line1` and `line2`).  Swap will also swap any two line numbers provided.  See the `Calculator Commands Chapter` for more information.
 
 ## The NumOps Shortcut
 
@@ -38,7 +53,7 @@ When the second enter is pressed,  the two stack items will be removed, added to
 
 `+ [ENTER]`
 
-As an example of this NumOps shortcut, lets revisit our example from the introduction.
+As an example of this NumOps shortcut, see the following example:
 
 `x = SQRT((((5+3) * 8)/2) ^ 6)`
 

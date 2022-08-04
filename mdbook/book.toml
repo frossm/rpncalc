@@ -9,6 +9,7 @@ src = "src"
 [build]
 build-dir = "RPNCalc-UserGuide"
 create-missing = true
+use-default-preprocessors = true
 
 [output.html]
 default-theme = "ayu"

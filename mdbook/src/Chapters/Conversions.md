@@ -20,7 +20,7 @@ if `frac 2` woulc have been entered (which means 1/2 is maximum granularity), yo
 |Command|Description|
 |-------|-----------|
 |frac [base]|Display a fractional estimate of the last stack item (`line1`) with the maximum granularity of 1/[base]. See the above description for more detail|
-|in2mm|Converts the value in `line1` from inches to millimeters. `2mm` command will also work|
-|mm2in|Converts the value in `line1` from millimeters to inches. `2in` command will also work|
-|deg2rad|Convert `line1` from degrees into [radians](https://en.wikipedia.org/wiki/Radian). `2rad` would also work|
-|rad2deg|Convert `line1` from radians into degrees.  `2deg` would also work|
+|in2mm<br>2mm|Converts the value in `line1` from inches to millimeters|
+|mm2in<br>2in|Converts the value in `line1` from millimeters to inches|
+|deg2rad<br>2rad|Convert `line1` from degrees into [radians](https://en.wikipedia.org/wiki/Radian)|
+|rad2deg<br>2deg|Convert `line1` from radians into degrees|

@@ -37,7 +37,7 @@ The following commands can be entered during a recording, but are not recorded.
 Here is a full real world example.  Lets say you'd like to make a user defined function to take the cube of number.  Here are the steps you'd take to do that.
 
 |Number|Command|Description|
-|------|-------|-----------|
+|:------:|:-------:|:-----------|
 |1|`c`|Clear the stack.  Not really needed, but let's start off tidy|
 |2|`3 [Enter]`|Add the number 3 to the stack.  This can be any number really as it's not part of the recording|
 |3|`record on`|Start recording.  From now on anything you do (mostly) will be recorded|
@@ -46,4 +46,4 @@ Here is a full real world example.  Lets say you'd like to make a user defined f
 |6|`record off`|Stop recording and give the function the name "cube"|
 |7|`list func`|Show the user defined functions including the `cube` command you just made|
 
-From now on, just type `cube` and `line1` will be cubed!
+From now on, just type `cube` and `line1` will be cubed! Go You!

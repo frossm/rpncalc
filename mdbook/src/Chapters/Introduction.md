@@ -29,13 +29,13 @@ The home page for RPNCalc is located on [GitHub](https://github.com/frossm/rpnca
 
 - Report issues or enhancement requests, please post at RPNCalc's [issues page](https://github.com/frossm/rpncalc/issues)
 - For RPNCalc discussions, you can post on the [Discussion page](https://github.com/frossm/rpncalc/discussions)
-- The RPNCalc RPNCalc [Snap Store Page](https://snapcraft.io/rpncalc)
-- You can also reach me direction at `rpncalc@fross.org`
+- The RPNCalc [Snap Store Page](https://snapcraft.io/rpncalc)
+- You can also reach me directly at `rpncalc@fross.org`
 
 
 ## The Current Help Page from RPNCalc
 
-This can be achieved by entered `h` or `help` from within the program or running `rpncalc -h` from the command line.
+This can be achieved by entered `h` or `help` or `?` from within the program or running `rpncalc -h` or `-?` from the command line.
 
 <br>
 

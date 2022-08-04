@@ -4,7 +4,7 @@
 
 These commands simply take a defined constant and add that number to the top of the stack (`line1`).  There are not that many constants defined, but if there is a desire to add additional ones please me know.
 
-There is a limitation currently.  RPNCalc does not understand scientific notation.  Running a quick check, On my system, Java Double has the following limits as defined by Double.MAX_VALUE and Double.MIN_VALUE.
+There is a limitation currently.  RPNCalc does not understand scientific notation.  Running a quick check, On my system, Java Double has the following limits as defined by `Double.MAX_VALUE` and `Double.MIN_VALUE`.
 
 - Max: 1.7976931348623157E308
 - Min: 4.9E-324

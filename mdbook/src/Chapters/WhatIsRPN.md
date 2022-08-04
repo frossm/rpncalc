@@ -2,42 +2,42 @@
 
 # What is an RPN Calculator?
 
-For me, the way I learned to use RPN back in the early 1990s was to `start on the inside and work your way out`.  Just look at the inner most calculations, and start working yourself back out.  It also helps if you also understand the order of operations for match operands.
+For me, the way I thought about using RPN back in the early 1990s was to approach it with `start on the inside and work your way out`.  Just look at the inner most calculation, and start working yourself back out.  It also helps if you also understand the order of operations for the operands.
 
-### Order of Operations - *PEMDAS*
+### Order of Operations - *PEMA*
 
 |Order||Description|
 |-----||-----------|
 |1|P|Parentheses First|
 |2|E|Exponents - Powers and Square Roots, etc.|
-|3|MD|Multiplication and Division (left-to-right)|
-|4|AS|Addition and Subtraction (left-to-right)|
+|3|M|Multiplication and Division (left-to-right)|
+|4|A|Addition and Subtraction (left-to-right)|
 
 ### Walkthrough of the Example from the Introduction Page
 
 `x = SQRT( ((((5+3) * 8)/2) * (2+1)) ^ 2 )`
 
-This can be tricky with a traditional calculator.  However, with a RPN Calculator, to solve for x you would start on the inner calculation and work outwards.  Looking at the equation, `5 + 3` is about the lowest so lets start there.  We'll walk through each step and explain what's happening.  Go ahead and start RPNCalc and follow along - it's much easier to do it and see the stack rather than just reading it here.
+This can be tricky with a traditional calculator.  However, with a RPN Calculator, to solve for x you would start on the inner calculation and work outwards.  Looking at the equation, `5 + 3` is about the lowest so lets start there. The approach will be work back up until you get to a peer of the same "level".  Then do the `2+1`. We'll walk through each step and explain what's happening.  Go ahead and start RPNCalc and follow along - it's much easier to do it and see the stack rather than just reading it here.
 
 |Command|Explanation|
 |-------|-----------|
-|`c [Enter]`| Clear the stack if there is anything on it|
+|`c [Enter]`| Clear the stack if there is anything on it.  Not really needed, but lets start off clean|
 |`5 [Enter]`| The top of the stack (`line1`) contains a 5|
 |`3 [Enter]`| 3 has been added to the top of the stack (`line1`) pushing 5 to `line2`|
 |`+ [Enter]`| 3 and 5 have been removed from the stack, added, and 8 pushed to `line1`|
 |`8 [Enter]`| 8 is added to `line1`, pushing the other 8 to `line2`|
-|`* [Enter]`| Remove 8 and 8 from the stack, multiply, and push the result to `line1`|
+|`* [Enter]`| Remove 8 and 8 from the stack, multiply, and push 64 to `line1`|
 |`2 [Enter]`| Add 2 to the stack pushing down 64|
-|`/ [Enter]`| Divide 64 (`line2`) by 8 (`line1`)|
+|`/ [Enter]`| Divide 64 (`line2`) by 2 (`line1`) and replace those numbers with 32|
 |`2 [Enter]`| Add 2 to the stack|
 |`1 [Enter]`| Add 1 to the stack|
-|`+ [Enter]`| Add 2 and 1.  They will be removed and 3 will be pushed|
-|`* [Enter]`| Multiply the 3 to the 64 you had in `line1`|
+|`+ [Enter]`| Add 2 and 1.  They will be removed and 3 will be pushed to `line`|
+|`* [Enter]`| Multiply the 3 to the 32 you had in `line1` resulting in 96|
 |`2 [Enter]`| Add 2 to the stack|
-|`^ [Enter]`| Take `line2` to the power of `line1`|
+|`^ [Enter]`| Take `line2` to the power of `line1` resulting in 9,216|
 |`SQRT [Enter]`| Takes the square root of `line1` pushing the result to the stack|
 
-The result is 96 which ends up on the top (`line1`) of an empty stack.  I'll talk more about stacks and how RPNCalc uses them in future chapters.
+The result is 96 which ends up on the top (`line1`) of an otherwise empty stack.  I'll talk more about stacks and how RPNCalc uses them in future chapters.
 
 *By the way, this can also be dramatically shortened using the `NumOps` shortcut - see the `Operands` chapter for more information.*
 
@@ -48,11 +48,11 @@ Please note that RPNCalc doesn't implement every RPN convention and there are a 
 
 For example, this won't work in RPNCalc:
 
-`10 + 10 + 10` can't be solved by entering `10 [Enter] 10 [Enter] 10 [Enter] + + [Enter]` as RPNCalc only allows one operand per command entry.  You'll need an `[Enter]` between the last two `+` signs.  Using the `NumOp` shortcut, this is an efficient way to solve that equation:
+`10 + 10 + 10` can't be solved by entering `10 [Enter] 10 [Enter] 10 [Enter] ++ [Enter]` as RPNCalc only allows one operand per command entry.  You'll need an `[Enter]` between the last two `+` signs.  Using the `NumOp` shortcut, this is an efficient way to solve that equation:
 
 `10 [Enter] 10+ [Enter] 10+ [Enter]`
 
-<hr> 
+<hr>
 
 ## Wikipedia:
 
