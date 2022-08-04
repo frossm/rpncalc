@@ -5,9 +5,11 @@ iff not exist %@Filename[pom.xml] then
 endiff
 
 :: Build the book
-echocolor YELLOW "Building the User Guide"
+echocolor YELLOW "Generating the html from the markdown"
 cd mdbook
+echocolor WHITE "  - Cleaning any existing generated User Guide files"
 mdbook clean
+echocolor WHITE "  - Building the User Guide"
 mdbook build
 echo.
 
@@ -23,3 +25,6 @@ cd RPNCalc-UserGuide
 echocolor WHITE "  - Copying the book"
 copy ..\..\rpncalc\mdbook\RPNCalc-UserGuide\* . /e/s/v/q
 cd ..
+
+echo.
+echocolor YELLOW "Process Completed"
