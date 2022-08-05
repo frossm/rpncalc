@@ -74,7 +74,6 @@ public class CommandParser {
 		// Delete
 		case "del":
 		case "d":
-		case "drop":
 			StackCommands.cmdDelete(calcStack, cmdInputParam);
 			break;
 

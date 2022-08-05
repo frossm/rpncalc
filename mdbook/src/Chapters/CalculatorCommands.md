@@ -14,7 +14,7 @@ These commands, like the others you'll read about later, are executed by typing 
 |f <br> flip | **FLIP SIGN**<br>Flip the sign on the top stack item (`line1`). This is effectively multiplying `line1` by -1|
 |c <br> clear| **CLEAR**<br>Clear the current stack and the screen.  Memory data is retained and you can undo the clear with the undo `u` command|
 |cl <br> clean| **CLEAN SCREEN**<br>Clear the current screen, but keep the stack.  After cleaning, the stack will be displayed at the top of the screen.  Used to remove the clutter|
-|d<br>d [#]<br>d [#-#]| **DELETE**<br>If `d` is given without any parameters, it will delete `line1`.  If a line number is given after the `d`, that line number will be deleted.  A range can be given as well, such as `d 1-3` and RPNCalc will delete those lines and everything inbetween|
+|d<br>d [#]<br>d [#-#]| **DELETE**<br>If `d` is given without any parameters, it will delete `line1`.  If a line number is given after the `d`, that line number will be deleted.  A range can be given as well, such as `d 1-3` and RPNCalc will delete those lines and everything in between.  `del` can also be used|
 |s [#] \[#] <br> swap [#] \[#]| **SWAP LINES**<br>Without an argument, swap the top two stack items (`line1 & line2`).  You can swap any two line numbers in your stack by providing the two line numbers|
 |%| **PERCENT**<br>Assumes `line1` contains a percent.  This converts that into a number by simply dividing that value by 100.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |sqrt| **SQUARE ROOT**<br>Perform a [square root](https://en.wikipedia.org/wiki/Square_root) of the top stack item (`line1`)|

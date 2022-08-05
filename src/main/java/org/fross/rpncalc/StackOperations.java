@@ -146,6 +146,16 @@ public class StackOperations {
 		String command = "";
 		String value = "";
 
+		// If there is not a parameter provided, display the current values and return
+		if (arg.isBlank()) {
+			Output.printColorln(Ansi.Color.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
+			Output.printColorln(Ansi.Color.CYAN, "Width:    " + Main.configProgramWidth + "\t|  Sets the program width in characters");
+			Output.printColorln(Ansi.Color.CYAN, "Align:    " + Main.configAlignment + "\t|  Sets alignment of the stack display");
+			Output.printColorln(Ansi.Color.CYAN, "MemSlots: " + Main.configMemorySlots + "\t|  Sets number of available memory slots");
+			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
+			return;
+		}
+
 		// Parse the provided argument into a command and value
 		try {
 			argParse = arg.split(" ");
@@ -159,7 +169,7 @@ public class StackOperations {
 			case "align":
 			case "alignment":
 				if (value.toLowerCase().compareTo("l") != 0 && value.toLowerCase().compareTo("d") != 0 && value.toLowerCase().compareTo("r") != 0) {
-					Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for mem command usage");
+					Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for set command usage");
 					return;
 				}
 				Main.configAlignment = value;
@@ -191,7 +201,7 @@ public class StackOperations {
 			}
 
 		} catch (Exception ex) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing set command: 'set " + arg + "'  See help for mem command usage");
+			Output.printColorln(Ansi.Color.RED, "Error parsing set command: 'set " + arg + "'  See help for set command usage");
 			return;
 		}
 	}

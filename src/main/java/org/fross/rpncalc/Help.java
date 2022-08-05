@@ -127,6 +127,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " load NAME         Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " import FILE       Replace current stack with file contents (one number per line)");
+		Output.printColorln(Ansi.Color.WHITE, " set               Display current values of configurations you can set");
 		Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
 		Output.printColorln(Ansi.Color.WHITE, " set width num     Set the width of the display to num");
 		Output.printColorln(Ansi.Color.WHITE, " set memslots num  Set the number of memory slots");
