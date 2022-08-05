@@ -63,9 +63,9 @@ public class Main {
 	static StackObj calcStack2 = new StackObj();
 
 	// Configuration Values
-	static int configProgramWidth = 80;
-	static int configMemorySlots = 10;
-	static String configAlignment = "l";
+	static int configProgramWidth = CONFIG_DEFAULT_PROGRAM_WIDTH;
+	static int configMemorySlots = CONFIG_DEFAULT_MEMORY_SLOTS;
+	static String configAlignment = CONFIG_DEFAULT_ALIGNMENT;
 
 	/**
 	 * Display Version(): Show the program version, copyright, and latest GitHub release
@@ -163,11 +163,11 @@ public class Main {
 		// Display some useful information about the environment if in Debug Mode
 		Debug.displaySysInfo();
 		Output.debugPrint("Command Line Options");
-		Output.debugPrint("  -D:  " + Debug.query());
-		Output.debugPrint("  -l:  " + calcStack.queryStackName());
-		Output.debugPrint("  -w:  " + configProgramWidth);
-		Output.debugPrint("  -m:  " + configMemorySlots);
-		Output.debugPrint("  Color Enabled: " + Output.queryColorEnabled());
+		Output.debugPrint("  - DebugModeOn:   " + Debug.query());
+		Output.debugPrint("  - StackName:     " + calcStack.queryStackName());
+		Output.debugPrint("  - Program Width: " + configProgramWidth);
+		Output.debugPrint("  - Memory Slots:  " + configMemorySlots);
+		Output.debugPrint("  - Color Enabled: " + Output.queryColorEnabled());
 
 		// Restore the items in the memory slots during startup
 		StackMemory.RestoreMemSlots();
@@ -255,7 +255,7 @@ public class Main {
 					continue;
 				}
 			}
-			Output.debugPrint("Complete Input: '" + cmdInput + "'  |  InputCommand '" + cmdInputCmd + "'  |  InputParameter: '" + cmdInputParam + "'");
+			Output.debugPrint("Complete Input: '" + cmdInput + "'  |  InputCommand: '" + cmdInputCmd + "'  |  InputParameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
 			if (UserFunctions.recordingIsEnabled() == true) {

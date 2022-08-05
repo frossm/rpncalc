@@ -130,7 +130,8 @@ public class UserFunctions {
 	 */
 	public static void RecordCommand(String arg) {
 		// Ignore the following commands from recording
-		String[] ignore = { "frac", "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "cx", "x", "exit" };
+		String[] ignore = { "frac", "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "set", "reset", "cx", "x", "exit",
+				"quit" };
 
 		// If the command starts with an ignored item, just return before adding it to the recording
 		for (int i = 0; i < ignore.length; i++) {

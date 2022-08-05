@@ -24,7 +24,8 @@ The following commands can be entered during a recording, but are not recorded.
 - help, h, ?
 - rec, record
 - func, function
-- cx, x, or exit
+- set, reset
+- cx, x, quit, exit
 
 |Command|Description|
 |-------|-----------|
