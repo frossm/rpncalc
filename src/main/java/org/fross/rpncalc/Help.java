@@ -70,7 +70,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " f            Flip the sign of the element at line1");
 		Output.printColorln(Ansi.Color.WHITE, " c            Clear the screen and empty current stack");
 		Output.printColorln(Ansi.Color.WHITE, " cl[ean]      Clear screen but keep the stack values");
-		Output.printColorln(Ansi.Color.WHITE, " d [#]        Delete line1 or the line number provided");
+		Output.printColorln(Ansi.Color.WHITE, " d [#] [#-#]  Delete line1, the line number provided, or a range of lines");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]    Swap the last two elments in the stack or the lines provided");
 		Output.printColorln(Ansi.Color.WHITE, " %            Convert line1 into a percentage by multipling it by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt         Perform a square root of the line1 value");

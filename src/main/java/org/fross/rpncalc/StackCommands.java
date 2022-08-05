@@ -211,7 +211,8 @@ public class StackCommands {
 	 * @param item
 	 */
 	public static void cmdDelete(StackObj calcStack, String arg) {
-		int lineToDelete;
+		int startLine = -1;
+		int endLine = -1;
 
 		// Ensure we have at least one item on the stack
 		if (calcStack.size() < 1) {
@@ -219,34 +220,70 @@ public class StackCommands {
 			return;
 		}
 
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
+		// Remove any spaces from arg
+		arg = arg.replace(" ", "");
 
 		// Determine line to delete by looking at arg
 		try {
-			lineToDelete = Integer.parseInt(arg);
+			// If this doesn't have an exception, user entered in a single number integer
+			// Simple delete that line
+			startLine = Integer.parseInt(arg);
+			endLine = startLine;
 
 		} catch (NumberFormatException ex) {
-			if (!arg.isBlank()) {
+			// If a dash is present, user entered in a range
+			if (arg.contains("-")) {
+				try {
+					startLine = Integer.parseInt(arg.split("-")[0]);
+					endLine = Integer.parseInt(arg.split("-")[1]);
+				} catch (Exception e) {
+					Output.printColorln(Ansi.Color.RED, "Invalid range provided: '" + arg + "'");
+					return;
+				}
+			}
+
+			// An invalid argument was provided
+			if (!arg.isBlank() && startLine == -1) {
 				Output.printColorln(Ansi.Color.RED, "Invalid line number provided: '" + arg + "'");
 				return;
-			} else {
-				lineToDelete = 1;
+
+			} else if (startLine == -1) {
+				// No argument was provided - delete the item on the top of the stack
+				startLine = 1;
+				endLine = 1;
 			}
 		}
-		Output.debugPrint("Line to Delete: " + lineToDelete);
+
+		// If the start line is great than the end line, swap them as they were entered in the wrong order
+		if (startLine > endLine) {
+			int temp = startLine;
+			startLine = endLine;
+			endLine = temp;
+		}
+
+		Output.debugPrint("Range to Delete: Line" + startLine + " to Line" + endLine);
 
 		try {
 			// Ensure the number entered is is valid
-			if (lineToDelete < 1 || lineToDelete > calcStack.size()) {
-				Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineToDelete);
+			if (startLine < 1 || endLine > calcStack.size()) {
+				Output.printColorln(Ansi.Color.RED, "Deletion range must be between 1 and " + calcStack.size());
+				return;
+
 			} else {
-				// Finally we can remove the item from the stack
-				calcStack.remove(calcStack.size() - lineToDelete);
+				int counter = 0;	// Account for a shrinking calcStack.size() as items are removed
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
+
+				// Lets finally delete the lines from the provided range startLine -> endLine inclusive
+				for (int i = startLine; i <= endLine; i++) {
+					calcStack.remove(calcStack.size() - i + counter);
+					counter++;
+				}
+
 			}
 
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + lineToDelete + "'");
+			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + arg + "'");
 			Output.debugPrint(e.getMessage());
 		}
 	}
@@ -260,20 +297,15 @@ public class StackCommands {
 		int die = 6;
 		int rolls = 1;
 
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		// Parse out the die sides and rolls
 		try {
 			if (!param.isEmpty()) {
 				rolls = Integer.parseInt(param.substring(0).trim().split("[Dd]")[0]);
 				die = Integer.parseInt(param.substring(0).trim().split("[Dd]")[1]);
 			}
-		} catch (NumberFormatException e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing die and rolls.  Rolls: '" + rolls + "' Die: '" + die + "'");
-			return;
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
+			Output.printColorln(Ansi.Color.RED, "Error parsing dice parameter.  Format: 'dice xdy' where x=rolls, y=sides");
+			return;
 		}
 
 		// Display Debug Output
@@ -287,6 +319,9 @@ public class StackCommands {
 			Output.printColorln(Ansi.Color.RED, "ERROR: You have to specify at least 1 roll");
 			return;
 		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		// Roll them bones
 		for (int i = 0; i < rolls; i++) {
@@ -302,6 +337,7 @@ public class StackCommands {
 	public static void cmdFlipSign(StackObj calcStack) {
 		if (calcStack.size() < 1) {
 			Output.printColorln(Ansi.Color.RED, "Error: There must be at least one item on the stack to flip it's sign");
+
 		} else {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();

@@ -112,35 +112,149 @@ class StackCommandsTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdDelete(org.fross.rpncalc.StackObj, java.lang.String)}.
+	 * Test delete command no parameter. Should delete line1
+	 * 
 	 */
 	@Test
-	void testCmdDelete() {
+	void testCmdDeleteNoParm() {
 		StackObj stk = new StackObj();
 
-		stk.push(1.23);
-		stk.push(2.34);
-		stk.push(3.45);
-		stk.push(4.56);
-		stk.push(5.67);
+		stk.push(5.0);
+		stk.push(4.0);
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(1.0);
 
-		// Delete top stack item (line1) by not providing a line number
+		// Delete line1 by not providing a line number
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(4, stk.size());
-		assertEquals(4.56, stk.peek());
-		assertEquals(1.23, stk.get(0));
+		assertEquals(2, stk.peek());
+		assertEquals(5, stk.get(0));
+		StackCommands.cmdAddAll(stk, "keep");
+		assertEquals(5, stk.size());
+		assertEquals(14, stk.peek());
+
+		// Delete all items one at a time
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(4, stk.size());
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(3, stk.size());
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(2, stk.size());
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(1, stk.size());
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(0, stk.size());
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(0, stk.size());
+	}
+
+	/**
+	 * Test delete with a single line number given
+	 * 
+	 */
+	@Test
+	void testCmdDelete1Line() {
+		StackObj stk = new StackObj();
+
+		stk.push(5.0);
+		stk.push(4.0);
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(1.0);
 
 		// Delete line 3
 		StackCommands.cmdDelete(stk, "3");
-		assertEquals(3, stk.size());
-		assertEquals(4.56, stk.peek());
-		assertEquals(4.56, stk.get(2));
+		assertEquals(4, stk.size());
+		assertEquals(1, stk.peek());
+		assertEquals(5, stk.get(0));
+		StackCommands.cmdAddAll(stk, "keep");
+		assertEquals(5, stk.size());
+		assertEquals(12, stk.peek());
 
-		// Remove top of stack item again
-		StackCommands.cmdDelete(stk, "");
+		// Delete Line 5
+		StackCommands.cmdDelete(stk, "5");
+		assertEquals(4, stk.size());
+		assertEquals(12, stk.peek());
+		StackCommands.cmdAddAll(stk, "keep");
+		assertEquals(5, stk.size());
+		assertEquals(19, stk.peek());
+	}
+
+	/**
+	 * Test delete by providing a range of lines to delete
+	 * 
+	 */
+	@Test
+	void testCmdDeleteRange() {
+		StackObj stk = new StackObj();
+
+		stk.push(5.0);
+		stk.push(4.0);
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(1.0);
+
+		StackCommands.cmdDelete(stk, "2-4");
 		assertEquals(2, stk.size());
-		assertEquals(3.45, stk.peek());
-		assertEquals(1.23, stk.get(0));
+		assertEquals(1, stk.peek());
+		assertEquals(5, stk.get(0));
+		StackCommands.cmdAddAll(stk, "keep");
+		assertEquals(3, stk.size());
+		assertEquals(6, stk.peek());
+
+		// Undo the above changes and reset for next test
+		StackCommands.cmdUndo(stk, "1");
+
+		StackCommands.cmdDelete(stk, "5 - 2");
+		assertEquals(1, stk.size());
+		assertEquals(1, stk.peek());
+		assertEquals(1, stk.get(0));
+		StackCommands.cmdAddAll(stk, "keep");
+		assertEquals(1, stk.size());
+		assertEquals(1, stk.peek());
+
+		// Delete last line
+		StackCommands.cmdDelete(stk, "1-1");
+		assertEquals(0, stk.size());
+		StackCommands.cmdDelete(stk, "");
+		assertEquals(0, stk.size());
+	}
+
+	/**
+	 * Test delete by sending illegal parameters. The size shouldn't change
+	 */
+	@Test
+	void testCmdDeleteParmError() {
+		StackObj stk = new StackObj();
+
+		stk.push(5.0);
+		stk.push(4.0);
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(1.0);
+
+		// Send a bunch of incorrect parameters
+		StackCommands.cmdDelete(stk, "x");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "5x");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "5-52a");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "-1");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "4-1000");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "200-1");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "keep");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "-1 * 5");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "1-6");
+		assertEquals(5, stk.size());
+		StackCommands.cmdDelete(stk, "5-0");
+		assertEquals(5, stk.size());
 	}
 
 	/**
@@ -150,14 +264,44 @@ class StackCommandsTest {
 	void testCmdDice() {
 		StackObj stk = new StackObj();
 
-		StackCommands.cmdDice(stk, "10d4");
+		// Roll some bones and the stack counts should equal the number of rolls
+		StackCommands.cmdDice(stk, "10D4");
 		assertEquals(10, stk.size());
 
 		StackCommands.cmdDice(stk, "6d10");
 		assertEquals(16, stk.size());
 
-		StackCommands.cmdDice(stk, "4d10");
-		assertEquals(20, stk.size());
+		StackCommands.cmdDice(stk, "500d100");
+		assertEquals(516, stk.size());
+
+		// Illegal parameter syntax
+		StackCommands.cmdDice(stk, "d1");
+		assertEquals(516, stk.size());
+		StackCommands.cmdDice(stk, "11a12");
+		assertEquals(516, stk.size());
+		StackCommands.cmdDice(stk, "10-2");
+		assertEquals(516, stk.size());
+		StackCommands.cmdDice(stk, "ddd");
+		assertEquals(516, stk.size());
+		StackCommands.cmdDice(stk, "10d");
+		assertEquals(516, stk.size());
+	}
+
+	/**
+	 * Test the 'dice' command and ensure none of the rolls are within the range
+	 * 
+	 */
+	@Test
+	void testDieRollsAreWithinRange() {
+		StackObj stk = new StackObj();
+
+		// Roll 5000 d10 dice
+		StackCommands.cmdDice(stk, "5000d10");
+		for (int i = 0; i < stk.size(); i++) {
+			if (stk.get(i) < 1 || stk.get(i) > 10) {
+				fail();
+			}
+		}
 	}
 
 	/**
@@ -336,7 +480,7 @@ class StackCommandsTest {
 
 		// Ensure there are 500 numbers and they are all in the correct range
 		assertEquals(500, stk.size());
-		for (int i=0; i < 500; i++) {
+		for (int i = 0; i < 500; i++) {
 			if (stk.get(i) < 1 || stk.get(i) > 100) {
 				fail();
 			}
