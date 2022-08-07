@@ -76,7 +76,7 @@ public class StackConversions {
 	 * @param param
 	 */
 	public static String[] cmdFraction(StackObj calcStack, String param) {
-		String[] outputString = new String[4];
+		String[] outputString = { "", "", "", "" };
 
 		// Verify we have an item on the stack
 		if (calcStack.size() < 1) {

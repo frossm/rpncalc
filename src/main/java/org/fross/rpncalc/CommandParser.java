@@ -178,9 +178,11 @@ public class CommandParser {
 		case "frac":
 		case "fraction":
 			String[] outString = StackConversions.cmdFraction(calcStack, cmdInputParam);
-			Output.printColorln(Ansi.Color.YELLOW, outString[0]);
-			Output.printColorln(Ansi.Color.WHITE, outString[1]);
-			Output.printColorln(Ansi.Color.YELLOW, outString[2]);
+			if (!outString[0].isEmpty()) {
+				Output.printColorln(Ansi.Color.YELLOW, outString[0]);
+				Output.printColorln(Ansi.Color.WHITE, outString[1]);
+				Output.printColorln(Ansi.Color.YELLOW, outString[2]);
+			}
 			break;
 
 		// Convert inches to millimeters
