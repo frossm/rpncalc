@@ -161,5 +161,47 @@ public class StackConversions {
 		// Pull the value, convert and push back
 		calcStack.push(calcStack.pop() * (java.lang.Math.PI / 180));
 	}
+	
+	/**
+	 * cmdGram2Oz(): Convert line1 from grams to ounces
+	 * 
+	 * There are 0.035274 ounces per gram
+	 * 
+	 * @param calcStack
+	 */
+	public static void cmdGram2Oz(StackObj calcStack) {
+		// Ensure we have something on the stack
+		if (calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+		
+		// Make the conversion
+		calcStack.push(calcStack.pop() * 0.035274);
+	}
+	
+	/**
+	 * cmdOz2Gram(): Convert line1 from grams to ounces
+	 * 
+	 * There are 28.349523125 grams per ounce
+	 * 
+	 * @param calcStack
+	 */
+	public static void cmdOz2Gram(StackObj calcStack) {
+		// Ensure we have something on the stack
+		if (calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+		
+		// Make the conversion
+		calcStack.push(calcStack.pop() * 28.349523125);
+	}
 
 }

@@ -81,5 +81,41 @@ class StackConversionsTest {
 		assertEquals(71.046875, stk.peek());
 
 	}
+	
+	/**
+	 * Test Grams to Ounces conversion
+	 */
+	@Test
+	void testGram2Oz() {
+		StackObj stk = new StackObj();
+		
+		stk.push(1234.567);
+		StackConversions.cmdGram2Oz(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(43.54812, stk.pop());
+		
+		stk.push(-22.2);
+		StackConversions.cmdGram2Oz(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-0.78308, stk.pop());
+	}
+	
+	/**
+	 * Test Ounces to grams conversion
+	 */
+	@Test
+	void testOz2Gram() {
+		StackObj stk = new StackObj();
+		
+		stk.push(12.345);
+		StackConversions.cmdOz2Gram(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(349.97486, stk.pop());
+		
+		stk.push(-0.0221);
+		StackConversions.cmdOz2Gram(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-0.62652, stk.pop());
+	}
 
 }

@@ -24,3 +24,5 @@ if `frac 2` woulc have been entered (which means 1/2 is maximum granularity), yo
 |mm2in<br>2in|Converts the value in `line1` from millimeters to inches|
 |deg2rad<br>2rad|Convert `line1` from degrees into [radians](https://en.wikipedia.org/wiki/Radian)|
 |rad2deg<br>2deg|Convert `line1` from radians into degrees|
+|gram2oz<br>grams2oz|Convert `line1` from grams into ounces using the constant of 0.035274 ounces / gram|
+|oz2gram<br>oz2grams|Convert `line1` from ounces into grams using the constant of 28.349523125 grams / ounce|

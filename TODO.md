@@ -6,3 +6,6 @@ The following list are simply thoughts and ideas on making RPNCalc better.
 |:-----|:------:|:--------:|:---|
 |Not Started|Low|Low|Make `disable color` persistent by having `-z` toggle?|
 |Not Started|Low|Low|Min/Max - add an optional `[keep]` flag|
+|Not Started|Low|Low|Mem copyall in reverse|
+|Not Started|Low|Low|Import in reverse|
+|Not Started|Low|Low|Log: allow for variable bases include `e`|

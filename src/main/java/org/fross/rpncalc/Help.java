@@ -93,6 +93,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " mm2in          Convert line1 from millimeters to inches");
 		Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from raidans to degrees");
 		Output.printColorln(Ansi.Color.WHITE, " deg2rad        Convert line1 from degrees to radians");
+		Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from ounces to grams");
+		Output.printColorln(Ansi.Color.WHITE, " gram2oz        Convert line1 from grams to ounces");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");

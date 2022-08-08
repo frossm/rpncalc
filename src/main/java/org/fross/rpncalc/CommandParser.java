@@ -172,7 +172,7 @@ public class CommandParser {
 			break;
 
 		/*******************************************************************************
-		 * Stack Conversions
+		 * Conversions
 		 ******************************************************************************/
 		// Fraction
 		case "frac":
@@ -207,6 +207,18 @@ public class CommandParser {
 		case "rad2deg":
 		case "2deg":
 			StackConversions.cmdRad2Deg(calcStack);
+			break;
+
+		// Convert grams to ounces
+		case "gram2oz":
+		case "grams2oz":
+			StackConversions.cmdGram2Oz(calcStack);
+			break;
+
+		// Convert ounces to grams
+		case "oz2gram":
+		case "oz2grams":
+			StackConversions.cmdOz2Gram(calcStack);
 			break;
 
 		/*******************************************************************************
