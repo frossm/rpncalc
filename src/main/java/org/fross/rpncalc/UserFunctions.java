@@ -75,7 +75,7 @@ public class UserFunctions {
 	}
 
 	/**
-	 * cmdFunction(): Allow users to run or delete functions
+	 * cmdFunction(): Allow users to manage functions
 	 * 
 	 * @param args
 	 */

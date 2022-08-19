@@ -174,7 +174,7 @@ public class Main {
 
 		// Display the initial program header information
 		Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(configProgramWidth - 2) + "+");
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "RPN Calculator  v" + VERSION, "|", "|"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "RPN Calculator v" + VERSION, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, COPYRIGHT, "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "Enter command 'h' for help details", "|", "|"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "", "|", "|"));
