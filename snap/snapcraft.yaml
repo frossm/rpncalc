@@ -1,5 +1,5 @@
 name: rpncalc
-version: '4.6.10'
+version: '4.6.11'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -31,26 +31,34 @@ license: MIT
 compression: lzo
 
 apps:
-  rpncalc:
-    command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar $SNAP/jar/rpncalc.jar
+   rpncalc:
+      #command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar $SNAP/jar/rpncalc.jar
+      command: rpncalc-wrapper
 
-    plugs:
+      plugs:
       - network
 
 parts:
-  library:
-    plugin: maven
-    source: https://github.com/frossm/library.git
-    source-type: git
-    source-tag: 'v2022.07.28'
-    maven-options: [install]
+   wrapper:
+      plugin: dump
+      source: snap/local
+      source-type: local
+    
+   library:
+      plugin: maven
+      source: https://github.com/frossm/library.git
+      source-type: git
+      source-tag: 'v2022.07.28'
+      maven-options: [install]
 
-  rpncalc:
-    plugin: maven
-    source: https://github.com/frossm/rpncalc.git
-    source-branch: master
-    source-type: git
-    after: [library]
-    override-prime: |
-      snapcraftctl prime
-      rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
+   rpncalc:
+      plugin: maven
+      source: https://github.com/frossm/rpncalc.git
+      source-branch: master
+      source-type: git
+      after:
+         - library
+         - wrapper
+      override-prime: |
+         snapcraftctl prime
+         rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
