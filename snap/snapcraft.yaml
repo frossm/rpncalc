@@ -32,11 +32,10 @@ compression: lzo
 
 apps:
    rpncalc:
-      #command: bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar $SNAP/jar/rpncalc.jar
       command: rpncalc-wrapper
 
       plugs:
-      - network
+         - network
 
 parts:
    wrapper:
