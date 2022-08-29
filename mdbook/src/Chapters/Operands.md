@@ -39,7 +39,7 @@ Example: Minus `-` will execute 2 - 3 and will yield `-1`
 
 ## The NumOps Shortcut
 
-RPNCalc has an important shortcut that can speed up your calculations.  You can append one of the above operands at the end of an entered number and the program will, behind the scenes, place the number on top of the stack (`line1`) and then execute the operand.  For example:
+RPNCalc has an important shortcut that can speed up your calculations.  You can append one of the above operands at the end of an entered number and the program will, behind the scenes, place the number on top of the stack (`line1`) and then execute the operand.  The operand must directly follow the number without a space between. For example:
 
 `2 [ENTER]`
 
