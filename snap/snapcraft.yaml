@@ -33,7 +33,6 @@ compression: lzo
 apps:
    rpncalc:
       command: rpncalc-wrapper
-
       plugs:
          - network
 
@@ -58,6 +57,7 @@ parts:
       after:
          - library
          - wrapper
+
       override-prime: |
          snapcraftctl prime
          rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
