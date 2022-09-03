@@ -44,12 +44,13 @@ public class Help {
 		int helpWidth = 80;
 
 		Output.printColor(Ansi.Color.CYAN, "\n+" + "-".repeat(helpWidth) + "+\n+");
-		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, ("RPN Calculator  v" + Main.VERSION)));
+		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, ("RPN Calculator   v" + Main.VERSION)));
 		Output.printColor(Ansi.Color.CYAN, "+\n+");
 		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, Main.COPYRIGHT));
 		Output.printColorln(Ansi.Color.CYAN, "+\n+" + "-".repeat(helpWidth) + "+");
-		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "RPNCalc is a command line Reverse Polish Notation calculator"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "RPNCalc is the command line Reverse Polish Notation calculator"));
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://github.com/frossm/rpncalc"));
+		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://frossm.github.io/RPNCalc-UserGuide"));
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
 		Output.printColorln(Ansi.Color.WHITE, " -l       Load a saved named stack. Create the stack if it does not exist");
@@ -136,7 +137,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
 		Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver               Display the current version");
-		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work.");
+		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
 		Output.printColorln(Ansi.Color.WHITE, " cx|x|exit         Exit Calculator.  'cx' will clear before exiting");
 
 	}
