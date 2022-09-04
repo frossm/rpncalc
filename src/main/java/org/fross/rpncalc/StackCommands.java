@@ -304,7 +304,7 @@ public class StackCommands {
 				die = Integer.parseInt(param.substring(0).trim().split("[Dd]")[1]);
 			}
 		} catch (Exception e) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing dice parameter.  Format: 'dice xdy' where x=rolls, y=sides");
+			Output.printColorln(Ansi.Color.RED, "Error parsing dice parameter('" + param + "').  Format: 'dice xdy' where x=rolls, y=sides");
 			return;
 		}
 

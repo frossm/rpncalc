@@ -27,6 +27,8 @@
 package org.fross.rpncalc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +49,12 @@ class MathTest {
 		stk.push(4.56789);
 
 		assertEquals(5.80245, Math.Parse("+", stk).peek());
+		assertEquals(1, stk.size());
+
+		stk.push(-1.1);
+		Math.Parse("+", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(4.70245, stk.peek());
 		assertEquals(1, stk.size());
 	};
 
@@ -135,18 +143,18 @@ class MathTest {
 	 */
 	@Test
 	void testIsNumeric() {
-		assertEquals(true, Math.isNumeric("432123434232334.325474458"));
-		assertEquals(true, Math.isNumeric("-123.4567"));
-		assertEquals(true, Math.isNumeric("1"));
-		assertEquals(true, Math.isNumeric(".000002"));
-		assertEquals(false, Math.isNumeric("-123.4a567"));
-		assertEquals(false, Math.isNumeric("Nope"));
-		assertEquals(false, Math.isNumeric("1x22"));
-		assertEquals(false, Math.isNumeric("--123"));
-		assertEquals(false, Math.isNumeric(" "));
-		assertEquals(false, Math.isNumeric(""));
-		assertEquals(false, Math.isNumeric("!"));
-		assertEquals(false, Math.isNumeric("-"));
+		assertTrue(Math.isNumeric("432123434232334.325474458"));
+		assertTrue(Math.isNumeric("-123.4567"));
+		assertTrue(Math.isNumeric("1"));
+		assertTrue(Math.isNumeric(".000002"));
+		assertFalse(Math.isNumeric("-123.4a567"));
+		assertFalse(Math.isNumeric("Nope"));
+		assertFalse(Math.isNumeric("1x22"));
+		assertFalse(Math.isNumeric("--123"));
+		assertFalse(Math.isNumeric(" "));
+		assertFalse(Math.isNumeric(""));
+		assertFalse(Math.isNumeric("!"));
+		assertFalse(Math.isNumeric("-"));
 
 	}
 

@@ -1,5 +1,5 @@
 name: rpncalc
-version: '4.6.11'
+version: '4.6.12'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -58,6 +58,8 @@ parts:
          - library
          - wrapper
 
+      # Bypass a build issue where an absolute reference is made to a file outside of the snap filesystem 
+      # Ref: https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/23
       override-prime: |
          snapcraftctl prime
          rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
