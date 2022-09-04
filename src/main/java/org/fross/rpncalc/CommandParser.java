@@ -333,6 +333,12 @@ public class CommandParser {
 			StackOperations.cmdReset();
 			break;
 
+		// Reverse Stack
+		case "rev":
+		case "reverse":
+			StackOperations.cmdReverse(calcStack);
+			break;
+
 		// Version
 		case "ver":
 		case "version":

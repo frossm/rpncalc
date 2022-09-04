@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
 class StackOperationsTest {
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackOperations#cmdDebug()}.
+	 * Testing turning debug on and off
 	 */
 	@Test
 	void testCmdDebug() {
@@ -57,7 +57,41 @@ class StackOperationsTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackOperations#cmdSet(java.lang.String)}.
+	 * Test reversing the stack with the 'rev' command
+	 */
+	@Test
+	void testReverseCommand() {
+		StackObj stk = new StackObj();
+
+		// Load the stack
+		stk.push(1.0);
+		stk.push(2.0);
+		stk.push(3.0);
+		stk.push(4.0);
+		stk.push(5.0);
+
+		// Check the current stack
+		assertEquals(5, stk.size());
+		assertEquals(1.0, stk.get(0));
+		assertEquals(2.0, stk.get(1));
+		assertEquals(3.0, stk.get(2));
+		assertEquals(4.0, stk.get(3));
+		assertEquals(5.0, stk.get(4));
+
+		// Reverse the stack items
+		StackOperations.cmdReverse(stk);
+
+		// Validate they are reversed
+		assertEquals(5, stk.size());
+		assertEquals(5.0, stk.get(0));
+		assertEquals(4.0, stk.get(1));
+		assertEquals(3.0, stk.get(2));
+		assertEquals(2.0, stk.get(3));
+		assertEquals(1.0, stk.get(4));
+	}
+
+	/**
+	 * Testing the various 'set' commands
 	 * 
 	 * 'set mem' slots tested in StackMemory method test
 	 * 
@@ -93,7 +127,7 @@ class StackOperationsTest {
 	}
 
 	/**
-	 * Test method to create a new test stack, add values to it, and check that you can load
+	 * Test method to create a new test stack, add values to it, and check that you can load it
 	 */
 	@Test
 	void testLoadCommand() {

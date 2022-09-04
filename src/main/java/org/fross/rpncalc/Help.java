@@ -135,6 +135,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " set width num     Set the width of the display to num");
 		Output.printColorln(Ansi.Color.WHITE, " set memslots num  Set the number of memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
+		Output.printColorln(Ansi.Color.WHITE, " rev               Reverse the order of the items in the stack");
 		Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " ver               Display the current version");
 		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");

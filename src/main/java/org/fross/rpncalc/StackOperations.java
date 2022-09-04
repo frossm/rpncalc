@@ -228,6 +228,29 @@ public class StackOperations {
 	}
 
 	/**
+	 * cmdReverse(): Reverse all of the elements in the stack. Last becomes first and first becomes last
+	 */
+	public static void cmdReverse(StackObj calcStack) {
+		Output.debugPrint("Reversing all items in the stack");
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		StackObj tempStack = new StackObj();
+		int stackSize = calcStack.size();
+
+		// Reverse the items as we add them to a temporary stack
+		for (int i = 0; i < stackSize; i++) {
+			tempStack.push(calcStack.pop());
+		}
+
+		// Copy from the temporary stack back to the calcStack
+		for (int i = 0; i < stackSize; i++) {
+			calcStack.push(tempStack.get(i));
+		}
+	}
+
+	/**
 	 * cmdSwapStack(): Swap the primary and secondary stacks
 	 * 
 	 */
