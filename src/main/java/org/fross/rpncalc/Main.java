@@ -57,10 +57,10 @@ public class Main {
 	// Class Variables
 	public static String VERSION;
 	public static String COPYRIGHT;
-	static LineReader scanner = LineReaderBuilder.builder().build();
+	static final LineReader scanner = LineReaderBuilder.builder().build();
 	static boolean ProcessCommandLoop = true;
-	static StackObj calcStack = new StackObj();
-	static StackObj calcStack2 = new StackObj();
+	static final StackObj calcStack = new StackObj();
+	static final StackObj calcStack2 = new StackObj();
 
 	// Configuration Values
 	static int configProgramWidth = CONFIG_DEFAULT_PROGRAM_WIDTH;
@@ -142,7 +142,7 @@ public class Main {
 		}
 
 		// Add default values to the persistent configuration items if none exist
-		if (prefConfig.get("alignment", "none") == "none") {
+		if (prefConfig.get("alignment", "none").equals("none")) {
 			prefConfig.put("alignment", CONFIG_DEFAULT_ALIGNMENT);
 		}
 		if (prefConfig.getInt("programwidth", -1) == -1) {

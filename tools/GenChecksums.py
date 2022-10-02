@@ -3,14 +3,14 @@ import sys
 import re
 import hashlib
 
-BLOCK_SIZE = 65536 # The size of each read from the file
+BLOCK_SIZE = 65536  # The size of each read from the file
 
 MD5FILENAME = "CHECKSUM.MD5"
 SHA1FILENAME = "CHECKSUM.SHA1"
 SHA256FILENAME = "CHECKSUM.SHA256"
 
 if __name__ == "__main__":
-    # Detemine the jar filename from our path.  Must be run in project base dir
+    # Determine the jar filename from our path.  Must be run in project base dir
     fileNamePlain = os.path.basename(os.getcwd()) + ".jar"
     fileName = "target/" + fileNamePlain
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
         # While there is still data being read from the file...
         while len(fileBuffer) > 0:
-            # Update the hashs
+            # Update the hashes
             hashMD5.update(fileBuffer)
             hashSHA1.update(fileBuffer)
             hashSHA256.update(fileBuffer)
@@ -60,3 +60,4 @@ if __name__ == "__main__":
 
         finally:
             outFile.close()
+            

@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.6.13</version>
+	<version>4.6.14</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -197,14 +197,14 @@
 		<dependency>
 			<groupId>org.fross</groupId>
 			<artifactId>library</artifactId>
-			<version>2022.07.28</version>
+			<version>2022.09.07</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.9.0</version>
+			<version>5.9.1</version>
 			<scope>test</scope>
 		</dependency>
 

@@ -46,7 +46,7 @@ public class StackTrig {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();		// Save current calcStack to the undoStack
 
-		Double angle = null;
+		double angle = 0.0;
 
 		try {
 			angle = calcStack.pop();
@@ -97,8 +97,8 @@ public class StackTrig {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();		// Save current calcStack to the undoStack
 
-		Double result = null;
-		Double originalValue = null;
+		double result = 0.0;
+		double originalValue = 0.0;
 
 		originalValue = calcStack.peek();
 

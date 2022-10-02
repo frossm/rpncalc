@@ -593,7 +593,7 @@ public class StackCommands {
 		}
 
 		// Round the top of stack item and return that result to the stack
-		bd = new BigDecimal(calcStack.pop());
+		bd = new BigDecimal(String.valueOf(calcStack.pop()));
 		bd = bd.setScale(decimalPlaces, RoundingMode.HALF_UP);
 		calcStack.push(bd.doubleValue());
 	}

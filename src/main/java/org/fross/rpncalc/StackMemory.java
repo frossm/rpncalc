@@ -26,6 +26,7 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.util.Arrays;
 import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
@@ -60,7 +61,7 @@ public class StackMemory {
 			Output.printColorln(Ansi.Color.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -183,9 +184,7 @@ public class StackMemory {
 			case "clrall":
 			case "clearall":
 				Output.printColorln(Ansi.Color.CYAN, "Clearing All Memory Slots");
-				for (int i = 0; i < memorySlots.length; i++) {
-					memorySlots[i] = null;
-				}
+				Arrays.fill(memorySlots, null);
 				break;
 
 			// Copy the value from the memory slot provided back onto the stack
