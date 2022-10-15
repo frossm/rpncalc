@@ -614,9 +614,6 @@ public class StackCommands {
 			return;
 		}
 
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		// Determine the source and destination elements
 		try {
 			if (!param.isEmpty()) {
@@ -636,6 +633,10 @@ public class StackCommands {
 		if (item1 < 1 || item1 > calcStack.size() || item2 < 1 || item2 > calcStack.size()) {
 			Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + calcStack.size());
 		} else {
+			// Save current calcStack to the undoStack
+			calcStack.saveUndo();
+			
+			// We're good - make the swap
 			Output.debugPrint("Swapping line" + item1 + " and line" + item2 + " stack items");
 			StackOperations.StackSwapItems(calcStack, (item1 - 1), (item2) - 1);
 		}
