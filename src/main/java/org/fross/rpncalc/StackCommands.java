@@ -690,7 +690,7 @@ public class StackCommands {
 
 		// Step1: Get the mean
 		Double mean1 = Math.Mean(calcStack);
-		Output.debugPrint("Inital mean of the numbers: " + mean1);
+		Output.debugPrint("Initial mean of the numbers: " + mean1);
 
 		// Step2: For each number: subtract the mean from the number and square the result
 		Double[] stdArray = new Double[calcStack.size()];
