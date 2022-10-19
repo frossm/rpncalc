@@ -53,11 +53,11 @@ public class Help {
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://frossm.github.io/RPNCalc-UserGuide"));
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
-		Output.printColorln(Ansi.Color.WHITE, " -l       Load a saved named stack. Create the stack if it does not exist");
 		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
+		Output.printColorln(Ansi.Color.WHITE, " -l       Load a saved named stack. Create the stack if it does not exist");
+		Output.printColorln(Ansi.Color.WHITE, " -h | ?   Show this help information.  Either key will work.");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information as well as latest GitHub release");
 		Output.printColorln(Ansi.Color.WHITE, " -z       Disable colorized output");
-		Output.printColorln(Ansi.Color.WHITE, " -h | ?   Show this help information.  Either key will work.");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
 		Output.printColorln(Ansi.Color.WHITE, " +    Addition:  Add last two stack elements");
@@ -67,79 +67,79 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ^    Power:  Calculate line2 to the power of line1");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCalculator Commands:");
-		Output.printColorln(Ansi.Color.WHITE, " u [STACK #]    Undo last action or back to the undo stack defined in 'list undo'");
-		Output.printColorln(Ansi.Color.WHITE, " f              Flip the sign of the element at line1");
+		Output.printColorln(Ansi.Color.WHITE, " %              Convert line1 into a percentage by multipling it by 0.01");
+		Output.printColorln(Ansi.Color.WHITE, " aa [keep]      Add all stack items. Adding 'keep' will keep existing elements");
+		Output.printColorln(Ansi.Color.WHITE, " abs            Take the absolute value of line1");
+		Output.printColorln(Ansi.Color.WHITE, " avg [keep]     Replace stack with average of values.  'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " c              Clear the screen and empty current stack");
 		Output.printColorln(Ansi.Color.WHITE, " cl[ean]        Clear screen but keep the stack values");
-		Output.printColorln(Ansi.Color.WHITE, " d [#] [#-#]    Delete line1, the line number provided, or a range of lines");
-		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]      Swap the last two elments in the stack or the lines provided");
-		Output.printColorln(Ansi.Color.WHITE, " %              Convert line1 into a percentage by multipling it by 0.01");
-		Output.printColorln(Ansi.Color.WHITE, " sqrt           Perform a square root of the line1 value");
-		Output.printColorln(Ansi.Color.WHITE, " round [n]      Round to n decimal places.  Default is 0 decimals");
-		Output.printColorln(Ansi.Color.WHITE, " aa [keep]      Add all stack items. Adding 'keep' will keep existing elements");
-		Output.printColorln(Ansi.Color.WHITE, " mod            Modulus. Perform a division and return the remainder");
-		Output.printColorln(Ansi.Color.WHITE, " avg [keep]     Replace stack with average of values.  'keep' will retain stack");
-		Output.printColorln(Ansi.Color.WHITE, " sd [keep]      Standard deviation of stack items.  'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " copy [#]       Copy line1 or the optional line number and add it to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " log | log10    Calculate the natural (base e) or base10 logarithm");
-		Output.printColorln(Ansi.Color.WHITE, " int            Convert line1 to an integer. No rounding is performed");
-		Output.printColorln(Ansi.Color.WHITE, " abs            Take the absolute value of line1");
-		Output.printColorln(Ansi.Color.WHITE, " min | max      Adds the minimum or maximum value of stack items to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H]   Random integer between L and H inclusive.  Default is 1-100");
+		Output.printColorln(Ansi.Color.WHITE, " d [#] [#-#]    Delete line1, the line number provided, or a range of lines");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY       Roll a Y sided die X times.  Default is 1d6");
+		Output.printColorln(Ansi.Color.WHITE, " f              Flip the sign of the element at line1");
+		Output.printColorln(Ansi.Color.WHITE, " int            Convert line1 to an integer. No rounding is performed");
+		Output.printColorln(Ansi.Color.WHITE, " log | log10    Calculate the natural (base e) or base10 logarithm");
+		Output.printColorln(Ansi.Color.WHITE, " min | max      Adds the minimum or maximum value of stack items to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " mod            Modulus. Perform a division and return the remainder");
+		Output.printColorln(Ansi.Color.WHITE, " sqrt           Perform a square root of the line1 value");
+		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H]   Random integer between L and H inclusive.  Default is 1-100");
+		Output.printColorln(Ansi.Color.WHITE, " round [n]      Round to n decimal places.  Default is 0 decimals");
+		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]      Swap the last two elments in the stack or the lines provided");
+		Output.printColorln(Ansi.Color.WHITE, " sd [keep]      Standard deviation of stack items.  'keep' will retain stack");
+		Output.printColorln(Ansi.Color.WHITE, " u [STACK #]    Undo last action or back to the undo stack defined in 'list undo'");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConversions:");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]    Display as a fraction with min provided base. Default base is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " in2mm          Convert line1 from inches into millimeters");
 		Output.printColorln(Ansi.Color.WHITE, " mm2in          Convert line1 from millimeters to inches");
-		Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from raidans to degrees");
 		Output.printColorln(Ansi.Color.WHITE, " deg2rad        Convert line1 from degrees to radians");
-		Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from ounces to grams");
-		Output.printColorln(Ansi.Color.WHITE, " gram2oz        Convert line1 from grams to ounces");
+		Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from raidans to degrees");
+		Output.printColorln(Ansi.Color.WHITE, " gram2oz        Convert line1 from grams to US ounces");
+		Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
-		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan [rad] Trig Functions: Result in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " hypot                Returns the hypotenuse using line1 and line2 as the legs");
+		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nMemory Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] add       Add line1 to memory slot X. Default slot is 0");
-		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy      Copy number from memory slot X. Default slot is 0");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] clr       Clear memory from slot X. Default slot0");
+		Output.printColorln(Ansi.Color.WHITE, " mem [X] copy      Copy number from memory slot X. Default slot is 0");
+		Output.printColorln(Ansi.Color.WHITE, " mem addall        Add all stack items to memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " mem clearall      Clear all memory slots");
 		Output.printColorln(Ansi.Color.WHITE, " mem copyall       Copy all memory items onto the stack");
-		Output.printColorln(Ansi.Color.WHITE, " mem addall        Add all stack items to memory slots");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
-		Output.printColorln(Ansi.Color.WHITE, " pi                Add Archimede's constant (PI)");
-		Output.printColorln(Ansi.Color.WHITE, " phi               Add the Golden Ratio (phi)");
 		Output.printColorln(Ansi.Color.WHITE, " euler             Add Euler's exponential growth constant (e)");
+		Output.printColorln(Ansi.Color.WHITE, " phi               Add the Golden Ratio (phi)");
+		Output.printColorln(Ansi.Color.WHITE, " pi                Add Archimede's constant (PI)");
 		Output.printColorln(Ansi.Color.WHITE, " sol               Add the Speed of Light (c)");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nUser Defined Functions:");
-		Output.printColorln(Ansi.Color.WHITE, " record on         Turn on command recording");
-		Output.printColorln(Ansi.Color.WHITE, " record off        Disable recording");
 		Output.printColorln(Ansi.Color.WHITE, " func del NAME     Delete named user defined function");
 		Output.printColorln(Ansi.Color.WHITE, " func delall       Delete all user defined functions");
+		Output.printColorln(Ansi.Color.WHITE, " record on         Turn on command recording");
+		Output.printColorln(Ansi.Color.WHITE, " record off        Disable recording");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
-		Output.printColorln(Ansi.Color.WHITE, " list stacks       Show the list of saved stacks");
-		Output.printColorln(Ansi.Color.WHITE, " list mem          Display contents of the memory slots");
-		Output.printColorln(Ansi.Color.WHITE, " list undo         Show the current undo stack");
-		Output.printColorln(Ansi.Color.WHITE, " list func         Display the detailed user defined functions");
-		Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
-		Output.printColorln(Ansi.Color.WHITE, " load NAME         Load (or create if needed) a named stack");
+		Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
+		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
 		Output.printColorln(Ansi.Color.WHITE, " import FILE       Replace current stack with file contents (one number per line)");
-		Output.printColorln(Ansi.Color.WHITE, " set               Display current values of configurations you can set");
-		Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
-		Output.printColorln(Ansi.Color.WHITE, " set width NUM     Set the width of the display to num");
-		Output.printColorln(Ansi.Color.WHITE, " set memslots NUM  Set the number of memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " list func         Display the detailed user defined functions");
+		Output.printColorln(Ansi.Color.WHITE, " list mem          Display contents of the memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " list stacks       Show the list of saved stacks");
+		Output.printColorln(Ansi.Color.WHITE, " list undo         Show the current undo stack");
+		Output.printColorln(Ansi.Color.WHITE, " load NAME         Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
 		Output.printColorln(Ansi.Color.WHITE, " rev               Reverse the order of the items in the stack");
-		Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
+		Output.printColorln(Ansi.Color.WHITE, " set               Display current values of configurations you can set");
+		Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
+		Output.printColorln(Ansi.Color.WHITE, " set memslots NUM  Set the number of memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " set width NUM     Set the width of the display to num");
+		Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " ver               Display the current version");
-		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
-		Output.printColorln(Ansi.Color.WHITE, " cx|x|exit         Exit Calculator.  'cx' will clear before exiting");
+		Output.printColorln(Ansi.Color.WHITE, " x|cx|exit         Exit Calculator.  'cx' will clear before exiting");
 
 	}
 }
