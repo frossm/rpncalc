@@ -98,43 +98,67 @@ class StackConversionsTest {
 	void testCmdFraction() {
 		StackObj stk = new StackObj();
 
+		// Test positive numbers with different bases
 		stk.push(71.046875);
-		String[] result = StackConversions.cmdFraction(stk, "");
-		assertEquals("71 3/64", result[3]);
 		assertEquals(71.046875, stk.peek());
 
+		String[] result = StackConversions.cmdFraction(stk, "");
+		assertEquals("71 3/64", result[3]);
+
+		result = StackConversions.cmdFraction(stk, "16");
+		assertEquals("71 1/16", result[3]);
+
+		result = StackConversions.cmdFraction(stk, "2");
+		assertEquals("71 0/1", result[3]);
+
+		// Test negative numbers with different bases
+		stk.push(-123.456);
+		assertEquals(-123.456, stk.peek());
+
+		result = StackConversions.cmdFraction(stk, "");
+		assertEquals("-123 29/64", result[3]);
+
+		result = StackConversions.cmdFraction(stk, "44");
+		assertEquals("-123 5/11", result[3]);
+
+		result = StackConversions.cmdFraction(stk, "32");
+		assertEquals("-123 15/32", result[3]);
+
+		result = StackConversions.cmdFraction(stk, "8");
+		assertEquals("-123 1/2", result[3]);
+
 	}
-	
+
 	/**
 	 * Test Grams to Ounces conversion
 	 */
 	@Test
 	void testGram2Oz() {
 		StackObj stk = new StackObj();
-		
+
 		stk.push(1234.567);
 		StackConversions.cmdGram2Oz(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(43.54812, stk.pop());
-		
+
 		stk.push(-22.2);
 		StackConversions.cmdGram2Oz(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.78308, stk.pop());
 	}
-	
+
 	/**
 	 * Test Ounces to grams conversion
 	 */
 	@Test
 	void testOz2Gram() {
 		StackObj stk = new StackObj();
-		
+
 		stk.push(12.345);
 		StackConversions.cmdOz2Gram(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(349.97486, stk.pop());
-		
+
 		stk.push(-0.0221);
 		StackConversions.cmdOz2Gram(stk);
 		StackCommands.cmdRound(stk, "5");

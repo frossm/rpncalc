@@ -77,11 +77,19 @@ public class StackConversions {
 	 */
 	public static String[] cmdFraction(StackObj calcStack, String param) {
 		String[] outputString = { "", "", "", "" };
+		double startingNumber = calcStack.peek();
+		boolean negativeNumber = false;
 
 		// Verify we have an item on the stack
 		if (calcStack.size() < 1) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
 			return outputString;
+		}
+
+		// If starting number is negative, set a variable then remove the negative sign
+		if (startingNumber < 0) {
+			negativeNumber = true;
+			startingNumber = java.lang.Math.abs(startingNumber);
 		}
 
 		// The base to convert the fraction to. For example, 64 = 1/64th
@@ -97,10 +105,10 @@ public class StackConversions {
 		}
 
 		// Determine the integer portion of the number
-		int integerPart = (int) java.lang.Math.floor(calcStack.peek());
+		int integerPart = (int) java.lang.Math.floor(startingNumber);
 
 		// Determine the fractional portion as an double
-		double decimalPart = calcStack.peek() - integerPart;
+		double decimalPart = startingNumber - integerPart;
 
 		// Convert to a fraction with provided base
 		long numerator = java.lang.Math.round(decimalPart * denominator);
@@ -114,10 +122,20 @@ public class StackConversions {
 		numerator /= gcd;
 		denominator /= gcd;
 
+		// If starting number was negative, set it as negative again
+		if (negativeNumber == true) {
+			integerPart *= -1;
+		}
+
 		// Output the fractional display
-		String stackHeader = "-Fraction (1/" + (denominator * gcd) + ")";
+		// If there is no fractional result, remove it so we don't see '0/1'
+		String stackHeader = "-Fraction (Granularity: 1/" + (denominator * gcd) + ")";
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
-		outputString[1] = " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
+		if (numerator != 0) {
+			outputString[1] = " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
+		} else {
+			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator * gcd);
+		}
 		outputString[2] = "-".repeat(Main.configProgramWidth) + "\n";
 		outputString[3] = integerPart + " " + numerator + "/" + denominator;
 
@@ -161,7 +179,7 @@ public class StackConversions {
 		// Pull the value, convert and push back
 		calcStack.push(calcStack.pop() * (java.lang.Math.PI / 180));
 	}
-	
+
 	/**
 	 * cmdGram2Oz(): Convert line1 from grams to ounces
 	 * 
@@ -178,11 +196,11 @@ public class StackConversions {
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
-		
+
 		// Make the conversion
 		calcStack.push(calcStack.pop() * 0.035274);
 	}
-	
+
 	/**
 	 * cmdOz2Gram(): Convert line1 from grams to ounces
 	 * 
@@ -199,7 +217,7 @@ public class StackConversions {
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
-		
+
 		// Make the conversion
 		calcStack.push(calcStack.pop() * 28.349523125);
 	}
