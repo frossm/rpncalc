@@ -2,7 +2,7 @@
 
 # Licenses
 
-RPNCalc is licensed under the MIT license as documented below.  However, it does make use of several libraries that may use a different license, so please assume ensure you comply with all of the licenses contained herein.
+RPNCalc is licensed under the MIT license as documented below.  However, it does make use of several libraries that may use a different license, so please ensure you comply with all of the licenses contained herein.
 
 ## RPNCalc License
 
