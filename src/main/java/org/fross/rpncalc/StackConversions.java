@@ -77,7 +77,6 @@ public class StackConversions {
 	 */
 	public static String[] cmdFraction(StackObj calcStack, String param) {
 		String[] outputString = { "", "", "", "" };
-		double startingNumber = calcStack.peek();
 		boolean negativeNumber = false;
 
 		// Verify we have an item on the stack
@@ -85,6 +84,9 @@ public class StackConversions {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
 			return outputString;
 		}
+
+		// Set the last stack item as the startingNumber
+		double startingNumber = calcStack.peek();
 
 		// If starting number is negative, set a variable then remove the negative sign
 		if (startingNumber < 0) {
