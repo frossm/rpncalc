@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2022 Michael Fross
+ *  Copyright (c) 2013-2023 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -55,6 +55,7 @@ public class StackMemory {
 			}
 
 			Main.configMemorySlots = Integer.parseInt(slots);
+			Output.debugPrint("Saving Memory Slots value to preferences");
 			prefConfig.putInt("memoryslots", Integer.parseInt(slots));
 
 		} catch (NumberFormatException ex) {

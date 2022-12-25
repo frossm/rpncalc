@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2022 Michael Fross
+ *  Copyright (c) 2013-2023 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,10 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.prefs.Preferences;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,11 +45,12 @@ class StackMemoryTest {
 	@Test
 	void testSetMaxMemorySlots() {
 		// Save current number of memory slots given changes are persistent
-		int currentSlots = StackMemory.memorySlots.length;
-
-		boolean result = StackMemory.SetMaxMemorySlots("99");
+		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+		int currentSlots = Integer.parseInt(prefConfig.get("memoryslots", ""))	;
+		
+		boolean result = StackMemory.SetMaxMemorySlots("2099");
 		assertTrue(result);
-		assertEquals(99, StackMemory.memorySlots.length);
+		assertEquals(2099, StackMemory.memorySlots.length);
 
 		// Set slots back to what they were originally
 		StackMemory.SetMaxMemorySlots(currentSlots + "");

@@ -22,5 +22,5 @@ Operational commands are commands that do not directly impact your stack numbers
 |set align `l\|d\|r`| Set the alignment of the stack when it's displayed.  The default is `l` or left alignment.  The numbers are aligned to the left.  `r` or right alignment has the numbers aligned to the right.  `d` or decimal aligns all of the decimal points together in a column.  This setting is persistent across RPNCalc executions. `set alignment` may also be used| 
 |ss|Swap the current stack with the secondary. The primary and secondary stacks are described in the Stacks section.  Executing `ss` again will swap them back.  The secondary stack it just a place to do a bit of other work then you can swap back.  They are in no way connected.  The secondary stack is also saved upon exit|
 |ver| Display the current version number and copyright as well as the latest GitHub release.  This is equivalent to the `-v` command line option.  Users of Snap installations will automatically be up to date.|
-|cx|`cx` will clear the stack and then exit the program|
+|cx<br>clearexit|`cx` or `clearexit` will clear the stack and then exit the program|
 |x<br>exit<br>quit<br>ctrl-c|Exit the program.  The primary stack, secondary stack, and memory slots will be saved upon exit|

@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2022 Michael Fross
+ *  Copyright (c) 2013-2023 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -93,25 +93,39 @@ class StackOperationsTest {
 	/**
 	 * Testing the various 'set' commands
 	 * 
-	 * 'set mem' slots tested in StackMemory method test
-	 * 
 	 * 'reset' tested here as well
 	 */
 	@Test
 	void testCmdSet() {
 		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 
-		// set Width
+		// Save current settings so they can be reinstated after the test
+		String align = prefConfig.get("alignment", "");
+		String width = prefConfig.get("programwidth", "");
+		String memSlots = prefConfig.get("memoryslots", "");
+		System.out.println("** Initial Set Configs:  align=" + align + " width=" + width + " memslots=" + memSlots + " **");
+
+		// Test MemSlots
+		StackOperations.cmdSet("memslots 1123");
+		assertEquals(1123, StackMemory.memorySlots.length);
+
+		StackOperations.cmdSet("memslots 100");
+		assertEquals(100, StackMemory.memorySlots.length);
+
+		StackOperations.cmdSet("memslots 71");
+		assertEquals(71, StackMemory.memorySlots.length);
+
+		// Test Width
 		StackOperations.cmdSet("width 100");
 		assertEquals(100, Main.configProgramWidth);
 		assertEquals("100", prefConfig.get("programwidth", ""));
 
-		// set Align
+		// Test Align
 		StackOperations.cmdSet("alignment d");
 		assertEquals("d", Main.configAlignment);
 		assertEquals("d", prefConfig.get("alignment", ""));
 
-		StackOperations.cmdSet("alignment r");
+		StackOperations.cmdSet("alignment R");
 		assertEquals("r", Main.configAlignment);
 		assertEquals("r", prefConfig.get("alignment", ""));
 
@@ -119,11 +133,33 @@ class StackOperationsTest {
 		assertEquals("l", Main.configAlignment);
 		assertEquals("l", prefConfig.get("alignment", ""));
 
-		StackOperations.cmdReset();
-		assertEquals(80, Main.configProgramWidth);
-		assertEquals("80", prefConfig.get("programwidth", ""));
+		StackOperations.cmdSet("align d");
+		assertEquals("d", Main.configAlignment);
+		assertEquals("d", prefConfig.get("alignment", ""));
+
+		StackOperations.cmdSet("align r");
+		assertEquals("r", Main.configAlignment);
+		assertEquals("r", prefConfig.get("alignment", ""));
+
+		StackOperations.cmdSet("align L");
 		assertEquals("l", Main.configAlignment);
 		assertEquals("l", prefConfig.get("alignment", ""));
+
+		// Test Reset
+		StackOperations.cmdReset();
+		assertEquals(Main.CONFIG_DEFAULT_PROGRAM_WIDTH, Main.configProgramWidth);
+		assertEquals(Main.CONFIG_DEFAULT_PROGRAM_WIDTH, Integer.parseInt(prefConfig.get("programwidth", "")));
+
+		assertEquals(Main.CONFIG_DEFAULT_ALIGNMENT, Main.configAlignment);
+		assertEquals(Main.CONFIG_DEFAULT_ALIGNMENT, prefConfig.get("alignment", ""));
+
+		assertEquals(Main.CONFIG_DEFAULT_MEMORY_SLOTS, Main.configMemorySlots);
+		assertEquals(Main.CONFIG_DEFAULT_MEMORY_SLOTS, Integer.parseInt(prefConfig.get("memoryslots", "")));
+
+		// Restore original configurations
+		prefConfig.put("programwidth", width);
+		prefConfig.put("alignment", align);
+		prefConfig.put("memoryslots", memSlots);
 	}
 
 	/**

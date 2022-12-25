@@ -10,3 +10,4 @@ The following list are simply thoughts and ideas on making RPNCalc better.
 |Not Started|Low|Low|Import in reverse|
 |Not Started|Low|Low|Log: allow for variable bases include `e`|
 |Not Started|Med|Low|Func Import / Export to save your defined functions|
+|Not Started|High|Low|When testing `clearall` save and restore the values after the test|

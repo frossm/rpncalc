@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2022 Michael Fross
+ *  Copyright (c) 2013-2023 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -139,7 +139,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " set width NUM     Set the width of the display to num");
 		Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " ver               Display the current version");
-		Output.printColorln(Ansi.Color.WHITE, " x|cx|exit         Exit Calculator.  'cx' will clear before exiting");
+		Output.printColorln(Ansi.Color.WHITE, " x|exit            Exit Calculator");
+		Output.printColorln(Ansi.Color.WHITE, " cx|clearexit      Clear the stack and then exit");
 
 	}
 }

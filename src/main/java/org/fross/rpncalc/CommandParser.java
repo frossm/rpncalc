@@ -1,9 +1,9 @@
 /******************************************************************************
-/ * RPNCalc
+ * RPNCalc
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2022 Michael Fross
+ *  Copyright (c) 2013-2023 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -354,6 +354,7 @@ public class CommandParser {
 
 		// Exit
 		case "cx":
+		case "clearexit":
 			calcStack.clear();
 		case "x":
 		case "exit":

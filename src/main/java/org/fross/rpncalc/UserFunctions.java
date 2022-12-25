@@ -3,7 +3,7 @@
  * 
  * RPNCalc is is an easy to use console based RPN calculator
  * 
- *  Copyright (c) 2013-2022 Michael Fross
+ *  Copyright (c) 2013-2023 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -59,7 +59,13 @@ public class UserFunctions {
 			} else if (args.toLowerCase().trim().startsWith("off")) {
 				if (recordingEnabled == true) {
 					recordingEnabled = false;
-					SaveRecordingToPrefs();
+					
+					// Ensure we have something in the buffer to save.  If not, just return
+					if (!recording.isEmpty()) {
+						SaveRecordingToPrefs();
+					} else {
+						Output.printColorln(Ansi.Color.CYAN, "No valid commands were recorded");
+					}
 				} else {
 					Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
 				}
@@ -69,7 +75,7 @@ public class UserFunctions {
 			}
 		} catch (StringIndexOutOfBoundsException ex) {
 			// User did not enter in a command
-			Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement for record comamnd.  Please see help");
+			Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for record comamnd.  Please see help");
 		}
 
 	}
@@ -130,7 +136,7 @@ public class UserFunctions {
 	 */
 	public static void RecordCommand(String arg) {
 		// Ignore the following commands from recording
-		String[] ignore = { "frac", "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "set", "reset", "cx", "x", "exit",
+		String[] ignore = { "frac", "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit",
 				"quit" };
 
 		// If the command starts with an ignored item, just return before adding it to the recording

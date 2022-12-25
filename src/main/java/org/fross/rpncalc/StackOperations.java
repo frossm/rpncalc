@@ -150,7 +150,7 @@ public class StackOperations {
 		if (arg.isBlank()) {
 			Output.printColorln(Ansi.Color.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
 			Output.printColorln(Ansi.Color.CYAN, "Width:    " + Main.configProgramWidth + "\t|  Sets the program width in characters");
-			Output.printColorln(Ansi.Color.CYAN, "Align:    " + Main.configAlignment + "\t|  Sets alignment of the stack display");
+			Output.printColorln(Ansi.Color.CYAN, "Align:    " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
 			Output.printColorln(Ansi.Color.CYAN, "MemSlots: " + Main.configMemorySlots + "\t|  Sets number of available memory slots");
 			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
 			return;
@@ -160,7 +160,7 @@ public class StackOperations {
 		try {
 			argParse = arg.split(" ");
 			command = argParse[0];
-			value = argParse[1];
+			value = argParse[1].toLowerCase();
 
 			Output.debugPrint("Set Command: '" + command + "'");
 			Output.debugPrint("Set Value:   '" + value + "'");
@@ -168,21 +168,23 @@ public class StackOperations {
 			switch (command.toLowerCase()) {
 			case "align":
 			case "alignment":
-				if (value.toLowerCase().compareTo("l") != 0 && value.toLowerCase().compareTo("d") != 0 && value.toLowerCase().compareTo("r") != 0) {
-					Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for set command usage");
+				if (value.compareTo("l") != 0 && value.compareTo("d") != 0 && value.compareTo("r") != 0) {
+					Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for usage");
 					return;
 				}
 				Main.configAlignment = value;
+				Output.debugPrint("Saving Alignment value to preferences");
 				prefConfig.put("alignment", value);
 				Output.printColorln(Ansi.Color.CYAN, "Alignment set to '" + value + "'");
 				break;
 
 			case "width":
 				if (Integer.parseInt(value) < Main.PROGRAM_MINIMUM_WIDTH) {
-					Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + (Main.PROGRAM_MINIMUM_WIDTH) + ". Setting width to that value.");
+					Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + Main.PROGRAM_MINIMUM_WIDTH + ". Setting width to that value.");
 					value = "" + Main.PROGRAM_MINIMUM_WIDTH;
 				}
 				Main.configProgramWidth = Integer.parseInt(value);
+				Output.debugPrint("Saving Program Width value to preferences");
 				prefConfig.putInt("programwidth", Integer.parseInt(value));
 				Output.printColorln(Ansi.Color.CYAN, "Program Width set to '" + value + "'");
 				break;
