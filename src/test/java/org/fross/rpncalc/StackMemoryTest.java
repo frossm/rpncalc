@@ -46,8 +46,14 @@ class StackMemoryTest {
 	void testSetMaxMemorySlots() {
 		// Save current number of memory slots given changes are persistent
 		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
-		int currentSlots = Integer.parseInt(prefConfig.get("memoryslots", ""))	;
-		
+		int currentSlots = prefConfig.getInt("memoryslots", Integer.MAX_VALUE);
+
+		// If the value doesn't exist, it will error out - so add one if it's not there
+		if (currentSlots == Integer.MAX_VALUE) {
+			prefConfig.putInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
+			currentSlots = Main.CONFIG_DEFAULT_MEMORY_SLOTS;
+		}
+
 		boolean result = StackMemory.SetMaxMemorySlots("2099");
 		assertTrue(result);
 		assertEquals(2099, StackMemory.memorySlots.length);

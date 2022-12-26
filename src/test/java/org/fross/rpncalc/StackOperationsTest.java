@@ -100,11 +100,10 @@ class StackOperationsTest {
 		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 
 		// Save current settings so they can be reinstated after the test
-		String align = prefConfig.get("alignment", "");
-		String width = prefConfig.get("programwidth", "");
-		String memSlots = prefConfig.get("memoryslots", "");
-		System.out.println("** Initial Set Configs:  align=" + align + " width=" + width + " memslots=" + memSlots + " **");
-
+		String align = prefConfig.get("alignment", Main.CONFIG_DEFAULT_ALIGNMENT);
+		int width = prefConfig.getInt("programwidth", Main.CONFIG_DEFAULT_PROGRAM_WIDTH);
+		int memSlots = prefConfig.getInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
+		
 		// Test MemSlots
 		StackOperations.cmdSet("memslots 1123");
 		assertEquals(1123, StackMemory.memorySlots.length);
@@ -157,9 +156,9 @@ class StackOperationsTest {
 		assertEquals(Main.CONFIG_DEFAULT_MEMORY_SLOTS, Integer.parseInt(prefConfig.get("memoryslots", "")));
 
 		// Restore original configurations
-		prefConfig.put("programwidth", width);
+		prefConfig.putInt("programwidth", width);
 		prefConfig.put("alignment", align);
-		prefConfig.put("memoryslots", memSlots);
+		prefConfig.putInt("memoryslots", memSlots);
 	}
 
 	/**
