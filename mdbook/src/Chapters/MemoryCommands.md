@@ -10,7 +10,7 @@ The operational command `reset` will reset all of the persistant settings back t
 
 The normal usage to is to save a value from the current `line1` into a memory slot and copy it back later.  The memory slots are saved between program executions so if you need it in a later session, it will be there.  It's saved in the Java preferences system as discussed earlier.
 
-|Command|Description|
+|<div style="width:135px">Command</div>|Description|
 |-------|-----------|
 |mem [slot] add|`mem X add`<br>Will add the top stack item (`line1`) into the memory slot X.  By default, there are 10 slots; 0 through 9.  If you do not provide a slot number it will default to `slot0`<br>Example:  `mem add`   will add the contents of `line1` into memory `slot0`|
 |mem [slot] copy<br>mem [slot] recall|`mem X copy`<br>Copies the contents of memory slot provided back onto the stack.  Defaults to `slot0` if no slot number is provided|

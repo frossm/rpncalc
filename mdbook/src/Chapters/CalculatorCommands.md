@@ -8,7 +8,7 @@ In Calculator Commands, these are the basic commands that operations on the numb
 
 These commands, like the others you'll read about later, are executed by typing the command name, and any needed arguments into RPNCalc.  Often there are several different names and abreviations for the same command.  This is just to make it easier to remember.  Brackets, `[]` around an option denotes it is optional.
 
-|Command|Description|
+|<div style="width:90px">Command</div>|Description|
 |-------|-----------|
 |%| **PERCENT**<br>Assumes `line1` contains a percent.  This converts that into a number by simply dividing that value by 100.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |aa [keep]| **ADD ALL**<br>Add all stack items together and replace the numbers on the stack with the result.  If the optional `keep` parameter is sent, the elements added will be retained on the stack and the total will be added to the top of the stack.  The entire `keep` command is not necessary, anything that starts with `k` will work|

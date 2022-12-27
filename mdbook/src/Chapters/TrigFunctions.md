@@ -6,7 +6,8 @@ RPNCalc does not consider itself a scientific calculator (at least not currently
 
 Lastly, I'm happy to add more capabilities if there is a desire (and an offer to help test).
 
-|Command|Description|
+|<div style="width:90px">Command</div>|Description|
+|<div style="width:90px">Command</div>|Description|
 |-------|-----------|
 |sin [rad]<br>cos [rad]<br>tan [rad]|Calculate the [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function requested.  Angles are input as degrees by default unless the optional `rad` parameter is given in which case the angles will be in [radians](https://en.wikipedia.org/wiki/Radian).<br><br>**Example:** `tan` will calculate the tangent using `line1` as the angle in degrees.  Use `tan rad` if `line1` contains the angle in radians|
 |asin [rad]<br>acos [rad]<br>atan [rad]|Calculate the arc [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function.  Like the above, the result is returned in degrees unless `rad` parameter is provided|

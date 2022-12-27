@@ -17,7 +17,7 @@ The `frac [base]` command takes the item on the top of the stack (`line1`) and d
 if `frac 2` woulc have been entered (which means 1/2 is maximum granularity), you get `1.1234 is approximately 1 0/1` or just one.  *Need to look into that display oddity*.|
 
 
-|Command|Description|
+|<div style="width:90px">Command</div>|Description|
 |-------|-----------|
 |frac [base]|Display a fractional estimate of the last stack item (`line1`) with the maximum granularity of 1/[base]. See the above description for more detail|
 |in2mm<br>2mm|Converts the value in `line1` from inches to millimeters|

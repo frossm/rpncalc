@@ -27,7 +27,7 @@ The following commands can be entered during a recording, but are not recorded.
 - set, reset
 - cx, x, quit, exit
 
-|Command|Description|
+|<div style="width:110px">Command</div>|Description|
 |-------|-----------|
 |record on<br>rec on|Turn on recording.  Most commands and numbers entered after record is enabled will be saved.  There are some that are excluded from being recorded as detailed above|
 |record off<br>rec off| Turn off recording.  The user will be prompted to enter in a name for this function and that name will be used to run it in the future.  If you do not enter in a name the recording is canceled and  nothing will be saved|
