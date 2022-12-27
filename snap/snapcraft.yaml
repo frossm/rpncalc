@@ -1,5 +1,5 @@
 name: rpncalc
-version: '4.6.20'
+version: '4.7.0'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish

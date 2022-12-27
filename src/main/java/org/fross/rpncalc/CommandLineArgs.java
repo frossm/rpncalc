@@ -53,6 +53,9 @@ public class CommandLineArgs {
 	@Parameter(names = { "-l", "--load" }, description = "Load saved stack file")
 	protected String clLoad = "";
 
+	@Parameter(names = { "-L", "--license" }, description = "Display program usage license")
+	protected boolean clLicense = false;
+
 	// ---------------------------------------------------------------------------------------------
 	// Process command line parameters with the following methods
 	// ---------------------------------------------------------------------------------------------
@@ -87,9 +90,15 @@ public class CommandLineArgs {
 			Main.calcStack2.setStackNameAndRestore("default", "2");
 		}
 
-		// Version Switch
+		// Version Display
 		if (cli.clVersion == true) {
 			Main.DisplayVersion();
+			System.exit(0);
+		}
+
+		// License Display
+		if (cli.clLicense == true) {
+			Help.DisplayLicense();
 			System.exit(0);
 		}
 

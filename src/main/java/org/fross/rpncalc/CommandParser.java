@@ -339,6 +339,11 @@ public class CommandParser {
 			StackOperations.cmdReverse(calcStack);
 			break;
 
+		// Show License
+		case "license":
+			Help.DisplayLicense();
+			break;
+
 		// Version
 		case "ver":
 		case "version":

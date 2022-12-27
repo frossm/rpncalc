@@ -46,7 +46,7 @@ class CommandLineArgsTest {
 	@Test
 	void testShortCommandLineArgs() {
 		// Test Short Options
-		String[] argv1 = { "-D", "-z", "-h", "-v", "-l", "LoadFile.txt" };
+		String[] argv1 = { "-D", "-z", "-h", "-v", "-L", "-l", "LoadFile.txt" };
 
 		CommandLineArgs cli = new CommandLineArgs();
 		JCommander jc = new JCommander();
@@ -57,6 +57,7 @@ class CommandLineArgsTest {
 
 		assertTrue(cli.clDebug);
 		assertTrue(cli.clNoColor);
+		assertTrue(cli.clLicense);
 		assertTrue(cli.clVersion);
 		assertTrue(cli.clHelp);
 		assertEquals("LoadFile.txt", cli.clLoad);
@@ -65,7 +66,7 @@ class CommandLineArgsTest {
 	@Test
 	void testLongCommandLineArgs() {
 		// Test Long Options
-		String[] argv2 = { "--debug", "--no-color", "--help", "--version", "--load", "LongLoadFile.txt" };
+		String[] argv2 = { "--debug", "--no-color", "--help", "--license", "--version", "--load", "LongLoadFile.txt" };
 
 		CommandLineArgs cli = new CommandLineArgs();
 		JCommander jc = new JCommander();
@@ -76,6 +77,7 @@ class CommandLineArgsTest {
 
 		assertTrue(cli.clDebug);
 		assertTrue(cli.clNoColor);
+		assertTrue(cli.clLicense);
 		assertTrue(cli.clVersion);
 		assertTrue(cli.clHelp);
 		assertEquals("LongLoadFile.txt", cli.clLoad);
@@ -103,7 +105,7 @@ class CommandLineArgsTest {
 	@Test
 	void testMixedCommandLineArgs2() {
 		// Test Mix of Options
-		String[] argv4 = { "--debug", "-h", "-l", "MixedLoadFile2.txt" };
+		String[] argv4 = { "--debug", "-h", "--license", "-l", "MixedLoadFile2.txt" };
 
 		CommandLineArgs cli = new CommandLineArgs();
 		JCommander jc = new JCommander();
@@ -116,6 +118,7 @@ class CommandLineArgsTest {
 		assertFalse(cli.clNoColor);
 		assertFalse(cli.clVersion);
 		assertTrue(cli.clHelp);
+		assertTrue(cli.clLicense);
 		assertEquals("MixedLoadFile2.txt", cli.clLoad);
 	}
 }
