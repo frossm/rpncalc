@@ -325,12 +325,12 @@ public class CommandParser {
 
 		// Set configuration options
 		case "set":
-			StackOperations.cmdSet(cmdInputParam);
+			Configuration.cmdSet(cmdInputParam);
 			break;
 
 		// Reset configuration to defaults
 		case "reset":
-			StackOperations.cmdReset();
+			Configuration.cmdReset();
 			break;
 
 		// Reverse Stack

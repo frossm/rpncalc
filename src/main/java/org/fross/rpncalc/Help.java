@@ -99,9 +99,9 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
+		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan [rad] Trig Functions: Result in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " hypot                Returns the hypotenuse using line1 and line2 as the legs");
-		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nMemory Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " mem [X] add       Add line1 to memory slot X. Default slot is 0");
@@ -123,6 +123,12 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " record on         Turn on command recording");
 		Output.printColorln(Ansi.Color.WHITE, " record off        Disable recording");
 
+		Output.printColorln(Ansi.Color.YELLOW, "\nConfiguration Options:");
+		Output.printColorln(Ansi.Color.WHITE, " set               Display current values of configurations you can set");
+		Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
+		Output.printColorln(Ansi.Color.WHITE, " set memslots NUM  Set the number of memory slots");
+		Output.printColorln(Ansi.Color.WHITE, " set width NUM     Set the width of the display to num");
+
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
@@ -134,13 +140,9 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " load NAME         Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
 		Output.printColorln(Ansi.Color.WHITE, " rev               Reverse the order of the items in the stack");
-		Output.printColorln(Ansi.Color.WHITE, " set               Display current values of configurations you can set");
-		Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
-		Output.printColorln(Ansi.Color.WHITE, " set memslots NUM  Set the number of memory slots");
-		Output.printColorln(Ansi.Color.WHITE, " set width NUM     Set the width of the display to num");
 		Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " license           Display the software usage license");
-		Output.printColorln(Ansi.Color.WHITE, " ver               Display the current version");
+		Output.printColorln(Ansi.Color.WHITE, " ver               Display current RPNCalc version & latest version on GitHub");
 		Output.printColorln(Ansi.Color.WHITE, " x|exit            Exit Calculator");
 		Output.printColorln(Ansi.Color.WHITE, " cx|clearexit      Clear the stack and then exit");
 
