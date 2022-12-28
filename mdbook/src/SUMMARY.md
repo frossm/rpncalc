@@ -7,6 +7,7 @@
 - [High Level Usage](./Chapters/HighLevelUsage.md)
 - [Command Line Options](./Chapters/CommandLineOptions.md)
 - [Operands](./Chapters/Operands.md)
+- [Configuration](./Chapters/Configuration.md)
 - [Calculator Commands](./Chapters/CalculatorCommands.md)
 - [Conversions](./Chapters/Conversions.md)
 - [Trigonometry Functions](./Chapters/TrigFunctions.md)

@@ -22,13 +22,16 @@ Extensive use of several libraries were used in RPNCalc.  I'd like to publicly t
 
 I'd like to give recognition and attribution to the authors of the icons used in this guide.
 
-- Install: <a href="https://www.flaticon.com/free-icons/easy-installation" title="easy installation icons">Easy installation icons created by Freepik - Flaticon</a>
+
+- Configure: <a href="https://www.flaticon.com/free-icons/easy-installation" title="easy installation icons">Easy installation icons created by Freepik - Flaticon</a>
 
 - High Level Usage: <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by srip - Flaticon</a>
 
 - Stacks: <a href="https://www.flaticon.com/free-icons/maguro" title="maguro icons">Maguro icons created by Kanyanee Watanajitkasem - Flaticon</a>
 
 - Operands: <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Freepik - Flaticon</a>
+
+- Install: <a href="https://www.flaticon.com/free-icons/save-file" title="save file icons">Save file icons created by Tanah Basah - Flaticon</a>
 
 - Calculator Commands: <a href="https://www.flaticon.com/free-icons/maths" title="maths icons">Maths icons created by Freepik - Flaticon</a>
 
