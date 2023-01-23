@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.7.2</version>
+	<version>4.7.3</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -212,7 +212,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-reader</artifactId>
-			<version>3.22.0</version>
+			<version>3.21.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
@@ -220,7 +220,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-terminal-jansi</artifactId>
-			<version>3.22.0</version>
+			<version>3.21.0</version>
 		</dependency>
 
 	</dependencies>
