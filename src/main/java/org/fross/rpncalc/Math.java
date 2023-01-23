@@ -26,6 +26,8 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.math.BigDecimal;
+
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -205,7 +207,7 @@ public class Math {
 	 * @param arry
 	 * @return
 	 */
-	public static Double Mean(Double[] arry) {
+	public static Double mean(Double[] arry) {
 		StackObj stk = new StackObj();
 
 		// Convert array into a stack then call Mean again
@@ -214,6 +216,22 @@ public class Math {
 		}
 
 		return (Mean(stk));
+	}
+
+	/**
+	 * factorial(): Return the factorial of the provided integer
+	 * 
+	 * @param num
+	 * @return
+	 */
+	public static BigDecimal factorial(int num) {
+		BigDecimal result = new BigDecimal("1");
+
+		for (int factor = 2; factor <= num; factor++) {
+			result = result.multiply(new BigDecimal(factor));
+		}
+
+		return result;
 	}
 
 }

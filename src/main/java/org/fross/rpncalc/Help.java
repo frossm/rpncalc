@@ -79,6 +79,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY       Roll a Y sided die X times.  Default is 1d6");
 		Output.printColorln(Ansi.Color.WHITE, " f              Flip the sign of the element at line1");
 		Output.printColorln(Ansi.Color.WHITE, " int            Convert line1 to an integer. No rounding is performed");
+		Output.printColorln(Ansi.Color.WHITE, " lr             Simple Linear regression. Calculate the next predicted value");
 		Output.printColorln(Ansi.Color.WHITE, " log | log10    Calculate the natural (base e) or base10 logarithm");
 		Output.printColorln(Ansi.Color.WHITE, " min | max      Adds the minimum or maximum value of stack items to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " mod            Modulus. Perform a division and return the remainder");

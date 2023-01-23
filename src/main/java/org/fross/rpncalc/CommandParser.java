@@ -141,6 +141,11 @@ public class CommandParser {
 			StackCommands.cmdInteger(calcStack);
 			break;
 
+		// Linear Regression
+		case "lr":
+			StackCommands.cmdLinearRegression(calcStack);
+			break;
+			
 		// Absolute Value
 		case "abs":
 			StackCommands.cmdAbsoluteValue(calcStack);

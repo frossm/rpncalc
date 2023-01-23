@@ -371,6 +371,63 @@ class StackCommandsTest {
 	}
 
 	/**
+	 * Testing the linear regression results
+	 * 
+	 */
+	@Test
+	void testCmdLinearRegression() {
+		StackObj stk = new StackObj();
+
+		// Test #1
+		stk.push(11.00);
+		stk.push(9.00);
+		stk.push(22.00);
+		stk.push(15.00);
+		stk.push(20.00);
+		stk.push(10.00);
+		stk.push(35.00);
+		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(8, stk.size());
+		assertEquals(27.7143, stk.pop());
+
+		// Test #2
+		stk.clear();
+		stk.push(-5.67);
+		stk.push(0.0);
+		stk.push(3.45);
+		stk.push(9.01);
+		stk.push(12.0);
+		stk.push(15.0);
+		stk.push(6.99);
+		stk.push(11.11);
+		stk.push(22.22);
+		stk.push(3.0);
+		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdRound(stk, "6");
+		assertEquals(11, stk.size());
+		assertEquals(16.671333, stk.pop());
+		
+		// Test #3
+		stk.clear();
+		stk.push(29.11);
+		stk.push(11.22);
+		stk.push(-18.33);
+		stk.push(50.44);
+		stk.push(-44.55);
+		stk.push(49.66);
+		stk.push(5.77);
+		stk.push(-34.88);
+		stk.push(40.99);
+		stk.push(3.00);
+		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdRound(stk, "6");
+		assertEquals(11, stk.size());
+		assertEquals(4.271333, stk.pop());
+
+	}
+
+	/**
 	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdLog(org.fross.rpncalc.StackObj)}.
 	 */
 	@Test

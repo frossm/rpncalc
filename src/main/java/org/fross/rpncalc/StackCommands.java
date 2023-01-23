@@ -367,6 +367,81 @@ public class StackCommands {
 	}
 
 	/**
+	 * cmdLinearRegression(): Based on the values in the stack (bottom to top) calculate the next predicted value via linear
+	 * regression
+	 * 
+	 * Formula: y = b0 + (b1 * x)
+	 * 
+	 * Reference:
+	 * https://www.statisticshowto.com/probability-and-statistics/regression-analysis/find-a-linear-regression-equation/#FindaLinear
+	 * https://www.graphpad.com/quickcalcs/linear1
+	 * 
+	 * @param calcStack
+	 */
+	public static void cmdLinearRegression(StackObj calcStack) {
+		// Ensure we have at least 2 values on the stack
+		if (calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack to calculate a linear regression");
+			return;
+		}
+
+		// X is the number of stack items
+		int n = calcStack.size();
+		double sumX = 0;		// X values are the stack numbers
+		double sumY = 0;		// Sum of the stack values
+		double sumXY = 0;		// Sum of X times Y
+		double sumX2 = 0;		// Sum of X Squared
+		double sumY2 = 0;		// Sum of Y Squared
+
+		// Loop through the items to calculate the needed sums
+		for (int i = 0; i < calcStack.size(); i++) {
+			int x = i + 1;
+			double y = calcStack.get(i);
+
+			// Calculate the sums
+			sumX += x;
+			sumY += y;
+			sumXY += x * y;
+			sumX2 += x * x;
+			sumY2 += y * y;
+
+			// Line by line debug output
+			Output.debugPrint("#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + (x * y) + "\tX2:" + (x * x) + "\tY2:" + (y * y));
+		}
+
+		// Calculate the remaining values
+		double a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
+		double b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
+
+		// Output details if debug is enabled
+		Output.debugPrint("n:     " + n);
+		Output.debugPrint("sumX:  " + sumX);
+		Output.debugPrint("sumY:  " + sumY);
+		Output.debugPrint("sumXY: " + sumXY);
+		Output.debugPrint("sumX2: " + sumX2);
+		Output.debugPrint("sumY2: " + sumY2);
+		Output.debugPrint("a:     " + a);
+		Output.debugPrint("b:     " + b);
+
+		// Display the LR formula
+		Double nextValue = (b * (n + 1)) + a;
+		Double aRounded = new BigDecimal(String.valueOf(a)).setScale(4, RoundingMode.HALF_UP).doubleValue();
+		Double bRounded = new BigDecimal(String.valueOf(b)).setScale(4, RoundingMode.HALF_UP).doubleValue();
+		Double nextValueRounded = new BigDecimal(String.valueOf(nextValue)).setScale(4, RoundingMode.HALF_UP).doubleValue();
+
+		Output.printColorln(Ansi.Color.CYAN, "Slope Equation: y = " + bRounded + "x + " + aRounded);
+		Output.printColorln(Ansi.Color.CYAN, "Slope: " + bRounded + "   Y-Intercept: " + aRounded);
+		Output.printColorln(Ansi.Color.CYAN, "Predicted next value (" + nextValueRounded + ") added to the top of the stack");
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Add the next predicted value to the stack
+		calcStack.push(nextValue);
+
+	}
+
+	/**
 	 * cmdLog(): Take the natural (base e) logarithm
 	 */
 	public static void cmdLog(StackObj calcStack) {
@@ -635,7 +710,7 @@ public class StackCommands {
 		} else {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
-			
+
 			// We're good - make the swap
 			Output.debugPrint("Swapping line" + item1 + " and line" + item2 + " stack items");
 			StackOperations.StackSwapItems(calcStack, (item1 - 1), (item2) - 1);
@@ -699,7 +774,7 @@ public class StackCommands {
 		}
 
 		// Step3: Work out the mean of those squared differences
-		Double mean2 = Math.Mean(stdArray);
+		Double mean2 = Math.mean(stdArray);
 		Output.debugPrint("Secondary mean of (number-mean)^2: " + mean2);
 
 		if (keepFlag == false) {

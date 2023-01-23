@@ -1,24 +1,37 @@
-:: Ensure we're in the root project directory.  Look for the pom.xml file
+rem #####################################################################
+rem # UpdateUserGuide.btm
+rem #
+rem # Compile the RPNCalc User Guide using mdbook and copy
+rem # the files to the user guide directory
+rem #
+rem #####################################################################
+
+:: Ensure we're in the project's root directory by looking for the pom.xml file
 iff not exist %@Filename[pom.xml] then
 	echocolor RED, "Error: Must run from the root directory of a maven project"
 	quit /b
 endiff
 
 :: Build the book
-echocolor YELLOW "Generating the html from the markdown"
+echocolor YELLOW "Generating the html from the markdown with mdbook"
 cd mdbook
+
 echocolor WHITE "  - Cleaning any existing generated User Guide files"
 mdbook clean
+
 echocolor WHITE "  - Building the User Guide"
 mdbook build
-echo.
 
+
+echo.
 echocolor YELLOW "Moving User Guide to frossm.github.io
 
 :: Move the book
 cd ..\..\frossm.github.io
+
 echocolor WHITE "  - Removing old RPNCalc-UserGuide directory"
 del /E /S /T /X /Y /Z /K /Q /Nnt RPNCalc-UserGuide
+
 mkdir RPNCalc-UserGuide
 cd RPNCalc-UserGuide
 

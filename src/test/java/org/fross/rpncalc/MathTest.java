@@ -30,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -176,13 +178,27 @@ class MathTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.Math#Mean(java.lang.Double[])}.
+	 * Test method for {@link org.fross.rpncalc.Math#mean(java.lang.Double[])}.
 	 */
 	@Test
 	void testMeanIfDoubleArrayIsProvided() {
 		Double[] arry = { 1.23456, 4.56789, 10.234, 12.1354, -1.23 };
 
-		assertEquals(5.38837, Math.Mean(arry));
+		assertEquals(5.38837, Math.mean(arry));
+	}
+
+	/**
+	 * Test factorial
+	 */
+	@Test
+	void testFactorial() {
+		assertEquals(new BigDecimal(24), Math.factorial(4));
+		assertEquals(new BigDecimal(120), Math.factorial(5));
+		assertEquals(new BigDecimal(720), Math.factorial(6));
+		assertEquals(new BigDecimal(5040), Math.factorial(7));
+		assertEquals(new BigDecimal(40320), Math.factorial(8));
+		assertEquals(new BigDecimal(362880), Math.factorial(9));
+		assertEquals(new BigDecimal(3628800), Math.factorial(10));
 	}
 
 }
