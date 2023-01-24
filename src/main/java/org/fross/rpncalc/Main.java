@@ -26,8 +26,10 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.prefs.Preferences;
 
@@ -39,6 +41,8 @@ import org.fusesource.jansi.Ansi;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
 /**
  * Main - Main program execution class
@@ -57,7 +61,7 @@ public class Main {
 	// Class Variables
 	public static String VERSION;
 	public static String COPYRIGHT;
-	static final LineReader scanner = LineReaderBuilder.builder().build();
+	static LineReader scanner;
 	static boolean ProcessCommandLoop = true;
 	static final StackObj calcStack = new StackObj();
 	static final StackObj calcStack2 = new StackObj();
@@ -123,11 +127,6 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String cmdInput = "";		// What the user enters in totality
-		String cmdInputCmd = "";	// The first field - the command
-		String cmdInputParam = "";	// The remaining string - Parameters
-		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config"); // Persistent configuration settings
-
 		// Process application level properties file
 		// Update properties from Maven at build time:
 		// Ref: https://stackoverflow.com/questions/3697449/retrieve-version-from-maven-pom-xml-in-code
@@ -140,6 +139,21 @@ public class Main {
 		} catch (IOException ex) {
 			Output.fatalError("Unable to read property file '" + PROPERTIES_FILE + "'", 3);
 		}
+
+		try (Terminal terminal = TerminalBuilder.builder().build()) {
+			scanner = LineReaderBuilder.builder().terminal(terminal).build();
+			doMain(args);
+		} catch (IOException e) {
+			throw new IOError(e);
+		}
+	}
+
+	private static void doMain(String[] args) {
+
+		String cmdInput = "";        // What the user enters in totality
+		String cmdInputCmd = "";    // The first field - the command
+		String cmdInputParam = "";    // The remaining string - Parameters
+		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config"); // Persistent configuration settings
 
 		// Add default values to the persistent configuration items if none exist
 		if (prefConfig.get("alignment", "none").equals("none")) {
