@@ -53,44 +53,44 @@ public class Help {
 		Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://frossm.github.io/RPNCalc-UserGuide"));
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
-		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode.  Same as using the 'debug' command");
-		Output.printColorln(Ansi.Color.WHITE, " -l       Load a saved named stack. Create the stack if it does not exist");
-		Output.printColorln(Ansi.Color.WHITE, " -h | ?   Show this help information.  Either key will work.");
+		Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode. Same as using the 'debug' command");
+		Output.printColorln(Ansi.Color.WHITE, " -l       Load a saved named stack or create the stack if it doesn't exist");
+		Output.printColorln(Ansi.Color.WHITE, " -h | ?   Show this help information");
 		Output.printColorln(Ansi.Color.WHITE, " -v       Display version information as well as latest GitHub release");
-		Output.printColorln(Ansi.Color.WHITE, " -L       Display program usage license.  Same as 'license' operational command");
+		Output.printColorln(Ansi.Color.WHITE, " -L       Display the program usage license. Same as the 'license' command");
 		Output.printColorln(Ansi.Color.WHITE, " -z       Disable colorized output");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperands:");
 		Output.printColorln(Ansi.Color.WHITE, " +    Addition:  Add last two stack elements");
-		Output.printColorln(Ansi.Color.WHITE, " -    Subtraction: Subtract row 1 from row 2");
-		Output.printColorln(Ansi.Color.WHITE, " *    Multiplication: Muliply last two stack items");
-		Output.printColorln(Ansi.Color.WHITE, " /    Division: Divide line2 by line1");
+		Output.printColorln(Ansi.Color.WHITE, " -    Subtraction:  Subtract row 1 from row 2");
+		Output.printColorln(Ansi.Color.WHITE, " *    Multiplication:  Muliply last two stack items");
+		Output.printColorln(Ansi.Color.WHITE, " /    Division:  Divide line2 by line1");
 		Output.printColorln(Ansi.Color.WHITE, " ^    Power:  Calculate line2 to the power of line1");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nCalculator Commands:");
-		Output.printColorln(Ansi.Color.WHITE, " %              Convert line1 into a percentage by multipling it by 0.01");
-		Output.printColorln(Ansi.Color.WHITE, " aa [keep]      Add all stack items. Adding 'keep' will keep existing elements");
+		Output.printColorln(Ansi.Color.WHITE, " aa [keep]      Add all stack items. Adding 'keep' will retain existing items");
 		Output.printColorln(Ansi.Color.WHITE, " abs            Take the absolute value of line1");
-		Output.printColorln(Ansi.Color.WHITE, " avg [keep]     Replace stack with average of values.  'keep' will retain stack");
+		Output.printColorln(Ansi.Color.WHITE, " avg [keep]     Replace stack items with average of values. 'keep' will retain items");
 		Output.printColorln(Ansi.Color.WHITE, " c              Clear the screen and empty current stack");
-		Output.printColorln(Ansi.Color.WHITE, " cl[ean]        Clear screen but keep the stack values");
-		Output.printColorln(Ansi.Color.WHITE, " copy [#]       Copy line1 or the optional line number and add it to the stack");
-		Output.printColorln(Ansi.Color.WHITE, " d [#] [#-#]    Delete line1, the line number provided, or a range of lines");
-		Output.printColorln(Ansi.Color.WHITE, " dice XdY       Roll a Y sided die X times.  Default is 1d6");
+		Output.printColorln(Ansi.Color.WHITE, " cl[ean]        Clear screen and keep the stack values");
+		Output.printColorln(Ansi.Color.WHITE, " copy [#]       Copy line1 or the provided line number and add it to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " d [#] [#-#]    Delete line1, the line number provided, or a range of lines provided");
+		Output.printColorln(Ansi.Color.WHITE, " dice XdY       Roll a Y sided die X times. Default is 1d6");
 		Output.printColorln(Ansi.Color.WHITE, " f              Flip the sign of the element at line1");
 		Output.printColorln(Ansi.Color.WHITE, " int            Convert line1 to an integer. No rounding is performed");
 		Output.printColorln(Ansi.Color.WHITE, " lr             Simple Linear regression. Calculate the next predicted value");
 		Output.printColorln(Ansi.Color.WHITE, " log | log10    Calculate the natural (base e) or base10 logarithm");
-		Output.printColorln(Ansi.Color.WHITE, " min | max      Adds the minimum or maximum value of stack items to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " min | max      Add the minimum or maximum stack value to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " mod            Modulus. Perform a division and return the remainder");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt           Perform a square root of the line1 value");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H]   Random integer between L and H inclusive.  Default is 1-100");
-		Output.printColorln(Ansi.Color.WHITE, " round [n]      Round to n decimal places.  Default is 0 decimals");
+		Output.printColorln(Ansi.Color.WHITE, " round [n]      Round to n decimal places. Default is 0 decimals");
 		Output.printColorln(Ansi.Color.WHITE, " s [#] [#]      Swap the last two elments in the stack or the lines provided");
-		Output.printColorln(Ansi.Color.WHITE, " sd [keep]      Standard deviation of stack items.  'keep' will retain stack");
+		Output.printColorln(Ansi.Color.WHITE, " sd [keep]      Standard deviation of stack items. 'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " u [STACK #]    Undo last action or back to the undo stack defined in 'list undo'");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConversions:");
+		Output.printColorln(Ansi.Color.WHITE, " %              Convert line1 into a percentage by multipling it by 0.01");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]    Display as a fraction with min provided base. Default base is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " in2mm          Convert line1 from inches into millimeters");
 		Output.printColorln(Ansi.Color.WHITE, " mm2in          Convert line1 from millimeters to inches");
@@ -100,8 +100,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
-		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle in degrees unless rad is provided");
-		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan [rad] Trig Functions: Result in degrees unless rad is provided");
+		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle is in degrees unless rad is provided");
+		Output.printColorln(Ansi.Color.WHITE, " asin|acos|atan [rad] Trig Functions: Result is in degrees unless rad is provided");
 		Output.printColorln(Ansi.Color.WHITE, " hypot                Returns the hypotenuse using line1 and line2 as the legs");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nMemory Commands:");
