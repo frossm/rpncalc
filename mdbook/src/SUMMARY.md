@@ -1,5 +1,6 @@
 # Summary
 
+- [Cover](./Chapters/Cover.md)
 - [Introduction](./Chapters/Introduction.md)
 - [What is an RPN Calculator](./Chapters/WhatIsRPN.md)
 - [Installation](./Chapters/Installation.md)

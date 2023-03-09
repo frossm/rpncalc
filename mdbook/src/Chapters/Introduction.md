@@ -35,8 +35,8 @@ The home page for RPNCalc is located on [GitHub](https://github.com/frossm/rpnca
 
 ## The Current Help Page from RPNCalc
 
-This can be achieved by entered `h` or `help` or `?` from within the program or running `rpncalc -h` or `-?` from the command line.
+From within the program, entering `h`, `help` or `?` will show the program help screen.  The help can also be viewed by starting RPNCalc with the `-h` or `-?` command line switch (i.e. `rpncalc -h`)
 
-<br>
+The current RPNCalc help screen:<br>
 
 <img align="center" width="100%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot.jpg">

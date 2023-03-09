@@ -15,7 +15,7 @@ While I'm a fan of Snaps, there are positives and negatives to using them.
 
 ## Snap: The Good and the Bad
 
-***<center>-- Thanks to the good folks at MakeUseOf.com for this! --</center>***
+***<p align="center">-- Thanks to the good folks at MakeUseOf.com for this! --</p>***
 
 [MakeUseOf.com](https://www.makeuseof.com/everything-you-need-to-know-about-snap-and-snap-store/) has a good breakdown of everything that's good and bad about Snap.  
 
