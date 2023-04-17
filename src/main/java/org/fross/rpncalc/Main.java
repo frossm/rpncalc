@@ -33,7 +33,6 @@ import java.util.prefs.Preferences;
 
 import org.fross.library.Debug;
 import org.fross.library.Format;
-import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 import org.jline.reader.LineReader;
@@ -66,17 +65,6 @@ public class Main {
 	static int configProgramWidth = CONFIG_DEFAULT_PROGRAM_WIDTH;
 	static int configMemorySlots = CONFIG_DEFAULT_MEMORY_SLOTS;
 	static String configAlignment = CONFIG_DEFAULT_ALIGNMENT;
-
-	/**
-	 * Display Version(): Show the program version, copyright, and latest GitHub release
-	 * 
-	 */
-	public static void DisplayVersion() {
-		Output.printColorln(Ansi.Color.WHITE, "RPNCalc Version: v" + Main.VERSION);
-		Output.printColorln(Ansi.Color.CYAN, Main.COPYRIGHT);
-		Output.printColorln(Ansi.Color.WHITE, "\nLatest Release on GitHub: " + GitHub.updateCheck("rpncalc"));
-		Output.printColorln(Ansi.Color.CYAN, "HomePage: https://github.com/frossm/rpncalc");
-	}
 
 	/**
 	 * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it also

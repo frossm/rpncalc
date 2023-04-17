@@ -49,7 +49,6 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-
 		assertEquals(5.80245, Math.Parse("+", stk).peek());
 		assertEquals(1, stk.size());
 
@@ -58,7 +57,7 @@ class MathTest {
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(4.70245, stk.peek());
 		assertEquals(1, stk.size());
-	};
+	}
 
 	/**
 	 * Test method for {@link org.fross.rpncalc.Math#Subtract(org.fross.rpncalc.StackObj)}.
@@ -70,8 +69,19 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-
 		assertEquals(-3.33333, Math.Parse("-", stk).peek());
+		assertEquals(1, stk.size());
+		
+		stk.push(-3.12);
+		Math.Parse("-", stk);
+		StackCommands.cmdRound(stk,  "5");
+		assertEquals(-0.21333, stk.peek());
+		assertEquals(1, stk.size());
+		
+		stk.push(6.678);
+		Math.Parse("-", stk);
+		StackCommands.cmdRound(stk,  "5");
+		assertEquals(-6.89133, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -85,10 +95,14 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-
 		Math.Parse("*", stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(5.63933, stk.peek());
+
+		stk.push(-99.88);
+		Math.Parse("*", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-563.25628, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -102,10 +116,14 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-
 		Math.Parse("/", stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(0.27027, stk.peek());
+
+		stk.push(-8.554);
+		Math.Parse("/", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-0.0316, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -119,10 +137,14 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-
 		Math.Parse("^", stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(2.61829, stk.peek());
+		
+		stk.push(3.0);
+		Math.Parse("^", stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(17.94954, stk.peek());
 		assertEquals(1, stk.size());
 	}
 
@@ -131,7 +153,6 @@ class MathTest {
 	 */
 	@Test
 	void testGreatestCommonDivisor() {
-
 		assertEquals(10, Math.GreatestCommonDivisor(90, 100));
 		assertEquals(3, Math.GreatestCommonDivisor(123, 456));
 		assertEquals(3, Math.GreatestCommonDivisor(123, 225));

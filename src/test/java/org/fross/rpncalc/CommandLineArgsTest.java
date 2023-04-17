@@ -39,10 +39,6 @@ import com.beust.jcommander.JCommander;
  *
  */
 class CommandLineArgsTest {
-
-	/**
-	 * Test method for {@link org.fross.rpncalc.CommandLineArgs#ProcessCommandLine(java.lang.String[])}.
-	 */
 	@Test
 	void testShortCommandLineArgs() {
 		// Test Short Options

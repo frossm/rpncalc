@@ -34,20 +34,16 @@ import org.junit.jupiter.api.Test;
 
 class ConfigurationTest {
 
-	/**
-	 * Testing the various 'set' commands
-	 * 
-	 * 'reset' tested here as well
-	 */
+	// Class variables
+	Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+
+	// Save current settings so they can be reinstated after the test
+	String align = prefConfig.get("alignment", Main.CONFIG_DEFAULT_ALIGNMENT);
+	int width = prefConfig.getInt("programwidth", Main.CONFIG_DEFAULT_PROGRAM_WIDTH);
+	int memSlots = prefConfig.getInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
+
 	@Test
 	void testCmdSetMemSlots() {
-		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
-
-		// Save current settings so they can be reinstated after the test
-		String align = prefConfig.get("alignment", Main.CONFIG_DEFAULT_ALIGNMENT);
-		int width = prefConfig.getInt("programwidth", Main.CONFIG_DEFAULT_PROGRAM_WIDTH);
-		int memSlots = prefConfig.getInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
-
 		// Test MemSlots
 		Configuration.cmdSet("memslots 1123");
 		assertEquals(1123, StackMemory.memorySlots.length);
@@ -87,7 +83,10 @@ class ConfigurationTest {
 		Configuration.cmdSet("align L");
 		assertEquals("l", Main.configAlignment);
 		assertEquals("l", prefConfig.get("alignment", ""));
+	}
 
+	@Test
+	void testResetCommand() {
 		// Test Reset
 		Configuration.cmdReset();
 		assertEquals(Main.CONFIG_DEFAULT_PROGRAM_WIDTH, Main.configProgramWidth);
@@ -104,7 +103,5 @@ class ConfigurationTest {
 		prefConfig.put("alignment", align);
 		prefConfig.putInt("memoryslots", memSlots);
 	}
-	
-	
 
 }

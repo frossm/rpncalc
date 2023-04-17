@@ -37,48 +37,90 @@ import org.junit.jupiter.api.Test;
 class CommandParserTest {
 
 	/**
-	 * Test method for
-	 * {@link org.fross.rpncalc.CommandParser#Parse(org.fross.rpncalc.StackObj, org.fross.rpncalc.StackObj, java.lang.String, java.lang.String, java.lang.String)}.
-	 *
 	 * Parser is just a big switch statement and takes commands entered and runs the specific method. The key part to test is the
-	 * 'default:' portion where numbers, fractions, or NumOps are entered
+	 * 'default:' portion where numbers, fractions, and NumOps are entered
 	 *
-	 */
+	 **/
+
+	// Test standard number inputs
 	@Test
-	void testParsingOfNumbersFractionsNumOp() {
+	void testNormalNumberEntry() {
 		StackObj stk1 = new StackObj();
 		StackObj stk2 = new StackObj();
 
-		// Standard numbers
+		// Fraction Input
+		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		CommandParser.Parse(stk1, stk2, "456.789", "456.789", "");
+		assertEquals(123, stk1.get(0));
+		assertEquals(1, stk1.size());
+
+		CommandParser.Parse(stk1, stk2, "123", "123", "");
+		assertEquals(123, stk1.get(0));
 		assertEquals(2, stk1.size());
 
-		// Swap the stack and the size should be 0
-		CommandParser.Parse(stk1, stk2, "ss", "ss", "");
-		assertEquals(0, stk1.size());
+		CommandParser.Parse(stk1, stk2, "123", "123", "");
+		assertEquals(123, stk1.get(0));
+		assertEquals(3, stk1.size());
+	}
 
-		// Swap it back and we should be at 2 again
-		CommandParser.Parse(stk1, stk2, "ss", "ss", "");
-		assertEquals(2, stk1.size());
+	// Test fractional inputs
+	@Test
+	void testFractionInput() {
+		StackObj stk1 = new StackObj();
+		StackObj stk2 = new StackObj();
 
 		// Fraction Input
 		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "1/8", "1/8", "");
+		assertEquals(.125, stk1.peek());
 		assertEquals(1, stk1.size());
-		assertEquals(.125, stk1.get(0));
 
-		// NumOp
+		CommandParser.Parse(stk1, stk2, "47/88", "47/88", "");
+		assertEquals(0.5340909090909091, stk1.peek());
+		assertEquals(2, stk1.size());
+
+		CommandParser.Parse(stk1, stk2, "1 3/16", "1", "3/16");
+		assertEquals(1.1875, stk1.peek());
+		assertEquals(3, stk1.size());
+		
+		CommandParser.Parse(stk1, stk2, "-4 1/64", "-4", "1/64");
+		assertEquals(-3.984375, stk1.peek());
+		assertEquals(4, stk1.size());
+	}
+
+	@Test
+	void testNumOp() {
+		StackObj stk1 = new StackObj();
+		StackObj stk2 = new StackObj();
+
 		stk1.clear();
-		CommandParser.Parse(stk1, stk2, "123", "123", "");
+		CommandParser.Parse(stk1, stk2, "-123.456", "-123.456", "");
+		assertEquals(1, stk1.size());
+		assertEquals(-123.456, stk1.peek());
+		
 		CommandParser.Parse(stk1, stk2, "2+", "2+", "");
-		CommandParser.Parse(stk1, stk2, "16-", "16-", "");
-		CommandParser.Parse(stk1, stk2, "2*", "2*", "");
+		assertEquals(1, stk1.size());
+		assertEquals(-121.456, stk1.peek());
+		
+		CommandParser.Parse(stk1, stk2, "16.61-", "16.61-", "");
+		assertEquals(1, stk1.size());
+		assertEquals(-138.066, stk1.peek());
+		
+		CommandParser.Parse(stk1, stk2, "-2.2*", "-2.2*", "");
+		assertEquals(1, stk1.size());
+		assertEquals(303.7452, stk1.peek());
+		
 		CommandParser.Parse(stk1, stk2, "10/", "10/", "");
-		CommandParser.Parse(stk1, stk2, ".12^", ".12^", "");
+		assertEquals(1, stk1.size());
+		assertEquals(30.37452, stk1.peek());
+		
+		CommandParser.Parse(stk1, stk2, "2^", "2^", "");
+		assertEquals(1, stk1.size());
+		assertEquals(922.6114652304, stk1.peek());
+		
 		assertEquals(1, stk1.size());
 		StackCommands.cmdRound(stk1, "5");
-		assertEquals(1.44749, stk1.get(0));
+		assertEquals(922.61147, stk1.peek());
 	}
 
 }

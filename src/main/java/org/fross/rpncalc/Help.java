@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Format;
+import org.fross.library.GitHub;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -147,6 +148,17 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " x|exit            Exit Calculator");
 		Output.printColorln(Ansi.Color.WHITE, " cx|clearexit      Clear the stack and then exit");
 
+	}
+
+	/**
+	 * Display Version(): Show the program version, copyright, and latest GitHub release
+	 * 
+	 */
+	public static void DisplayVersion() {
+		Output.printColorln(Ansi.Color.WHITE, "RPNCalc Version: v" + Main.VERSION);
+		Output.printColorln(Ansi.Color.CYAN, Main.COPYRIGHT);
+		Output.printColorln(Ansi.Color.WHITE, "\nLatest Release on GitHub: " + GitHub.updateCheck("rpncalc"));
+		Output.printColorln(Ansi.Color.CYAN, "HomePage: https://github.com/frossm/rpncalc");
 	}
 
 	/**

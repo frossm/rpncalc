@@ -83,20 +83,29 @@ class StackCommandsTest {
 	@Test
 	void testCmdAverage() {
 		StackObj stk = new StackObj();
-
+		
+		// Test with Keep
+		stk.push(1.1);
+		stk.push(2.2);
+		stk.push(3.3);
+		stk.push(4.4);
+		stk.push(-5.5);
+		stk.push(-6.6);
+		stk.push(-7.7);
+		StackCommands.cmdAverage(stk, "keep");
+		assertEquals(-1.2571428571428573, stk.peek());
+		assertEquals(8, stk.size());
+		
+		// Test without keep
 		stk.push(1.23);
 		stk.push(2.34);
 		stk.push(3.45);
 		stk.push(4.56);
 		stk.push(5.67);
-
-		StackCommands.cmdAverage(stk, "keep");
-		assertEquals(3.45, stk.pop());
-		assertEquals(5, stk.size());
-
 		StackCommands.cmdAverage(stk, "");
-		assertEquals(3.45, stk.peek());
+		assertEquals(0.5532967032967032, stk.peek());
 		assertEquals(1, stk.size());
+
 	}
 
 	/**

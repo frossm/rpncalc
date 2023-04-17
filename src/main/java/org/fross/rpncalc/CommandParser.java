@@ -352,7 +352,7 @@ public class CommandParser {
 		// Version
 		case "ver":
 		case "version":
-			Main.DisplayVersion();
+			Help.DisplayVersion();
 			break;
 
 		// Help

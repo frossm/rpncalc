@@ -92,7 +92,7 @@ public class CommandLineArgs {
 
 		// Version Display
 		if (cli.clVersion == true) {
-			Main.DisplayVersion();
+			Help.DisplayVersion();
 			System.exit(0);
 		}
 
