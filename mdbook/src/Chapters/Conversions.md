@@ -26,3 +26,5 @@ if `frac 2` woulc have been entered (which means 1/2 is maximum granularity), yo
 |rad2deg<br>2deg|Convert `line1` from radians into degrees|
 |gram2oz<br>grams2oz|Convert `line1` from grams into ounces using the constant of 0.035274 ounces / gram|
 |oz2gram<br>oz2grams|Convert `line1` from ounces into grams using the constant of 28.349523125 grams / ounce|
+|kg2lbs<br>kgs2lbs|convert `line1` from kilograms to US pounds using the constant of 2.2046226218 lbs/kg|
+|lbs2kg<br>lbs2kgs|convert `line1` from US pounds using the constant of 0.45359237 kg/lbs|

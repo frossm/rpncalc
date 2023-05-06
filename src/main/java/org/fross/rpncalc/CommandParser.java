@@ -227,15 +227,15 @@ public class CommandParser {
 			break;
 
 		// Convert Kilograms to US Pounds
-		case "kg2lb":
+		case "kg2lbs":
 		case "kgs2lbs":
-			StackConversions.cmdKg2Lb(calcStack);
+			StackConversions.cmdKg2Lbs(calcStack);
 			break;
 
 		// Convert US Pounds to Kilograms
-		case "lb2kg":
+		case "lbs2kg":
 		case "lbs2kgs":
-			StackConversions.cmdLb2Kg(calcStack);
+			StackConversions.cmdLbs2Kg(calcStack);
 			break;
 
 		/*******************************************************************************
