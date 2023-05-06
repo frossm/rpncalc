@@ -96,9 +96,11 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " in2mm          Convert line1 from inches into millimeters");
 		Output.printColorln(Ansi.Color.WHITE, " mm2in          Convert line1 from millimeters to inches");
 		Output.printColorln(Ansi.Color.WHITE, " deg2rad        Convert line1 from degrees to radians");
-		Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from raidans to degrees");
+		Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from radians to degrees");
 		Output.printColorln(Ansi.Color.WHITE, " gram2oz        Convert line1 from grams to US ounces");
 		Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
+		Output.printColorln(Ansi.Color.WHITE, " kg2lb          Convert line1 from kilograms to US pounds");
+		Output.printColorln(Ansi.Color.WHITE, " lb2kg          Convert line1 from US pounds to kilograms");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
 		Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle is in degrees unless rad is provided");

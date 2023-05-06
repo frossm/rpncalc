@@ -145,7 +145,7 @@ public class CommandParser {
 		case "lr":
 			StackCommands.cmdLinearRegression(calcStack);
 			break;
-			
+
 		// Absolute Value
 		case "abs":
 			StackCommands.cmdAbsoluteValue(calcStack);
@@ -224,6 +224,18 @@ public class CommandParser {
 		case "oz2gram":
 		case "oz2grams":
 			StackConversions.cmdOz2Gram(calcStack);
+			break;
+
+		// Convert Kilograms to US Pounds
+		case "kg2lb":
+		case "kgs2lbs":
+			StackConversions.cmdKg2Lb(calcStack);
+			break;
+
+		// Convert US Pounds to Kilograms
+		case "lb2kg":
+		case "lbs2kgs":
+			StackConversions.cmdLb2Kg(calcStack);
 			break;
 
 		/*******************************************************************************

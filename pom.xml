@@ -216,7 +216,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.9.2</version>
+			<version>5.9.3</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -224,7 +224,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-reader</artifactId>
-			<version>3.21.0</version>
+			<version>3.23.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
@@ -232,7 +232,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-terminal-jansi</artifactId>
-			<version>3.21.0</version>
+			<version>3.23.0</version>
 		</dependency>
 
 	</dependencies>

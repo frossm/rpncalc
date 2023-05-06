@@ -224,4 +224,41 @@ public class StackConversions {
 		calcStack.push(calcStack.pop() * 28.349523125);
 	}
 
+	/**
+	 * cmdKg2Lb(): Convert line1 from kilograms to US pounds
+	 * 
+	 * @param calcStack
+	 */
+	public static void cmdKg2Lb(StackObj calcStack) {
+		// Ensure we have something on the stack
+		if (calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Make the conversion
+		calcStack.push(calcStack.pop() * 2.2046226218);
+	}
+
+	/**
+	 * cmdLb2Kg(): Convert line1 from US pounds to kilograms
+	 * 
+	 * @param calcStack
+	 */
+	public static void cmdLb2Kg(StackObj calcStack) {
+		// Ensure we have something on the stack
+		if (calcStack.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Make the conversion
+		calcStack.push(calcStack.pop() * 0.45359237);
+	}
 }
