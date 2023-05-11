@@ -203,6 +203,47 @@ public class StackObj implements Cloneable {
 	}
 
 	/**
+	 * sort(): Sort the stack. Requires the parameter "ascending" or "descending"
+	 * 
+	 */
+	public void sort(String mode) {
+		if (!mode.equalsIgnoreCase("ascending") && !mode.equalsIgnoreCase("descending")) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: sort requires a 'ascending' or 'descending' parameter");
+			return;
+		}
+
+		StackObj sortedStack = new StackObj();
+
+		while (!calcStack.isEmpty()) {
+			// Pull out a value from the stack
+			double tmpValue = calcStack.pop();
+
+			// While temporary stack is not empty and top of stack is greater than the tempValue
+			while (!sortedStack.isEmpty() && sortedStack.peek() > tmpValue) {
+				calcStack.push(sortedStack.pop());
+			}
+
+			sortedStack.push(tmpValue);
+		}
+
+		// Clear the calcStack and replace the values with the sorted stack
+		calcStack.clear();
+
+		if (mode.equalsIgnoreCase("ascending")) {
+			// Ascending
+			for (int i = sortedStack.size() - 1; i >= 0; i--) {
+				calcStack.push(sortedStack.get(i));
+			}
+		} else {
+			// Descending
+			for (int i = 0; i < sortedStack.size(); i++) {
+				calcStack.push(sortedStack.get(i));
+			}
+		}
+
+	}
+
+	/**
 	 * undoGet(): Return the element of the undo stack at the index provided
 	 * 
 	 * @param index

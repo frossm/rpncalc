@@ -39,4 +39,5 @@ From within the program, entering `h`, `help` or `?` will show the program help 
 
 The current RPNCalc help screen:<br>
 
-<img align="center" width="100%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot.jpg">
+<img align="center" width="100%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot1.jpg">
+<img align="center" width="100%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot2.jpg">

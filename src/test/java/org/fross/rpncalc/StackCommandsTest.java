@@ -83,7 +83,7 @@ class StackCommandsTest {
 	@Test
 	void testCmdAverage() {
 		StackObj stk = new StackObj();
-		
+
 		// Test with Keep
 		stk.push(1.1);
 		stk.push(2.2);
@@ -95,7 +95,7 @@ class StackCommandsTest {
 		StackCommands.cmdAverage(stk, "keep");
 		assertEquals(-1.2571428571428573, stk.peek());
 		assertEquals(8, stk.size());
-		
+
 		// Test without keep
 		stk.push(1.23);
 		stk.push(2.34);
@@ -104,6 +104,17 @@ class StackCommandsTest {
 		stk.push(5.67);
 		StackCommands.cmdAverage(stk, "");
 		assertEquals(0.5532967032967032, stk.peek());
+		assertEquals(1, stk.size());
+
+		// One last test just to be sure
+		stk.clear();
+		Double[] testValues = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		assertEquals(10, stk.size());
+		StackCommands.cmdAverage(stk,  "");
+		assertEquals(109.814, stk.peek());
 		assertEquals(1, stk.size());
 
 	}
@@ -416,7 +427,7 @@ class StackCommandsTest {
 		StackCommands.cmdRound(stk, "6");
 		assertEquals(11, stk.size());
 		assertEquals(16.671333, stk.pop());
-		
+
 		// Test #3
 		stk.clear();
 		stk.push(29.11);
@@ -498,6 +509,74 @@ class StackCommandsTest {
 		assertEquals(9, stk.size());
 		assertEquals(5.68, stk.peek());
 		assertEquals(5.68, stk.get(stk.size() - 1));
+	}
+
+	/**
+	 * Test median command with an odd number of stack items
+	 */
+	@Test
+	void testMedianOddNumberOfValues() {
+		StackObj stk = new StackObj();
+
+		// Test odd numbers on the stack with keep flag
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(5.0);
+		stk.push(4.0);
+		stk.push(1.0);
+
+		StackCommands.cmdMedian(stk, "keep");
+		assertEquals(3, stk.pop());
+		assertEquals(5, stk.size());
+
+		// Ensure the order is back to normal after the median sort
+		assertEquals(3, stk.get(0));
+		assertEquals(2, stk.get(1));
+		assertEquals(5, stk.get(2));
+		assertEquals(4, stk.get(3));
+		assertEquals(1, stk.get(4));
+
+	}
+
+	/**
+	 * Test median command with an even number of stack items
+	 */
+	@Test
+	void testMedianEvenNumberOfValues() {
+		StackObj stk = new StackObj();
+
+		// Test even numbers on the stack
+		stk.push(4.56);
+		stk.push(-1.23);
+		stk.push(5.67);
+		stk.push(2.34);
+		stk.push(4.56);
+		stk.push(-3.45);
+
+		StackCommands.cmdMedian(stk, "keep");
+		StackCommands.cmdRound(stk, "2");
+
+		assertEquals(3.45, stk.pop());
+		assertEquals(6, stk.size());
+
+		// Ensure the order is back to normal after the median sort
+		assertEquals(4.56, stk.get(0));
+		assertEquals(-1.23, stk.get(1));
+		assertEquals(5.67, stk.get(2));
+		assertEquals(2.34, stk.get(3));
+		assertEquals(4.56, stk.get(4));
+		assertEquals(-3.45, stk.get(5));
+		
+		// One last test just to be sure
+		stk.clear();
+		Double[] testValues = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		assertEquals(10, stk.size());
+		StackCommands.cmdMedian(stk,  "");
+		assertEquals(5.375, stk.peek());
+		assertEquals(1, stk.size());
 	}
 
 	/**
@@ -599,6 +678,22 @@ class StackCommandsTest {
 		stk.push(2.34567);
 		StackCommands.cmdRound(stk, "4");
 		assertEquals(2.3457, stk.pop());
+		
+		stk.push(-65.4321);
+		StackCommands.cmdRound(stk, "1");
+		assertEquals(-65.4, stk.pop());
+		
+		stk.push(-65.4329);
+		StackCommands.cmdRound(stk, "1");
+		assertEquals(-65.4, stk.pop());
+		
+		stk.push(-65.4329);
+		StackCommands.cmdRound(stk, "3");
+		assertEquals(-65.433, stk.pop());
+		
+		stk.push(-65.4329);
+		StackCommands.cmdRound(stk, "12");
+		assertEquals(-65.4329, stk.pop());
 	}
 
 	/**
@@ -624,6 +719,82 @@ class StackCommandsTest {
 		assertEquals(2, stk.pop());
 		assertEquals(3, stk.pop());
 		assertEquals(1, stk.pop());
+	}
+
+	/**
+	 * Test stack sorting descending
+	 */
+	@Test
+	void testSortingDescending() {
+		StackObj stk = new StackObj();
+
+		stk.push(1.0);
+		stk.push(-2.0);
+		stk.push(6.882);
+		stk.push(9.0);
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(7.0);
+		stk.push(6.881);
+		stk.push(-1.0);
+		stk.push(4.0);
+		stk.push(3.9);
+		stk.push(-1.01);
+		StackCommands.cmdSort(stk, "descending");
+
+		assertEquals(12, stk.size());
+
+		assertEquals(-2, stk.get(0));
+		assertEquals(-1.01, stk.get(1));
+		assertEquals(-1, stk.get(2));
+		assertEquals(1, stk.get(3));
+		assertEquals(2, stk.get(4));
+		assertEquals(3, stk.get(5));
+		assertEquals(3.9, stk.get(6));
+		assertEquals(4, stk.get(7));
+		assertEquals(6.881, stk.get(8));
+		assertEquals(6.882, stk.get(9));
+		assertEquals(7, stk.get(10));
+		assertEquals(9, stk.get(11));
+
+	}
+
+	/**
+	 * Test stack sorting ascending
+	 */
+	@Test
+	void testSortingAscending() {
+		StackObj stk = new StackObj();
+
+		stk.push(1.0);
+		stk.push(-2.0);
+		stk.push(6.882);
+		stk.push(9.0);
+		stk.push(3.0);
+		stk.push(2.0);
+		stk.push(7.0);
+		stk.push(6.881);
+		stk.push(-1.0);
+		stk.push(4.0);
+		stk.push(3.9);
+		stk.push(-1.01);
+		StackCommands.cmdSort(stk, "ascending");
+
+		assertEquals(12, stk.size());
+
+		assertEquals(-2, stk.get(11));
+		assertEquals(-1.01, stk.get(10));
+		assertEquals(-1, stk.get(9));
+		assertEquals(1, stk.get(8));
+		assertEquals(2, stk.get(7));
+		assertEquals(3, stk.get(6));
+		assertEquals(3.9, stk.get(5));
+		assertEquals(4, stk.get(4));
+		assertEquals(6.881, stk.get(3));
+		assertEquals(6.882, stk.get(2));
+		assertEquals(7, stk.get(1));
+		assertEquals(9, stk.get(0));
+
 	}
 
 	/**

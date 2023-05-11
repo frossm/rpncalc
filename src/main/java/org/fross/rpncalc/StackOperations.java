@@ -193,11 +193,19 @@ public class StackOperations {
 	public static void importStackFromDisk(StackObj calcStack, String arg) {
 		String fileName = arg.trim();
 
+		Output.debugPrint("Import filename as entered: " + fileName);
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
 		try {
 			// Verify the filename provided is a file and can be read
 			if (new File(fileName).canRead() && new File(fileName).isFile()) {
 				// Read lines from the file into the ArrayList
 				ArrayList<String> linesRead = new ArrayList<>(Files.readAllLines(Paths.get(fileName)));
+
+				// Clear the stack before importing the new values
+				calcStack.clear();
 
 				// Convert the strings to double values
 				for (int i = 0; i < linesRead.size(); i++) {
@@ -215,10 +223,6 @@ public class StackOperations {
 					"The data in '" + fileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
 		}
 
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
-		calcStack.clear();
 	}
 
 	/**

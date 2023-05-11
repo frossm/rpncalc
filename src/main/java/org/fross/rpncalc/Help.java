@@ -44,8 +44,9 @@ public class Help {
 	public static void Display() {
 		int helpWidth = 80;
 
+		// Display help header
 		Output.printColor(Ansi.Color.CYAN, "\n+" + "-".repeat(helpWidth) + "+\n+");
-		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, ("RPN Calculator   v" + Main.VERSION)));
+		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, ("RPN Calculator  v" + Main.VERSION)));
 		Output.printColor(Ansi.Color.CYAN, "+\n+");
 		Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, Main.COPYRIGHT));
 		Output.printColorln(Ansi.Color.CYAN, "+\n+" + "-".repeat(helpWidth) + "+");
@@ -71,7 +72,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nCalculator Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " aa [keep]      Add all stack items. Adding 'keep' will retain existing items");
 		Output.printColorln(Ansi.Color.WHITE, " abs            Take the absolute value of line1");
-		Output.printColorln(Ansi.Color.WHITE, " avg [keep]     Replace stack items with average of values. 'keep' will retain items");
+		Output.printColorln(Ansi.Color.WHITE, " avg [keep]     Replace stack items with average of values. 'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " c              Clear the screen and empty current stack");
 		Output.printColorln(Ansi.Color.WHITE, " cl[ean]        Clear screen and keep the stack values");
 		Output.printColorln(Ansi.Color.WHITE, " copy [#]       Copy line1 or the provided line number and add it to the stack");
@@ -82,7 +83,9 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " lr             Simple Linear regression. Calculate the next predicted value");
 		Output.printColorln(Ansi.Color.WHITE, " log | log10    Calculate the natural (base e) or base10 logarithm");
 		Output.printColorln(Ansi.Color.WHITE, " min | max      Add the minimum or maximum stack value to the stack");
+		Output.printColorln(Ansi.Color.WHITE, " median [keep]  Replace stack with median value. 'keep' will retain stack");
 		Output.printColorln(Ansi.Color.WHITE, " mod            Modulus. Perform a division and return the remainder");
+		Output.printColorln(Ansi.Color.WHITE, " sort a|d       Sorts the stack in an ascending or descending manner");
 		Output.printColorln(Ansi.Color.WHITE, " sqrt           Perform a square root of the line1 value");
 		Output.printColorln(Ansi.Color.WHITE, " rand [L] [H]   Random integer between L and H inclusive.  Default is 1-100");
 		Output.printColorln(Ansi.Color.WHITE, " round [n]      Round to n decimal places. Default is 0 decimals");

@@ -115,6 +115,16 @@ public class CommandParser {
 			StackCommands.cmdAverage(calcStack, cmdInputParam);
 			break;
 
+		// Sort
+		case "sort":
+			StackCommands.cmdSort(calcStack, cmdInputParam);
+			break;
+
+		// Median
+		case "median":
+			StackCommands.cmdMedian(calcStack, cmdInputParam);
+			break;
+
 		// Standard Deviation
 		case "sd":
 			StackCommands.cmdStdDeviation(calcStack, cmdInputParam);
@@ -173,6 +183,7 @@ public class CommandParser {
 
 		// Dice
 		case "dice":
+		case "roll":
 			StackCommands.cmdDice(calcStack, cmdInputParam);
 			break;
 

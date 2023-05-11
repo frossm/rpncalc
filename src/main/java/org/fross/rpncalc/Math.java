@@ -187,7 +187,7 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Double Mean(StackObj stk) {
+	public static Double mean(StackObj stk) {
 		Double totalCounter = 0.0;
 		int size = stk.size();
 
@@ -215,7 +215,44 @@ public class Math {
 			stk.push(arry[i]);
 		}
 
-		return (Mean(stk));
+		return (mean(stk));
+	}
+
+	/**
+	 * median(): Return the median value of the stack items
+	 */
+	public static Double median(StackObj stk) {
+		Double result = 0.0;
+
+		// Save current calcStack to the undoStack
+		stk.saveUndo();
+
+		// sort the stack
+		stk.sort("descending");
+
+		try {
+			if (stk.size() % 2 == 0) {
+				// Even number of items
+				int upperIndex = Integer.valueOf(stk.size() / 2);
+				int lowerIndex = Integer.valueOf(stk.size() / 2 + 1);
+
+				Output.debugPrint("Median: LowerIndex=" + lowerIndex + "  |  UpperIndex=" + upperIndex);
+
+				result = (stk.get(upperIndex - 1) + stk.get(lowerIndex - 1)) / 2;
+
+			} else {
+				// Odd number of items
+				result = stk.get(stk.size() / 2);
+			}
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Could not calculate the median");
+			return 0.0;
+		}
+
+		// Undo the sort to get back to the original stack order
+		StackCommands.cmdUndo(stk, String.valueOf(stk.undoSize()));
+
+		return result;
 	}
 
 	/**

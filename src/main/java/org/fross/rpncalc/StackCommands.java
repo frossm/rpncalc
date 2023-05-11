@@ -129,7 +129,7 @@ public class StackCommands {
 		}
 
 		// Calculate the mean
-		Double mean = Math.Mean(calcStack);
+		Double mean = Math.mean(calcStack);
 
 		// If we are not going to keep the stack (the default) clear it
 		if (keepFlag == false)
@@ -501,6 +501,42 @@ public class StackCommands {
 	}
 
 	/**
+	 * cmdMedian(): Replace the stack with the median value. If `keep` is specified, retain the stack
+	 */
+	public static void cmdMedian(StackObj calcStack, String arg) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  Median requires at least two items on the stack");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Determine if we should keep or clear the stack
+		boolean keepFlag = false;
+		try {
+			// Just check if the provided command starts with 'k'. That should be enough
+			if (arg.toLowerCase().charAt(0) == 'k') {
+				keepFlag = true;
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			keepFlag = false;
+		}
+
+		// Calculate the median
+		Double median = Math.median(calcStack);
+
+		// If we are not going to keep the stack (the default) clear it
+		if (keepFlag == false)
+			calcStack.clear();
+
+		// Add the average to the stack
+		calcStack.push(median);
+
+	}
+
+	/**
 	 * cmdMinimum(): Add minimum value in the stack to the top of the stack
 	 */
 	public static boolean cmdMinimum(StackObj calcStack) {
@@ -674,6 +710,37 @@ public class StackCommands {
 	}
 
 	/**
+	 * cmdSort(): Sort the stack in ascending or descending order
+	 * 
+	 * @param param
+	 */
+	public static void cmdSort(StackObj calcStack, String param) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 2) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  Sort requires at least two items on the stack");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		// Determine if we are sorting in ascending or descender mode
+		try {
+			if (param.toLowerCase().charAt(0) == 'a') {
+				calcStack.sort("ascending");
+			} else if (param.toLowerCase().charAt(0) == 'd') {
+				calcStack.sort("descending");
+			} else {
+				throw new IllegalArgumentException();
+			}
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Sort requires an (a)scending or (d)escending argument");
+			return;
+		}
+
+	}
+
+	/**
 	 * cmdSwapElements(): Swap the provided elements within the stack
 	 * 
 	 * @param param
@@ -764,7 +831,7 @@ public class StackCommands {
 		}
 
 		// Step1: Get the mean
-		Double mean1 = Math.Mean(calcStack);
+		Double mean1 = Math.mean(calcStack);
 		Output.debugPrint("Initial mean of the numbers: " + mean1);
 
 		// Step2: For each number: subtract the mean from the number and square the result

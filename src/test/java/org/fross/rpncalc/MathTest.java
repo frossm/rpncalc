@@ -182,7 +182,7 @@ class MathTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.Math#Mean(org.fross.rpncalc.StackObj)}.
+	 * Test method for {@link org.fross.rpncalc.Math#mean(org.fross.rpncalc.StackObj)}.
 	 */
 	@Test
 	void testMeanIfStackObjIsProvided() {
@@ -195,7 +195,7 @@ class MathTest {
 		stk.push(12.1354);
 		stk.push(-1.23);
 
-		assertEquals(5.38837, Math.Mean(stk));
+		assertEquals(5.38837, Math.mean(stk));
 	}
 
 	/**
