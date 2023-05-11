@@ -1,8 +1,8 @@
 <p align="center"> <img width="1024" src ="https://github.com/frossm/rpncalc/raw/master/graphics/ReadmeHeader.jpg"> </p> 
 
 # INTRODUCTION
-<img align="right" width="50%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot2.jpg">
 <img align="right" width="50%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot1.jpg">
+<img align="right" width="50%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot2.jpg">
 <br>
 RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator.  RPN calculators make it very simple to do complex calculations, especially if there are parentheses involved.
 
