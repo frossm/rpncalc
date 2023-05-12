@@ -150,8 +150,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
 		Output.printColorln(Ansi.Color.WHITE, " license           Display the software usage license");
 		Output.printColorln(Ansi.Color.WHITE, " ver               Display current RPNCalc version & latest version on GitHub");
-		Output.printColorln(Ansi.Color.WHITE, " x|exit            Exit Calculator");
-		Output.printColorln(Ansi.Color.WHITE, " cx|clearexit      Clear the stack and then exit");
+		Output.printColorln(Ansi.Color.WHITE, " x | exit          Exit Calculator");
+		Output.printColorln(Ansi.Color.WHITE, " cx| clearexit     Clear the stack and then exit");
 
 	}
 

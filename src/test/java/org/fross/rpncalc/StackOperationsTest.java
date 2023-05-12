@@ -29,7 +29,10 @@ package org.fross.rpncalc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -159,7 +162,53 @@ class StackOperationsTest {
 			Output.printColorln(Ansi.Color.RED, e.getMessage());
 		}
 	}
-	
+
+	/**
+	 * Test import capabilities
+	 */
+	@Test
+	void testImport() {
+		String testFileName = "target/rpncalc.import";
+		Double[] testValues = { 2.34, 6.78, -2.11, 0.0, 12.12345, 4.44, -54.223, 100.001, 11.23 };
+
+		// Create a test file
+		try {
+			FileWriter fw = new FileWriter(new File(testFileName.toLowerCase()));
+
+			for (int i = 0; i < testValues.length; i++) {
+				fw.write(testValues[i] + "\n");
+			}
+
+			// Remove testfile
+			fw.close();
+
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  Could not create testfile used for import testing");
+			fail();
+		}
+
+		StackObj stk = new StackObj();
+		StackOperations.importStackFromDisk(stk, testFileName);
+
+		// Verify the import values match the file data
+		for (int i = 0; i < testValues.length; i++) {
+			Output.println("Testing Import: TestValues:" + testValues[i] + "\t| StackValues: " + stk.get(i));
+			assertEquals(testValues[i], stk.get(i));
+		}
+
+		// Delete the test import file
+		try {
+			File file = new File(testFileName);
+			file.delete();
+		} catch (Exception ex) {
+			Output.println("Testing Import: Issue deleting test file: ' " + testFileName + "'");
+		}
+
+	}
+
+	/**
+	 * Testing stack swapping
+	 */
 	@Test
 	void testStackSwap() {
 		StackObj stk1 = new StackObj();

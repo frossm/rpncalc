@@ -193,7 +193,7 @@ public class StackOperations {
 	public static void importStackFromDisk(StackObj calcStack, String arg) {
 		String fileName = arg.trim();
 
-		Output.debugPrint("Import filename as entered: " + fileName);
+		Output.debugPrint("Import filename as entered: '" + fileName + "'");
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
@@ -207,16 +207,19 @@ public class StackOperations {
 				// Clear the stack before importing the new values
 				calcStack.clear();
 
-				// Convert the strings to double values
+				// Convert the strings to double values. Skip empty lines
 				for (int i = 0; i < linesRead.size(); i++) {
-					calcStack.push(Double.parseDouble(linesRead.get(i)));
+					if (!linesRead.get(i).isEmpty()) {
+						calcStack.push(Double.parseDouble(linesRead.get(i)));
+					}
 				}
 
 			} else {
 				throw new IOException();
 			}
 		} catch (IOException ex) {
-			Output.printColorln(Ansi.Color.RED, "Error: Could not read from the file '" + fileName + "'");
+			Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from the file '" + fileName + "'");
+			Output.printColorln(Ansi.Color.RED, "ERROR: Please note the file must be in lower case");
 
 		} catch (NumberFormatException ex) {
 			Output.printColorln(Ansi.Color.RED,
