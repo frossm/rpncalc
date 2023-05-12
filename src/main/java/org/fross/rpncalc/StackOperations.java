@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -183,6 +184,63 @@ public class StackOperations {
 
 		// Update the current stack number for the status line refresh
 		StackManagement.ToggleCurrentStackNum();
+	}
+
+	/**
+	 * ExportStackToDisk(): Save the current stack contacts to the provided file
+	 * 
+	 * @param arg
+	 */
+	public static void exportStackToDisk(StackObj calcStack, String arg) {
+		String fileName = arg.trim();
+
+		// Return if no filename is given
+		if (arg.isEmpty()) {
+			Output.printColorln(Ansi.Color.RED, "Export requires a filename to be provided");
+			return;
+		}
+
+		// Ensure we have at least one item on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "Export requires at least one item on the stack");
+			return;
+		}
+
+		Output.debugPrint("Export filename: '" + fileName + "'");
+
+		// If the file exists, then delete it
+		try {
+			File file = new File(fileName);
+			if (file.exists()) {
+				Output.debugPrint("'" + fileName + "' exists - deleting");
+				file.delete();
+			}
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "'" + fileName + "' exists and was not able to be deleted");
+			return;
+		}
+
+		//
+		try {
+			// Create the output filename and write the stack values to it
+			if (new File(fileName).createNewFile() == true) {
+				FileWriter fw = new FileWriter(new File(fileName));
+
+				for (int i = 0; i < calcStack.size(); i++) {
+					fw.write(String.valueOf(calcStack.get(i) + "\n"));
+				}
+
+				Output.printColorln(Ansi.Color.CYAN, "Export successful to '" + fileName + "'");
+
+				// Close the FileWriter and flush the data to the file
+				fw.close();
+			}
+
+		} catch (IOException ex) {
+			Output.printColorln(Ansi.Color.RED, "Could not export stack values to '" + fileName + "'");
+			return;
+		}
+
 	}
 
 	/**

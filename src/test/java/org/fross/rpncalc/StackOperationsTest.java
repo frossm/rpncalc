@@ -33,6 +33,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -164,6 +168,70 @@ class StackOperationsTest {
 	}
 
 	/**
+	 * Test stack output to file
+	 */
+	@Test
+	void textExport() {
+		String testFileName = "target/rpncalc.export";
+		File testFile = new File(testFileName);
+		Double[] testValues = { -1.0123, 2.0234, 3.0345, -15.0456, 2.0567, 17.0678, 38.0789, 53.0891, 14.0123, 73.0234, 72.0345, 72.0456, 10.0567, 83.0678,
+				-60.0789, 76.0890, 59.090, 30.0234, -42.0345, 89.0456, 30.0567, 44.0678, -31.0789 };
+
+		// Build the StackObject
+		StackObj stk = new StackObj();
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		assertEquals(23, stk.size());
+
+		// Delete the testFile if it exists
+		try {
+			testFile.delete();
+		} catch (Exception ex) {
+			Output.println("Testing Export: Issue deleting test file: ' " + testFileName + "'");
+		}
+
+		// Export the file and see if it looks OK
+		StackOperations.exportStackToDisk(stk, testFileName);
+		assertTrue(testFile.exists());
+		assertTrue(testFile.isFile());
+		assertTrue(testFile.length() > 0);
+
+		// Import the stack from the file and compare
+		try {
+			// Verify the filename provided is a file and can be read
+			if (new File(testFileName).canRead() && new File(testFileName).isFile()) {
+				// Read lines from the file into the ArrayList
+				ArrayList<String> linesRead = new ArrayList<>(Files.readAllLines(Paths.get(testFileName)));
+
+				// Test that read-from-file value = test value
+				for (int i = 0; i < testValues.length; i++) {
+					assertEquals(testValues[i].toString(), linesRead.get(i));
+				}
+			} else {
+				throw new IOException();
+			}
+		} catch (IOException ex) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from the file '" + testFileName + "'");
+			Output.printColorln(Ansi.Color.RED, "ERROR: Please note the file must be in lower case");
+
+		} catch (NumberFormatException ex) {
+			Output.printColorln(Ansi.Color.RED, "The data in '" + testFileName
+					+ "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
+		}
+
+		// Delete the test import file
+		try {
+			File file = new File(testFileName);
+			file.delete();
+			assertFalse(testFile.exists());
+		} catch (Exception ex) {
+			Output.println("Testing Export: Issue deleting test file: ' " + testFileName + "'");
+		}
+
+	}
+
+	/**
 	 * Test import capabilities
 	 */
 	@Test
@@ -175,11 +243,12 @@ class StackOperationsTest {
 		try {
 			FileWriter fw = new FileWriter(new File(testFileName.toLowerCase()));
 
+			// Loop through the test values and compare
 			for (int i = 0; i < testValues.length; i++) {
 				fw.write(testValues[i] + "\n");
 			}
 
-			// Remove testfile
+			// Close the FileWriter
 			fw.close();
 
 		} catch (Exception ex) {
@@ -192,7 +261,6 @@ class StackOperationsTest {
 
 		// Verify the import values match the file data
 		for (int i = 0; i < testValues.length; i++) {
-			Output.println("Testing Import: TestValues:" + testValues[i] + "\t| StackValues: " + stk.get(i));
 			assertEquals(testValues[i], stk.get(i));
 		}
 

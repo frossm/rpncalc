@@ -336,6 +336,11 @@ public class CommandParser {
 			StackOperations.cmdLoad(calcStack, calcStack2, cmdInputParam);
 			break;
 
+		// Export the current stack to a provided file
+		case "export":
+			StackOperations.exportStackToDisk(calcStack, cmdInputParam);
+			break;
+
 		// Import stack from disk
 		case "import":
 			StackOperations.importStackFromDisk(calcStack, cmdInputParam);

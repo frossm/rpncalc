@@ -139,6 +139,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.YELLOW, "\nOperational Commands:");
 		Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
 		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
+		Output.printColorln(Ansi.Color.WHITE, " export FILE       Export the current stack to the provided file (one number per line)");
 		Output.printColorln(Ansi.Color.WHITE, " import FILE       Replace current stack with file contents (one number per line)");
 		Output.printColorln(Ansi.Color.WHITE, " list func         Display the detailed user defined functions");
 		Output.printColorln(Ansi.Color.WHITE, " list mem          Display contents of the memory slots");

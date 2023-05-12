@@ -8,6 +8,7 @@ Operational commands are commands that do not directly impact your stack numbers
 |-------|-------------|
 |debug|Toggle debug mode which will display additional information on what's happening internally in the program.  Same as the `-D` command line switch.  Probably not the useful for a normal user|
 |h <br> ?|`h` or `?` will display the in-program help page|
+|export `FILE`|`Export` will simply export the current stack values into the file specified. The format is very simple with one number per line. The output will be ordered as on the screen with the top of the stack item at the end of the file and the last stack item at the top. If the file exists, it will be overwritten.|
 |import `FILE`|With `import` RPNCalc will replace the current stack with one loaded from a file.  The file format is simple, just one number per line.  Do not include any comments or alphanumeric/special characters.  Just one number per line with the last number being `line1` - just like the display in RPNCalc|
 |list stacks|List the current saved stacks on the system, including the one currently in use|
 |list mem|Display the contents of the memory slots|
