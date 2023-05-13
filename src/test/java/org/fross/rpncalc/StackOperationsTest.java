@@ -268,6 +268,7 @@ class StackOperationsTest {
 		try {
 			File file = new File(testFileName);
 			file.delete();
+			assertFalse(file.exists());
 		} catch (Exception ex) {
 			Output.println("Testing Import: Issue deleting test file: ' " + testFileName + "'");
 		}

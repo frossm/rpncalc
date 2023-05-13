@@ -230,8 +230,6 @@ public class StackOperations {
 					fw.write(String.valueOf(calcStack.get(i) + "\n"));
 				}
 
-				Output.printColorln(Ansi.Color.CYAN, "Export successful to '" + fileName + "'");
-
 				// Close the FileWriter and flush the data to the file
 				fw.close();
 			}
@@ -241,6 +239,7 @@ public class StackOperations {
 			return;
 		}
 
+		Output.printColorln(Ansi.Color.CYAN, "Export successful to '" + fileName + "'");
 	}
 
 	/**
@@ -278,11 +277,14 @@ public class StackOperations {
 		} catch (IOException ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from the file '" + fileName + "'");
 			Output.printColorln(Ansi.Color.RED, "ERROR: Please note the file must be in lower case");
-
+			return;
 		} catch (NumberFormatException ex) {
 			Output.printColorln(Ansi.Color.RED,
 					"The data in '" + fileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
+			return;
 		}
+
+		Output.printColorln(Ansi.Color.CYAN, "Import successful from '" + fileName + "'");
 
 	}
 

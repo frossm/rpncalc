@@ -1,5 +1,5 @@
 <p align="center"> <img width="1024" src ="https://github.com/frossm/rpncalc/raw/master/graphics/ReadmeHeader.jpg"> </p> 
-<br>
+<p align="center"> <img width="25%" src="https://github.com/frossm/rpncalc/raw/master/graphics/PostIt-512x512.jpg"> </p> 
 
 <h1 align="center">A User Guide for the RPNCalc Calculator</h1>
 
