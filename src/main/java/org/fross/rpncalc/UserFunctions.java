@@ -48,21 +48,68 @@ public class UserFunctions {
 	 * @param args
 	 */
 	public static void cmdRecord(String args) {
+		boolean functionNameValid = false;
+		String functionName = "";
+		String[] arguments = {};
+
+		// Break arguments into on/off and name.  If no name was given set to blank
+		try {
+			arguments = args.trim().toLowerCase().split(" ");
+			functionName = arguments[1];
+			
+		} catch (Exception ex) {
+			functionName = "";
+		}
+
 		// Determine the record command that was given
 		try {
-			if (args.toLowerCase().trim().startsWith("on")) {
+			if (arguments[0].startsWith("on")) {
 				if (recordingEnabled == false) {
 					recordingEnabled = true;
 				} else {
-					Output.printColorln(Ansi.Color.RED, "Recording is already turned on");
+					Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
 				}
-			} else if (args.toLowerCase().trim().startsWith("off")) {
+				
+			} else if (arguments[0].startsWith("off")) {
 				if (recordingEnabled == true) {
 					recordingEnabled = false;
-					
-					// Ensure we have something in the buffer to save.  If not, just return
+
+					// Ensure we have something in the buffer to save. If not, just return
 					if (!recording.isEmpty()) {
-						SaveRecordingToPrefs();
+						if (functionName.isBlank()) {
+							while (functionNameValid == false) {
+								// Request a name for the user function
+								Output.printColorln(Ansi.Color.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
+
+								// Read the user input. If ctrl-C is entered, discard the function
+								try {
+									functionName = Main.scanner.readLine(">> ");
+								} catch (UserInterruptException ex) {
+									functionName = "";
+								} catch (Exception e) {
+									Output.fatalError("Could not read user input", 5);
+								}
+
+								// If no name is given, cancel the recording information
+								if (functionName.isBlank()) {
+									Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
+									recording.clear();
+									return;
+								}
+
+								// Ensure there are no spaces in the name
+								if (functionName.contains(" ")) {
+									Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
+									functionName = "";
+								} else {
+									functionNameValid = true;
+								}
+							}
+						}
+
+						// We have a valid name so save to preferences
+						SaveRecordingToPrefs(functionName);
+
 					} else {
 						Output.printColorln(Ansi.Color.CYAN, "No valid commands were recorded");
 					}
@@ -75,7 +122,7 @@ public class UserFunctions {
 			}
 		} catch (StringIndexOutOfBoundsException ex) {
 			// User did not enter in a command
-			Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for record comamnd.  Please see help");
+			Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
 		}
 
 	}
@@ -142,6 +189,7 @@ public class UserFunctions {
 		// If the command starts with an ignored item, just return before adding it to the recording
 		for (int i = 0; i < ignore.length; i++) {
 			if (arg.startsWith(ignore[i]) == true) {
+				Output.debugPrint("Record ignoring the command '" + ignore[i] + "'");
 				return;
 			}
 		}
@@ -178,38 +226,7 @@ public class UserFunctions {
 	 * SaveRecordingToPrefs(): When you stop a recording, save it to the preferences system
 	 * 
 	 */
-	public static void SaveRecordingToPrefs() {
-		boolean functionNameValid = false;
-		String functionName = "";
-
-		while (functionNameValid == false) {
-			// Request a name for the user function. No name cancels the save
-			Output.printColorln(Ansi.Color.YELLOW, "\nPlease enter the name of this function. A blank name will cancel the recording");
-
-			// Read the user input. If ctrl-C is entered, discard the function
-			try {
-				functionName = Main.scanner.readLine(">> ");
-			} catch (UserInterruptException ex) {
-				functionName = "";
-			} catch (Exception e) {
-				Output.fatalError("Could not read user input", 5);
-			}
-
-			// If no name is given, cancel the recording information
-			if (functionName.isBlank()) {
-				Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
-				recording.clear();
-				return;
-			}
-
-			// Ensure there are no spaces in the name
-			if (functionName.contains(" ")) {
-				Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
-			} else {
-				functionNameValid = true;
-			}
-		}
-
+	public static void SaveRecordingToPrefs(String functionName) {
 		Output.debugPrint("Function's Name set to: '" + functionName + "'");
 
 		// Save the recording and clear it

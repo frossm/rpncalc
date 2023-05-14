@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>4.8.3</version>
+	<version>4.8.4</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -175,7 +175,8 @@
 			
 			<!-- ============================================================================================== -->
 			<!-- For Linux machines, chmod the final jar file to be executable by the OS                        -->
-			<!-- Install binfmt-support to allow for this in Linux                                              -->
+			<!-- Install binfmt-support to support this in Linux. I like to directly be able to run jar files   -->
+			<!-- Comment out this plugin if you don't want this                                                 -->
 			<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin                         -->
 			<!-- ============================================================================================== -->
 			<plugin>

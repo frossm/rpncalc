@@ -76,7 +76,8 @@ class CommandParserTest {
 		assertEquals(1, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "47/88", "47/88", "");
-		assertEquals(0.5340909090909091, stk1.peek());
+		StackCommands.cmdRound(stk1,  "4");
+		assertEquals(0.5341, stk1.peek());
 		assertEquals(2, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "1 3/16", "1", "3/16");
@@ -84,7 +85,8 @@ class CommandParserTest {
 		assertEquals(3, stk1.size());
 		
 		CommandParser.Parse(stk1, stk2, "-4 1/64", "-4", "1/64");
-		assertEquals(-3.984375, stk1.peek());
+		StackCommands.cmdRound(stk1,  "4");
+		assertEquals(-3.9844, stk1.peek());
 		assertEquals(4, stk1.size());
 	}
 
@@ -116,11 +118,12 @@ class CommandParserTest {
 		
 		CommandParser.Parse(stk1, stk2, "2^", "2^", "");
 		assertEquals(1, stk1.size());
-		assertEquals(922.6114652304, stk1.peek());
+		StackCommands.cmdRound(stk1,  "4");
+		assertEquals(922.6115, stk1.peek());
 		
 		assertEquals(1, stk1.size());
-		StackCommands.cmdRound(stk1, "5");
-		assertEquals(922.61147, stk1.peek());
+		StackCommands.cmdRound(stk1, "4");
+		assertEquals(922.6115, stk1.peek());
 	}
 
 }

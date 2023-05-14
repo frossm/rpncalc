@@ -190,15 +190,16 @@ public class Main {
 				}
 			}
 
-			Output.debugPrint("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
-			Output.debugPrint("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
+			// Uncomment to debug alignment issues
+			// Output.debugPrint("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
+			// Output.debugPrint("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
 
 			// Display the current stack contents
 			for (int i = 0; i < calcStack.size(); i++) {
 
 				// Display Stack Row Number
-				String sn = String.format("%02d:  ", calcStack.size() - i);
-				Output.printColor(Ansi.Color.CYAN, sn);
+				String stkLineNumber = String.format("%02d:  ", calcStack.size() - i);
+				Output.printColor(Ansi.Color.CYAN, stkLineNumber);
 
 				// Configure the alignment
 				if (configAlignment.compareTo("d") == 0) {
@@ -207,16 +208,16 @@ public class Main {
 					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation; k++) {
 						Output.print(" ");
 					}
-					sn = Format.Comma(calcStack.get(i));
+					stkLineNumber = Format.Comma(calcStack.get(i));
 
 				} else if (configAlignment.compareTo("r") == 0) {
-					sn = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i)));
+					stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i)));
 
 				} else {
-					sn = Format.Comma(calcStack.get(i));
+					stkLineNumber = Format.Comma(calcStack.get(i));
 				}
 
-				Output.printColorln(Ansi.Color.WHITE, sn);
+				Output.printColorln(Ansi.Color.WHITE, stkLineNumber);
 			}
 
 			// Input command from user
@@ -225,7 +226,7 @@ public class Main {
 			} catch (UserInterruptException ex) {
 				// User entered Ctrl-c so exit the program gracefully
 				cmdInput = "exit";
-				Output.printColorln(Ansi.Color.CYAN, "Exiting RPNCalc...");
+				Output.printColorln(Ansi.Color.CYAN, "Ctrl-C Detected. Exiting RPNCalc...");
 			} catch (Exception ex) {
 				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
 			}
@@ -243,7 +244,8 @@ public class Main {
 					continue;
 				}
 			}
-			Output.debugPrint("Complete Input: '" + cmdInput + "'  |  InputCommand: '" + cmdInputCmd + "'  |  InputParameter: '" + cmdInputParam + "'");
+			Output.debugPrint(
+					"Complete cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
 			if (UserFunctions.recordingIsEnabled() == true) {
@@ -258,6 +260,12 @@ public class Main {
 			cmdInputParam = "";
 
 		} // End While Loop
+
+		// If recording is on, complete the recording off process before exiting
+		if (UserFunctions.recordingIsEnabled() == true) {
+			Output.printColorln(Ansi.Color.YELLOW, "\nRecording is in progress:");
+			UserFunctions.cmdRecord("off");
+		}
 
 		// Save the items in the memory slots to the preferences system
 		StackMemory.SaveMemSlots();
