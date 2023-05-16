@@ -579,8 +579,13 @@ public class StackCommands {
 		// Perform the division and push the result onto the stack
 		Double b = calcStack.pop();
 		Double a = calcStack.pop();
-		Output.debugPrint("Modulus: " + a + " % " + b + " = " + (a % b));
-		calcStack.push(a % b);
+
+		// Calculate the result. Negative numbers can cause problems - see the following for the result calculation
+		// https://stackoverflow.com/questions/4412179/best-way-to-make-javas-modulus-behave-like-it-should-with-negative-numbers/4412200#4412200
+		Double result = (a % b + b) % b;
+
+		Output.debugPrint("Modulus: " + a + " % " + b + " = " + result);
+		calcStack.push(result);
 	}
 
 	/**
@@ -689,7 +694,7 @@ public class StackCommands {
 			decimalPlaces = Integer.parseInt(arg);
 			// Ensure a negative number is not provided for decimal points to round
 			if (decimalPlaces <= 0) {
-				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' not a valid number of decimal places");
+				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' number of decimal places must be > 0");
 				return;
 			}
 
@@ -792,6 +797,12 @@ public class StackCommands {
 		// Verify we have an item on the stack
 		if (calcStack.isEmpty()) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+			return;
+		}
+
+		// If the number to take the square root of is negative, return an error
+		if (calcStack.peek() < 0) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  You can not take the square root of a negative number");
 			return;
 		}
 

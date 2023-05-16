@@ -38,7 +38,6 @@ import org.junit.jupiter.api.Test;
  *
  */
 class StackMemoryTest {
-
 	/**
 	 * Test method for {@link org.fross.rpncalc.StackMemory#SetMaxMemorySlots(java.lang.String)}.
 	 */
@@ -88,7 +87,6 @@ class StackMemoryTest {
 
 		// Clear the memory slots
 		StackMemory.cmdMem(stk, "clearall");
-
 	}
 
 	/**

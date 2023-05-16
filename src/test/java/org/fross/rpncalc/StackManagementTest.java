@@ -64,9 +64,7 @@ class StackManagementTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackManagement#QueryLoadedStack()}.
-	 * 
-	 * Test method for {@link org.fross.rpncalc.StackManagement#SetLoadedStack(java.lang.String)}.
+	 * Testing querying the name of the loaded stack
 	 */
 	@Test
 	void testQueryLoadedStack() {

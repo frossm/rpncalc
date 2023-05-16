@@ -160,9 +160,16 @@ class StackTrigTest {
 		stk.push(3.0);
 		stk.push(4.0);
 		StackTrig.cmdHypotenuse(stk);
-
 		assertEquals(5.0, stk.peek());
 		assertEquals(1, stk.size());
+		
+		stk.push(8.123);
+		stk.push(4.789);
+		StackTrig.cmdHypotenuse(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(9.42962, stk.peek());
+		assertEquals(2, stk.size());
+
 	}
 
 }
