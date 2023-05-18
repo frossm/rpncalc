@@ -43,7 +43,7 @@ class StackConstantsTest {
 		// Ensure there is only one items in the stack
 		assertEquals(1, calcStack.size());
 
-		// Ensure that correct PI value is present
+		// Ensure that the value is correct
 		assertEquals(java.lang.Math.PI, calcStack.get(0));
 	}
 
@@ -58,7 +58,7 @@ class StackConstantsTest {
 		// Ensure there is only one items in the stack
 		assertEquals(1, calcStack.size());
 
-		// Ensure that correct PI value is present
+		// Ensure that the value is correct
 		assertEquals(1.61803398874989, calcStack.get(0));
 	}
 
@@ -73,7 +73,7 @@ class StackConstantsTest {
 		// Ensure there is only one items in the stack
 		assertEquals(1, calcStack.size());
 
-		// Ensure that correct PI value is present
+		// Ensure that the value is correct
 		assertEquals(2.7182818284590452353602874713527, calcStack.get(0));
 	}
 
@@ -88,7 +88,7 @@ class StackConstantsTest {
 		// Ensure there is only one items in the stack
 		assertEquals(1, calcStack.size());
 
-		// Ensure that correct PI value is present
+		// Ensure that the value is correct
 		assertEquals((double) 299792458, calcStack.get(0));
 	}
 

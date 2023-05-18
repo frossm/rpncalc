@@ -207,6 +207,26 @@ class MathTest {
 
 		assertEquals(5.38837, Math.mean(arry));
 	}
+	
+	/**
+	 * Test the math median command
+	 * The cmdMedian method is also tested in the StackCommandsTest file
+	 */
+	@Test
+	void testMedian() {
+		StackObj stk = new StackObj();
+		Double[] testValues = {-23.11, 55.22, 23.22, -1.01, 4.22, 12.22, 41.01, -0.1, 23.0, 1000.0};
+		
+		// Build the stack
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		
+		// Execute the test
+		assertEquals(10, stk.size());
+		assertEquals(17.61, Math.median(stk));
+		assertEquals(10, stk.size());
+	}
 
 	/**
 	 * Test factorial

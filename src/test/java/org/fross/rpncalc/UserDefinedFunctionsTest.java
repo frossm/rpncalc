@@ -44,12 +44,12 @@ class UserDefinedFunctionsTest {
 	void CreateFunction() {
 		String testFunctionName = "automated-testing";
 
-		// If the function already exists for some reason delete it
+		// If the test function already exists for some reason delete it
 		if (UserFunctions.FunctionExists(testFunctionName)) {
 			UserFunctions.FunctionDelete(testFunctionName);
 		}
 
-		// Define the stacks. We'll only use the first but the parser requires both
+		// Create the test stack
 		StackObj stk = new StackObj();
 
 		// Add several values to the stack
@@ -61,7 +61,7 @@ class UserDefinedFunctionsTest {
 		UserFunctions.cmdRecord("on");
 		assertTrue(UserFunctions.recordingIsEnabled());
 
-		// Add the numbers
+		// Add the numbers on the stack together
 		CommandParser.Parse(stk, stk, "+", "+", "");
 		UserFunctions.RecordCommand("+");
 		assertEquals(1, stk.size());

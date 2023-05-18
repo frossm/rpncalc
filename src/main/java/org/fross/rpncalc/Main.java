@@ -217,6 +217,7 @@ public class Main {
 					stkLineNumber = Format.Comma(calcStack.get(i));
 				}
 
+				// Finally display the current stack item
 				Output.printColorln(Ansi.Color.WHITE, stkLineNumber);
 			}
 
@@ -227,6 +228,7 @@ public class Main {
 				// User entered Ctrl-c so exit the program gracefully
 				cmdInput = "exit";
 				Output.printColorln(Ansi.Color.CYAN, "Ctrl-C Detected. Exiting RPNCalc...");
+
 			} catch (Exception ex) {
 				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
 			}
@@ -244,6 +246,8 @@ public class Main {
 					continue;
 				}
 			}
+			
+			// While in debug mode, show the entered text along with the broken up command and parameter
 			Output.debugPrint(
 					"Complete cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
 
