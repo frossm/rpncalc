@@ -26,6 +26,7 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.prefs.Preferences;
 
@@ -34,7 +35,7 @@ import org.fusesource.jansi.Ansi;
 
 public class StackMemory {
 	// Class Variables
-	protected static Double[] memorySlots = new Double[Main.configMemorySlots];
+	protected static BigDecimal[] memorySlots = new BigDecimal[Main.configMemorySlots];
 
 	/**
 	 * SetMaxMemorySlots(): Sets the number of memory slot available to be used
@@ -48,10 +49,10 @@ public class StackMemory {
 
 			// Ensure we always have at least one memory slot
 			if (requestedSlots >= 1) {
-				memorySlots = new Double[requestedSlots];
+				memorySlots = new BigDecimal[requestedSlots];
 			} else {
 				Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
-				memorySlots = new Double[1];
+				memorySlots = new BigDecimal[1];
 			}
 
 			Main.configMemorySlots = Integer.parseInt(slots);
@@ -97,7 +98,7 @@ public class StackMemory {
 			for (int i = 0; i < StackMemory.memorySlots.length; i++) {
 				if (memorySlots[i] != null) {
 					Output.debugPrint("  - Slot #" + i + ":  " + memorySlots[i]);
-					p.putDouble(Integer.toString(i), memorySlots[i]);
+					p.put(Integer.toString(i), memorySlots[i].toPlainString());
 				}
 			}
 		} catch (Exception ex) {
@@ -117,9 +118,9 @@ public class StackMemory {
 		Output.debugPrint("Restoring Memory Slots:");
 		try {
 			for (int i = 0; i < StackMemory.memorySlots.length; i++) {
-				if (p.getDouble(Integer.toString(i), Double.MAX_VALUE) != Double.MAX_VALUE) {
-					Output.debugPrint("  - Slot #" + i + "  " + p.getDouble(Integer.toString(i), Double.MAX_VALUE));
-					memorySlots[i] = p.getDouble(Integer.toString(i), Double.MAX_VALUE);
+				if (p.get(Integer.toString(i), "ERROR") != "ERROR") {
+					Output.debugPrint("  - Slot #" + i + "  " + p.get(Integer.toString(i), "ERROR"));
+					memorySlots[i] = new BigDecimal(p.get(Integer.toString(i), "ERROR"));
 				}
 			}
 		} catch (Exception ex) {

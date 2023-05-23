@@ -106,7 +106,8 @@ class StackMemoryTest {
 
 		StackMemory.cmdMem(stk, "2 copy");
 		assertEquals(2, stk.size());
-		assertEquals(142, stk.pop() + stk.pop());
+		// TODO assertEquals(142, stk.pop() + stk.pop());
+		assertEquals(142, stk.pop().add(stk.pop()));
 
 		// addall
 		stk.push(11.0);

@@ -64,8 +64,8 @@ public class StackManagement {
 
 		// Loop through each member of the stack and save it to the preferences
 		for (int i = 0; i <= (int) stk.size() - 1; i++) {
-			Output.debugPrint("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i));
-			p.putDouble("Stack" + i, stk.get(i));
+			Output.debugPrint("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i).toPlainString());
+			p.put("Stack" + i, stk.get(i).toPlainString());
 		}
 
 	}

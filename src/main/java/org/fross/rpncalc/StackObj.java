@@ -26,6 +26,7 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.math.BigDecimal;
 import java.util.Stack;
 import java.util.prefs.Preferences;
 
@@ -35,8 +36,8 @@ import org.fusesource.jansi.Ansi;
 public class StackObj implements Cloneable {
 	// Class Variables
 	protected String stackName;
-	protected Stack<Double> calcStack = new Stack<>();
-	protected Stack<Stack<Double>> undoStack = new Stack<>();
+	protected Stack<BigDecimal> calcStack = new Stack<>();
+	protected Stack<Stack<BigDecimal>> undoStack = new Stack<>();
 
 	// Constructor
 	StackObj() {
@@ -54,10 +55,21 @@ public class StackObj implements Cloneable {
 
 	/**
 	 * clone(): Return a clone of the calcStack object
+	 * 
 	 */
 	@Override
 	public StackObj clone() throws CloneNotSupportedException {
 		return (StackObj) super.clone();
+	}
+
+	/**
+	 * Return the stack value provided as a string
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public String getAsString(int index) {
+		return this.get(index).toString();
 	}
 
 	/**
@@ -66,16 +78,16 @@ public class StackObj implements Cloneable {
 	 * @param index
 	 * @return
 	 */
-	public Double get(int index) {
+	public BigDecimal get(int index) {
 		return calcStack.get(index);
 	}
 
 	/**
-	 * getStack(): Return the entire calculator stack as a stack<Double>
+	 * getStack(): Return the entire calculator stack as a stack<BigDecimal>
 	 * 
 	 * @return
 	 */
-	public Stack<Double> getStack() {
+	public Stack<BigDecimal> getStack() {
 		return calcStack;
 	}
 
@@ -96,7 +108,7 @@ public class StackObj implements Cloneable {
 	 * 
 	 * @param stk
 	 */
-	public void replaceStack(Stack<Double> stk) {
+	public void replaceStack(Stack<BigDecimal> stk) {
 		calcStack.clear();
 		for (int i = 0; i < stk.size(); i++) {
 			calcStack.add(i, stk.get(i));
@@ -108,7 +120,7 @@ public class StackObj implements Cloneable {
 	 * 
 	 * @return
 	 */
-	public Double peek() {
+	public BigDecimal peek() {
 		return calcStack.peek();
 	}
 
@@ -117,7 +129,7 @@ public class StackObj implements Cloneable {
 	 * 
 	 * @return
 	 */
-	public Double pop() {
+	public BigDecimal pop() {
 		return calcStack.pop();
 	}
 
@@ -126,8 +138,26 @@ public class StackObj implements Cloneable {
 	 * 
 	 * @param item
 	 */
-	public void push(Double item) {
+	public void push(BigDecimal item) {
 		calcStack.push(item);
+	}
+
+	/**
+	 * push(): Add an item onto the top of the stack
+	 * 
+	 * @param item
+	 */
+	public void push(String item) {
+		calcStack.push(new BigDecimal(item));
+	}
+
+	/**
+	 * push(): Add an item onto the top of the stack
+	 * 
+	 * @param item
+	 */
+	public void push(Double item) {
+		calcStack.push(new BigDecimal(item.toString()));
 	}
 
 	/**
@@ -155,7 +185,7 @@ public class StackObj implements Cloneable {
 	@SuppressWarnings("unchecked")
 	public void saveUndo() {
 		try {
-			undoStack.push((Stack<Double>) calcStack.clone());
+			undoStack.push((Stack<BigDecimal>) calcStack.clone());
 		} catch (ClassCastException ex) {
 			Output.printColor(Ansi.Color.RED, "Error saving to the undo state");
 		}
@@ -216,10 +246,11 @@ public class StackObj implements Cloneable {
 
 		while (!calcStack.isEmpty()) {
 			// Pull out a value from the stack
-			double tmpValue = calcStack.pop();
+			BigDecimal tmpValue = calcStack.pop();
 
 			// While temporary stack is not empty and top of stack is greater than the tempValue
-			while (!sortedStack.isEmpty() && sortedStack.peek() > tmpValue) {
+			// while (!sortedStack.isEmpty() && sortedStack.peek() > tmpValue) {
+			while (!sortedStack.isEmpty() && sortedStack.peek().compareTo(tmpValue) > 0) {
 				calcStack.push(sortedStack.pop());
 			}
 
@@ -249,7 +280,7 @@ public class StackObj implements Cloneable {
 	 * @param index
 	 * @return
 	 */
-	public Stack<Double> undoGet(int index) {
+	public Stack<BigDecimal> undoGet(int index) {
 		return undoStack.get(index);
 	}
 
@@ -258,7 +289,7 @@ public class StackObj implements Cloneable {
 	 * 
 	 * @return
 	 */
-	public Stack<Stack<Double>> undoGet() {
+	public Stack<Stack<BigDecimal>> undoGet() {
 		return undoStack;
 	}
 

@@ -26,12 +26,15 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
 public class StackConversions {
 	// Class Constants
-	public static final int DEFAULT_DENOMINATOR = 64;  // Default Smallest Fraction Denominator
+	public static final Long DEFAULT_FRACTION_DENOMINATOR = 64L;  // Default Smallest Fraction Denominator
 
 	/**
 	 * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
@@ -48,7 +51,7 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pop off the last value, convert, and push it back
-		calcStack.push(calcStack.pop() * 25.4);
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("25.4")));
 	}
 
 	/**
@@ -66,7 +69,7 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pop off the last value, convert, and push it back
-		calcStack.push(calcStack.pop() / 25.4);
+		calcStack.push(calcStack.pop().divide(new BigDecimal("25.4")));
 	}
 
 	/**
@@ -86,54 +89,62 @@ public class StackConversions {
 		}
 
 		// Set the last stack item as the startingNumber
-		double startingNumber = calcStack.peek();
+		BigDecimal startingNumber = calcStack.peek();
 
 		// If starting number is negative, set a variable then remove the negative sign
-		if (startingNumber < 0) {
+		if (startingNumber.compareTo(BigDecimal.ZERO) < 0) {
 			negativeNumber = true;
-			startingNumber = java.lang.Math.abs(startingNumber);
+			startingNumber = startingNumber.abs();
 		}
 
 		// The base to convert the fraction to. For example, 64 = 1/64th
-		int denominator = DEFAULT_DENOMINATOR;
+		Long denominator = DEFAULT_FRACTION_DENOMINATOR;
 
 		// If a denominator is provided, use it instead of the default
 		try {
 			if (!param.isEmpty())
-				denominator = Integer.parseInt(param);
+				denominator = Long.parseLong(param);
 		} catch (NumberFormatException ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: '" + param + "' is not a valid denominator");
 			return outputString;
 		}
 
 		// Determine the integer portion of the number
-		int integerPart = (int) java.lang.Math.floor(startingNumber);
+		// TODO delete
+		// int integerPart = (int) java.lang.Math.floor(startingNumber);
+		BigInteger integerPart = startingNumber.toBigInteger();
 
 		// Determine the fractional portion as an double
-		double decimalPart = startingNumber - integerPart;
+		BigDecimal decimalPart = startingNumber.subtract(new BigDecimal(integerPart));
 
 		// Convert to a fraction with provided base
-		long numerator = java.lang.Math.round(decimalPart * denominator);
+		// TODO delete
+		// long numerator = java.lang.Math.round(decimalPart * denominator);
+		BigInteger numerator = decimalPart.multiply(new BigDecimal(String.valueOf(denominator))).toBigInteger();
 
 		// Get the Greatest Common Divisor so we can simply the fraction
-		long gcd = Math.GreatestCommonDivisor(numerator, denominator);
+		long gcd = Math.GreatestCommonDivisor(numerator.longValue(), denominator);
 
-		Output.debugPrint("Greatest Common Divisor for " + numerator + " and " + denominator + " is " + gcd);
+		Output.debugPrint("Greatest Common Divisor for " + numerator.toString() + " and " + denominator + " is " + gcd);
 
 		// Simply the fraction
-		numerator /= gcd;
+		// TODO delete
+		// numerator /= gcd;
+		// denominator /= gcd;
+
+		numerator = numerator.divide(new BigInteger(String.valueOf(gcd)));
 		denominator /= gcd;
 
 		// If starting number was negative, set it as negative again
 		if (negativeNumber == true) {
-			integerPart *= -1;
+			integerPart = integerPart.multiply(new BigInteger("-1"));
 		}
 
 		// Output the fractional display
 		// If there is no fractional result, remove it so we don't see '0/1'
 		String stackHeader = "-Fraction (Granularity: 1/" + (denominator * gcd) + ")";
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
-		if (numerator != 0) {
+		if (numerator.compareTo(BigInteger.ZERO) != 0) {
 			outputString[1] = " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
 		} else {
 			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator * gcd);
@@ -160,7 +171,10 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pull the value, convert and push back
-		calcStack.push(calcStack.pop() * (180 / java.lang.Math.PI));
+		// TODO delete
+		// calcStack.push(calcStack.pop() * (180 / java.lang.Math.PI));
+		Double conversionFactor = 180 / java.lang.Math.PI;
+		calcStack.push(calcStack.pop().multiply(new BigDecimal(String.valueOf(conversionFactor))));
 	}
 
 	/**
@@ -179,7 +193,10 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pull the value, convert and push back
-		calcStack.push(calcStack.pop() * (java.lang.Math.PI / 180));
+		// TODO delete
+		// calcStack.push(calcStack.pop() * (java.lang.Math.PI / 180));
+		Double conversionFactor = java.lang.Math.PI / 180;
+		calcStack.push(calcStack.pop().multiply(new BigDecimal(String.valueOf(conversionFactor))));
 	}
 
 	/**
@@ -200,7 +217,9 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		calcStack.push(calcStack.pop() * 0.035274);
+		// TODO delete
+		// calcStack.push(calcStack.pop() * 0.035274);
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("0.035274")));
 	}
 
 	/**
@@ -221,7 +240,9 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		calcStack.push(calcStack.pop() * 28.349523125);
+		// TODO delete
+		// calcStack.push(calcStack.pop() * 28.349523125);
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("28.349523125")));
 	}
 
 	/**
@@ -240,7 +261,9 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		calcStack.push(calcStack.pop() * 2.2046226218);
+		// TODO delete
+		// calcStack.push(calcStack.pop() * 2.2046226218);
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("2.2046226218")));
 	}
 
 	/**
@@ -259,6 +282,8 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		calcStack.push(calcStack.pop() * 0.45359237);
+		// TODO delete
+		// calcStack.push(calcStack.pop() * 0.45359237);
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("0.45359237")));
 	}
 }

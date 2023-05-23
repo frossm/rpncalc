@@ -51,15 +51,15 @@ class CommandParserTest {
 		// Fraction Input
 		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		assertEquals(123, stk1.get(0));
+		assertEquals(123, stk1.get(0).doubleValue());
 		assertEquals(1, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		assertEquals(123, stk1.get(0));
+		assertEquals(123, stk1.get(0).doubleValue());
 		assertEquals(2, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		assertEquals(123, stk1.get(0));
+		assertEquals(123, stk1.get(0).doubleValue());
 		assertEquals(3, stk1.size());
 	}
 
@@ -72,21 +72,21 @@ class CommandParserTest {
 		// Fraction Input
 		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "1/8", "1/8", "");
-		assertEquals(.125, stk1.peek());
+		assertEquals(.125, stk1.peek().doubleValue());
 		assertEquals(1, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "47/88", "47/88", "");
 		StackCommands.cmdRound(stk1,  "4");
-		assertEquals(0.5341, stk1.peek());
+		assertEquals(0.5341, stk1.peek().doubleValue());
 		assertEquals(2, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "1 3/16", "1", "3/16");
-		assertEquals(1.1875, stk1.peek());
+		assertEquals(1.1875, stk1.peek().doubleValue());
 		assertEquals(3, stk1.size());
 		
 		CommandParser.Parse(stk1, stk2, "-4 1/64", "-4", "1/64");
 		StackCommands.cmdRound(stk1,  "4");
-		assertEquals(-3.9844, stk1.peek());
+		assertEquals(-3.9844, stk1.peek().doubleValue());
 		assertEquals(4, stk1.size());
 	}
 
@@ -98,32 +98,32 @@ class CommandParserTest {
 		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "-123.456", "-123.456", "");
 		assertEquals(1, stk1.size());
-		assertEquals(-123.456, stk1.peek());
+		assertEquals(-123.456, stk1.peek().doubleValue());
 		
 		CommandParser.Parse(stk1, stk2, "2+", "2+", "");
 		assertEquals(1, stk1.size());
-		assertEquals(-121.456, stk1.peek());
+		assertEquals(-121.456, stk1.peek().doubleValue());
 		
 		CommandParser.Parse(stk1, stk2, "16.61-", "16.61-", "");
 		assertEquals(1, stk1.size());
-		assertEquals(-138.066, stk1.peek());
+		assertEquals(-138.066, stk1.peek().doubleValue());
 		
 		CommandParser.Parse(stk1, stk2, "-2.2*", "-2.2*", "");
 		assertEquals(1, stk1.size());
-		assertEquals(303.7452, stk1.peek());
+		assertEquals(303.7452, stk1.peek().doubleValue());
 		
 		CommandParser.Parse(stk1, stk2, "10/", "10/", "");
 		assertEquals(1, stk1.size());
-		assertEquals(30.37452, stk1.peek());
+		assertEquals(30.37452, stk1.peek().doubleValue());
 		
 		CommandParser.Parse(stk1, stk2, "2^", "2^", "");
 		assertEquals(1, stk1.size());
 		StackCommands.cmdRound(stk1,  "4");
-		assertEquals(922.6115, stk1.peek());
+		assertEquals(922.6115, stk1.peek().doubleValue());
 		
 		assertEquals(1, stk1.size());
 		StackCommands.cmdRound(stk1, "4");
-		assertEquals(922.6115, stk1.peek());
+		assertEquals(922.6115, stk1.peek().doubleValue());
 	}
 
 }

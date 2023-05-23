@@ -1,4 +1,4 @@
-<img align="right" width="175" src="../Images/CalcCommands.png">
+f<img align="right" width="175" src="../Images/CalcCommands.png">
 
 # Calculator Commands
 
@@ -22,8 +22,8 @@ These commands, like the others you'll read about later, are executed by typing 
 |f <br> flip | **FLIP SIGN**<br>Flip the sign on the top stack item (`line1`). This is effectively multiplying `line1` by -1|
 |int| **INTEGER**<br>Converts the top stack item (`line1`) to it's integer value.  This will discard the decimal portion regardless of it's value.  For example: `4.34` will result in `4`.  `4.999` will also result in `4`. If rounding is desired, execute the `round` command prior to `int`|
 |lr| **SIMPLE LINEAR REGRESSION**<br>[Linear regression](https://www.graphpad.com/guides/the-ultimate-guide-to-linear-regression) is used to model the relationship between two variables and create a line that can be used to estimate other values using a line-of-best-fit method. This implementation is for simple linear regression and will show you the formula, slope, y-intercept as well as add the next expected value to the top of the stack.<br><br>The values will be plotted from the bottom of the stack to the top (`line1`)(which is probably want you want).  If you need it the other way around, simply reverse the stack with the `reverse` or `rev` command|
-|log|**LOGARITHM BASE e**<br>Calculates the [natural logarithm (base e)](https://en.wikipedia.org/wiki/Natural_logarithm)|
-|log10|**LOGARITHM BASE 10**<br>Calculates the [base10 logarithm](https://en.wikipedia.org/wiki/Common_logarithm)|
+|log|**LOGARITHM BASE e**<br>Calculates the [natural logarithm (base e)](https://en.wikipedia.org/wiki/Natural_logarithm). Please note that these are calculated as a `double` and therefore do not have unlimited precision|
+|log10|**LOGARITHM BASE 10**<br>Calculates the [base10 logarithm](https://en.wikipedia.org/wiki/Common_logarithm). Please note that these are calculated as a `double` and therefore do not have unlimited precision|
 |max|**MAXIMUM VALUE**<br>Copies the largest value in the current stack to `line1`|
 |median [keep]|**MEDIAN**<br>Replaces the current stack with the [median](https://en.wikipedia.org/wiki/Median) value. For an odd number of stack items, the "middle" value will be used.  With an even number of items there is no "middle" value so the two center most values will be averaged. If the `keep` flag is used, the median value will be added on top of the stack retaining the current stack values|
 |min|**MINIMUM VALUE**<br>Copies the small value in the current stack to `line1`|

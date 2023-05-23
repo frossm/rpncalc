@@ -57,3 +57,12 @@ Operands perform basic match functions on those numbers.
 Commands do the more exciting things.  You can add the speed of light constant to the stack (`sol`) or PI (`pi`), take the sine of the number, add it to a memory slot, and then save that sequence of commands as a user defined function.  Most of the rest of this guide will be talking about the various RPNCalc commands.
 
 Lastly, as of `v4.6.0`, the arrow keys can be used within RPNCalc.  Up/Down will move you through your historical entries, and Left/Right will move you within the current command line.  This is probably what you would have expected it to do as it behaves similar to common consoles.
+
+## Precision
+The intent of RPNCalc is to have unlimited precision in the numbers and calculations.  RPNCalc leverages a Java technology called `BigDecimal` which limits precision only by the amount of memory in your machine.  This is most likely more than you will ever need.  However, the program does make use of several Java math methods which must be done via a Java `Double`.
+
+A `Double` has the following characteristics:
+- The upper range of a double in Java is `1.7976931348623157 x 10^308`
+- The lower range of a double in Java is `4.9 x 10^-324`
+
+I will attempt to point out in this guide when a command is using `Double` and therefore has a limit on precision. And please don't use RPNCalc in a life or death situation.

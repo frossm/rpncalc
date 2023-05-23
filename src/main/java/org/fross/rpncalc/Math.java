@@ -85,10 +85,12 @@ public class Math {
 	 * @return
 	 */
 	public static StackObj Add(StackObj stk) {
-		Double b = stk.pop();
-		Double a = stk.pop();
-		Output.debugPrint("Adding: " + a + " + " + b + " = " + (a + b));
-		stk.push(a + b);
+		BigDecimal b = stk.pop();
+		BigDecimal a = stk.pop();
+		BigDecimal result = a.add(b);
+
+		Output.debugPrint("Adding: " + a + " + " + b + " = " + result);
+		stk.push(result);
 		return stk;
 	}
 
@@ -99,10 +101,12 @@ public class Math {
 	 * @return
 	 */
 	public static StackObj Subtract(StackObj stk) {
-		Double b = stk.pop();
-		Double a = stk.pop();
-		Output.debugPrint("Subtracting: " + a + " - " + b + " = " + (a - b));
-		stk.push(a - b);
+		BigDecimal b = stk.pop();
+		BigDecimal a = stk.pop();
+		BigDecimal result = a.subtract(b);
+
+		Output.debugPrint("Subtracting: " + a + " - " + b + " = " + result);
+		stk.push(result);
 		return stk;
 	}
 
@@ -113,10 +117,12 @@ public class Math {
 	 * @return
 	 */
 	public static StackObj Multiply(StackObj stk) {
-		Double b = stk.pop();
-		Double a = stk.pop();
-		Output.debugPrint("Multiplying: " + a + " * " + b + " = " + (a * b));
-		stk.push(a * b);
+		BigDecimal b = stk.pop();
+		BigDecimal a = stk.pop();
+		BigDecimal result = a.multiply(b);
+
+		Output.debugPrint("Multiplying: " + a + " * " + b + " = " + result);
+		stk.push(result);
 		return stk;
 	}
 
@@ -127,10 +133,12 @@ public class Math {
 	 * @return
 	 */
 	public static StackObj Divide(StackObj stk) {
-		Double b = stk.pop();
-		Double a = stk.pop();
-		Output.debugPrint("Dividing: " + a + " / " + b + " = " + (a / b));
-		stk.push(a / b);
+		BigDecimal b = stk.pop();
+		BigDecimal a = stk.pop();
+		BigDecimal result = a.divide(b);
+
+		Output.debugPrint("Dividing: " + a + " / " + b + " = " + result);
+		stk.push(result);
 		return stk;
 	}
 
@@ -141,10 +149,12 @@ public class Math {
 	 * @return
 	 */
 	public static StackObj Power(StackObj stk) {
-		Double power = stk.pop();
-		Double base = stk.pop();
-		Output.debugPrint("Base=" + base + "   Power=" + power);
-		stk.push(java.lang.Math.pow(base, power));
+		BigDecimal power = stk.pop();
+		BigDecimal base = stk.pop();
+		BigDecimal result = base.pow(power.intValue());
+
+		Output.debugPrint(base + " ^ " + power + " = " + result);
+		stk.push(result);
 		return stk;
 	}
 
@@ -187,17 +197,17 @@ public class Math {
 	 * @param stk
 	 * @return
 	 */
-	public static Double mean(StackObj stk) {
-		Double totalCounter = 0.0;
+	public static BigDecimal mean(StackObj stk) {
+		BigDecimal totalCounter = BigDecimal.ZERO;
 		int size = stk.size();
 
 		// Add up the numbers in the stack
 		for (int i = 0; i < size; i++) {
-			totalCounter += stk.get(i);
+			totalCounter.add(stk.get(i));
 		}
 
 		// Return the average
-		return (totalCounter / size);
+		return (totalCounter.divide(new BigDecimal(String.valueOf(size))));
 
 	}
 
@@ -207,7 +217,24 @@ public class Math {
 	 * @param arry
 	 * @return
 	 */
-	public static Double mean(Double[] arry) {
+	public static BigDecimal mean(Double[] arry) {
+		StackObj stk = new StackObj();
+
+		// Convert array into a stack then call Mean again
+		for (int i = 0; i < arry.length; i++) {
+			stk.push(arry[i]);
+		}
+
+		return (mean(stk));
+	}
+	
+	/**
+	 * mean(): Return the mean from the numbers in a stack of doubles or a double array
+	 * 
+	 * @param arry
+	 * @return
+	 */
+	public static BigDecimal mean(BigDecimal[] arry) {
 		StackObj stk = new StackObj();
 
 		// Convert array into a stack then call Mean again
@@ -218,11 +245,14 @@ public class Math {
 		return (mean(stk));
 	}
 
+
 	/**
-	 * median(): Return the median value of the stack items
+	 * median(): Return the median value of the stack items. If odd number of items, just return the
+	 * middle item.  If even, take the average of the two numbers closest to the middle
+	 * 
 	 */
-	public static Double median(StackObj stk) {
-		Double result = 0.0;
+	public static BigDecimal median(StackObj stk) {
+		BigDecimal result = new BigDecimal("0.0");
 
 		// Save current calcStack to the undoStack
 		stk.saveUndo();
@@ -233,12 +263,11 @@ public class Math {
 		try {
 			if (stk.size() % 2 == 0) {
 				// Even number of items
-				int upperIndex = Integer.valueOf(stk.size() / 2);
-				int lowerIndex = Integer.valueOf(stk.size() / 2 + 1);
+				int lowerIndex = Integer.valueOf(stk.size() / 2);
+				int upperIndex = Integer.valueOf(stk.size() / 2 + 1);
 
-				Output.debugPrint("Median: LowerIndex=" + lowerIndex + "  |  UpperIndex=" + upperIndex);
-
-				result = (stk.get(upperIndex - 1) + stk.get(lowerIndex - 1)) / 2;
+				Output.debugPrint("Median: UpperIndex=" + upperIndex + "  |  LowerIndex=" + lowerIndex);
+				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1))).divide(new BigDecimal("2"));
 
 			} else {
 				// Odd number of items
@@ -246,7 +275,7 @@ public class Math {
 			}
 		} catch (Exception ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Could not calculate the median");
-			return 0.0;
+			return BigDecimal.ZERO;
 		}
 
 		// Undo the sort to get back to the original stack order
@@ -262,7 +291,7 @@ public class Math {
 	 * @return
 	 */
 	public static BigDecimal factorial(int num) {
-		BigDecimal result = new BigDecimal("1");
+		BigDecimal result = BigDecimal.ONE;
 
 		for (int factor = 2; factor <= num; factor++) {
 			result = result.multiply(new BigDecimal(factor));

@@ -29,6 +29,7 @@ package org.fross.rpncalc;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -227,7 +228,7 @@ public class StackOperations {
 				FileWriter fw = new FileWriter(new File(fileName));
 
 				for (int i = 0; i < calcStack.size(); i++) {
-					fw.write(String.valueOf(calcStack.get(i) + "\n"));
+					fw.write(String.valueOf(calcStack.get(i).toPlainString() + "\n"));
 				}
 
 				// Close the FileWriter and flush the data to the file
@@ -264,10 +265,11 @@ public class StackOperations {
 				// Clear the stack before importing the new values
 				calcStack.clear();
 
-				// Convert the strings to double values. Skip empty lines
+				// Convert the strings to BigDecimal values. Skip empty lines
 				for (int i = 0; i < linesRead.size(); i++) {
 					if (!linesRead.get(i).isEmpty()) {
-						calcStack.push(Double.parseDouble(linesRead.get(i)));
+						// TODO calcStack.push(Double.parseDouble(linesRead.get(i)));
+						calcStack.push(new BigDecimal(String.valueOf(linesRead.get(i))));
 					}
 				}
 
@@ -300,9 +302,9 @@ public class StackOperations {
 	 */
 	public static StackObj StackSwapItems(StackObj stk, int item1, int item2) {
 		int stkSize = stk.size();
-		Double tempArray[] = new Double[stkSize];
-		Double value1;
-		Double value2;
+		BigDecimal tempArray[] = new BigDecimal[stkSize];
+		BigDecimal value1;
+		BigDecimal value2;
 
 		// Populate the array with the contents of the stack
 		Output.debugPrint("Size of Stack is: " + stkSize);
@@ -321,7 +323,7 @@ public class StackOperations {
 
 		// Recreate the stack
 		for (int i = stkSize - 1; i >= 0; i--) {
-			Output.debugPrint("Restore: Array[" + i + "] = " + tempArray[i] + " -> Stack");
+			Output.debugPrint("Restore: Array[" + i + "] = " + tempArray[i].toPlainString() + " -> Stack");
 			stk.push(tempArray[i]);
 		}
 

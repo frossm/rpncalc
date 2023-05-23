@@ -30,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -373,7 +375,7 @@ class StackCommandsTest {
 		// Roll 5000 d10 dice
 		StackCommands.cmdDice(stk, "5000d10");
 		for (int i = 0; i < stk.size(); i++) {
-			if (stk.get(i) < 1 || stk.get(i) > 10) {
+			if (stk.get(i).compareTo(BigDecimal.ONE) < 0 || stk.get(i).compareTo(new BigDecimal("10")) > 0) {
 				fail();
 			}
 		}
@@ -723,7 +725,8 @@ class StackCommandsTest {
 		// Ensure there are the correct count of numbers and they are all in the correct range
 		assertEquals(numberOfValues, stk.size());
 		for (int i = 0; i < numberOfValues; i++) {
-			if (stk.get(i) < 0 || stk.get(i) > 100) {
+			// TODO if (stk.get(i) < 0 || stk.get(i) > 100) {
+			if (stk.get(i).compareTo(BigDecimal.ZERO) < 0 || stk.get(i).compareTo(new BigDecimal("100")) > 0) {
 				fail();
 			}
 		}
@@ -952,7 +955,7 @@ class StackCommandsTest {
 		StackCommands.cmdAddAll(stk, "");
 		assertEquals(1, stk.size());
 		assertEquals(22, stk.pop());
-		
+
 		StackCommands.cmdUndo(stk, "");
 		assertEquals(2, stk.size());
 		assertEquals(12, stk.peek());

@@ -178,15 +178,16 @@ public class Main {
 			// Loop through the stack and count the max digits before the decimal for use with the decimal
 			// alignment mode & overall length for right alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
-				int decimalIndex = Format.Comma(calcStack.get(k)).indexOf(".");
+				int decimalIndex = Format.Comma(calcStack.get(k).toPlainString()).indexOf(".");
+
 				// If current stack item has more digits ahead of decimal make that the max - commas are included.
 				if (maxDigitsBeforeDecimal < decimalIndex) {
 					maxDigitsBeforeDecimal = decimalIndex;
 				}
 
 				// Determine the length of the longest item in the stack for right alignment
-				if (Format.Comma(calcStack.get(k)).length() > maxLenOfNumbers) {
-					maxLenOfNumbers = Format.Comma(calcStack.get(k)).length();
+				if (Format.Comma(calcStack.get(k).toPlainString()).length() > maxLenOfNumbers) {
+					maxLenOfNumbers = Format.Comma(calcStack.get(k).toPlainString()).length();
 				}
 			}
 
@@ -204,17 +205,17 @@ public class Main {
 				// Configure the alignment
 				if (configAlignment.compareTo("d") == 0) {
 					// Put in spaces to align the decimals
-					int decimalLocation = Format.Comma(calcStack.get(i)).indexOf(".");
+					int decimalLocation = Format.Comma(calcStack.get(i).toPlainString()).indexOf(".");
 					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation; k++) {
 						Output.print(" ");
 					}
-					stkLineNumber = Format.Comma(calcStack.get(i));
+					stkLineNumber = Format.Comma(calcStack.get(i).toPlainString());
 
 				} else if (configAlignment.compareTo("r") == 0) {
-					stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i)));
+					stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toPlainString()));
 
 				} else {
-					stkLineNumber = Format.Comma(calcStack.get(i));
+					stkLineNumber = Format.Comma(calcStack.get(i).toPlainString());
 				}
 
 				// Finally display the current stack item
@@ -246,7 +247,7 @@ public class Main {
 					continue;
 				}
 			}
-			
+
 			// While in debug mode, show the entered text along with the broken up command and parameter
 			Output.debugPrint(
 					"Complete cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");

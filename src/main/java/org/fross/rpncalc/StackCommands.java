@@ -29,6 +29,7 @@ package org.fross.rpncalc;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -61,17 +62,17 @@ public class StackCommands {
 		}
 
 		// Counter to hold the accumulating total
-		Double totalCounter = 0.0;
+		BigDecimal totalCounter = BigDecimal.ZERO;
 
 		// If the 'keep' flag was sent, get the stack items instead of using pop
 		if (keepFlag == true) {
 			for (int i = 0; i < calcStack.size(); i++) {
-				totalCounter += calcStack.get(i);
+				totalCounter = totalCounter.add(calcStack.get(i));
 			}
 		} else {
 			// Loop through the stack items popping them off until there is nothing left
 			while (calcStack.isEmpty() == false) {
-				totalCounter += calcStack.pop();
+				totalCounter = totalCounter.add(calcStack.pop());
 			}
 		}
 
@@ -94,12 +95,16 @@ public class StackCommands {
 
 		Output.debugPrint("Taking the absolute value of " + calcStack.peek());
 
-		Double value = calcStack.pop();
-		if (value < 0) {
-			calcStack.push(value * -1);
-		} else {
-			calcStack.push(value);
-		}
+		// Pop the stack item and push back the absolute value
+		calcStack.push(calcStack.pop().abs());
+
+//		TODO delete
+//		Double value = calcStack.pop();
+//		if (value < 0) {
+//			calcStack.push(value * -1);
+//		} else {
+//			calcStack.push(value);
+//		}
 	}
 
 	/**
@@ -129,7 +134,7 @@ public class StackCommands {
 		}
 
 		// Calculate the mean
-		Double mean = Math.mean(calcStack);
+		BigDecimal mean = Math.mean(calcStack);
 
 		// If we are not going to keep the stack (the default) clear it
 		if (keepFlag == false)
@@ -157,7 +162,7 @@ public class StackCommands {
 		// Empty the stack
 		calcStack.clear();
 
-		// Use JANSI clear screen
+		// Use JANSI to clear the screen
 		Output.clearScreen();
 	}
 
@@ -325,7 +330,8 @@ public class StackCommands {
 
 		// Roll them bones
 		for (int i = 0; i < rolls; i++) {
-			calcStack.push((double) new java.util.Random().nextInt(die) + 1);
+			long randomNum = new java.util.Random().nextInt(die) + 1;
+			calcStack.push(new BigDecimal(String.valueOf(randomNum)));
 		}
 
 	}
@@ -343,7 +349,7 @@ public class StackCommands {
 			calcStack.saveUndo();
 
 			Output.debugPrint("Changing sign of last stack element");
-			calcStack.push(calcStack.pop() * -1);
+			calcStack.push(calcStack.pop().multiply(new BigDecimal("-1")));
 		}
 	}
 
@@ -355,11 +361,14 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Taking the integer of " + calcStack.peek());
+			Output.debugPrint("Taking the integer of " + calcStack.peek().toPlainString());
 
-			String stackItemString = calcStack.pop().toString();
-			int stackItemInt = Integer.parseInt(stackItemString.substring(0, stackItemString.indexOf(".")));
-			calcStack.push(stackItemInt * 1.0);
+			calcStack.push(new BigDecimal(calcStack.pop().toBigInteger().toString()));
+
+//			TODO: Delete
+//			String stackItemString = calcStack.pop().toPlainString();
+//			int stackItemInt = Integer.parseInt(stackItemString.substring(0, stackItemString.indexOf(".")));
+//			calcStack.push(stackItemInt * 1.0);
 
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
@@ -386,49 +395,76 @@ public class StackCommands {
 		}
 
 		// X is the number of stack items
-		int n = calcStack.size();
-		double sumX = 0;		// X values are the stack numbers
-		double sumY = 0;		// Sum of the stack values
-		double sumXY = 0;		// Sum of X times Y
-		double sumX2 = 0;		// Sum of X Squared
-		double sumY2 = 0;		// Sum of Y Squared
+		BigDecimal n = new BigDecimal(String.valueOf(calcStack.size()));
+		BigDecimal sumX = BigDecimal.ZERO;		// X values are the stack numbers
+		BigDecimal sumY = BigDecimal.ZERO;		// Sum of the stack values
+		BigDecimal sumXY = BigDecimal.ZERO;		// Sum of X times Y
+		BigDecimal sumX2 = BigDecimal.ZERO;		// Sum of X Squared
+		BigDecimal sumY2 = BigDecimal.ZERO;		// Sum of Y Squared
 
 		// Loop through the items to calculate the needed sums
 		for (int i = 0; i < calcStack.size(); i++) {
 			int x = i + 1;
-			double y = calcStack.get(i);
+			BigDecimal y = calcStack.get(i);
 
 			// Calculate the sums
-			sumX += x;
-			sumY += y;
-			sumXY += x * y;
-			sumX2 += x * x;
-			sumY2 += y * y;
+			// TODO delete
+//			sumX += x;
+//			sumY += y;
+//			sumXY += x * y;
+//			sumX2 += x * x;
+//			sumY2 += y * y;
+
+			// sumX & sumY
+			sumX = sumX.add(new BigDecimal(String.valueOf(x)));
+			sumY = sumY.add(new BigDecimal(String.valueOf(y)));
+
+			// sumXY
+			BigDecimal sumXYstep1 = new BigDecimal(String.valueOf(x)).multiply(new BigDecimal(String.valueOf(y)));
+			sumXY = sumXY.add(sumXYstep1);
+
+			// sumX2
+			sumX2 = new BigDecimal(String.valueOf(x)).pow(2);
+
+			// sumY2
+			sumY2 = new BigDecimal(String.valueOf(y)).pow(2);
 
 			// Line by line debug output
-			Output.debugPrint("#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + (x * y) + "\tX2:" + (x * x) + "\tY2:" + (y * y));
+			// TODO delete
+			// Output.debugPrint("#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + (x * y) + "\tX2:" + (x * x) + "\tY2:" + (y * y));
+			Output.debugPrint(
+					"#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + y.multiply(new BigDecimal(String.valueOf(x))) + "\tX2:" + (x * x) + "\tY2:" + y.pow(2));
 		}
 
 		// Calculate the remaining values
-		double a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
-		double b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
+		// a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
+		// b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
+
+		BigDecimal a_top = sumY.multiply(sumX2).subtract(sumX.multiply(sumXY));
+		BigDecimal a_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
+		BigDecimal a = a_top.divide(a_bottom);
+
+		BigDecimal b_top = n.multiply(sumXY).subtract(sumX.multiply(sumY));
+		BigDecimal b_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
+		BigDecimal b = b_top.divide(b_bottom);
 
 		// Output details if debug is enabled
-		Output.debugPrint("n:     " + n);
-		Output.debugPrint("sumX:  " + sumX);
-		Output.debugPrint("sumY:  " + sumY);
-		Output.debugPrint("sumXY: " + sumXY);
-		Output.debugPrint("sumX2: " + sumX2);
-		Output.debugPrint("sumY2: " + sumY2);
-		Output.debugPrint("a:     " + a);
-		Output.debugPrint("b:     " + b);
+		Output.debugPrint("n:     " + n.toPlainString());
+		Output.debugPrint("sumX:  " + sumX.toPlainString());
+		Output.debugPrint("sumY:  " + sumY.toPlainString());
+		Output.debugPrint("sumXY: " + sumXY.toPlainString());
+		Output.debugPrint("sumX2: " + sumX2.toPlainString());
+		Output.debugPrint("sumY2: " + sumY2.toPlainString());
+		Output.debugPrint("a:     " + a.toPlainString());
+		Output.debugPrint("b:     " + b.toPlainString());
+
+		// Rounded values are just for the display
+		BigDecimal nextValue = a.add(b.multiply(n.add(BigDecimal.ONE)));
+		BigDecimal aRounded = a.setScale(4, RoundingMode.HALF_UP);
+		BigDecimal bRounded = b.setScale(4, RoundingMode.HALF_UP);
+		BigDecimal nextValueRounded = nextValue.setScale(4, RoundingMode.HALF_UP);
 
 		// Display the LR formula
-		Double nextValue = (b * (n + 1)) + a;
-		Double aRounded = new BigDecimal(String.valueOf(a)).setScale(4, RoundingMode.HALF_UP).doubleValue();
-		Double bRounded = new BigDecimal(String.valueOf(b)).setScale(4, RoundingMode.HALF_UP).doubleValue();
-		Double nextValueRounded = new BigDecimal(String.valueOf(nextValue)).setScale(4, RoundingMode.HALF_UP).doubleValue();
-
 		Output.printColorln(Ansi.Color.CYAN, "Slope Equation: y = " + bRounded + "x + " + aRounded);
 		Output.printColorln(Ansi.Color.CYAN, "Slope: " + bRounded + "   Y-Intercept: " + aRounded);
 		Output.printColorln(Ansi.Color.CYAN, "Predicted next value (" + nextValueRounded + ") added to the top of the stack");
@@ -449,8 +485,8 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Taking the natural logarithm of " + calcStack.peek());
-			calcStack.push(java.lang.Math.log(calcStack.pop()));
+			Output.debugPrint("Taking the natural logarithm of " + calcStack.peek().toString());
+			calcStack.push(java.lang.Math.log(calcStack.pop().doubleValue()));
 
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
@@ -466,7 +502,7 @@ public class StackCommands {
 			calcStack.saveUndo();
 
 			Output.debugPrint("Taking the base 10 logarithm of " + calcStack.peek());
-			calcStack.push(java.lang.Math.log10(calcStack.pop()));
+			calcStack.push(java.lang.Math.log10(calcStack.pop().doubleValue()));
 
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
@@ -477,7 +513,7 @@ public class StackCommands {
 	 * cmdMaximum(): Add minimum value in the stack to the top of the stack
 	 */
 	public static boolean cmdMaximum(StackObj calcStack) {
-		Double largestValue = Double.MIN_VALUE;
+		BigDecimal largestValue = new BigDecimal(Double.MIN_VALUE);
 
 		// Ensure we have enough numbers on the stack
 		if (calcStack.size() < 1) {
@@ -490,7 +526,7 @@ public class StackCommands {
 
 		// Loop through the stack and look for the largest value
 		for (int i = 0; i < calcStack.size(); i++) {
-			if (calcStack.get(i) > largestValue)
+			if (calcStack.get(i).compareTo(largestValue) > 0)
 				largestValue = calcStack.get(i);
 		}
 
@@ -525,7 +561,7 @@ public class StackCommands {
 		}
 
 		// Calculate the median
-		Double median = Math.median(calcStack);
+		BigDecimal median = Math.median(calcStack);
 
 		// If we are not going to keep the stack (the default) clear it
 		if (keepFlag == false)
@@ -540,7 +576,7 @@ public class StackCommands {
 	 * cmdMinimum(): Add minimum value in the stack to the top of the stack
 	 */
 	public static boolean cmdMinimum(StackObj calcStack) {
-		Double lowestValue = Double.MAX_VALUE;
+		BigDecimal lowestValue = new BigDecimal(Double.MAX_VALUE);
 
 		// Ensure we have enough numbers on the stack
 		if (calcStack.size() < 1) {
@@ -553,7 +589,7 @@ public class StackCommands {
 
 		// Loop through the stack and look for the lowest value
 		for (int i = 0; i < calcStack.size(); i++) {
-			if (calcStack.get(i) < lowestValue)
+			if (calcStack.get(i).compareTo(lowestValue) < 1)
 				lowestValue = calcStack.get(i);
 		}
 
@@ -577,15 +613,14 @@ public class StackCommands {
 		calcStack.saveUndo();
 
 		// Perform the division and push the result onto the stack
-		Double b = calcStack.pop();
-		Double a = calcStack.pop();
+		BigDecimal b = calcStack.pop();
+		BigDecimal a = calcStack.pop();
 
 		// Calculate the result. Negative numbers can cause problems - see the following for the result calculation
-		// https://stackoverflow.com/questions/4412179/best-way-to-make-javas-modulus-behave-like-it-should-with-negative-numbers/4412200#4412200
-		Double result = (a % b + b) % b;
+		BigDecimal remainder = a.remainder(b);
 
-		Output.debugPrint("Modulus: " + a + " % " + b + " = " + result);
-		calcStack.push(result);
+		Output.debugPrint("Modulus: " + a + " % " + b + " = " + remainder.toPlainString());
+		calcStack.push(remainder);
 	}
 
 	/**
@@ -623,7 +658,7 @@ public class StackCommands {
 		calcStack.saveUndo();
 
 		Output.debugPrint("Create a percent by dividing by 100");
-		calcStack.push(calcStack.pop() / 100);
+		calcStack.push(calcStack.pop().divide(new BigDecimal("100")));
 	}
 
 	/**
@@ -633,18 +668,15 @@ public class StackCommands {
 	 * @param param
 	 */
 	public static void cmdRandom(StackObj calcStack, String param) {
-		int low = 1;
-		int high = 100;
-		int randomNumber = 0;
-
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
+		Long low = 1L;
+		Long high = 100L;
+		Long randomNumber = 0L;
 
 		// Parse out the low and high numbers
 		try {
 			if (!param.isEmpty()) {
-				low = Integer.parseInt(param.substring(0).trim().split("\\s")[0]);
-				high = Integer.parseInt(param.substring(0).trim().split("\\s")[1]);
+				low = Long.parseLong(param.substring(0).trim().split("\\s")[0]);
+				high = Long.parseLong(param.substring(0).trim().split("\\s")[1]);
 			}
 		} catch (Exception e) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
@@ -661,12 +693,14 @@ public class StackCommands {
 			return;
 		}
 
-		// Generate the random number. Rand function will generate 0-9 for random(10)
-		// so add 1 to the high so we include the high number in the results
-		randomNumber = new java.util.Random().nextInt((high + 1) - low) + low;
+		// Generate the random number. This is inclusive to BOTH low and high values (hence the +1)
+		randomNumber = ThreadLocalRandom.current().nextLong(low, high + 1);
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
 
 		// Add result to the calculator stack
-		calcStack.push((double) randomNumber);
+		calcStack.push(new BigDecimal(randomNumber));
 	}
 
 	/**
@@ -678,16 +712,13 @@ public class StackCommands {
 	 */
 	public static void cmdRound(StackObj calcStack, String arg) {
 		int decimalPlaces = 0;
-		BigDecimal bd;
+		BigDecimal result;
 
 		// Ensure we have something on the stack
 		if (calcStack.isEmpty()) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
 			return;
 		}
-
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
 
 		// Convert the arg to the number of decimal places
 		try {
@@ -709,9 +740,13 @@ public class StackCommands {
 		}
 
 		// Round the top of stack item and return that result to the stack
-		bd = new BigDecimal(String.valueOf(calcStack.pop()));
-		bd = bd.setScale(decimalPlaces, RoundingMode.HALF_UP);
-		calcStack.push(bd.doubleValue());
+		result = calcStack.pop();
+		result = result.setScale(decimalPlaces, RoundingMode.HALF_UP);
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		calcStack.push(result);
 	}
 
 	/**
@@ -779,6 +814,7 @@ public class StackCommands {
 		// Make sure the numbers are valid
 		if (item1 < 1 || item1 > calcStack.size() || item2 < 1 || item2 > calcStack.size()) {
 			Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + calcStack.size());
+
 		} else {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
@@ -801,7 +837,7 @@ public class StackCommands {
 		}
 
 		// If the number to take the square root of is negative, return an error
-		if (calcStack.peek() < 0) {
+		if (calcStack.peek().compareTo(BigDecimal.ZERO) < 0) {
 			Output.printColorln(Ansi.Color.RED, "ERROR:  You can not take the square root of a negative number");
 			return;
 		}
@@ -810,7 +846,7 @@ public class StackCommands {
 		calcStack.saveUndo();
 
 		Output.debugPrint("Taking the square root of the last stack item");
-		calcStack.push(java.lang.Math.sqrt(calcStack.pop()));
+		calcStack.push(calcStack.pop().sqrt(null));
 	}
 
 	/**
@@ -827,9 +863,6 @@ public class StackCommands {
 			return;
 		}
 
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
 		// Determine if we should keep or clear the stack
 		boolean keepFlag = false;
 		try {
@@ -842,25 +875,32 @@ public class StackCommands {
 		}
 
 		// Step1: Get the mean
-		Double mean1 = Math.mean(calcStack);
-		Output.debugPrint("Initial mean of the numbers: " + mean1);
+		BigDecimal mean1 = Math.mean(calcStack);
+		Output.debugPrint("Initial mean of the numbers: " + mean1.toPlainString());
 
 		// Step2: For each number: subtract the mean from the number and square the result
-		Double[] stdArray = new Double[calcStack.size()];
+		BigDecimal[] stdArray = new BigDecimal[calcStack.size()];
 		for (int i = 0; i < calcStack.size(); i++) {
-			stdArray[i] = java.lang.Math.pow((calcStack.get(i) - mean1), 2);
+			// TODO remove
+			// stdArray[i] = java.lang.Math.pow((calcStack.get(i) - mean1), 2);
+			stdArray[i] = stdArray[i].subtract(mean1);
+			stdArray[i] = stdArray[i].pow(2);
 		}
 
 		// Step3: Work out the mean of those squared differences
-		Double mean2 = Math.mean(stdArray);
+		BigDecimal mean2 = Math.mean(stdArray);
 		Output.debugPrint("Secondary mean of (number-mean)^2: " + mean2);
 
+		// Clear the stack if no 'keep' parameter sent
 		if (keepFlag == false) {
 			calcStack.clear();
 		}
 
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
 		// Step4: Take the square root of that result and push onto the stack
-		calcStack.push(java.lang.Math.sqrt(mean2));
+		calcStack.push(mean2.sqrt(null));
 	}
 
 	/**
@@ -897,7 +937,7 @@ public class StackCommands {
 
 		if (calcStack.undoSize() >= 1) {
 			// Replace the calcStack items with the correct undo stack ones
-			Stack<Stack<Double>> currentUndoStack = calcStack.undoGet();
+			Stack<Stack<BigDecimal>> currentUndoStack = calcStack.undoGet();
 			calcStack.replaceStack(currentUndoStack.get(lineNum - 1));
 
 			// Discard the items in the Undo stack after the selected index

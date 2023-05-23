@@ -49,7 +49,7 @@ public class StackTrig {
 		double angle = 0.0;
 
 		try {
-			angle = calcStack.pop();
+			angle = calcStack.pop().doubleValue();
 
 			// Calculations are done in radians. Convert if 'rad' is NOT provided as a parameter
 			if (arg.toLowerCase().charAt(0) != 'r') {
@@ -100,24 +100,24 @@ public class StackTrig {
 		double result = 0.0;
 		double originalValue = 0.0;
 
-		originalValue = calcStack.peek();
+		originalValue = calcStack.peek().doubleValue();
 
 		// Calculate the arc trig function
 		switch (cmd) {
 		case "asin":
-			result = java.lang.Math.asin(calcStack.pop());
+			result = java.lang.Math.asin(calcStack.pop().doubleValue());
 			break;
 
 		case "acos":
-			result = java.lang.Math.acos(calcStack.pop());
+			result = java.lang.Math.acos(calcStack.pop().doubleValue());
 			break;
 
 		case "atan":
-			result = java.lang.Math.atan(calcStack.pop());
+			result = java.lang.Math.atan(calcStack.pop().doubleValue());
 			break;
 
 		default:
-			Output.printColorln(Ansi.Color.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
+			Output.printColorln(Ansi.Color.RED, "ERROR: Unknown command: '" + cmd + "'");
 			calcStack.push(originalValue);
 			return;
 		}
@@ -151,6 +151,6 @@ public class StackTrig {
 		calcStack.saveUndo();		// Save current calcStack to the undoStack
 
 		// Pop the two values and push the hypotenuse back onto the stack
-		calcStack.push(java.lang.Math.hypot(calcStack.pop(), calcStack.pop()));
+		calcStack.push(java.lang.Math.hypot(calcStack.pop().doubleValue(), calcStack.pop().doubleValue()));
 	}
 }

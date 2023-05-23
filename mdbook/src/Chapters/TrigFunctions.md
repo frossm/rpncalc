@@ -2,11 +2,10 @@
 
 # Trigonometry Functions
 
-RPNCalc does not consider itself a scientific calculator (at least not currently).  However, it's certainly beyond a very basic calculator.  The trigonometry commands listed here are very basic, but do fill a need if you need to do a few basic calculations.  
+RPNCalc does not consider itself a scientific calculator (at least not currently).  However, it's certainly beyond a very basic calculator.  The trigonometry commands listed here are very basic, but do fill a need if you need to do a few basic calculations.
 
 Lastly, I'm happy to add more capabilities if there is a desire (and an offer to help test).
 
-|<div style="width:90px">Command</div>|Description|
 |<div style="width:90px">Command</div>|Description|
 |-------|-----------|
 |sin [rad]<br>cos [rad]<br>tan [rad]|Calculate the [trigonometry](https://en.wikipedia.org/wiki/Trigonometry) function requested.  Angles are input as degrees by default unless the optional `rad` parameter is given in which case the angles will be in [radians](https://en.wikipedia.org/wiki/Radian).<br><br>**Example:** `tan` will calculate the tangent using `line1` as the angle in degrees.  Use `tan rad` if `line1` contains the angle in radians|

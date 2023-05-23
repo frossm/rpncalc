@@ -26,6 +26,8 @@
  ******************************************************************************/
 package org.fross.rpncalc;
 
+import java.math.BigDecimal;
+
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
@@ -423,31 +425,34 @@ public class CommandParser {
 			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
 				Output.debugPrint("Fraction has been entered");
 				try {
-					long fracInteger = 0;
-					double fracDecimalEquiv = 0.0;
+					BigDecimal fracInteger = BigDecimal.ZERO;
+					BigDecimal fracDecimalEquiv = BigDecimal.ZERO;
 
 					// If there wasn't an integer entered, move the fraction to the parameter
 					// variable
 					if (cmdInputCmd.contains("/")) {
 						cmdInputParam = cmdInputCmd;
 					} else {
-						fracInteger = Long.parseLong(cmdInputCmd);
+						fracInteger = new BigDecimal(cmdInputCmd);
 					}
 
-					double fracTop = Double.parseDouble(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
-					double fracBottom = Double.parseDouble(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
+					BigDecimal fracTop = new BigDecimal(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
+					BigDecimal fracBottom = new BigDecimal(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
 
 					// Divide the fraction and get a decimal equivalent
-					fracDecimalEquiv = fracTop / fracBottom;
+					fracDecimalEquiv = fracTop.divide(fracBottom);
+					
+					// Overall decimal equivalent (integer + decimal)
+					BigDecimal endResult = fracInteger.add(fracDecimalEquiv);
 
 					// Simply convert the fraction to a decimal and add it to the stack
-					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + (fracInteger + fracDecimalEquiv));
+					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + endResult);
 
 					// Save current calcStack to the undoStack
 					calcStack.saveUndo();
 
 					// Add the decimal number to the stack and continue with next command
-					calcStack.push(fracInteger + fracDecimalEquiv);
+					calcStack.push(endResult);
 
 				} catch (NumberFormatException ex) {
 					Output.printColorln(Ansi.Color.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
@@ -459,8 +464,8 @@ public class CommandParser {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 
-				Output.debugPrint("Adding number '" + cmdInputCmd + "' onto the stack");
-				calcStack.push(Double.valueOf(cmdInputCmd));
+				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
+				calcStack.push(new BigDecimal(cmdInputCmd));
 
 				// Handle numbers with a single operand at the end (a NumOp)
 			} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
@@ -474,7 +479,7 @@ public class CommandParser {
 					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
 					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
 					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
-					calcStack.push(Double.valueOf(TempNum));
+					calcStack.push(new BigDecimal(TempNum));
 					calcStack = Math.Parse(TempOp, calcStack);
 				} else {
 					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
