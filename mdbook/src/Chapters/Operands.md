@@ -12,7 +12,7 @@ With the exception of the addition (`+`) and multiplication (`*`) operand the or
 |-  |`Subtraction`| Subtract `line1` from `line2`|
 |\* |`Multiplication`|Multiply`line1` and `line2`|
 |/  |`Division`| Divide `line2` by `line1`|
-|^  |`Exponent`| Take `line2` to the power of `line1`|
+|^  |`Exponent`| Take `line2` to the power of `line1` Note that the exponent must be an integer. If it is not, the fractional component will be dropped prior to the calculation|
 
 Below are two very simple examples that show the order is important
 

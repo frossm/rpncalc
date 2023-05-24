@@ -54,11 +54,11 @@ class StackCommandsTest {
 
 		StackCommands.cmdAddAll(stk, "keep");
 		assertEquals(6, stk.size());
-		assertEquals(17.25, stk.peek());
+		assertEquals(17.25, stk.peek().doubleValue());
 
 		StackCommands.cmdAddAll(stk, "");
 		StackCommands.cmdRound(stk, "6");
-		assertEquals(34.5, stk.peek());
+		assertEquals(34.5, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -71,12 +71,12 @@ class StackCommandsTest {
 
 		stk.push(123.456);
 		StackCommands.cmdAbsoluteValue(stk);
-		assertEquals(123.456, stk.peek());
+		assertEquals(123.456, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		stk.push(-789.123);
 		StackCommands.cmdAbsoluteValue(stk);
-		assertEquals(789.123, stk.peek());
+		assertEquals(789.123, stk.peek().doubleValue());
 		assertEquals(2, stk.size());
 	}
 
@@ -97,7 +97,7 @@ class StackCommandsTest {
 		stk.push(-7.7);
 		StackCommands.cmdAverage(stk, "keep");
 		StackCommands.cmdRound(stk, "8");
-		assertEquals(-1.25714286, stk.peek());
+		assertEquals(-1.25714286, stk.peek().doubleValue());
 		assertEquals(8, stk.size());
 
 		// Test without keep
@@ -109,7 +109,7 @@ class StackCommandsTest {
 		StackCommands.cmdAverage(stk, "");
 		StackCommands.cmdRound(stk, "8");
 		assertEquals(1, stk.size());
-		assertEquals(0.55329670, stk.pop());
+		assertEquals(0.55329670, stk.pop().doubleValue());
 
 		// One last test just to be sure
 		Double[] testValues = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
@@ -118,7 +118,7 @@ class StackCommandsTest {
 		}
 		assertEquals(10, stk.size());
 		StackCommands.cmdAverage(stk, "");
-		assertEquals(109.814, stk.peek());
+		assertEquals(109.814, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -165,18 +165,18 @@ class StackCommandsTest {
 		assertEquals(-1000.001, stk.get(stk.size() - 1));
 		assertEquals(-1000.001, stk.get(stk.size() - 2));
 		assertEquals(5.67, stk.get(stk.size() - 3));
-		assertEquals(1.23, stk.get(0));
+		assertEquals(1.23, stk.get(0).doubleValue());
 
 		// Copy line4
 		StackCommands.cmdCopy(stk, "4");
 		assertEquals(8, stk.size());
-		assertEquals(4.56, stk.pop());
-		assertEquals(-1000.001, stk.pop());
-		assertEquals(-1000.001, stk.pop());
-		assertEquals(5.67, stk.pop());
-		assertEquals(4.56, stk.pop());
-		assertEquals(3.45, stk.pop());
-		assertEquals(1.23, stk.get(0));
+		assertEquals(4.56, stk.pop().doubleValue());
+		assertEquals(-1000.001, stk.pop().doubleValue());
+		assertEquals(-1000.001, stk.pop().doubleValue());
+		assertEquals(5.67, stk.pop().doubleValue());
+		assertEquals(4.56, stk.pop().doubleValue());
+		assertEquals(3.45, stk.pop().doubleValue());
+		assertEquals(1.23, stk.get(0).doubleValue());
 	}
 
 	/**
@@ -196,25 +196,25 @@ class StackCommandsTest {
 		assertEquals(5, stk.size());
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(4, stk.size());
-		assertEquals(2, stk.peek());
-		assertEquals(5, stk.get(0));
+		assertEquals(2, stk.peek().doubleValue());
+		assertEquals(5, stk.get(0).doubleValue());
 		StackCommands.cmdAddAll(stk, "keep");
 		assertEquals(5, stk.size());
-		assertEquals(14, stk.peek());
+		assertEquals(14, stk.peek().doubleValue());
 
 		// Delete all items one at a time
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(4, stk.size());
-		assertEquals(2, stk.peek());
+		assertEquals(2, stk.peek().doubleValue());
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(3, stk.size());
-		assertEquals(3, stk.peek());
+		assertEquals(3, stk.peek().doubleValue());
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(2, stk.size());
-		assertEquals(4, stk.peek());
+		assertEquals(4, stk.peek().doubleValue());
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(1, stk.size());
-		assertEquals(5, stk.peek());
+		assertEquals(5, stk.peek().doubleValue());
 		StackCommands.cmdDelete(stk, "");
 		assertEquals(0, stk.size());
 		StackCommands.cmdDelete(stk, "");
@@ -238,20 +238,20 @@ class StackCommandsTest {
 		// Delete line 3
 		StackCommands.cmdDelete(stk, "3");
 		assertEquals(4, stk.size());
-		assertEquals(1, stk.peek());
-		assertEquals(5, stk.get(0));
+		assertEquals(1, stk.peek().doubleValue());
+		assertEquals(5, stk.get(0).doubleValue());
 		StackCommands.cmdAddAll(stk, "keep");
 		assertEquals(5, stk.size());
-		assertEquals(12, stk.peek());
+		assertEquals(12, stk.peek().doubleValue());
 
 		// Delete Line 5
 		StackCommands.cmdDelete(stk, "5");
 		assertEquals(4, stk.size());
-		assertEquals(12, stk.peek());
-		assertEquals(4, stk.get(0));
+		assertEquals(12, stk.peek().doubleValue());
+		assertEquals(4, stk.get(0).doubleValue());
 		StackCommands.cmdAddAll(stk, "keep");
 		assertEquals(5, stk.size());
-		assertEquals(19, stk.peek());
+		assertEquals(19, stk.peek().doubleValue());
 	}
 
 	/**
@@ -270,22 +270,22 @@ class StackCommandsTest {
 
 		StackCommands.cmdDelete(stk, "2-4");
 		assertEquals(2, stk.size());
-		assertEquals(1, stk.peek());
-		assertEquals(5, stk.get(0));
+		assertEquals(1, stk.peek().doubleValue());
+		assertEquals(5, stk.get(0).doubleValue());
 		StackCommands.cmdAddAll(stk, "keep");
 		assertEquals(3, stk.size());
-		assertEquals(6, stk.peek());
+		assertEquals(6, stk.peek().doubleValue());
 
 		// Undo the above changes and reset for next test
 		StackCommands.cmdUndo(stk, "1");
 
 		StackCommands.cmdDelete(stk, "5 - 2");
 		assertEquals(1, stk.size());
-		assertEquals(1, stk.peek());
-		assertEquals(1, stk.get(0));
+		assertEquals(1, stk.peek().doubleValue());
+		assertEquals(1, stk.get(0).doubleValue());
 		StackCommands.cmdAddAll(stk, "keep");
 		assertEquals(1, stk.size());
-		assertEquals(1, stk.peek());
+		assertEquals(1, stk.peek().doubleValue());
 
 		// Delete last line
 		StackCommands.cmdDelete(stk, "1-1");
@@ -391,11 +391,11 @@ class StackCommandsTest {
 		stk.push(123.321);
 
 		StackCommands.cmdFlipSign(stk);
-		assertEquals(-123.321, stk.peek());
+		assertEquals(-123.321, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		StackCommands.cmdFlipSign(stk);
-		assertEquals(123.321, stk.peek());
+		assertEquals(123.321, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 	}
@@ -410,22 +410,22 @@ class StackCommandsTest {
 		stk.push(123.456);
 		StackCommands.cmdInteger(stk);
 		assertEquals(1, stk.size());
-		assertEquals(123.0, stk.pop());
+		assertEquals(123.0, stk.pop().doubleValue());
 
 		stk.push(0.999);
 		StackCommands.cmdInteger(stk);
 		assertEquals(1, stk.size());
-		assertEquals(0, stk.pop());
+		assertEquals(0, stk.pop().doubleValue());
 
 		stk.push(101.0);
 		StackCommands.cmdInteger(stk);
 		assertEquals(1, stk.size());
-		assertEquals(101, stk.pop());
+		assertEquals(101, stk.pop().doubleValue());
 
 		stk.push(-1040.341234);
 		StackCommands.cmdInteger(stk);
 		assertEquals(1, stk.size());
-		assertEquals(-1040, stk.pop());
+		assertEquals(-1040, stk.pop().doubleValue());
 
 	}
 
@@ -448,7 +448,7 @@ class StackCommandsTest {
 		StackCommands.cmdLinearRegression(stk);
 		StackCommands.cmdRound(stk, "4");
 		assertEquals(8, stk.size());
-		assertEquals(27.7143, stk.pop());
+		assertEquals(27.7143, stk.pop().doubleValue());
 
 		// Test #2
 		stk.clear();
@@ -465,7 +465,7 @@ class StackCommandsTest {
 		StackCommands.cmdLinearRegression(stk);
 		StackCommands.cmdRound(stk, "6");
 		assertEquals(11, stk.size());
-		assertEquals(16.671333, stk.pop());
+		assertEquals(16.671333, stk.pop().doubleValue());
 
 		// Test #3
 		stk.clear();
@@ -482,7 +482,7 @@ class StackCommandsTest {
 		StackCommands.cmdLinearRegression(stk);
 		StackCommands.cmdRound(stk, "6");
 		assertEquals(11, stk.size());
-		assertEquals(4.271333, stk.pop());
+		assertEquals(4.271333, stk.pop().doubleValue());
 
 		// Test #4
 		stk.clear();
@@ -492,7 +492,7 @@ class StackCommandsTest {
 		}
 		StackCommands.cmdLinearRegression(stk);
 		StackCommands.cmdRound(stk, "7");
-		assertEquals(48.9842105, stk.pop());
+		assertEquals(48.9842105, stk.pop().doubleValue());
 	}
 
 	/**
@@ -505,17 +505,17 @@ class StackCommandsTest {
 		stk.push(123.456);
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
-		assertEquals(4.8158848, stk.pop());
+		assertEquals(4.8158848, stk.pop().doubleValue());
 
 		stk.push(123.456);
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
-		assertEquals(4.8158848, stk.pop());
+		assertEquals(4.8158848, stk.pop().doubleValue());
 
 		stk.push(12332.12333);
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
-		assertEquals(9.4199628, stk.pop());
+		assertEquals(9.4199628, stk.pop().doubleValue());
 	}
 
 	/**
@@ -528,12 +528,12 @@ class StackCommandsTest {
 		stk.push(9.41996);
 		StackCommands.cmdLog10(stk);
 		StackCommands.cmdRound(stk, "7");
-		assertEquals(0.9740491, stk.pop());
+		assertEquals(0.9740491, stk.pop().doubleValue());
 
 		stk.push(1588.963);
 		StackCommands.cmdLog10(stk);
 		StackCommands.cmdRound(stk, "7");
-		assertEquals(3.2011138, stk.pop());
+		assertEquals(3.2011138, stk.pop().doubleValue());
 	}
 
 	/**
@@ -554,13 +554,13 @@ class StackCommandsTest {
 
 		StackCommands.cmdMaximum(stk);
 		assertEquals(9, stk.size());
-		assertEquals(5.67, stk.peek());
+		assertEquals(5.67, stk.peek().doubleValue());
 
 		stk.push(5.68);
 		StackCommands.cmdMaximum(stk);
 		assertEquals(11, stk.size());
-		assertEquals(5.68, stk.peek());
-		assertEquals(5.68, stk.get(stk.size() - 1));
+		assertEquals(5.68, stk.peek().doubleValue());
+		assertEquals(5.68, stk.get(stk.size() - 1).doubleValue());
 	}
 
 	/**
@@ -578,15 +578,15 @@ class StackCommandsTest {
 		stk.push(-1.5);
 
 		StackCommands.cmdMedian(stk, "keep");
-		assertEquals(2.2, stk.pop());
+		assertEquals(2.2, stk.pop().doubleValue());
 		assertEquals(5, stk.size());
 
 		// Ensure the order is back to normal after the median sort
-		assertEquals(3.1, stk.get(0));
-		assertEquals(2.2, stk.get(1));
-		assertEquals(5.3, stk.get(2));
-		assertEquals(-4.4, stk.get(3));
-		assertEquals(-1.5, stk.get(4));
+		assertEquals(3.1, stk.get(0).doubleValue());
+		assertEquals(2.2, stk.get(1).doubleValue());
+		assertEquals(5.3, stk.get(2).doubleValue());
+		assertEquals(-4.4, stk.get(3).doubleValue());
+		assertEquals(-1.5, stk.get(4).doubleValue());
 
 	}
 
@@ -608,16 +608,16 @@ class StackCommandsTest {
 		StackCommands.cmdMedian(stk, "keep");
 		StackCommands.cmdRound(stk, "2");
 
-		assertEquals(3.45, stk.pop());
+		assertEquals(3.45, stk.pop().doubleValue());
 		assertEquals(6, stk.size());
 
 		// Ensure the order is back to normal after the median sort
-		assertEquals(4.56, stk.get(0));
-		assertEquals(-1.23, stk.get(1));
-		assertEquals(5.67, stk.get(2));
-		assertEquals(2.34, stk.get(3));
-		assertEquals(4.56, stk.get(4));
-		assertEquals(-3.45, stk.get(5));
+		assertEquals(4.56, stk.get(0).doubleValue());
+		assertEquals(-1.23, stk.get(1).doubleValue());
+		assertEquals(5.67, stk.get(2).doubleValue());
+		assertEquals(2.34, stk.get(3).doubleValue());
+		assertEquals(4.56, stk.get(4).doubleValue());
+		assertEquals(-3.45, stk.get(5).doubleValue());
 
 		// One last test just to be sure
 		stk.clear();
@@ -627,7 +627,7 @@ class StackCommandsTest {
 		}
 		assertEquals(10, stk.size());
 		StackCommands.cmdMedian(stk, "");
-		assertEquals(5.375, stk.peek());
+		assertEquals(5.375, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -649,13 +649,13 @@ class StackCommandsTest {
 
 		StackCommands.cmdMinimum(stk);
 		assertEquals(9, stk.size());
-		assertEquals(-123.2245, stk.peek());
+		assertEquals(-123.2245, stk.peek().doubleValue());
 
 		stk.push(-123.2246);
 		StackCommands.cmdMinimum(stk);
 		assertEquals(11, stk.size());
-		assertEquals(-123.2246, stk.peek());
-		assertEquals(-123.2246, stk.get(stk.size() - 1));
+		assertEquals(-123.2246, stk.peek().doubleValue());
+		assertEquals(-123.2246, stk.get(stk.size() - 1).doubleValue());
 	}
 
 	/**
@@ -670,25 +670,25 @@ class StackCommandsTest {
 
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.99, stk.pop());
+		assertEquals(0.99, stk.pop().doubleValue());
 
 		stk.push(88.0);
 		stk.push(5.0);
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(3.0, stk.pop());
+		assertEquals(3.0, stk.pop().doubleValue());
 
 		stk.push(-1234.98765);
 		stk.push(44.65432);
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(15.33331, stk.pop());
+		assertEquals(15.33331, stk.pop().doubleValue());
 
 		stk.push(-0.2356);
 		stk.push(-8.123);
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.2356, stk.pop());
+		assertEquals(-0.2356, stk.pop().doubleValue());
 	}
 
 	/**
@@ -701,12 +701,12 @@ class StackCommandsTest {
 		stk.push(2.34);
 		StackCommands.cmdPercent(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.0234, stk.pop());
+		assertEquals(0.0234, stk.pop().doubleValue());
 
 		stk.push(-44.987);
 		StackCommands.cmdPercent(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.44987, stk.pop());
+		assertEquals(-0.44987, stk.pop().doubleValue());
 	}
 
 	/**
@@ -742,32 +742,32 @@ class StackCommandsTest {
 		stk.push(2.34567);
 
 		StackCommands.cmdRound(stk, "");
-		assertEquals(2, stk.pop());
+		assertEquals(2, stk.pop().doubleValue());
 
 		stk.push(2.34567);
 		StackCommands.cmdRound(stk, "2");
 
-		assertEquals(2.35, stk.pop());
+		assertEquals(2.35, stk.pop().doubleValue());
 
 		stk.push(2.34567);
 		StackCommands.cmdRound(stk, "4");
-		assertEquals(2.3457, stk.pop());
+		assertEquals(2.3457, stk.pop().doubleValue());
 
 		stk.push(-65.4321);
 		StackCommands.cmdRound(stk, "1");
-		assertEquals(-65.4, stk.pop());
+		assertEquals(-65.4, stk.pop().doubleValue());
 
 		stk.push(-65.4329);
 		StackCommands.cmdRound(stk, "1");
-		assertEquals(-65.4, stk.pop());
+		assertEquals(-65.4, stk.pop().doubleValue());
 
 		stk.push(-65.4329);
 		StackCommands.cmdRound(stk, "3");
-		assertEquals(-65.433, stk.pop());
+		assertEquals(-65.433, stk.pop().doubleValue());
 
 		stk.push(-65.4329);
 		StackCommands.cmdRound(stk, "12");
-		assertEquals(-65.4329, stk.pop());
+		assertEquals(-65.4329, stk.pop().doubleValue());
 	}
 
 	/**
@@ -785,19 +785,19 @@ class StackCommandsTest {
 
 		// With no param given, swap line1 and line2
 		StackCommands.cmdSwapElements(stk, "");
-		assertEquals(4, stk.pop());
-		assertEquals(5, stk.pop());
-		assertEquals(3, stk.pop());
+		assertEquals(4, stk.pop().doubleValue());
+		assertEquals(5, stk.pop().doubleValue());
+		assertEquals(3, stk.pop().doubleValue());
 		assertEquals(2, stk.size());
 
 		// Swap line3 and line2
 		stk.push(4.0);
 		stk.push(5.0);
 		StackCommands.cmdSwapElements(stk, "3 2");
-		assertEquals(5, stk.pop());
-		assertEquals(2, stk.pop());
-		assertEquals(4, stk.pop());
-		assertEquals(1, stk.pop());
+		assertEquals(5, stk.pop().doubleValue());
+		assertEquals(2, stk.pop().doubleValue());
+		assertEquals(4, stk.pop().doubleValue());
+		assertEquals(1, stk.pop().doubleValue());
 		assertEquals(0, stk.size());
 	}
 
@@ -824,18 +824,18 @@ class StackCommandsTest {
 
 		assertEquals(12, stk.size());
 
-		assertEquals(-2, stk.get(0));
-		assertEquals(-1.01, stk.get(1));
-		assertEquals(-1, stk.get(2));
-		assertEquals(1, stk.get(3));
-		assertEquals(2, stk.get(4));
-		assertEquals(3, stk.get(5));
-		assertEquals(3.9, stk.get(6));
-		assertEquals(4, stk.get(7));
-		assertEquals(6.881, stk.get(8));
-		assertEquals(6.882, stk.get(9));
-		assertEquals(7, stk.get(10));
-		assertEquals(9, stk.get(11));
+		assertEquals(-2, stk.get(0).doubleValue());
+		assertEquals(-1.01, stk.get(1).doubleValue());
+		assertEquals(-1, stk.get(2).doubleValue());
+		assertEquals(1, stk.get(3).doubleValue());
+		assertEquals(2, stk.get(4).doubleValue());
+		assertEquals(3, stk.get(5).doubleValue());
+		assertEquals(3.9, stk.get(6).doubleValue());
+		assertEquals(4, stk.get(7).doubleValue());
+		assertEquals(6.881, stk.get(8).doubleValue());
+		assertEquals(6.882, stk.get(9).doubleValue());
+		assertEquals(7, stk.get(10).doubleValue());
+		assertEquals(9, stk.get(11).doubleValue());
 
 	}
 
@@ -862,18 +862,18 @@ class StackCommandsTest {
 
 		assertEquals(12, stk.size());
 
-		assertEquals(-2, stk.get(11));
-		assertEquals(-1.01, stk.get(10));
-		assertEquals(-1, stk.get(9));
-		assertEquals(1, stk.get(8));
-		assertEquals(2, stk.get(7));
-		assertEquals(3, stk.get(6));
-		assertEquals(3.9, stk.get(5));
-		assertEquals(4, stk.get(4));
-		assertEquals(6.881, stk.get(3));
-		assertEquals(6.882, stk.get(2));
-		assertEquals(7, stk.get(1));
-		assertEquals(9, stk.get(0));
+		assertEquals(-2, stk.get(11).doubleValue());
+		assertEquals(-1.01, stk.get(10).doubleValue());
+		assertEquals(-1, stk.get(9).doubleValue());
+		assertEquals(1, stk.get(8).doubleValue());
+		assertEquals(2, stk.get(7).doubleValue());
+		assertEquals(3, stk.get(6).doubleValue());
+		assertEquals(3.9, stk.get(5).doubleValue());
+		assertEquals(4, stk.get(4).doubleValue());
+		assertEquals(6.881, stk.get(3).doubleValue());
+		assertEquals(6.882, stk.get(2).doubleValue());
+		assertEquals(7, stk.get(1).doubleValue());
+		assertEquals(9, stk.get(0).doubleValue());
 
 	}
 
@@ -889,15 +889,15 @@ class StackCommandsTest {
 
 		StackCommands.cmdSqrt(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(3.53553, stk.pop());
+		assertEquals(3.53553, stk.pop().doubleValue());
 
 		StackCommands.cmdSqrt(stk);
-		assertEquals(5, stk.pop());
+		assertEquals(5, stk.pop().doubleValue());
 
 		stk.push(-100.0);
 		StackCommands.cmdSqrt(stk);
 		assertEquals(1, stk.size());
-		assertEquals(-100.0, stk.pop());
+		assertEquals(-100.0, stk.pop().doubleValue());
 
 	}
 
@@ -917,14 +917,14 @@ class StackCommandsTest {
 		StackCommands.cmdStdDeviation(stk, "keep");
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(8, stk.size());
-		assertEquals(16.7982686, stk.pop());
+		assertEquals(16.7982686, stk.pop().doubleValue());
 
 		// Sort the stack - sd should be the same
 		StackCommands.cmdSort(stk, "d");
 		StackCommands.cmdStdDeviation(stk, "");
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(1, stk.size());
-		assertEquals(16.7982686, stk.pop());
+		assertEquals(16.7982686, stk.pop().doubleValue());
 
 	}
 
@@ -944,22 +944,22 @@ class StackCommandsTest {
 
 		StackCommands.cmdUndo(stk, "");
 		assertEquals(7, stk.size());
-		assertEquals(21, stk.peek());
-		assertEquals(10, stk.get(0));
+		assertEquals(21, stk.peek().doubleValue());
+		assertEquals(10, stk.get(0).doubleValue());
 
 		StackCommands.cmdUndo(stk, "3");
 		assertEquals(2, stk.size());
-		assertEquals(12, stk.peek());
-		assertEquals(10, stk.get(0));
+		assertEquals(12, stk.peek().doubleValue());
+		assertEquals(10, stk.get(0).doubleValue());
 
 		StackCommands.cmdAddAll(stk, "");
 		assertEquals(1, stk.size());
-		assertEquals(22, stk.pop());
+		assertEquals(22, stk.pop().doubleValue());
 
 		StackCommands.cmdUndo(stk, "");
 		assertEquals(2, stk.size());
-		assertEquals(12, stk.peek());
-		assertEquals(10, stk.get(0));
+		assertEquals(12, stk.peek().doubleValue());
+		assertEquals(10, stk.get(0).doubleValue());
 	}
 
 }

@@ -65,7 +65,7 @@ class UserDefinedFunctionsTest {
 		CommandParser.Parse(stk, stk, "+", "+", "");
 		UserFunctions.RecordCommand("+");
 		assertEquals(1, stk.size());
-		assertEquals(6, stk.peek());
+		assertEquals(6, stk.peek().doubleValue());
 
 		// Stop the recording
 		UserFunctions.cmdRecord("off " + testFunctionName);
@@ -79,7 +79,7 @@ class UserDefinedFunctionsTest {
 		assertEquals(2, stk.size());
 		CommandParser.Parse(stk, stk, testFunctionName, testFunctionName, "");
 		assertEquals(1, stk.size());
-		assertEquals(10, stk.peek());
+		assertEquals(10, stk.peek().doubleValue());
 
 		// Remove the test function
 		UserFunctions.FunctionDelete(testFunctionName);

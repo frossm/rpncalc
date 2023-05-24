@@ -48,7 +48,7 @@ class StackTrigTest {
 		stk.push(12.0);
 		StackTrig.cmdTrig(stk, "sin", "");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.20791, stk.peek());
+		assertEquals(0.20791, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing Sine - Radians
@@ -56,7 +56,7 @@ class StackTrigTest {
 		stk.push(1.2);
 		StackTrig.cmdTrig(stk, "sin", "rad");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.93204, stk.peek());
+		assertEquals(0.93204, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing Cosine - Degrees
@@ -64,7 +64,7 @@ class StackTrigTest {
 		stk.push(12.0);
 		StackTrig.cmdTrig(stk, "cos", "");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.97815, stk.peek());
+		assertEquals(0.97815, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing Cosine - Radians
@@ -72,7 +72,7 @@ class StackTrigTest {
 		stk.push(1.2);
 		StackTrig.cmdTrig(stk, "cos", "rad");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.36236, stk.peek());
+		assertEquals(0.36236, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing Tangent - Degrees
@@ -80,7 +80,7 @@ class StackTrigTest {
 		stk.push(23.0);
 		StackTrig.cmdTrig(stk, "tan", "");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.42447, stk.peek());
+		assertEquals(0.42447, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing Tangent - Radians
@@ -88,7 +88,7 @@ class StackTrigTest {
 		stk.push(16.0);
 		StackTrig.cmdTrig(stk, "tan", "rad");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.30063, stk.peek());
+		assertEquals(0.30063, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 	}
@@ -105,7 +105,7 @@ class StackTrigTest {
 		stk.push(0.123);
 		StackTrig.cmdArcTrig(stk, "asin", "");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(7.06527, stk.peek());
+		assertEquals(7.06527, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing ArcSine - Radians
@@ -113,7 +113,7 @@ class StackTrigTest {
 		stk.push(.123);
 		StackTrig.cmdArcTrig(stk, "asin", "rad");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.12331, stk.peek());
+		assertEquals(0.12331, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing ArcCosine - Degrees
@@ -121,7 +121,7 @@ class StackTrigTest {
 		stk.push(.345);
 		StackTrig.cmdArcTrig(stk, "acos", "");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(69.8182, stk.peek());
+		assertEquals(69.8182, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing ArcCosine - Radians
@@ -129,7 +129,7 @@ class StackTrigTest {
 		stk.push(.345);
 		StackTrig.cmdArcTrig(stk, "acos", "rad");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(1.21856, stk.peek());
+		assertEquals(1.21856, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing ArcTangent - Degrees
@@ -137,7 +137,7 @@ class StackTrigTest {
 		stk.push(2.123);
 		StackTrig.cmdArcTrig(stk, "atan", "");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(64.77808, stk.peek());
+		assertEquals(64.77808, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		// Testing ArcTangent - Radians
@@ -145,7 +145,7 @@ class StackTrigTest {
 		stk.push(2.123);
 		StackTrig.cmdArcTrig(stk, "atan", "rad");
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(1.13059, stk.peek());
+		assertEquals(1.13059, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
 	}
@@ -160,14 +160,14 @@ class StackTrigTest {
 		stk.push(3.0);
 		stk.push(4.0);
 		StackTrig.cmdHypotenuse(stk);
-		assertEquals(5.0, stk.peek());
+		assertEquals(5.0, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 		
 		stk.push(8.123);
 		stk.push(4.789);
 		StackTrig.cmdHypotenuse(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(9.42962, stk.peek());
+		assertEquals(9.42962, stk.peek().doubleValue());
 		assertEquals(2, stk.size());
 
 	}

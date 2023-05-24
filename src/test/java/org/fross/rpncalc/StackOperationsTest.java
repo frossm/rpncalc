@@ -79,22 +79,22 @@ class StackOperationsTest {
 
 		// Check the current stack
 		assertEquals(5, stk.size());
-		assertEquals(1.0, stk.get(0));
-		assertEquals(2.0, stk.get(1));
-		assertEquals(3.0, stk.get(2));
-		assertEquals(4.0, stk.get(3));
-		assertEquals(5.0, stk.get(4));
+		assertEquals(1.0, stk.get(0).doubleValue());
+		assertEquals(2.0, stk.get(1).doubleValue());
+		assertEquals(3.0, stk.get(2).doubleValue());
+		assertEquals(4.0, stk.get(3).doubleValue());
+		assertEquals(5.0, stk.get(4).doubleValue());
 
 		// Reverse the stack items
 		StackOperations.cmdReverse(stk);
 
 		// Validate they are reversed
 		assertEquals(5, stk.size());
-		assertEquals(5.0, stk.get(0));
-		assertEquals(4.0, stk.get(1));
-		assertEquals(3.0, stk.get(2));
-		assertEquals(2.0, stk.get(3));
-		assertEquals(1.0, stk.get(4));
+		assertEquals(5.0, stk.get(0).doubleValue());
+		assertEquals(4.0, stk.get(1).doubleValue());
+		assertEquals(3.0, stk.get(2).doubleValue());
+		assertEquals(2.0, stk.get(3).doubleValue());
+		assertEquals(1.0, stk.get(4).doubleValue());
 	}
 
 	/**
@@ -126,7 +126,7 @@ class StackOperationsTest {
 		StackManagement.SaveStack(stk1, "1");
 		StackManagement.SaveStack(stk2, "2");
 
-		// Load the junittest stack and make sure the name is queried successfully
+		// Load the junit5 test stack and make sure the name is queried successfully
 		CommandParser.Parse(stk1, stk2, "load junittest", "load", "junittest");
 		assertEquals("junittest", stk1.queryStackName());
 		assertEquals("junittest", stk2.queryStackName());
@@ -134,12 +134,12 @@ class StackOperationsTest {
 		// stk1: Check to make sure the numbers are accurate by adding them up
 		StackCommands.cmdAddAll(stk1, "keep");
 		assertEquals(11, stk1.size());
-		assertEquals(55, stk1.pop());
+		assertEquals(55, stk1.pop().doubleValue());
 
 		// stk2: Check to make sure the numbers are accurate by adding them up
 		StackCommands.cmdAddAll(stk2, "keep");
 		assertEquals(11, stk2.size());
-		assertEquals(1055, stk2.pop());
+		assertEquals(1055, stk2.pop().doubleValue());
 
 		// Load default stack
 		StackOperations.cmdLoad(stk1, stk2, "default");
@@ -152,12 +152,12 @@ class StackOperationsTest {
 		// stk1: Check to make sure the numbers are accurate by adding them up
 		StackCommands.cmdAddAll(stk1, "keep");
 		assertEquals(11, stk1.size());
-		assertEquals(55, stk1.pop());
+		assertEquals(55, stk1.pop().doubleValue());
 
 		// stk2: Check to make sure the numbers are accurate by adding them up
 		StackCommands.cmdAddAll(stk2, "keep");
 		assertEquals(11, stk2.size());
-		assertEquals(1055, stk2.pop());
+		assertEquals(1055, stk2.pop().doubleValue());
 
 		// Cleanup by removing the junittest stack from the preferences system
 		try {
@@ -261,7 +261,7 @@ class StackOperationsTest {
 
 		// Verify the import values match the file data
 		for (int i = 0; i < testValues.length; i++) {
-			assertEquals(testValues[i], stk.get(i));
+			assertEquals(testValues[i], stk.get(i).doubleValue());
 		}
 
 		// Delete the test import file

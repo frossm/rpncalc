@@ -45,7 +45,7 @@ class StackConversionsTest {
 
 		stk.push(31.6);
 		StackConversions.cmdConvertIN2MM(stk);
-		assertEquals(802.64, stk.peek());
+		assertEquals(802.64, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -59,7 +59,7 @@ class StackConversionsTest {
 		stk.push(666.0);
 		StackConversions.cmdConvertMM2IN(stk);
 		StackCommands.cmdRound(stk, "4");
-		assertEquals(26.2205, stk.peek());
+		assertEquals(26.2205, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -73,7 +73,7 @@ class StackConversionsTest {
 		stk.push(4.321);
 		StackConversions.cmdRad2Deg(stk);
 		StackCommands.cmdRound(stk, "4");
-		assertEquals(247.5751, stk.peek());
+		assertEquals(247.5751, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -87,7 +87,7 @@ class StackConversionsTest {
 		stk.push(189.6);
 		StackConversions.cmdDeg2Rad(stk);
 		StackCommands.cmdRound(stk, "4");
-		assertEquals(3.3091, stk.peek());
+		assertEquals(3.3091, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -100,7 +100,7 @@ class StackConversionsTest {
 
 		// Test positive numbers with different bases
 		stk.push(71.046875);
-		assertEquals(71.046875, stk.peek());
+		assertEquals(71.046875, stk.peek().doubleValue());
 
 		String[] result = StackConversions.cmdFraction(stk, "");
 		assertEquals("71 3/64", result[3]);
@@ -113,7 +113,7 @@ class StackConversionsTest {
 
 		// Test negative numbers with different bases
 		stk.push(-123.456);
-		assertEquals(-123.456, stk.peek());
+		assertEquals(-123.456, stk.peek().doubleValue());
 
 		result = StackConversions.cmdFraction(stk, "");
 		assertEquals("-123 29/64", result[3]);
@@ -139,12 +139,12 @@ class StackConversionsTest {
 		stk.push(1234.567);
 		StackConversions.cmdGram2Oz(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(43.54812, stk.pop());
+		assertEquals(43.54812, stk.pop().doubleValue());
 
 		stk.push(-22.2);
 		StackConversions.cmdGram2Oz(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.78308, stk.pop());
+		assertEquals(-0.78308, stk.pop().doubleValue());
 	}
 
 	/**
@@ -157,12 +157,12 @@ class StackConversionsTest {
 		stk.push(12.345);
 		StackConversions.cmdOz2Gram(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(349.97486, stk.pop());
+		assertEquals(349.97486, stk.pop().doubleValue());
 
 		stk.push(-0.0221);
 		StackConversions.cmdOz2Gram(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.62652, stk.pop());
+		assertEquals(-0.62652, stk.pop().doubleValue());
 	}
 
 	/**
@@ -175,12 +175,12 @@ class StackConversionsTest {
 		stk.push(123.321);
 		StackConversions.cmdKg2Lbs(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(271.87627, stk.pop());
+		assertEquals(271.87627, stk.pop().doubleValue());
 
 		stk.push(-0.369);
 		StackConversions.cmdKg2Lbs(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.81351, stk.pop());
+		assertEquals(-0.81351, stk.pop().doubleValue());
 	}
 
 	/**
@@ -193,12 +193,12 @@ class StackConversionsTest {
 		stk.push(456.654);
 		StackConversions.cmdLbs2Kg(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(207.13477, stk.pop());
+		assertEquals(207.13477, stk.pop().doubleValue());
 
 		stk.push(-0.987654);
 		StackConversions.cmdLbs2Kg(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.44799, stk.pop());
+		assertEquals(-0.44799, stk.pop().doubleValue());
 	}
 
 }

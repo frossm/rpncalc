@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -39,6 +40,9 @@ import org.fusesource.jansi.Ansi;
  *
  */
 public class Math {
+	// Default global match context with unlimited precision
+	public static final MathContext mc = MathContext.UNLIMITED;
+
 	/**
 	 * Parse Take an operand and a stack and call the right math function.
 	 * 
@@ -87,9 +91,9 @@ public class Math {
 	public static StackObj Add(StackObj stk) {
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.add(b);
+		BigDecimal result = a.add(b, Math.mc);
 
-		Output.debugPrint("Adding: " + a + " + " + b + " = " + result);
+		Output.debugPrint("Adding: " + a.toString() + " + " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -103,9 +107,9 @@ public class Math {
 	public static StackObj Subtract(StackObj stk) {
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.subtract(b);
+		BigDecimal result = a.subtract(b, Math.mc);
 
-		Output.debugPrint("Subtracting: " + a + " - " + b + " = " + result);
+		Output.debugPrint("Subtracting: " + a.toString() + " - " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -119,9 +123,9 @@ public class Math {
 	public static StackObj Multiply(StackObj stk) {
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.multiply(b);
+		BigDecimal result = a.multiply(b, Math.mc);
 
-		Output.debugPrint("Multiplying: " + a + " * " + b + " = " + result);
+		Output.debugPrint("Multiplying: " + a.toString() + " * " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -133,11 +137,25 @@ public class Math {
 	 * @return
 	 */
 	public static StackObj Divide(StackObj stk) {
+		// Ensure we don't divide by zero
+		if (stk.peek().compareTo(BigDecimal.ZERO) == 0) {
+			Output.printColorln(Ansi.Color.RED, "Dividing by zero is not allowed. You could wind up going back in time...");
+			return stk;
+		}
+
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.divide(b);
+		BigDecimal result = BigDecimal.ZERO;
 
-		Output.debugPrint("Dividing: " + a + " / " + b + " = " + result);
+		try {
+			result = a.divide(b, MathContext.DECIMAL128);
+		} catch (ArithmeticException ex) {
+			Output.printColorln(Ansi.Color.RED, "Error dividing " + a + " / " + b);
+		} catch (NullPointerException ex) {
+			Output.printColorln(Ansi.Color.RED, "Error dividing " + a + " / " + b);
+		}
+
+		Output.debugPrint("Dividing: " + a.toString() + " / " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -151,9 +169,9 @@ public class Math {
 	public static StackObj Power(StackObj stk) {
 		BigDecimal power = stk.pop();
 		BigDecimal base = stk.pop();
-		BigDecimal result = base.pow(power.intValue());
+		BigDecimal result = base.pow(power.intValue(), Math.mc);
 
-		Output.debugPrint(base + " ^ " + power + " = " + result);
+		Output.debugPrint(base.toString() + " ^ " + power.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -203,11 +221,11 @@ public class Math {
 
 		// Add up the numbers in the stack
 		for (int i = 0; i < size; i++) {
-			totalCounter.add(stk.get(i));
+			totalCounter = totalCounter.add(stk.get(i), Math.mc);
 		}
 
 		// Return the average
-		return (totalCounter.divide(new BigDecimal(String.valueOf(size))));
+		return (totalCounter.divide(new BigDecimal(String.valueOf(size), Math.mc)));
 
 	}
 
@@ -227,7 +245,7 @@ public class Math {
 
 		return (mean(stk));
 	}
-	
+
 	/**
 	 * mean(): Return the mean from the numbers in a stack of doubles or a double array
 	 * 
@@ -245,10 +263,9 @@ public class Math {
 		return (mean(stk));
 	}
 
-
 	/**
-	 * median(): Return the median value of the stack items. If odd number of items, just return the
-	 * middle item.  If even, take the average of the two numbers closest to the middle
+	 * median(): Return the median value of the stack items. If odd number of items, just return the middle item. If even, take
+	 * the average of the two numbers closest to the middle
 	 * 
 	 */
 	public static BigDecimal median(StackObj stk) {
@@ -267,7 +284,7 @@ public class Math {
 				int upperIndex = Integer.valueOf(stk.size() / 2 + 1);
 
 				Output.debugPrint("Median: UpperIndex=" + upperIndex + "  |  LowerIndex=" + lowerIndex);
-				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1))).divide(new BigDecimal("2"));
+				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1), Math.mc)).divide(new BigDecimal("2"), Math.mc);
 
 			} else {
 				// Odd number of items
@@ -294,7 +311,7 @@ public class Math {
 		BigDecimal result = BigDecimal.ONE;
 
 		for (int factor = 2; factor <= num; factor++) {
-			result = result.multiply(new BigDecimal(factor));
+			result = result.multiply(new BigDecimal(factor), Math.mc);
 		}
 
 		return result;

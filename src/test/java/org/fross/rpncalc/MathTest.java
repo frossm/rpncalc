@@ -49,13 +49,13 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-		assertEquals(5.80245, Math.Parse("+", stk).peek());
+		assertEquals(5.80245, Math.Parse("+", stk).peek().doubleValue());
 		assertEquals(1, stk.size());
 
 		stk.push(-1.1);
 		Math.Parse("+", stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(4.70245, stk.peek());
+		assertEquals(4.70245, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -69,19 +69,19 @@ class MathTest {
 		// Add test data to stack
 		stk.push(1.23456);
 		stk.push(4.56789);
-		assertEquals(-3.33333, Math.Parse("-", stk).peek());
+		assertEquals(-3.33333, Math.Parse("-", stk).peek().doubleValue());
 		assertEquals(1, stk.size());
-		
+
 		stk.push(-3.12);
 		Math.Parse("-", stk);
-		StackCommands.cmdRound(stk,  "5");
-		assertEquals(-0.21333, stk.peek());
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-0.21333, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
-		
+
 		stk.push(6.678);
 		Math.Parse("-", stk);
-		StackCommands.cmdRound(stk,  "5");
-		assertEquals(-6.89133, stk.peek());
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-6.89133, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -97,12 +97,12 @@ class MathTest {
 		stk.push(4.56789);
 		Math.Parse("*", stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(5.63933, stk.peek());
+		assertEquals(5.63933, stk.peek().doubleValue());
 
 		stk.push(-99.88);
 		Math.Parse("*", stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(-563.25628, stk.peek());
+		assertEquals(-563.25628, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -114,17 +114,30 @@ class MathTest {
 		StackObj stk = new StackObj();
 
 		// Add test data to stack
+		stk.clear();
 		stk.push(1.23456);
 		stk.push(4.56789);
 		Math.Parse("/", stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.27027, stk.peek());
+		StackCommands.cmdRound(stk, "7");
+		assertEquals(0.2702692, stk.peek().doubleValue());
 
 		stk.push(-8.554);
 		Math.Parse("/", stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.0316, stk.peek());
+		StackCommands.cmdRound(stk, "10");
+		assertEquals(-0.0315956512, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		// TODO
+		// Make sure we can't divide by zero
+		stk.clear();
+		stk.push(123.00);
+		stk.push(0.0);
+		assertEquals(2, stk.size());
+		Math.Parse("/", stk);
+		assertEquals(2, stk.size());
+		assertEquals(0, stk.pop().doubleValue());
+		assertEquals(123, stk.pop().doubleValue());
+		
 	}
 
 	/**
@@ -138,13 +151,13 @@ class MathTest {
 		stk.push(1.23456);
 		stk.push(4.56789);
 		Math.Parse("^", stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(2.61829, stk.peek());
-		
+		StackCommands.cmdRound(stk, "7");
+		assertEquals(2.3229978, stk.peek().doubleValue());
+
 		stk.push(3.0);
 		Math.Parse("^", stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(17.94954, stk.peek());
+		StackCommands.cmdRound(stk, "7");
+		assertEquals(12.5356367, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 	}
 
@@ -195,7 +208,7 @@ class MathTest {
 		stk.push(12.1354);
 		stk.push(-1.23);
 
-		assertEquals(5.38837, Math.mean(stk));
+		assertEquals(5.38837, Math.mean(stk).doubleValue());
 	}
 
 	/**
@@ -205,26 +218,25 @@ class MathTest {
 	void testMeanIfDoubleArrayIsProvided() {
 		Double[] arry = { 1.23456, 4.56789, 10.234, 12.1354, -1.23 };
 
-		assertEquals(5.38837, Math.mean(arry));
+		assertEquals(5.38837, Math.mean(arry).doubleValue());
 	}
-	
+
 	/**
-	 * Test the math median command
-	 * The cmdMedian method is also tested in the StackCommandsTest file
+	 * Test the math median command The cmdMedian method is also tested in the StackCommandsTest file
 	 */
 	@Test
 	void testMedian() {
 		StackObj stk = new StackObj();
-		Double[] testValues = {-23.11, 55.22, 23.22, -1.01, 4.22, 12.22, 41.01, -0.1, 23.0, 1000.0};
-		
+		Double[] testValues = { -23.11, 55.22, 23.22, -1.01, 4.22, 12.22, 41.01, -0.1, 23.0, 1000.0 };
+
 		// Build the stack
 		for (int i = 0; i < testValues.length; i++) {
 			stk.push(testValues[i]);
 		}
-		
+
 		// Execute the test
 		assertEquals(10, stk.size());
-		assertEquals(17.61, Math.median(stk));
+		assertEquals(17.61, Math.median(stk).doubleValue());
 		assertEquals(10, stk.size());
 	}
 

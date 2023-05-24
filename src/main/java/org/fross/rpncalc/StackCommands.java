@@ -742,6 +742,7 @@ public class StackCommands {
 		// Round the top of stack item and return that result to the stack
 		result = calcStack.pop();
 		result = result.setScale(decimalPlaces, RoundingMode.HALF_UP);
+		//result = result.round(Math.mc);
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();

@@ -148,7 +148,7 @@ public class StackObj implements Cloneable {
 	 * @param item
 	 */
 	public void push(String item) {
-		calcStack.push(new BigDecimal(item));
+		calcStack.push(new BigDecimal(item, Math.mc));
 	}
 
 	/**
@@ -157,7 +157,16 @@ public class StackObj implements Cloneable {
 	 * @param item
 	 */
 	public void push(Double item) {
-		calcStack.push(new BigDecimal(item.toString()));
+		calcStack.push(new BigDecimal(String.valueOf(item), Math.mc));
+	}
+	
+	/**
+	 * push(): Add an item onto the top of the stack
+	 * 
+	 * @param item
+	 */
+	public void push(int item) {
+		calcStack.push(new BigDecimal(String.valueOf(item), Math.mc));
 	}
 
 	/**

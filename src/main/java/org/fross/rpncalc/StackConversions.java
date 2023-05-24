@@ -28,6 +28,7 @@ package org.fross.rpncalc;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -69,7 +70,7 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pop off the last value, convert, and push it back
-		calcStack.push(calcStack.pop().divide(new BigDecimal("25.4")));
+		calcStack.push(calcStack.pop().divide(new BigDecimal("25.4"), MathContext.DECIMAL128));
 	}
 
 	/**
@@ -118,10 +119,12 @@ public class StackConversions {
 		BigDecimal decimalPart = startingNumber.subtract(new BigDecimal(integerPart));
 
 		// Convert to a fraction with provided base
+		// This will round to the nearest integer by adding 1/2 to the number and getting it's integer value
 		// TODO delete
 		// long numerator = java.lang.Math.round(decimalPart * denominator);
-		BigInteger numerator = decimalPart.multiply(new BigDecimal(String.valueOf(denominator))).toBigInteger();
-
+		BigDecimal numeratorNotRounded = decimalPart.multiply(new BigDecimal(String.valueOf(denominator)));
+		BigInteger numerator = numeratorNotRounded.add(new BigDecimal(".5")).toBigInteger();
+		
 		// Get the Greatest Common Divisor so we can simply the fraction
 		long gcd = Math.GreatestCommonDivisor(numerator.longValue(), denominator);
 
