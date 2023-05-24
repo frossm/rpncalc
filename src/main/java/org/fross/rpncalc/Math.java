@@ -225,7 +225,7 @@ public class Math {
 		}
 
 		// Return the average
-		return (totalCounter.divide(new BigDecimal(String.valueOf(size), Math.mc)));
+		return (totalCounter.divide(new BigDecimal(String.valueOf(size)), MathContext.DECIMAL128));
 
 	}
 
@@ -284,7 +284,7 @@ public class Math {
 				int upperIndex = Integer.valueOf(stk.size() / 2 + 1);
 
 				Output.debugPrint("Median: UpperIndex=" + upperIndex + "  |  LowerIndex=" + lowerIndex);
-				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1), Math.mc)).divide(new BigDecimal("2"), Math.mc);
+				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1), Math.mc)).divide(new BigDecimal("2"), MathContext.DECIMAL128);
 
 			} else {
 				// Odd number of items

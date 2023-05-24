@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
@@ -420,14 +421,13 @@ public class StackCommands {
 			sumY = sumY.add(new BigDecimal(String.valueOf(y)));
 
 			// sumXY
-			BigDecimal sumXYstep1 = new BigDecimal(String.valueOf(x)).multiply(new BigDecimal(String.valueOf(y)));
-			sumXY = sumXY.add(sumXYstep1);
+			sumXY = sumXY.add(new BigDecimal(String.valueOf(x)).multiply(y));
 
 			// sumX2
-			sumX2 = new BigDecimal(String.valueOf(x)).pow(2);
+			sumX2 = sumX2.add(new BigDecimal(String.valueOf(x)).pow(2));
 
 			// sumY2
-			sumY2 = new BigDecimal(String.valueOf(y)).pow(2);
+			sumY2 = sumY2.add(new BigDecimal(String.valueOf(y)).pow(2));
 
 			// Line by line debug output
 			// TODO delete
@@ -442,11 +442,11 @@ public class StackCommands {
 
 		BigDecimal a_top = sumY.multiply(sumX2).subtract(sumX.multiply(sumXY));
 		BigDecimal a_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
-		BigDecimal a = a_top.divide(a_bottom);
+		BigDecimal a = a_top.divide(a_bottom, MathContext.DECIMAL128);
 
 		BigDecimal b_top = n.multiply(sumXY).subtract(sumX.multiply(sumY));
 		BigDecimal b_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
-		BigDecimal b = b_top.divide(b_bottom);
+		BigDecimal b = b_top.divide(b_bottom, MathContext.DECIMAL128);
 
 		// Output details if debug is enabled
 		Output.debugPrint("n:     " + n.toPlainString());
@@ -617,7 +617,7 @@ public class StackCommands {
 		BigDecimal a = calcStack.pop();
 
 		// Calculate the result. Negative numbers can cause problems - see the following for the result calculation
-		BigDecimal remainder = a.remainder(b);
+		BigDecimal remainder = a.remainder(b, MathContext.DECIMAL128);
 
 		Output.debugPrint("Modulus: " + a + " % " + b + " = " + remainder.toPlainString());
 		calcStack.push(remainder);
@@ -847,7 +847,7 @@ public class StackCommands {
 		calcStack.saveUndo();
 
 		Output.debugPrint("Taking the square root of the last stack item");
-		calcStack.push(calcStack.pop().sqrt(null));
+		calcStack.push(calcStack.pop().sqrt(MathContext.DECIMAL128));
 	}
 
 	/**
@@ -881,10 +881,15 @@ public class StackCommands {
 
 		// Step2: For each number: subtract the mean from the number and square the result
 		BigDecimal[] stdArray = new BigDecimal[calcStack.size()];
+		
+		// Zero out the array
+		for (int i = 0; i < calcStack.size(); i++)
+			stdArray[i] = BigDecimal.ZERO;
+		
 		for (int i = 0; i < calcStack.size(); i++) {
 			// TODO remove
 			// stdArray[i] = java.lang.Math.pow((calcStack.get(i) - mean1), 2);
-			stdArray[i] = stdArray[i].subtract(mean1);
+			stdArray[i] = calcStack.get(i).subtract(mean1);
 			stdArray[i] = stdArray[i].pow(2);
 		}
 
@@ -901,7 +906,7 @@ public class StackCommands {
 		calcStack.saveUndo();
 
 		// Step4: Take the square root of that result and push onto the stack
-		calcStack.push(mean2.sqrt(null));
+		calcStack.push(mean2.sqrt(MathContext.DECIMAL128));
 	}
 
 	/**

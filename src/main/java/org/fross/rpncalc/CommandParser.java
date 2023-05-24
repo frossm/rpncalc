@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -440,7 +441,7 @@ public class CommandParser {
 					BigDecimal fracBottom = new BigDecimal(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
 
 					// Divide the fraction and get a decimal equivalent
-					fracDecimalEquiv = fracTop.divide(fracBottom);
+					fracDecimalEquiv = fracTop.divide(fracBottom, MathContext.DECIMAL128);
 					
 					// Overall decimal equivalent (integer + decimal)
 					BigDecimal endResult = fracInteger.add(fracDecimalEquiv);

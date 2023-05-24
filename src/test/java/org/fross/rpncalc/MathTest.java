@@ -127,7 +127,6 @@ class MathTest {
 		assertEquals(-0.0315956512, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
-		// TODO
 		// Make sure we can't divide by zero
 		stk.clear();
 		stk.push(123.00);

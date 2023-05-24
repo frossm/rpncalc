@@ -162,9 +162,9 @@ class StackCommandsTest {
 		// Copy without an argument, so copy line1
 		StackCommands.cmdCopy(stk, "");
 		assertEquals(7, stk.size());
-		assertEquals(-1000.001, stk.get(stk.size() - 1));
-		assertEquals(-1000.001, stk.get(stk.size() - 2));
-		assertEquals(5.67, stk.get(stk.size() - 3));
+		assertEquals(-1000.001, stk.get(stk.size() - 1).doubleValue());
+		assertEquals(-1000.001, stk.get(stk.size() - 2).doubleValue());
+		assertEquals(5.67, stk.get(stk.size() - 3).doubleValue());
 		assertEquals(1.23, stk.get(0).doubleValue());
 
 		// Copy line4
@@ -682,13 +682,19 @@ class StackCommandsTest {
 		stk.push(44.65432);
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(15.33331, stk.pop().doubleValue());
+		assertEquals(-29.32101, stk.pop().doubleValue());
 
 		stk.push(-0.2356);
 		stk.push(-8.123);
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.2356, stk.pop().doubleValue());
+
+		stk.push(-144.144);
+		stk.push(16.12);
+		StackCommands.cmdModulus(stk);
+		StackCommands.cmdRound(stk, "3");
+		assertEquals(-15.184, stk.pop().doubleValue());
 	}
 
 	/**
@@ -906,25 +912,38 @@ class StackCommandsTest {
 	 */
 	@Test
 	void testCmdStdDeviation() {
+		// Test #1
 		StackObj stk = new StackObj();
-
-		Double[] testValues1 = { 10.01, -12.55, 23.99, 16.102, -23.56, 21.0, 16.123 };
-		for (int i = 0; i < testValues1.length; i++) {
-			stk.push(testValues1[i]);
+		Double[] testValues = { 10.0, 5.0, 1.0 };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
 		}
 
 		// Take the std deviation of the stack and keep values
 		StackCommands.cmdStdDeviation(stk, "keep");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals(8, stk.size());
-		assertEquals(16.7982686, stk.pop().doubleValue());
+		StackCommands.cmdRound(stk, "10");
+		assertEquals(4, stk.size());
+		assertEquals(3.6817870057, stk.pop().doubleValue());
+
+		// Test #2
+		StackObj stk1 = new StackObj();
+		Double[] testValues1 = { 10.01, -12.55, 23.99, 16.102, -23.56, 21.0, 16.123 };
+		for (int i = 0; i < testValues1.length; i++) {
+			stk1.push(testValues1[i]);
+		}
+
+		// Take the std deviation of the stack and keep values
+		StackCommands.cmdStdDeviation(stk1, "keep");
+		StackCommands.cmdRound(stk1, "10");
+		assertEquals(8, stk1.size());
+		assertEquals(16.7982686219, stk1.pop().doubleValue());
 
 		// Sort the stack - sd should be the same
-		StackCommands.cmdSort(stk, "d");
-		StackCommands.cmdStdDeviation(stk, "");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals(1, stk.size());
-		assertEquals(16.7982686, stk.pop().doubleValue());
+		StackCommands.cmdSort(stk1, "d");
+		StackCommands.cmdStdDeviation(stk1, "");
+		StackCommands.cmdRound(stk1, "7");
+		assertEquals(1, stk1.size());
+		assertEquals(16.7982686, stk1.pop().doubleValue());
 
 	}
 
