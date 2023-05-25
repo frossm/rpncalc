@@ -170,6 +170,15 @@ class StackTrigTest {
 		assertEquals(9.42962, stk.peek().doubleValue());
 		assertEquals(2, stk.size());
 
+		
+		stk.push(12.65421);
+		stk.push(15.69857741);
+		StackTrig.cmdHypotenuse(stk);
+		StackCommands.cmdRound(stk, "9");
+		assertEquals(20.163689231, stk.peek().doubleValue());
+		assertEquals(3, stk.size());
+		
+		
 	}
 
 }

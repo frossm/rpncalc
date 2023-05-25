@@ -29,6 +29,7 @@ package org.fross.rpncalc;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
@@ -148,7 +149,7 @@ public class StackConversions {
 		String stackHeader = "-Fraction (Granularity: 1/" + (denominator * gcd) + ")";
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
 		if (numerator.compareTo(BigInteger.ZERO) != 0) {
-			outputString[1] = " " + calcStack.peek() + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
+			outputString[1] = " " + calcStack.peek().setScale(8, RoundingMode.HALF_UP) + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
 		} else {
 			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator * gcd);
 		}
@@ -251,6 +252,8 @@ public class StackConversions {
 	/**
 	 * cmdKg2Lb(): Convert line1 from kilograms to US pounds
 	 * 
+	 * There are 2.2046226218 pounds per kilogram
+	 * 
 	 * @param calcStack
 	 */
 	public static void cmdKg2Lbs(StackObj calcStack) {
@@ -271,6 +274,8 @@ public class StackConversions {
 
 	/**
 	 * cmdLb2Kg(): Convert line1 from US pounds to kilograms
+	 * 
+	 * There are 0.45359237 kilograms per US pound
 	 * 
 	 * @param calcStack
 	 */

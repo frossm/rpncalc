@@ -493,6 +493,18 @@ class StackCommandsTest {
 		StackCommands.cmdLinearRegression(stk);
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(48.9842105, stk.pop().doubleValue());
+		
+		// Test #5
+		stk.clear();
+		Double[] testValues1 = { 16.0, 1.0, 14.234, -2.112, -5.1234, 2.345, 8.1, -2.334, 0.0, 4.567, -2.552123, -12.3452, 0.123, -0.9582234, -8.321, -9.9899 };
+		for (int i = 0; i < testValues1.length; i++) {
+			stk.push(testValues1[i]);
+		}
+		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdRound(stk, "9");
+		assertEquals(17, stk.size());
+		assertEquals(-9.101980055, stk.pop().doubleValue());
+		
 	}
 
 	/**
