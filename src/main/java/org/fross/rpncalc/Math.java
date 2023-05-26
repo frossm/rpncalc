@@ -40,9 +40,6 @@ import org.fusesource.jansi.Ansi;
  *
  */
 public class Math {
-	// Default global match context with unlimited precision
-	public static final MathContext mc = MathContext.UNLIMITED;
-
 	/**
 	 * Parse Take an operand and a stack and call the right math function.
 	 * 
@@ -91,7 +88,7 @@ public class Math {
 	public static StackObj Add(StackObj stk) {
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.add(b, Math.mc);
+		BigDecimal result = a.add(b, stk.mc);
 
 		Output.debugPrint("Adding: " + a.toString() + " + " + b.toString() + " = " + result.toString());
 		stk.push(result);
@@ -107,7 +104,7 @@ public class Math {
 	public static StackObj Subtract(StackObj stk) {
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.subtract(b, Math.mc);
+		BigDecimal result = a.subtract(b, stk.mc);
 
 		Output.debugPrint("Subtracting: " + a.toString() + " - " + b.toString() + " = " + result.toString());
 		stk.push(result);
@@ -123,7 +120,7 @@ public class Math {
 	public static StackObj Multiply(StackObj stk) {
 		BigDecimal b = stk.pop();
 		BigDecimal a = stk.pop();
-		BigDecimal result = a.multiply(b, Math.mc);
+		BigDecimal result = a.multiply(b, stk.mc);
 
 		Output.debugPrint("Multiplying: " + a.toString() + " * " + b.toString() + " = " + result.toString());
 		stk.push(result);
@@ -169,7 +166,7 @@ public class Math {
 	public static StackObj Power(StackObj stk) {
 		BigDecimal power = stk.pop();
 		BigDecimal base = stk.pop();
-		BigDecimal result = base.pow(power.intValue(), Math.mc);
+		BigDecimal result = base.pow(power.intValue(), stk.mc);
 
 		Output.debugPrint(base.toString() + " ^ " + power.toString() + " = " + result.toString());
 		stk.push(result);
@@ -221,7 +218,7 @@ public class Math {
 
 		// Add up the numbers in the stack
 		for (int i = 0; i < size; i++) {
-			totalCounter = totalCounter.add(stk.get(i), Math.mc);
+			totalCounter = totalCounter.add(stk.get(i), stk.mc);
 		}
 
 		// Return the average
@@ -284,7 +281,7 @@ public class Math {
 				int upperIndex = Integer.valueOf(stk.size() / 2 + 1);
 
 				Output.debugPrint("Median: UpperIndex=" + upperIndex + "  |  LowerIndex=" + lowerIndex);
-				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1), Math.mc)).divide(new BigDecimal("2"), MathContext.DECIMAL128);
+				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1), stk.mc)).divide(new BigDecimal("2"), MathContext.DECIMAL128);
 
 			} else {
 				// Odd number of items
@@ -311,8 +308,7 @@ public class Math {
 		BigDecimal result = BigDecimal.ONE;
 
 		for (int factor = 2; factor <= num; factor++) {
-			result = result.multiply(new BigDecimal(factor), Math.mc);
-		}
+			result = result.multiply(new BigDecimal(factor), MathContext.UNLIMITED);		}
 
 		return result;
 	}

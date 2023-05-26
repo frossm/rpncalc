@@ -99,13 +99,6 @@ public class StackCommands {
 		// Pop the stack item and push back the absolute value
 		calcStack.push(calcStack.pop().abs());
 
-//		TODO delete
-//		Double value = calcStack.pop();
-//		if (value < 0) {
-//			calcStack.push(value * -1);
-//		} else {
-//			calcStack.push(value);
-//		}
 	}
 
 	/**
@@ -366,11 +359,6 @@ public class StackCommands {
 
 			calcStack.push(new BigDecimal(calcStack.pop().toBigInteger().toString()));
 
-//			TODO: Delete
-//			String stackItemString = calcStack.pop().toPlainString();
-//			int stackItemInt = Integer.parseInt(stackItemString.substring(0, stackItemString.indexOf(".")));
-//			calcStack.push(stackItemInt * 1.0);
-
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
 		}
@@ -408,13 +396,12 @@ public class StackCommands {
 			int x = i + 1;
 			BigDecimal y = calcStack.get(i);
 
-			// Calculate the sums
-			// TODO delete
-//			sumX += x;
-//			sumY += y;
-//			sumXY += x * y;
-//			sumX2 += x * x;
-//			sumY2 += y * y;
+			// Calculate the sums:
+			// sumX += x;
+			// sumY += y;
+			// sumXY += x * y;
+			// sumX2 += x * x;
+			// sumY2 += y * y;
 
 			// sumX & sumY
 			sumX = sumX.add(new BigDecimal(String.valueOf(x)));
@@ -430,8 +417,6 @@ public class StackCommands {
 			sumY2 = sumY2.add(new BigDecimal(String.valueOf(y)).pow(2));
 
 			// Line by line debug output
-			// TODO delete
-			// Output.debugPrint("#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + (x * y) + "\tX2:" + (x * x) + "\tY2:" + (y * y));
 			Output.debugPrint(
 					"#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + y.multiply(new BigDecimal(String.valueOf(x))) + "\tX2:" + (x * x) + "\tY2:" + y.pow(2));
 		}
@@ -742,7 +727,6 @@ public class StackCommands {
 		// Round the top of stack item and return that result to the stack
 		result = calcStack.pop();
 		result = result.setScale(decimalPlaces, RoundingMode.HALF_UP);
-		//result = result.round(Math.mc);
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
@@ -881,14 +865,12 @@ public class StackCommands {
 
 		// Step2: For each number: subtract the mean from the number and square the result
 		BigDecimal[] stdArray = new BigDecimal[calcStack.size()];
-		
+
 		// Zero out the array
 		for (int i = 0; i < calcStack.size(); i++)
 			stdArray[i] = BigDecimal.ZERO;
-		
+
 		for (int i = 0; i < calcStack.size(); i++) {
-			// TODO remove
-			// stdArray[i] = java.lang.Math.pow((calcStack.get(i) - mean1), 2);
 			stdArray[i] = calcStack.get(i).subtract(mean1);
 			stdArray[i] = stdArray[i].pow(2);
 		}

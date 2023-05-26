@@ -204,21 +204,38 @@ public class Main {
 
 				// Configure the alignment
 				if (configAlignment.compareTo("d") == 0) {
+					int decimalLocation = 0;
+
 					// Put in spaces to align the decimals
-					int decimalLocation = Format.Comma(calcStack.get(i).toPlainString()).indexOf(".");
+					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e")) {
+						stkLineNumber = calcStack.get(i).toEngineeringString();
+						decimalLocation = stkLineNumber.indexOf(".");
+
+					} else {
+						stkLineNumber = Format.Comma(calcStack.get(i).toEngineeringString());
+						decimalLocation = stkLineNumber.indexOf(".");
+					}
+
+					// Insert the right number of spaces
 					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation; k++) {
 						Output.print(" ");
 					}
-					stkLineNumber = Format.Comma(calcStack.get(i).toPlainString());
 
 				} else if (configAlignment.compareTo("r") == 0) {
-					stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toPlainString()));
+					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e"))
+						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", calcStack.get(i).toEngineeringString());
+					else
+						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toEngineeringString()));
 
 				} else {
-					stkLineNumber = Format.Comma(calcStack.get(i).toPlainString());
+					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e"))
+						stkLineNumber = calcStack.get(i).toEngineeringString();
+					else
+						stkLineNumber = Format.Comma(calcStack.get(i).toEngineeringString());
 				}
 
-				// Finally display the current stack item
+				// Finally display the current stack item after removing any spaces at the end
+				stkLineNumber = stkLineNumber.replaceAll("\\s+$", "");
 				Output.printColorln(Ansi.Color.WHITE, stkLineNumber);
 			}
 

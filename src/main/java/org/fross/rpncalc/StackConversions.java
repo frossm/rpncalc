@@ -112,8 +112,6 @@ public class StackConversions {
 		}
 
 		// Determine the integer portion of the number
-		// TODO delete
-		// int integerPart = (int) java.lang.Math.floor(startingNumber);
 		BigInteger integerPart = startingNumber.toBigInteger();
 
 		// Determine the fractional portion as an double
@@ -121,21 +119,15 @@ public class StackConversions {
 
 		// Convert to a fraction with provided base
 		// This will round to the nearest integer by adding 1/2 to the number and getting it's integer value
-		// TODO delete
-		// long numerator = java.lang.Math.round(decimalPart * denominator);
 		BigDecimal numeratorNotRounded = decimalPart.multiply(new BigDecimal(String.valueOf(denominator)));
 		BigInteger numerator = numeratorNotRounded.add(new BigDecimal(".5")).toBigInteger();
-		
+
 		// Get the Greatest Common Divisor so we can simply the fraction
 		long gcd = Math.GreatestCommonDivisor(numerator.longValue(), denominator);
 
 		Output.debugPrint("Greatest Common Divisor for " + numerator.toString() + " and " + denominator + " is " + gcd);
 
 		// Simply the fraction
-		// TODO delete
-		// numerator /= gcd;
-		// denominator /= gcd;
-
 		numerator = numerator.divide(new BigInteger(String.valueOf(gcd)));
 		denominator /= gcd;
 
@@ -149,7 +141,8 @@ public class StackConversions {
 		String stackHeader = "-Fraction (Granularity: 1/" + (denominator * gcd) + ")";
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
 		if (numerator.compareTo(BigInteger.ZERO) != 0) {
-			outputString[1] = " " + calcStack.peek().setScale(8, RoundingMode.HALF_UP) + " is approximately '" + integerPart + " " + numerator + "/" + denominator + "'";
+			outputString[1] = " " + calcStack.peek().setScale(8, RoundingMode.HALF_UP) + " is approximately '" + integerPart + " " + numerator + "/"
+					+ denominator + "'";
 		} else {
 			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator * gcd);
 		}
@@ -175,8 +168,6 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pull the value, convert and push back
-		// TODO delete
-		// calcStack.push(calcStack.pop() * (180 / java.lang.Math.PI));
 		Double conversionFactor = 180 / java.lang.Math.PI;
 		calcStack.push(calcStack.pop().multiply(new BigDecimal(String.valueOf(conversionFactor))));
 	}
@@ -197,8 +188,6 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Pull the value, convert and push back
-		// TODO delete
-		// calcStack.push(calcStack.pop() * (java.lang.Math.PI / 180));
 		Double conversionFactor = java.lang.Math.PI / 180;
 		calcStack.push(calcStack.pop().multiply(new BigDecimal(String.valueOf(conversionFactor))));
 	}
@@ -221,8 +210,6 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		// TODO delete
-		// calcStack.push(calcStack.pop() * 0.035274);
 		calcStack.push(calcStack.pop().multiply(new BigDecimal("0.035274")));
 	}
 
@@ -244,8 +231,6 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		// TODO delete
-		// calcStack.push(calcStack.pop() * 28.349523125);
 		calcStack.push(calcStack.pop().multiply(new BigDecimal("28.349523125")));
 	}
 
@@ -267,8 +252,6 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		// TODO delete
-		// calcStack.push(calcStack.pop() * 2.2046226218);
 		calcStack.push(calcStack.pop().multiply(new BigDecimal("2.2046226218")));
 	}
 
@@ -290,8 +273,6 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		// TODO delete
-		// calcStack.push(calcStack.pop() * 0.45359237);
 		calcStack.push(calcStack.pop().multiply(new BigDecimal("0.45359237")));
 	}
 }

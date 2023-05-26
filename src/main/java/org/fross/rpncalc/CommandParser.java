@@ -442,7 +442,7 @@ public class CommandParser {
 
 					// Divide the fraction and get a decimal equivalent
 					fracDecimalEquiv = fracTop.divide(fracBottom, MathContext.DECIMAL128);
-					
+
 					// Overall decimal equivalent (integer + decimal)
 					BigDecimal endResult = fracInteger.add(fracDecimalEquiv);
 
@@ -457,6 +457,35 @@ public class CommandParser {
 
 				} catch (NumberFormatException ex) {
 					Output.printColorln(Ansi.Color.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
+					break;
+				}
+
+				// Scientific notation number entered
+			} else if (cmdInputCmd.toLowerCase().contains("e")) {
+				// Make sure the digits before and after the 'e' are numbers
+				try {
+					String[] numberSplit = cmdInputCmd.toLowerCase().trim().replace(" ", "").split("e");
+					if (Math.isNumeric(numberSplit[0]) && Math.isNumeric(numberSplit[1])) {
+						// Ensure there is no decimal in the exponent portion
+						if (numberSplit[1].contains(".")) {
+							throw new IllegalArgumentException();
+						}
+
+						// Save current calcStack to the undoStack
+						calcStack.saveUndo();
+
+						Output.debugPrint("Adding the scientific notation number '" + cmdInputCmd + "' onto the stack");
+						calcStack.push(new BigDecimal(cmdInputCmd.toLowerCase()));
+
+					} else {
+						throw new IllegalArgumentException();
+					}
+
+				} catch (ArrayIndexOutOfBoundsException ex) {
+					Output.printColorln(Ansi.Color.RED, "Illegal Scientific Notation Number Entered: '" + cmdInputCmd + "'");
+					break;
+				} catch (IllegalArgumentException ex) {
+					Output.printColorln(Ansi.Color.RED, "Illegal Scientific Notation Number Entered: '" + cmdInputCmd + "'");
 					break;
 				}
 

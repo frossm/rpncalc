@@ -76,20 +76,21 @@ class CommandParserTest {
 		assertEquals(1, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "47/88", "47/88", "");
-		StackCommands.cmdRound(stk1,  "4");
+		StackCommands.cmdRound(stk1, "4");
 		assertEquals(0.5341, stk1.peek().doubleValue());
 		assertEquals(2, stk1.size());
 
 		CommandParser.Parse(stk1, stk2, "1 3/16", "1", "3/16");
 		assertEquals(1.1875, stk1.peek().doubleValue());
 		assertEquals(3, stk1.size());
-		
+
 		CommandParser.Parse(stk1, stk2, "-4 1/64", "-4", "1/64");
-		StackCommands.cmdRound(stk1,  "4");
+		StackCommands.cmdRound(stk1, "4");
 		assertEquals(-3.9844, stk1.peek().doubleValue());
 		assertEquals(4, stk1.size());
 	}
 
+	// Test a "NumOp" - a number with an operand at the end
 	@Test
 	void testNumOp() {
 		StackObj stk1 = new StackObj();
@@ -99,31 +100,70 @@ class CommandParserTest {
 		CommandParser.Parse(stk1, stk2, "-123.456", "-123.456", "");
 		assertEquals(1, stk1.size());
 		assertEquals(-123.456, stk1.peek().doubleValue());
-		
+
 		CommandParser.Parse(stk1, stk2, "2+", "2+", "");
 		assertEquals(1, stk1.size());
 		assertEquals(-121.456, stk1.peek().doubleValue());
-		
+
 		CommandParser.Parse(stk1, stk2, "16.61-", "16.61-", "");
 		assertEquals(1, stk1.size());
 		assertEquals(-138.066, stk1.peek().doubleValue());
-		
+
 		CommandParser.Parse(stk1, stk2, "-2.2*", "-2.2*", "");
 		assertEquals(1, stk1.size());
 		assertEquals(303.7452, stk1.peek().doubleValue());
-		
+
 		CommandParser.Parse(stk1, stk2, "10/", "10/", "");
 		assertEquals(1, stk1.size());
 		assertEquals(30.37452, stk1.peek().doubleValue());
-		
+
 		CommandParser.Parse(stk1, stk2, "2^", "2^", "");
-		assertEquals(1, stk1.size());
-		StackCommands.cmdRound(stk1,  "4");
-		assertEquals(922.6115, stk1.peek().doubleValue());
-		
 		assertEquals(1, stk1.size());
 		StackCommands.cmdRound(stk1, "4");
 		assertEquals(922.6115, stk1.peek().doubleValue());
+
+		assertEquals(1, stk1.size());
+		StackCommands.cmdRound(stk1, "4");
+		assertEquals(922.6115, stk1.peek().doubleValue());
+	}
+
+	// Test the entry of a scientific notation number
+	@Test
+	void testScientificNotationNumberEntry() {
+		StackObj stk = new StackObj();
+
+		CommandParser.Parse(stk, stk, "1.234e8", "1.234e8", "");
+		assertEquals(1, stk.size());
+		assertEquals("1.234E+8", stk.peek().toString());
+
+		CommandParser.Parse(stk, stk, "-7.556677E12", "-7.556677E12", "");
+		assertEquals(2, stk.size());
+		assertEquals("-7.556677E+12", stk.peek().toEngineeringString());
+
+		// Bad Syntax
+		CommandParser.Parse(stk, stk, "-3.556677x3", "-3.556677x3", "");
+		assertEquals(2, stk.size());
+
+		// Bad Syntax
+		CommandParser.Parse(stk, stk, "45.123~3", "45.123~3", "");
+		assertEquals(2, stk.size());
+		
+		// Bad Syntax
+		CommandParser.Parse(stk, stk, "-7.556677ee3", "-7.556677ee3", "");
+		assertEquals(2, stk.size());
+		
+		// Bad Syntax
+		CommandParser.Parse(stk, stk, "7.5566773E", "7.5566773E", "");
+		assertEquals(2, stk.size());
+		
+		// Bad Syntax
+		CommandParser.Parse(stk, stk, "E7.5566773", "E7.5566773", "");
+		assertEquals(2, stk.size());
+		
+		// Bad Syntax
+		CommandParser.Parse(stk, stk, "1.234e8.3", "1.234e8.3", "");
+		assertEquals(2, stk.size());
+
 	}
 
 }

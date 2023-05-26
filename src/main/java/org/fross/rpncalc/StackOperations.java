@@ -268,7 +268,6 @@ public class StackOperations {
 				// Convert the strings to BigDecimal values. Skip empty lines
 				for (int i = 0; i < linesRead.size(); i++) {
 					if (!linesRead.get(i).isEmpty()) {
-						// TODO calcStack.push(Double.parseDouble(linesRead.get(i)));
 						calcStack.push(new BigDecimal(String.valueOf(linesRead.get(i))));
 					}
 				}

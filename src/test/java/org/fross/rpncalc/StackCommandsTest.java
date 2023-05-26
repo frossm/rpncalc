@@ -87,6 +87,7 @@ class StackCommandsTest {
 	void testCmdAverage() {
 		StackObj stk = new StackObj();
 
+		// Test #1
 		// Test with keep
 		stk.push(1.1);
 		stk.push(2.2);
@@ -100,6 +101,7 @@ class StackCommandsTest {
 		assertEquals(-1.25714286, stk.peek().doubleValue());
 		assertEquals(8, stk.size());
 
+		// Test #2
 		// Test without keep
 		stk.push(1.23);
 		stk.push(2.34);
@@ -111,15 +113,28 @@ class StackCommandsTest {
 		assertEquals(1, stk.size());
 		assertEquals(0.55329670, stk.pop().doubleValue());
 
-		// One last test just to be sure
-		Double[] testValues = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
-		for (int i = 0; i < testValues.length; i++) {
-			stk.push(testValues[i]);
+		// Test #3
+		Double[] testValues1 = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
+		for (int i = 0; i < testValues1.length; i++) {
+			stk.push(testValues1[i]);
 		}
 		assertEquals(10, stk.size());
 		StackCommands.cmdAverage(stk, "");
 		assertEquals(109.814, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		// Test #4
+		stk.clear();
+		Double[] testValues2 = { 9.796E15, -16.819E17, 52.266E12, 4.812E11, 21.857E14, -91.404E18, 92.921E12, 88.677E13, 38.128E11, 21.796E19, 10.5742E7, -89.922E14 };
+		for (int i = 0; i < testValues2.length; i++) {
+			stk.push(testValues2[i]);
+		}
+		assertEquals(12, stk.size());
+		StackCommands.cmdAverage(stk, "");
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("10406510479258811833.33333", stk.peek().toEngineeringString());
+		assertEquals(1, stk.size());
+		
 	}
 
 	/**
@@ -130,7 +145,6 @@ class StackCommandsTest {
 		StackObj stk = new StackObj();
 
 		// Add some items to the stack
-		// One last test just to be sure
 		Double[] testValues = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
 		for (int i = 0; i < testValues.length; i++) {
 			stk.push(testValues[i]);
@@ -331,7 +345,8 @@ class StackCommandsTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdDice(org.fross.rpncalc.StackObj, java.lang.String)}.
+	 * Test those bones! This is hard to get an exact test since the results are random, but we can check the ranges and
+	 * quantities
 	 */
 	@Test
 	void testCmdDice() {
@@ -365,17 +380,17 @@ class StackCommandsTest {
 	}
 
 	/**
-	 * Test the 'dice' command and ensure none of the rolls are within the range
+	 * Test the 'dice' command by rolling a *lot* of them and ensuring all of the rolls are within the range
 	 * 
 	 */
 	@Test
 	void testDieRollsAreWithinRange() {
 		StackObj stk = new StackObj();
 
-		// Roll 5000 d10 dice
-		StackCommands.cmdDice(stk, "5000d10");
+		// Roll 10000 d10 dice
+		StackCommands.cmdDice(stk, "10000d100");
 		for (int i = 0; i < stk.size(); i++) {
-			if (stk.get(i).compareTo(BigDecimal.ONE) < 0 || stk.get(i).compareTo(new BigDecimal("10")) > 0) {
+			if (stk.get(i).compareTo(BigDecimal.ONE) < 0 || stk.get(i).compareTo(new BigDecimal("100")) > 0) {
 				fail();
 			}
 		}
@@ -493,7 +508,7 @@ class StackCommandsTest {
 		StackCommands.cmdLinearRegression(stk);
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(48.9842105, stk.pop().doubleValue());
-		
+
 		// Test #5
 		stk.clear();
 		Double[] testValues1 = { 16.0, 1.0, 14.234, -2.112, -5.1234, 2.345, 8.1, -2.334, 0.0, 4.567, -2.552123, -12.3452, 0.123, -0.9582234, -8.321, -9.9899 };
@@ -504,7 +519,7 @@ class StackCommandsTest {
 		StackCommands.cmdRound(stk, "9");
 		assertEquals(17, stk.size());
 		assertEquals(-9.101980055, stk.pop().doubleValue());
-		
+
 	}
 
 	/**
@@ -514,16 +529,19 @@ class StackCommandsTest {
 	void testCmdLog() {
 		StackObj stk = new StackObj();
 
+		// Test #1
 		stk.push(123.456);
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(4.8158848, stk.pop().doubleValue());
 
+		// Test #2
 		stk.push(123.456);
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(4.8158848, stk.pop().doubleValue());
 
+		// Test #3
 		stk.push(12332.12333);
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
@@ -537,15 +555,23 @@ class StackCommandsTest {
 	void testCmdLog10() {
 		StackObj stk = new StackObj();
 
+		// Test #1
 		stk.push(9.41996);
 		StackCommands.cmdLog10(stk);
-		StackCommands.cmdRound(stk, "7");
-		assertEquals(0.9740491, stk.pop().doubleValue());
+		StackCommands.cmdRound(stk, "15");
+		assertEquals(0.974049058651035, stk.pop().doubleValue());
 
+		// Test #2
 		stk.push(1588.963);
 		StackCommands.cmdLog10(stk);
-		StackCommands.cmdRound(stk, "7");
-		assertEquals(3.2011138, stk.pop().doubleValue());
+		StackCommands.cmdRound(stk, "15");
+		assertEquals(3.201113784505733, stk.pop().doubleValue());
+
+		// Test #3
+		stk.push(0.00123);
+		StackCommands.cmdLog10(stk);
+		StackCommands.cmdRound(stk, "15");
+		assertEquals(-2.910094888560602, stk.pop().doubleValue());
 	}
 
 	/**
@@ -564,10 +590,12 @@ class StackCommandsTest {
 		stk.push(3.45);
 		stk.push(-123.2245);
 
+		// Test #1
 		StackCommands.cmdMaximum(stk);
 		assertEquals(9, stk.size());
 		assertEquals(5.67, stk.peek().doubleValue());
 
+		// Test #2
 		stk.push(5.68);
 		StackCommands.cmdMaximum(stk);
 		assertEquals(11, stk.size());
@@ -582,6 +610,7 @@ class StackCommandsTest {
 	void testMedianOddNumberOfValues() {
 		StackObj stk = new StackObj();
 
+		// Test #1
 		// Test odd numbers on the stack with keep flag
 		stk.push(3.1);
 		stk.push(2.2);
@@ -599,6 +628,21 @@ class StackCommandsTest {
 		assertEquals(5.3, stk.get(2).doubleValue());
 		assertEquals(-4.4, stk.get(3).doubleValue());
 		assertEquals(-1.5, stk.get(4).doubleValue());
+
+		// Test #2
+		Double[] testValues = { 43.39, 26.20739, 87.59777, 55.98073, 36.38447, 39.96893, 93.32821, 74.68383, 14.7644, 79.13016, 94.21511, 38.45116, 89.67177,
+				25.71, 70.48159, 57.75962, 80.24972, 82.27109, 8.14497, 75.00809, 22.74851, 85.22599, 29.16305, 85.22427, 56.10867 };
+
+		// Build the stack
+		stk.clear();
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+
+		assertEquals(25, stk.size());
+		StackCommands.cmdMedian(stk, "keep");
+		assertEquals(57.75962, stk.peek().doubleValue());
+		assertEquals(26, stk.size());
 
 	}
 
@@ -631,15 +675,39 @@ class StackCommandsTest {
 		assertEquals(4.56, stk.get(4).doubleValue());
 		assertEquals(-3.45, stk.get(5).doubleValue());
 
-		// One last test just to be sure
+		// Test #2
 		stk.clear();
-		Double[] testValues = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
-		for (int i = 0; i < testValues.length; i++) {
-			stk.push(testValues[i]);
+		Double[] testValues1 = { 43.39, 26.20739, 87.59777, 55.98073, 36.38447, 39.96893, 93.32821, 74.68383, 14.7644, 79.13016, 94.21511, 38.45116, 89.67177,
+				25.71, 70.48159, 57.75962, 80.24972, 82.27109, 8.14497, 75.00809, 22.74851, 85.22599, 29.16305, 85.22427, 56.10867, -88.7123 };
+		for (int i = 0; i < testValues1.length; i++) {
+			stk.push(testValues1[i]);
+		}
+
+		assertEquals(26, stk.size());
+		StackCommands.cmdMedian(stk, "keep");
+		assertEquals(56.934145, stk.peek().doubleValue());
+		assertEquals(27, stk.size());
+
+		// Test #3
+		stk.clear();
+		Double[] testValues2 = { -5.0, 1.2, 3.34, 3.44, 3.45, 7.3, 8.76, 33.2, 42.44, 1000.01 };
+		for (int i = 0; i < testValues2.length; i++) {
+			stk.push(testValues2[i]);
 		}
 		assertEquals(10, stk.size());
 		StackCommands.cmdMedian(stk, "");
 		assertEquals(5.375, stk.peek().doubleValue());
+		assertEquals(1, stk.size());
+
+		// Test #4
+		stk.clear();
+		Double[] testValues3 = { -5.0E9, 1.2E10, 3.34E11, 3.44E12, 3.45E13, 7.3E12, 8.76E11, 33.2E14, 42.44E8, 1000.01E10 };
+		for (int i = 0; i < testValues3.length; i++) {
+			stk.push(testValues3[i]);
+		}
+		assertEquals(10, stk.size());
+		StackCommands.cmdMedian(stk, "");
+		assertEquals("2.158E+12", stk.peek().toEngineeringString());
 		assertEquals(1, stk.size());
 	}
 
@@ -743,7 +811,6 @@ class StackCommandsTest {
 		// Ensure there are the correct count of numbers and they are all in the correct range
 		assertEquals(numberOfValues, stk.size());
 		for (int i = 0; i < numberOfValues; i++) {
-			// TODO if (stk.get(i) < 0 || stk.get(i) > 100) {
 			if (stk.get(i).compareTo(BigDecimal.ZERO) < 0 || stk.get(i).compareTo(new BigDecimal("100")) > 0) {
 				fail();
 			}

@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Stack;
 import java.util.prefs.Preferences;
 
@@ -38,6 +39,9 @@ public class StackObj implements Cloneable {
 	protected String stackName;
 	protected Stack<BigDecimal> calcStack = new Stack<>();
 	protected Stack<Stack<BigDecimal>> undoStack = new Stack<>();
+
+	// Default global match context with unlimited precision
+	public final MathContext mc = MathContext.UNLIMITED;
 
 	// Constructor
 	StackObj() {
@@ -69,7 +73,7 @@ public class StackObj implements Cloneable {
 	 * @return
 	 */
 	public String getAsString(int index) {
-		return this.get(index).toString();
+		return this.get(index).toEngineeringString();
 	}
 
 	/**
@@ -148,7 +152,7 @@ public class StackObj implements Cloneable {
 	 * @param item
 	 */
 	public void push(String item) {
-		calcStack.push(new BigDecimal(item, Math.mc));
+		calcStack.push(new BigDecimal(item, this.mc));
 	}
 
 	/**
@@ -157,16 +161,16 @@ public class StackObj implements Cloneable {
 	 * @param item
 	 */
 	public void push(Double item) {
-		calcStack.push(new BigDecimal(String.valueOf(item), Math.mc));
+		calcStack.push(new BigDecimal(String.valueOf(item), this.mc));
 	}
-	
+
 	/**
 	 * push(): Add an item onto the top of the stack
 	 * 
 	 * @param item
 	 */
 	public void push(int item) {
-		calcStack.push(new BigDecimal(String.valueOf(item), Math.mc));
+		calcStack.push(new BigDecimal(String.valueOf(item), this.mc));
 	}
 
 	/**
@@ -269,6 +273,7 @@ public class StackObj implements Cloneable {
 		// Clear the calcStack and replace the values with the sorted stack
 		calcStack.clear();
 
+		// Fill the calcStack back with the sorted values from sortedStack
 		if (mode.equalsIgnoreCase("ascending")) {
 			// Ascending
 			for (int i = sortedStack.size() - 1; i >= 0; i--) {
