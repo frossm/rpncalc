@@ -167,7 +167,7 @@
 						</replacement>
 						<replacement>
 							<token>source-tag:.*</token>
-							<value>source-tag: '${org.fross:library:jar.version}'</value>
+							<value>source-tag: 'v${org.fross:library:jar.version}'</value>
 						</replacement>
 					</replacements>
 				</configuration>

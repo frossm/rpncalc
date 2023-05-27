@@ -46,7 +46,7 @@ parts:
       plugin: maven
       source: https://github.com/frossm/library.git
       source-type: git
-      source-tag: '2023.05.21'
+      source-tag: 'v2023.05.21'
       maven-options: [install]
 
    rpncalc:
