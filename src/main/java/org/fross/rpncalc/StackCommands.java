@@ -327,7 +327,31 @@ public class StackCommands {
 			long randomNum = new java.util.Random().nextInt(die) + 1;
 			calcStack.push(new BigDecimal(String.valueOf(randomNum)));
 		}
+	}
 
+	/**
+	 * cmdFactorial(): Take the factorial of the top of stack item dropping decimals if present
+	 * 
+	 * @param calcStack
+	 */
+	public static void cmdFactorial(StackObj calcStack) {
+		// Ensure we have an item on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "Error: There must be at least one item on the stack to perform a factorial");
+			return;
+		}
+		
+		// Ensure the provided number is not zero or negative
+		if (calcStack.peek().compareTo(BigDecimal.ZERO) < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Factorial requires a number greater than zero");
+			return;
+		}
+		
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+		
+		BigDecimal result = Math.Factorial(calcStack.pop().toBigInteger().longValue());
+		calcStack.push(result);
 	}
 
 	/**

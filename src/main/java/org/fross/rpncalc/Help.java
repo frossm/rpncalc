@@ -78,6 +78,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " copy [#]       Copy line1 or the provided line number and add it to the stack");
 		Output.printColorln(Ansi.Color.WHITE, " d [#] [#-#]    Delete line1, the line number provided, or a range of lines provided");
 		Output.printColorln(Ansi.Color.WHITE, " dice XdY       Roll a Y sided die X times. Default is 1d6");
+		Output.printColorln(Ansi.Color.WHITE, " fact           Take a factorial of line1. Decimals will be dropped");
 		Output.printColorln(Ansi.Color.WHITE, " f              Flip the sign of the element at line1");
 		Output.printColorln(Ansi.Color.WHITE, " int            Convert line1 to an integer. No rounding is performed");
 		Output.printColorln(Ansi.Color.WHITE, " lr             Simple Linear regression. Calculate the next predicted value");

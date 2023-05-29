@@ -48,7 +48,7 @@ public class CommandParser {
 		switch (cmdInputCmd) {
 
 		/*******************************************************************************
-		 * Stack Commands
+		 * Stack Calculator Commands
 		 ******************************************************************************/
 		// Undo
 		case "undo":
@@ -78,6 +78,12 @@ public class CommandParser {
 		case "del":
 		case "d":
 			StackCommands.cmdDelete(calcStack, cmdInputParam);
+			break;
+
+		// Factorial
+		case "fact":
+		case "factorial":
+			StackCommands.cmdFactorial(calcStack);
 			break;
 
 		// Percent
@@ -425,7 +431,7 @@ public class CommandParser {
 				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction.
 			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
 				Output.debugPrint("Fraction has been entered");
-				
+
 				try {
 					BigDecimal fracInteger = BigDecimal.ZERO;
 					BigDecimal fracDecimalEquiv = BigDecimal.ZERO;

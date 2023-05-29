@@ -363,23 +363,23 @@ class MathTest {
 	 */
 	@Test
 	void testFactorial() {
-		assertEquals(new BigDecimal("24"), Math.factorial(4));
-		assertEquals(new BigDecimal("120"), Math.factorial(5));
-		assertEquals(new BigDecimal("720"), Math.factorial(6));
-		assertEquals(new BigDecimal("5040"), Math.factorial(7));
-		assertEquals(new BigDecimal("40320"), Math.factorial(8));
-		assertEquals(new BigDecimal("362880"), Math.factorial(9));
-		assertEquals(new BigDecimal("3628800"), Math.factorial(10));
-		assertEquals(new BigDecimal("39916800"), Math.factorial(11));
-		assertEquals(new BigDecimal("479001600"), Math.factorial(12));
-		assertEquals(new BigDecimal("6227020800"), Math.factorial(13));
-		assertEquals(new BigDecimal("87178291200"), Math.factorial(14));
-		assertEquals(new BigDecimal("1307674368000"), Math.factorial(15));
-		assertEquals(new BigDecimal("20922789888000"), Math.factorial(16));
-		assertEquals(new BigDecimal("355687428096000"), Math.factorial(17));
-		assertEquals(new BigDecimal("6402373705728000"), Math.factorial(18));
-		assertEquals(new BigDecimal("121645100408832000"), Math.factorial(19));
-		assertEquals(new BigDecimal("2432902008176640000"), Math.factorial(20));
+		assertEquals(new BigDecimal("24"), Math.Factorial(4L));
+		assertEquals(new BigDecimal("120"), Math.Factorial(5L));
+		assertEquals(new BigDecimal("720"), Math.Factorial(6L));
+		assertEquals(new BigDecimal("5040"), Math.Factorial(7L));
+		assertEquals(new BigDecimal("40320"), Math.Factorial(8L));
+		assertEquals(new BigDecimal("362880"), Math.Factorial(9L));
+		assertEquals(new BigDecimal("3628800"), Math.Factorial(10L));
+		assertEquals(new BigDecimal("39916800"), Math.Factorial(11L));
+		assertEquals(new BigDecimal("479001600"), Math.Factorial(12L));
+		assertEquals(new BigDecimal("6227020800"), Math.Factorial(13L));
+		assertEquals(new BigDecimal("87178291200"), Math.Factorial(14L));
+		assertEquals(new BigDecimal("1307674368000"), Math.Factorial(15L));
+		assertEquals(new BigDecimal("20922789888000"), Math.Factorial(16L));
+		assertEquals(new BigDecimal("355687428096000"), Math.Factorial(17L));
+		assertEquals(new BigDecimal("6402373705728000"), Math.Factorial(18L));
+		assertEquals(new BigDecimal("121645100408832000"), Math.Factorial(19L));
+		assertEquals(new BigDecimal("2432902008176640000"), Math.Factorial(20L));
 	}
 
 }

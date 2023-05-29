@@ -175,6 +175,22 @@ public class Math {
 	}
 
 	/**
+	 * factorial(): Return the factorial of the provided integer
+	 * 
+	 * @param num
+	 * @return
+	 */
+	public static BigDecimal Factorial(Long num) {
+		BigDecimal result = BigDecimal.ONE;
+		
+		for (long factor = 2; factor <= num; factor++) {
+			result = result.multiply(new BigDecimal(String.valueOf(factor)), MathContext.UNLIMITED);
+		}
+
+		return result;
+	}
+
+	/**
 	 * GreatestCommonDivisor(): Return the largest common number divisible into both numbers. Used in rpncalc for fraction
 	 * reduction.
 	 * 
@@ -296,22 +312,6 @@ public class Math {
 
 		// Undo the sort to get back to the original stack order
 		StackCommands.cmdUndo(stk, String.valueOf(stk.undoSize()));
-
-		return result;
-	}
-
-	/**
-	 * factorial(): Return the factorial of the provided integer
-	 * 
-	 * @param num
-	 * @return
-	 */
-	public static BigDecimal factorial(int num) {
-		BigDecimal result = BigDecimal.ONE;
-
-		for (int factor = 2; factor <= num; factor++) {
-			result = result.multiply(new BigDecimal(factor), MathContext.UNLIMITED);
-		}
 
 		return result;
 	}
