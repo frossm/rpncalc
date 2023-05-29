@@ -350,6 +350,11 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 		
+		// Warn user the decimal has been dropped
+		if (calcStack.peek().toPlainString().contains(".")) {
+			Output.printColorln(Ansi.Color.CYAN, "Warning: the decimal portion of (" + calcStack.peek().toString() + ") has been dropped");
+		}
+		
 		BigDecimal result = Math.Factorial(calcStack.pop().toBigInteger().longValue());
 		calcStack.push(result);
 	}

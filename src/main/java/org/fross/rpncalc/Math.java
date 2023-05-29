@@ -170,6 +170,12 @@ public class Math {
 		BigDecimal result = base.pow(power.intValue(), stk.mc);
 
 		Output.debugPrint(base.toString() + " ^ " + power.toString() + " = " + result.toString());
+
+		// Warn user the decimal has been dropped
+		if (power.toPlainString().contains(".")) {
+			Output.printColorln(Ansi.Color.CYAN, "Warning: the decimal portion of the power (" + power.toString() + ") has been dropped");
+		}
+
 		stk.push(result);
 		return stk;
 	}
@@ -182,7 +188,7 @@ public class Math {
 	 */
 	public static BigDecimal Factorial(Long num) {
 		BigDecimal result = BigDecimal.ONE;
-		
+
 		for (long factor = 2; factor <= num; factor++) {
 			result = result.multiply(new BigDecimal(String.valueOf(factor)), MathContext.UNLIMITED);
 		}

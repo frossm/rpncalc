@@ -2,7 +2,7 @@
 
 # High Level Usage
 
-RPNCalc is a command line application that must be run from a console / command prompt.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` (or `help` or `?`) command will display the in-program help page.  This page lists all of the commands and operands that can be used, but it is fairly terse  This can be viewed at the bottom of the `Introduction Chapter` of this guide. This document is meant as a more comprehensive guide.
+RPNCalc is a command line application that must be run from a console / command prompt.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` (or `help` or `?`) command will display the in-program help page.  This page lists all of the commands and operands that can be used, but it is fairly terse  This can be also viewed at the bottom of the `Introduction Chapter` of this guide. This document is meant as a more comprehensive guide.
 
 There are various command line switches that can be used when starting the program as are detailed in the `Command Line Options Chapter`.  They generally exist so that aliases can be used to control several key parameters, most likely the `-l StackName` switch.
 
@@ -10,7 +10,7 @@ Once inside the program, you'll be presented a prompt where numbers, operands, a
 
 For example, you could enter `2 [ENTER]` it would be in the `line1` position and would be on the top of the stack.  If you then enter `3 [ENTER]` the `2` would move up go `line2` and the `3` would then be on `line1` and be on the top of the stack.  You can then enter in an operand, such as `+` to perform the action on the items opn the top of the stack. To continue our example, pressing `+ [ENTER]` would take the top two items off of the stack, add them, and put the result back on top of the stack (`line1`).  
 
-I've gone into this in more detail in the `What is an RPN Calculator Chapter` and elsewhere and it's fairly easy and intuitive.  Once you get the hang of it, you'll overwhelming regret having to use a standard calculator in the future. :)
+I've gone into this in more detail in the `What is an RPN Calculator Chapter` and elsewhere and it's fairly easy and intuitive.  Once you get the hang of it, you'll overwhelming regret having to use a standard calculator in the future. ;-)
 
 #### Why is the stack "upside down?"
 
@@ -46,7 +46,11 @@ will display `1 1/16` as that's as close as it could get with a granularity of 1
 `1 3/64 [ENTER]`
 `frac 100000`
 
-will display `1 293/6250`.  This is a closer approximation than using base 16.
+will display `1 293/6250`.  This is a closer approximation than using base 16. This also shows why this is an approximate.
+
+### Scientific Notation
+
+As of version 5, scientific notation is supported.  You can enter in values with the format `1.2345E18` and it will be saved as a value in the stack. There are a few areas where it's not 100% supported (i.e. NumOps at the time of this writing) but just about everything will work with it.
 
 ## Operands, Numbers, and Commands
 
@@ -65,4 +69,4 @@ A `Double` has the following characteristics:
 - The upper range of a double in Java is `1.7976931348623157 x 10^308`
 - The lower range of a double in Java is `4.9 x 10^-324`
 
-I will attempt to point out in this guide when a command is using `Double` and therefore has a limit on precision. And please don't use RPNCalc in a life or death situation.
+I will attempt to point out in this guide when a command is using `Double` and therefore has a limit on precision. Double is, however, huge and shouldn't pose an issue for most use cases.

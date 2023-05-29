@@ -14,28 +14,31 @@ RPN is based on a Last In First Out (LIFO) stack framework which sounds complica
 If you have not heard of reverse Polish notation, or just have a passion for various calculator notations (and seriously, who doesn't?), you can read more about RPN on [Wikipedia](https://en.wikipedia.org/wiki/Reverse_Polish_notation) or a (very) quick summary in the `What is an RPN Calculator` chapter.
 
 
-## A Brief History of RPNCalc
+## My Brief History of RPNCalc
 
 <img align="right" width="150" src ="https://github.com/frossm/rpncalc/raw/master/graphics/PostIt-200x200.jpg">
 
-I studied Engineering in college and used the HP15C calculator (yes, I'm old.) I grew to love RPN and over the years I've used various RPN calculators, but I failed to find a simple command line version that I liked.  Therefore, I decided to write one back in 2011.  
+I studied Engineering in college and used the HP15C calculator (yes, I'm old.) I grew to love RPN and over the years I've used various RPN calculators.  However, I failed to find a simple command line version that I liked.  Therefore, I decided to write one back in 2011.  
 
-One key goal was to make it extensible so I could easily add new features, constants, and capabilities.  A second goal was to allow it to run everywhere I needed it to run, which is mostly Windows and Linux.  Therefore it's written in Java, it should run just about anywhere Java is supported.  And, while this calculator doesn't have ***every*** function a complex calculator would have, it has the basics covered.
+One key goal was to make it extensible so I could easily add new features, constants, and capabilities.  A second goal was to allow it to run everywhere I needed it to run, which is mostly Windows and Linux.  Therefore it's written in Java, it should run just about anywhere Java is supported.  And, while this calculator doesn't have ***every*** function a complex scientific calculator would have, it has the basics covered.
+
+Lastly, I didn't want to have to have a big uninstall/install task to upgrade to a new version.  With RPNCalc, it's just one JAR file.  You just run it (`java -jar rpncalc.jar`).  Nothing to install or uninstall.  If you want to remove it, just delete the `rpncalc.jar` file.
 
 
 ## Contact Options & Links
 
-The home page for RPNCalc is located on [GitHub](https://github.com/frossm/rpncalc)
+The home page for RPNCalc is located on [GitHub](https://github.com/frossm/rpncalc).  It's open source with a **very** open usage license.
 
 - Report issues or enhancement requests, please post at RPNCalc's [issues page](https://github.com/frossm/rpncalc/issues)
 - For RPNCalc discussions, you can post on the [Discussion page](https://github.com/frossm/rpncalc/discussions)
 - The RPNCalc [Snap Store Page](https://snapcraft.io/rpncalc)
 - You can also reach me directly at `rpncalc@fross.org`
+- Checkout my other open source programs on [GitHub](https://github.com/frossm)
 
 
 ## The Current Help Page from RPNCalc
 
-From within the program, entering `h`, `help` or `?` will show the program help screen.  The help can also be viewed by starting RPNCalc with the `-h` or `-?` command line switch (i.e. `rpncalc -h`)
+From within the program, entering `h`, `help` or `?` will show the program help screen. The help can also be viewed by starting RPNCalc with the `-h` or `-?` command line switch (i.e. `rpncalc -h`)
 
 The current RPNCalc help screen:<br>
 

@@ -8,10 +8,10 @@ For me, the way I thought about using RPN back in the early 1990s was to approac
 
 |Order||Description|
 |-----||-----------|
-|1|P|Parentheses First|
-|2|E|Exponents - Powers and Square Roots, etc.|
-|3|M|Multiplication and Division (left-to-right)|
-|4|A|Addition and Subtraction (left-to-right)|
+|#1|P|Parentheses First|
+|#2|E|Exponents - Powers and Square Roots, etc.|
+|#3|M|Multiplication and Division (left-to-right)|
+|#4|A|Addition and Subtraction (left-to-right)|
 
 ### Walkthrough of the Example from the Introduction Page
 

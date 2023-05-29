@@ -212,25 +212,21 @@ public class CommandParser {
 
 		// Convert inches to millimeters
 		case "in2mm":
-		case "2mm":
 			StackConversions.cmdConvertIN2MM(calcStack);
 			break;
 
 		// Convert millimeters to inches
 		case "mm2in":
-		case "2in":
 			StackConversions.cmdConvertMM2IN(calcStack);
 			break;
 
 		// Convert to Radians
 		case "deg2rad":
-		case "2rad":
 			StackConversions.cmdDeg2Rad(calcStack);
 			break;
 
 		// Convert to Degrees
 		case "rad2deg":
-		case "2deg":
 			StackConversions.cmdRad2Deg(calcStack);
 			break;
 

@@ -4,11 +4,11 @@
 
 Operands are the standard symbols used for basic mathematics on numbers.  The following is the list of operands supported by RPNCalc.  These are also supported by the NumOps shortcut described below.  
 
-With the exception of the addition (`+`) and multiplication (`*`) operand the order of the items in the stack is important.  It's fairly intuitive when you look at it in the calculator, but refer to the following table if needed.
+With the exception of the addition (`+`) and multiplication (`*`) operands, the order of the items in the stack is important.  It's fairly intuitive when you look at it in the calculator, but refer to the following table if needed.
 
 |Operand|Math|Description|
 |:-------:|:----:|-------|
-|+  |`Addition`| Add `line2` and `line`|
+|+  |`Addition`| Add `line1` and `line2`|
 |-  |`Subtraction`| Subtract `line1` from `line2`|
 |\* |`Multiplication`|Multiply`line1` and `line2`|
 |/  |`Division`| Divide `line2` by `line1`|
@@ -21,7 +21,7 @@ Below are two very simple examples that show the order is important
 |`line2`|3|
 |`line1`|2|
 
-Example: Minus `-`  will execute 3 - 2 and will yield `1`
+Example: The minus `-` command will execute 3 - 2 and will yield `1`
 
 |Line Num|Stack|
 |:------:|:---:|
@@ -68,4 +68,4 @@ Leveraging the shortcut, this would become:
 
 By the way, if you were wondering the answer is 32,768.
 
-***Please note that you can not use this NumOps shortcut with a fractional number entry***
+***Please note that you can not use this NumOps shortcut with a fractional number entry or a scientific notation entry***

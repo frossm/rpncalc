@@ -4,9 +4,14 @@
 
 There are two ways to install RPNCalc.  The first is simply download `rpncalc.jar` file from the latest release on [GitHub](https://github.com/frossm/rpncalc).  I have embedded all of the dependencies into this one file and it is directly executable.  You do not need to install anything.  Of course, you will need a java runtime (JRE) installed in your path. 
 
-The second is to run it as a [Snap](https://en.wikipedia.org/wiki/Snap_(software)).  There are many advantages to using it as a snap and I'll get into that in the SNAP secion of this user guide.  My personal preference is install it via Snap.  No Java to worry about, I'm protected as it runs in a sandbox, no aliases needed, always kept up to date, etc.  You can read more about this in in the Snap chapter.
+The second is to run it as a [Snap](https://en.wikipedia.org/wiki/Snap_(software)).  There are many advantages to using it as a snap and I'll get into that in the SNAP secion of this user guide.  My personal preference is to install it via Snap for teh following reasons:
+- No Java to worry about as it's built into the snap
+- Protected as it runs in a sandbox and won't have access to other system objects
+- No aliases needed to run it since `rpncalc` can be run directly from the command line.  An example alias with Bash is below.
+- Its automagically kept up to date
+- Additional information is available in the `SNAP` chapter
 
-Please note that I only have the ability to test it in Windows and Linux (Ubuntu). While I don't think there would be issues on other platforms, it's something to keep in mind.
+Please note that I only have the ability to test it in Windows and Linux (Ubuntu). While I don't think there would be issues on other platforms, it's something to keep in mind. Snapcraft does compile them, however, without issue on the other platforms.
 
 ## Standard Usage
 
@@ -26,7 +31,7 @@ If you wish to uninstall RPNCalc, just delete the file and, if you created an al
 
 However, RPNCalc does use the Java preferences to store the persistent stack contents, settings, and persistent memory slots.  This system is located in different places depending on the OS and these are listed in the `Stacks Chapter`.
 
-It is very small and removing it is not really necessary, but if you like to keep things tidy, delete the `org.fross.rpn` entry in the preference system..
+It is very small and removing it is not really necessary, but if you like to keep things exceptionally tidy, delete the `org/fross/rpn/` entry (and everything below it) in the preference system.
 
 ## Snap Installation
 

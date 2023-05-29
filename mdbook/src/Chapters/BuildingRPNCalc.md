@@ -2,7 +2,7 @@
 
 # Building RPNCalc from the Source
 
-RPNCalc is written in Java and uses [Maven](https://maven.apache.org/what-is-maven.html) as it's build tool (although I am starting to look at [Gradle](https://gradle.org/) which seems more flexible).  To build, you'll need to have the Java Development Kit (JDK) installed on your system.  Make sure you get the JDK and not the Java Runtime Environment (JRE) which most people would have on their machines.  The JRE allows you to run Java applications, but not build them. At the time of this writing, you'll need Java 11 or newer.
+RPNCalc is written in Java and uses [Maven](https://maven.apache.org/what-is-maven.html) as it's build tool. To build, you'll need to have the Java Development Kit (JDK) installed on your system.  Make sure you get the JDK and not the Java Runtime Environment (JRE) which most people would have on their machines.  The JRE allows you to run Java applications, but not build them. At the time of this writing, you'll need Java 11 or newer.
 
 After the JDK is installed, you'll need to install the Apache Maven build tool.  Then download/clone of the source code from Github along with my [library package](https://github.com/frossm/library).  This library package contains many methods that I use across my applications.
 
