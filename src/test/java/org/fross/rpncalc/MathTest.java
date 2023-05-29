@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.junit.jupiter.api.Test;
 
@@ -226,12 +227,16 @@ class MathTest {
 	 */
 	@Test
 	void testGreatestCommonDivisor() {
-		assertEquals(10, Math.GreatestCommonDivisor(90, 100));
-		assertEquals(3, Math.GreatestCommonDivisor(123, 456));
-		assertEquals(3, Math.GreatestCommonDivisor(123, 225));
-		assertEquals(35, Math.GreatestCommonDivisor(35, 70));
-		assertEquals(2, Math.GreatestCommonDivisor(36, 70));
+		assertEquals("10", Math.GreatestCommonDivisor(new BigInteger("90"), new BigInteger("100")).toString());
+		assertEquals("3", Math.GreatestCommonDivisor(new BigInteger("123"), new BigInteger("456")).toString());
+		assertEquals("3", Math.GreatestCommonDivisor(new BigInteger("123"), new BigInteger("225")).toString());
+		assertEquals("35", Math.GreatestCommonDivisor(new BigInteger("35"), new BigInteger("70")).toString());
+		assertEquals("2", Math.GreatestCommonDivisor(new BigInteger("36"), new BigInteger("70")).toString());
 
+		// Scientific Notation
+		// BigInteger can't deal with SN direction, so input as a BigDecimal and then convert to a BigInteger
+		assertEquals("100000000", Math.GreatestCommonDivisor(new BigDecimal("3E8").toBigInteger(), new BigDecimal("2E10").toBigInteger()).toString());
+		assertEquals("220000000000", Math.GreatestCommonDivisor(new BigDecimal("44E20").toBigInteger(), new BigDecimal("22E10").toBigInteger()).toString());
 	}
 
 	/**
@@ -252,6 +257,14 @@ class MathTest {
 		assertFalse(Math.isNumeric("!"));
 		assertFalse(Math.isNumeric("-"));
 
+		// Scientific Notation
+		assertTrue(Math.isNumeric("1.23E10"));
+		assertTrue(Math.isNumeric("-44.567e22"));
+		assertTrue(Math.isNumeric("-0.123E2"));
+		assertTrue(Math.isNumeric("-0E11"));
+		assertFalse(Math.isNumeric("-0.123 E2"));
+		assertFalse(Math.isNumeric("-0.123E 2"));
+
 	}
 
 	/**
@@ -267,8 +280,16 @@ class MathTest {
 		stk.push(10.234);
 		stk.push(12.1354);
 		stk.push(-1.23);
-
 		assertEquals(5.38837, Math.mean(stk).doubleValue());
+
+		// Scientific Notation
+		stk.clear();
+		stk.push(1.23456E11);
+		stk.push(4.56789e12);
+		stk.push(10.234e11);
+		stk.push(12.1354e10);
+		stk.push(-1.23e13);
+		assertEquals("-1292780000000", Math.mean(stk).toPlainString());
 	}
 
 	/**
@@ -295,12 +316,9 @@ class MathTest {
 
 		// Test #1
 		Double[] testValues1 = { -23.11, 55.22, 23.22, -1.01, 4.22, 12.22, 41.01, -0.1, 23.0, 1000.0 };
-
-		// Build the stack
 		for (int i = 0; i < testValues1.length; i++) {
 			stk.push(testValues1[i]);
 		}
-
 		assertEquals(10, stk.size());
 		assertEquals(17.61, Math.median(stk).doubleValue());
 		assertEquals(10, stk.size());
@@ -308,16 +326,36 @@ class MathTest {
 		// Test #2
 		Double[] testValues2 = { 43.39, 26.20739, 87.59777, 55.98073, 36.38447, 39.96893, 93.32821, 74.68383, 14.7644, 79.13016, 94.21511, 38.45116, 89.67177,
 				25.71, 70.48159, 57.75962, 80.24972, 82.27109, 8.14497, 75.00809, 22.74851, 85.22599, 29.16305, 85.22427, 56.10867 };
-
-		// Build the stack
 		stk.clear();
 		for (int i = 0; i < testValues2.length; i++) {
 			stk.push(testValues2[i]);
 		}
-
 		assertEquals(25, stk.size());
 		assertEquals(57.75962, Math.median(stk).doubleValue());
 		assertEquals(25, stk.size());
+
+		// Scientific Notation Test
+		// Test #3 (Odd number of values)
+		stk.clear();
+		Double[] testValues3 = { 1.23456E11, 4.56789e12, 10.234e11, 12.1354e10, -1.23e13 };
+		for (int i = 0; i < testValues3.length; i++) {
+			stk.push(testValues3[i]);
+		}
+		assertEquals(5, stk.size());
+		assertEquals("123456000000", Math.median(stk).toPlainString());
+		assertEquals(5, stk.size());
+
+		// Scientific Notation Test
+		// Test #4 (Even number of values)
+		stk.clear();
+		Double[] testValues4 = { 1.23456E11, 4.56789e12, 10.234e11, 12.1354e10, -1.23e13, -4.12321E17 };
+		for (int i = 0; i < testValues4.length; i++) {
+			stk.push(testValues4[i]);
+		}
+		assertEquals(6, stk.size());
+		assertEquals("122405000000", Math.median(stk).toPlainString());
+		assertEquals(6, stk.size());
+
 	}
 
 	/**

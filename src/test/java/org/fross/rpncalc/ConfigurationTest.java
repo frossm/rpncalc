@@ -53,23 +53,22 @@ class ConfigurationTest {
 
 		Configuration.cmdSet("memslots 71");
 		assertEquals(71, StackMemory.memorySlots.length);
-		
+
 		// Rest configuration to original user value
 		prefConfig.putInt("memoryslots", memSlots);
 	}
-	
+
 	@Test
 	void testSetWidth() {
 		// Test Width
 		Configuration.cmdSet("width 100");
 		assertEquals(100, Main.configProgramWidth);
 		assertEquals("100", prefConfig.get("programwidth", ""));
-		
+
 		// Rest configuration to original user value
 		prefConfig.putInt("programwidth", width);
 	}
-		
-		
+
 	@Test
 	void testSetAlignment() {
 		// Test Align
@@ -96,7 +95,7 @@ class ConfigurationTest {
 		Configuration.cmdSet("align L");
 		assertEquals("l", Main.configAlignment);
 		assertEquals("l", prefConfig.get("alignment", ""));
-		
+
 		// Rest configuration to original user value
 		prefConfig.put("alignment", align);
 

@@ -95,6 +95,16 @@ class StackOperationsTest {
 		assertEquals(3.0, stk.get(2).doubleValue());
 		assertEquals(2.0, stk.get(3).doubleValue());
 		assertEquals(1.0, stk.get(4).doubleValue());
+
+		// Reverse the stack items
+		StackOperations.cmdReverse(stk);
+
+		assertEquals(5, stk.size());
+		assertEquals(1.0, stk.get(0).doubleValue());
+		assertEquals(2.0, stk.get(1).doubleValue());
+		assertEquals(3.0, stk.get(2).doubleValue());
+		assertEquals(4.0, stk.get(3).doubleValue());
+		assertEquals(5.0, stk.get(4).doubleValue());
 	}
 
 	/**

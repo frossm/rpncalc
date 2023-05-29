@@ -47,6 +47,12 @@ class StackConversionsTest {
 		StackConversions.cmdConvertIN2MM(stk);
 		assertEquals(802.64, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		stk.push(1.234e12);
+		StackConversions.cmdConvertIN2MM(stk);
+		assertEquals("3.13436E+13", stk.peek().toString());
+		assertEquals(2, stk.size());
+
 	}
 
 	/**
@@ -61,6 +67,12 @@ class StackConversionsTest {
 		StackCommands.cmdRound(stk, "4");
 		assertEquals(26.2205, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		stk.push(1.234e12);
+		StackConversions.cmdConvertMM2IN(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("48582677165.3543307087", stk.peek().toEngineeringString());
+		assertEquals(2, stk.size());
 	}
 
 	/**
@@ -75,6 +87,12 @@ class StackConversionsTest {
 		StackCommands.cmdRound(stk, "4");
 		assertEquals(247.5751, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		stk.push(1.234e12);
+		StackConversions.cmdRad2Deg(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("70702991919143.58288", stk.peek().toEngineeringString());
+		assertEquals(2, stk.size());
 	}
 
 	/**
@@ -89,6 +107,12 @@ class StackConversionsTest {
 		StackCommands.cmdRound(stk, "4");
 		assertEquals(3.3091, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		stk.push(1.234e12);
+		StackConversions.cmdDeg2Rad(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("21537362969.61003", stk.peek().toEngineeringString());
+		assertEquals(2, stk.size());
 	}
 
 	/**
@@ -127,6 +151,12 @@ class StackConversionsTest {
 		result = StackConversions.cmdFraction(stk, "8");
 		assertEquals("-123 1/2", result[3]);
 
+		stk.clear();
+		stk.push(1.2e12 / 2.2e14);
+		assertEquals("0.005454545454545455", stk.peek().toString());
+		result = StackConversions.cmdFraction(stk, "1024");
+		assertEquals("0 3/512", result[3]);
+
 	}
 
 	/**
@@ -139,12 +169,17 @@ class StackConversionsTest {
 		stk.push(1234.567);
 		StackConversions.cmdGram2Oz(stk);
 		StackCommands.cmdRound(stk, "5");
-		assertEquals(43.54812, stk.pop().doubleValue());
+		assertEquals(43.54807, stk.pop().doubleValue());
 
 		stk.push(-22.2);
 		StackConversions.cmdGram2Oz(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.78308, stk.pop().doubleValue());
+
+		stk.push(44.55e12);
+		StackConversions.cmdGram2Oz(stk);
+		StackCommands.cmdRound(stk, "2");
+		assertEquals("1571455004853.81", stk.pop().toEngineeringString());
 	}
 
 	/**
@@ -163,6 +198,11 @@ class StackConversionsTest {
 		StackConversions.cmdOz2Gram(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.62652, stk.pop().doubleValue());
+
+		stk.push(44.55e12);
+		StackConversions.cmdOz2Gram(stk);
+		StackCommands.cmdRound(stk, "2");
+		assertEquals("1262971255218750.00", stk.pop().toEngineeringString());
 	}
 
 	/**
@@ -181,6 +221,12 @@ class StackConversionsTest {
 		StackConversions.cmdKg2Lbs(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.81351, stk.pop().doubleValue());
+
+		stk.push(4.321e18);
+		StackConversions.cmdKg2Lbs(stk);
+		StackCommands.cmdRound(stk, "2");
+		assertEquals("9526174348797800000.00", stk.pop().toEngineeringString());
+
 	}
 
 	/**
@@ -199,6 +245,11 @@ class StackConversionsTest {
 		StackConversions.cmdLbs2Kg(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.44799, stk.pop().doubleValue());
+
+		stk.push(4.321e18);
+		StackConversions.cmdLbs2Kg(stk);
+		StackCommands.cmdRound(stk, "2");
+		assertEquals("1959972630770000000.00", stk.pop().toEngineeringString());
 	}
 
 }

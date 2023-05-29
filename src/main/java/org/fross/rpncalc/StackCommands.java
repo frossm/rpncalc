@@ -355,9 +355,9 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Taking the integer of " + calcStack.peek().toPlainString());
+			Output.debugPrint("Taking the integer of " + calcStack.peek().toEngineeringString());
 
-			calcStack.push(new BigDecimal(calcStack.pop().toBigInteger().toString()));
+			calcStack.push(new BigDecimal(calcStack.pop().toBigInteger()).toEngineeringString());
 
 		} else {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");

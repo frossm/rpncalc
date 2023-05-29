@@ -51,15 +51,15 @@ class CommandParserTest {
 		// Fraction Input
 		stk1.clear();
 		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		assertEquals(123, stk1.get(0).doubleValue());
+		assertEquals(123, stk1.peek().doubleValue());
 		assertEquals(1, stk1.size());
 
-		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		assertEquals(123, stk1.get(0).doubleValue());
+		CommandParser.Parse(stk1, stk2, "-0.0000123", "-0.0000123", "");
+		assertEquals("-0.0000123", stk1.peek().toPlainString());
 		assertEquals(2, stk1.size());
 
-		CommandParser.Parse(stk1, stk2, "123", "123", "");
-		assertEquals(123, stk1.get(0).doubleValue());
+		CommandParser.Parse(stk1, stk2, "123.321", "123.321", "");
+		assertEquals(123.321, stk1.peek().doubleValue());
 		assertEquals(3, stk1.size());
 	}
 
@@ -88,6 +88,22 @@ class CommandParserTest {
 		StackCommands.cmdRound(stk1, "4");
 		assertEquals(-3.9844, stk1.peek().doubleValue());
 		assertEquals(4, stk1.size());
+
+		// Test scientific notation
+		CommandParser.Parse(stk1, stk2, "-4.56e12/6.78e3", "-4.56e12/6.78e3", "");
+		StackCommands.cmdRound(stk1, "16");
+		assertEquals("-672566371.6814159292035398", stk1.peek().toEngineeringString());
+		assertEquals(5, stk1.size());
+
+		CommandParser.Parse(stk1, stk2, "9.99E12/3.33E12", "9.99E12/3.33E12", "");
+		StackCommands.cmdRound(stk1, "7");
+		assertEquals("3.0000000", stk1.peek().toEngineeringString());
+		assertEquals(6, stk1.size());
+
+		CommandParser.Parse(stk1, stk2, "1/33.333E10", "1/33.333E10", "");
+		StackCommands.cmdRound(stk1, "7");
+		assertEquals("0.0000000", stk1.peek().toPlainString());
+		assertEquals(7, stk1.size());
 	}
 
 	// Test a "NumOp" - a number with an operand at the end
@@ -125,6 +141,9 @@ class CommandParserTest {
 		assertEquals(1, stk1.size());
 		StackCommands.cmdRound(stk1, "4");
 		assertEquals(922.6115, stk1.peek().doubleValue());
+
+		// Test scientific notation with NumOps
+		// TODO
 	}
 
 	// Test the entry of a scientific notation number
@@ -147,19 +166,19 @@ class CommandParserTest {
 		// Bad Syntax
 		CommandParser.Parse(stk, stk, "45.123~3", "45.123~3", "");
 		assertEquals(2, stk.size());
-		
+
 		// Bad Syntax
 		CommandParser.Parse(stk, stk, "-7.556677ee3", "-7.556677ee3", "");
 		assertEquals(2, stk.size());
-		
+
 		// Bad Syntax
 		CommandParser.Parse(stk, stk, "7.5566773E", "7.5566773E", "");
 		assertEquals(2, stk.size());
-		
+
 		// Bad Syntax
 		CommandParser.Parse(stk, stk, "E7.5566773", "E7.5566773", "");
 		assertEquals(2, stk.size());
-		
+
 		// Bad Syntax
 		CommandParser.Parse(stk, stk, "1.234e8.3", "1.234e8.3", "");
 		assertEquals(2, stk.size());

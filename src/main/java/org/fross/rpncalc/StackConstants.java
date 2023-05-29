@@ -36,7 +36,7 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		calcStack.push(java.lang.Math.PI);
+		calcStack.push(String.valueOf(java.lang.Math.PI));
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		calcStack.push(1.61803398874989);
+		calcStack.push("1.61803398874989");
 	}
 
 	/**
@@ -58,17 +58,17 @@ public class StackConstants {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		calcStack.push(2.7182818284590452353602874713527);
+		calcStack.push("2.7182818284590452353602874713527");
 	}
 
 	/**
-	 * cmdSpeedOfLight(): Add the speed of light in m/s to the stack
+	 * cmdSpeedOfLight(): Add the speed of light in meters/second to the stack
 	 * 
 	 */
 	public static void cmdSpeedOfLight(StackObj calcStack) {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		calcStack.push((double) 299792458);
+		calcStack.push("299792458");
 	}
 }

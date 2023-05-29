@@ -106,20 +106,30 @@ class StackMemoryTest {
 
 		StackMemory.cmdMem(stk, "2 copy");
 		assertEquals(2, stk.size());
-		// TODO assertEquals(142, stk.pop() + stk.pop());
 		assertEquals(142, stk.pop().add(stk.pop()).doubleValue());
 
+		stk.push(1.234e12);
+		StackMemory.cmdMem(stk, "4 add");
+		assertEquals(2, StackMemory.QueryInUseMemorySlots());
+		StackMemory.cmdMem(stk, "4 copy");
+		Math.Divide(stk);
+		assertEquals(1, stk.peek().doubleValue());
+
 		// addall
+		stk.clear();
 		stk.push(11.0);
 		stk.push(12.0);
 		stk.push(13.0);
 		StackMemory.cmdMem(stk, "addall");
-		assertEquals(3, StackMemory.QueryInUseMemorySlots());
+		assertEquals(4, StackMemory.QueryInUseMemorySlots());
 
 		// copyall
 		stk.clear();
 		StackMemory.cmdMem(stk, "copyall");
-		assertEquals(3, stk.size());
+		assertEquals(4, stk.size());
+		StackCommands.cmdAddAll(stk, "");
+		StackCommands.cmdRound(stk, "2");
+		assertEquals("1234000000036.00", stk.pop().toEngineeringString());
 	}
 
 }

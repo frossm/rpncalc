@@ -60,6 +60,23 @@ class StackCommandsTest {
 		StackCommands.cmdRound(stk, "6");
 		assertEquals(34.5, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
+
+		// Scientific notation test #1
+		stk.push(22e02);
+		stk.push(11.123e2);
+		assertEquals(3, stk.size());
+		StackCommands.cmdAddAll(stk, "");
+		StackCommands.cmdRound(stk, "6");
+		assertEquals(3346.8, stk.peek().doubleValue());
+		assertEquals(1, stk.size());
+
+		// Scientific notation test #2
+		stk.push("-23.3223e4");
+		assertEquals(2, stk.size());
+		StackCommands.cmdAddAll(stk, "");
+		StackCommands.cmdRound(stk, "6");
+		assertEquals(-229876.2, stk.pop().doubleValue());
+		assertTrue(stk.isEmpty());
 	}
 
 	/**
@@ -78,10 +95,17 @@ class StackCommandsTest {
 		StackCommands.cmdAbsoluteValue(stk);
 		assertEquals(789.123, stk.peek().doubleValue());
 		assertEquals(2, stk.size());
+
+		// Scientific notation test
+		stk.push("-23.3223e44");
+		assertEquals(3, stk.size());
+		StackCommands.cmdAbsoluteValue(stk);
+		assertEquals(23.3223e44, stk.peek().doubleValue());
+		assertEquals(3, stk.size());
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdAverage(org.fross.rpncalc.StackObj, java.lang.String)}.
+	 * Testing Averages
 	 */
 	@Test
 	void testCmdAverage() {
@@ -125,7 +149,8 @@ class StackCommandsTest {
 
 		// Test #4
 		stk.clear();
-		Double[] testValues2 = { 9.796E15, -16.819E17, 52.266E12, 4.812E11, 21.857E14, -91.404E18, 92.921E12, 88.677E13, 38.128E11, 21.796E19, 10.5742E7, -89.922E14 };
+		String[] testValues2 = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14" };
 		for (int i = 0; i < testValues2.length; i++) {
 			stk.push(testValues2[i]);
 		}
@@ -134,7 +159,19 @@ class StackCommandsTest {
 		StackCommands.cmdRound(stk, "5");
 		assertEquals("10406510479258811833.33333", stk.peek().toEngineeringString());
 		assertEquals(1, stk.size());
-		
+
+		// Scientific Notation Test
+		stk.clear();
+		Double[] testValues = { 1.23456E11, 4.56789e12, 10.234e11, 12.1354e10, -1.23e13, -4.12321E17 };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		StackCommands.cmdAverage(stk, "");
+		assertEquals(1, stk.size());
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("-68721243983333333.3333333333", stk.pop().toString());
+		assertTrue(stk.isEmpty());
+
 	}
 
 	/**
@@ -160,7 +197,7 @@ class StackCommandsTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdCopy(org.fross.rpncalc.StackObj, java.lang.String)}.
+	 * Test copy command
 	 */
 	@Test
 	void testCmdCopy() {
@@ -190,6 +227,14 @@ class StackCommandsTest {
 		assertEquals(5.67, stk.pop().doubleValue());
 		assertEquals(4.56, stk.pop().doubleValue());
 		assertEquals(3.45, stk.pop().doubleValue());
+		assertEquals(1.23, stk.get(0).doubleValue());
+
+		// Test Scientific Notation Copy
+		stk.push(1.23E44);
+		StackCommands.cmdCopy(stk, "");
+		assertEquals(4, stk.size());
+		assertEquals("123E+42", stk.peek().toEngineeringString());
+		assertEquals("123E+42", stk.get(stk.size() - 1).toEngineeringString());
 		assertEquals(1.23, stk.get(0).doubleValue());
 	}
 
@@ -394,6 +439,13 @@ class StackCommandsTest {
 				fail();
 			}
 		}
+
+		// This is a bit experimental, but with this large data set, the average should be around 50.
+		// So test to see if it's < 40 or > 60 and throw an error if it does. This might not work well.
+		StackCommands.cmdAverage(stk, "");
+		if (stk.peek().doubleValue() < 40 || stk.peek().doubleValue() > 60) {
+			fail();
+		}
 	}
 
 	/**
@@ -413,6 +465,14 @@ class StackCommandsTest {
 		assertEquals(123.321, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
+		stk.push(-4.56e+44);
+		StackCommands.cmdFlipSign(stk);
+		assertEquals("456E+42", stk.peek().toEngineeringString());
+		assertEquals(2, stk.size());
+
+		StackCommands.cmdFlipSign(stk);
+		assertEquals("-456E+42", stk.peek().toEngineeringString());
+		assertEquals(2, stk.size());
 	}
 
 	/**
@@ -442,6 +502,10 @@ class StackCommandsTest {
 		assertEquals(1, stk.size());
 		assertEquals(-1040, stk.pop().doubleValue());
 
+		stk.push(-1.23e4);
+		StackCommands.cmdInteger(stk);
+		assertEquals(1, stk.size());
+		assertEquals(-12300, stk.pop().doubleValue());
 	}
 
 	/**
@@ -520,6 +584,18 @@ class StackCommandsTest {
 		assertEquals(17, stk.size());
 		assertEquals(-9.101980055, stk.pop().doubleValue());
 
+		// Test #6 - Scientific Notation
+		stk.clear();
+		String[] testValues2 = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14" };
+		for (int i = 0; i < testValues2.length; i++) {
+			stk.push(testValues2[i]);
+		}
+		assertEquals(12, stk.size());
+		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdRound(stk, "9");
+		assertEquals("47498562223075895424.242424242", stk.peek().toEngineeringString());
+		assertEquals(13, stk.size());
 	}
 
 	/**
@@ -546,6 +622,17 @@ class StackCommandsTest {
 		StackCommands.cmdLog(stk);
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(9.4199628, stk.pop().doubleValue());
+
+		// Test #4 - Scientific Notation
+		stk.push(4.567e6);
+		StackCommands.cmdLog(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("15.3343670922", stk.pop().toString());
+		stk.push(9.87654321e22);
+		StackCommands.cmdLog(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("52.9470346189", stk.pop().toString());
+
 	}
 
 	/**
@@ -572,6 +659,17 @@ class StackCommandsTest {
 		StackCommands.cmdLog10(stk);
 		StackCommands.cmdRound(stk, "15");
 		assertEquals(-2.910094888560602, stk.pop().doubleValue());
+
+		// Test #4 - Scientific Notation
+		stk.push(4.567e6);
+		StackCommands.cmdLog10(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("6.6596310116", stk.pop().toString());
+
+		stk.push(9.87654321e22);
+		StackCommands.cmdLog10(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("22.9946049681", stk.pop().toString());
 	}
 
 	/**
@@ -601,6 +699,15 @@ class StackCommandsTest {
 		assertEquals(11, stk.size());
 		assertEquals(5.68, stk.peek().doubleValue());
 		assertEquals(5.68, stk.get(stk.size() - 1).doubleValue());
+
+		// Test #3 - Scientific Notation
+		stk.push(-1.2e22);
+		stk.push(5.43E11);
+		stk.push(2.3343e3);
+		StackCommands.cmdMaximum(stk);
+		assertEquals(15, stk.size());
+		assertEquals("5.43E+11", stk.peek().toString());
+		assertEquals("2334.3", stk.get(stk.size() - 2).toPlainString());
 	}
 
 	/**
@@ -643,6 +750,19 @@ class StackCommandsTest {
 		StackCommands.cmdMedian(stk, "keep");
 		assertEquals(57.75962, stk.peek().doubleValue());
 		assertEquals(26, stk.size());
+
+		// Test #3 - Scientific Notation
+		stk.clear();
+		String[] testValues1 = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14", "-453.22e9" };
+		for (int i = 0; i < testValues1.length; i++) {
+			stk.push(testValues1[i]);
+		}
+
+		assertEquals(13, stk.size());
+		StackCommands.cmdMedian(stk, "keep");
+		assertEquals(14, stk.size());
+		assertEquals("3.8128E+12", stk.pop().toString());
 
 	}
 
@@ -699,7 +819,7 @@ class StackCommandsTest {
 		assertEquals(5.375, stk.peek().doubleValue());
 		assertEquals(1, stk.size());
 
-		// Test #4
+		// Test #4 - Scientific Notation
 		stk.clear();
 		Double[] testValues3 = { -5.0E9, 1.2E10, 3.34E11, 3.44E12, 3.45E13, 7.3E12, 8.76E11, 33.2E14, 42.44E8, 1000.01E10 };
 		for (int i = 0; i < testValues3.length; i++) {
@@ -727,15 +847,27 @@ class StackCommandsTest {
 		stk.push(3.45);
 		stk.push(-123.2245);
 
+		// Test #1
 		StackCommands.cmdMinimum(stk);
 		assertEquals(9, stk.size());
 		assertEquals(-123.2245, stk.peek().doubleValue());
 
+		// Test #2
 		stk.push(-123.2246);
 		StackCommands.cmdMinimum(stk);
 		assertEquals(11, stk.size());
 		assertEquals(-123.2246, stk.peek().doubleValue());
 		assertEquals(-123.2246, stk.get(stk.size() - 1).doubleValue());
+
+		// Test #3 - Scientific Notation
+		String[] testValues = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14", "-453.22e9" };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		StackCommands.cmdMinimum(stk);
+		assertEquals(25, stk.size());
+		assertEquals("-9.1404E+19", stk.peek().toString());
 	}
 
 	/**
@@ -775,6 +907,17 @@ class StackCommandsTest {
 		StackCommands.cmdModulus(stk);
 		StackCommands.cmdRound(stk, "3");
 		assertEquals(-15.184, stk.pop().doubleValue());
+
+		stk.push(154.321E10);
+		stk.push(1.1E6);
+		StackCommands.cmdModulus(stk);
+		assertEquals(200000, stk.pop().doubleValue());
+
+		stk.push(899.123E19);
+		stk.push(1.12345E9);
+		StackCommands.cmdModulus(stk);
+		assertEquals(939950000, stk.pop().doubleValue());
+
 	}
 
 	/**
@@ -793,10 +936,21 @@ class StackCommandsTest {
 		StackCommands.cmdPercent(stk);
 		StackCommands.cmdRound(stk, "5");
 		assertEquals(-0.44987, stk.pop().doubleValue());
+
+		stk.push(-154.321E10);
+		StackCommands.cmdPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("-15432100000.00000", stk.pop().toString());
+
+		stk.push(1.1E6);
+		StackCommands.cmdPercent(stk);
+		assertEquals(11000, stk.pop().doubleValue());
 	}
 
 	/**
 	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdRandom(org.fross.rpncalc.StackObj, java.lang.String)}.
+	 * 
+	 * Need to work Random to support numbers > a long
 	 */
 	@Test
 	void testCmdRandom() {
@@ -815,6 +969,7 @@ class StackCommandsTest {
 				fail();
 			}
 		}
+
 	}
 
 	/**
@@ -853,6 +1008,13 @@ class StackCommandsTest {
 		stk.push(-65.4329);
 		StackCommands.cmdRound(stk, "12");
 		assertEquals(-65.4329, stk.pop().doubleValue());
+
+		// Scientific Notation
+		stk.push(1.23456789e19);
+		StackCommands.cmdRound(stk, "4");
+		assertEquals("12345678900000000000.0000", stk.peek().toString());
+		StackCommands.cmdRound(stk, "8");
+		assertEquals("12345678900000000000.00000000", stk.peek().toString());
 	}
 
 	/**
@@ -884,6 +1046,15 @@ class StackCommandsTest {
 		assertEquals(4, stk.pop().doubleValue());
 		assertEquals(1, stk.pop().doubleValue());
 		assertEquals(0, stk.size());
+
+		// Scientific Notation
+		stk.push(1.234e44);
+		stk.push(5.4321e33);
+		assertEquals(2, stk.size());
+		assertEquals("5.4321E+33", stk.peek().toEngineeringString());
+		StackCommands.cmdSwapElements(stk, "");
+		assertEquals("123.4E+42", stk.peek().toEngineeringString());
+		assertEquals("5.4321E+33", stk.get(0).toEngineeringString());
 	}
 
 	/**
@@ -922,6 +1093,18 @@ class StackCommandsTest {
 		assertEquals(7, stk.get(10).doubleValue());
 		assertEquals(9, stk.get(11).doubleValue());
 
+		// Scientific Notation
+		stk.clear();
+		String[] testValues = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14", "-453.22e9" };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+
+		assertEquals(13, stk.size());
+		StackCommands.cmdSort(stk, "descending");
+		assertEquals("217.96E+18", stk.peek().toEngineeringString());
+		assertEquals("-91.404E+18", stk.get(0).toEngineeringString());
 	}
 
 	/**
@@ -960,6 +1143,18 @@ class StackCommandsTest {
 		assertEquals(7, stk.get(1).doubleValue());
 		assertEquals(9, stk.get(0).doubleValue());
 
+		// Scientific Notation
+		stk.clear();
+		String[] testValues = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14", "-453.22e9" };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+
+		assertEquals(13, stk.size());
+		StackCommands.cmdSort(stk, "ascending");
+		assertEquals("-91.404E+18", stk.peek().toEngineeringString());
+		assertEquals("217.96E+18", stk.get(0).toEngineeringString());
 	}
 
 	/**
@@ -984,6 +1179,39 @@ class StackCommandsTest {
 		assertEquals(1, stk.size());
 		assertEquals(-100.0, stk.pop().doubleValue());
 
+		// Scientific Notation
+		stk.clear();
+		String[] testValues = { "9.796E15", "52.266E12", "4.812E11", "21.857E14", "92.921E12", "88.677E13", "38.128E11", "21.796E19", "10.5742E7" };
+		for (int i = 0; i < testValues.length; i++) {
+			stk.push(testValues[i]);
+		}
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("10283.0929199342", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("14763468427.1684612832", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("1952639.2395934278", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("29778683.6512294479", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("9639553.9315883284", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("46751470.5651062916", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("693685.8078409850", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("7229522.8058288882", stk.pop().toEngineeringString());
+		StackCommands.cmdSqrt(stk);
+		StackCommands.cmdRound(stk, "10");
+		assertEquals("98974744.2532689750", stk.pop().toEngineeringString());
 	}
 
 	/**
@@ -1024,6 +1252,18 @@ class StackCommandsTest {
 		assertEquals(1, stk1.size());
 		assertEquals(16.7982686, stk1.pop().doubleValue());
 
+		// Scientific Notation
+		stk.clear();
+		String[] testValues2 = { "9.796E15", "-16.819E17", "52.266E12", "4.812E11", "21.857E14", "-91.404E18", "92.921E12", "88.677E13", "38.128E11",
+				"21.796E19", "10.5742E7", "-89.922E14", "-453.22e9" };
+		for (int i = 0; i < testValues2.length; i++) {
+			stk.push(testValues2[i]);
+		}
+		assertEquals(13, stk.size());
+		StackCommands.cmdStdDeviation(stk, "");
+		StackCommands.cmdRound(stk, "10");
+		assertEquals(1, stk.size());
+		assertEquals("64845675563532622599.8090660774", stk.pop().toEngineeringString());
 	}
 
 	/**

@@ -36,7 +36,7 @@ import org.fusesource.jansi.Ansi;
 
 public class StackConversions {
 	// Class Constants
-	public static final Long DEFAULT_FRACTION_DENOMINATOR = 64L;  // Default Smallest Fraction Denominator
+	public static final BigInteger DEFAULT_FRACTION_DENOMINATOR = new BigInteger("64");  // Default Smallest Fraction Denominator
 
 	/**
 	 * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
@@ -100,12 +100,12 @@ public class StackConversions {
 		}
 
 		// The base to convert the fraction to. For example, 64 = 1/64th
-		Long denominator = DEFAULT_FRACTION_DENOMINATOR;
+		BigInteger denominator = DEFAULT_FRACTION_DENOMINATOR;
 
 		// If a denominator is provided, use it instead of the default
 		try {
 			if (!param.isEmpty())
-				denominator = Long.parseLong(param);
+				denominator = new BigInteger(param);
 		} catch (NumberFormatException ex) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: '" + param + "' is not a valid denominator");
 			return outputString;
@@ -119,17 +119,17 @@ public class StackConversions {
 
 		// Convert to a fraction with provided base
 		// This will round to the nearest integer by adding 1/2 to the number and getting it's integer value
-		BigDecimal numeratorNotRounded = decimalPart.multiply(new BigDecimal(String.valueOf(denominator)));
+		BigDecimal numeratorNotRounded = decimalPart.multiply(new BigDecimal(denominator));
 		BigInteger numerator = numeratorNotRounded.add(new BigDecimal(".5")).toBigInteger();
 
 		// Get the Greatest Common Divisor so we can simply the fraction
-		long gcd = Math.GreatestCommonDivisor(numerator.longValue(), denominator);
+		BigInteger gcd = Math.GreatestCommonDivisor(numerator, denominator);
 
-		Output.debugPrint("Greatest Common Divisor for " + numerator.toString() + " and " + denominator + " is " + gcd);
+		Output.debugPrint("Greatest Common Divisor for " + numerator.toString() + " and " + denominator.toString() + " is " + gcd.toString());
 
 		// Simply the fraction
-		numerator = numerator.divide(new BigInteger(String.valueOf(gcd)));
-		denominator /= gcd;
+		numerator = numerator.divide(gcd);
+		denominator = denominator.divide(gcd);
 
 		// If starting number was negative, set it as negative again
 		if (negativeNumber == true) {
@@ -138,13 +138,13 @@ public class StackConversions {
 
 		// Output the fractional display
 		// If there is no fractional result, remove it so we don't see '0/1'
-		String stackHeader = "-Fraction (Granularity: 1/" + (denominator * gcd) + ")";
+		String stackHeader = "-Fraction (Granularity: 1/" + (denominator.multiply(gcd)) + ")";
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
 		if (numerator.compareTo(BigInteger.ZERO) != 0) {
 			outputString[1] = " " + calcStack.peek().setScale(8, RoundingMode.HALF_UP) + " is approximately '" + integerPart + " " + numerator + "/"
 					+ denominator + "'";
 		} else {
-			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator * gcd);
+			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator.multiply(gcd));
 		}
 		outputString[2] = "-".repeat(Main.configProgramWidth) + "\n";
 		outputString[3] = integerPart + " " + numerator + "/" + denominator;
@@ -195,7 +195,7 @@ public class StackConversions {
 	/**
 	 * cmdGram2Oz(): Convert line1 from grams to ounces
 	 * 
-	 * There are 0.035274 ounces per gram
+	 * There are 1/28.349523125 ounces per gram
 	 * 
 	 * @param calcStack
 	 */
@@ -210,7 +210,7 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		calcStack.push(calcStack.pop().multiply(new BigDecimal("0.035274")));
+		calcStack.push(calcStack.pop().divide(new BigDecimal("28.349523125"), MathContext.DECIMAL128));
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class StackConversions {
 		calcStack.saveUndo();
 
 		// Make the conversion
-		calcStack.push(calcStack.pop().multiply(new BigDecimal("2.2046226218")));
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("2.2046226218"), MathContext.UNLIMITED));
 	}
 
 	/**

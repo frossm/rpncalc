@@ -56,7 +56,7 @@ public class UserFunctions {
 		try {
 			arguments = args.trim().toLowerCase().split(" ");
 			functionName = arguments[1];
-			
+
 		} catch (Exception ex) {
 			functionName = "";
 		}

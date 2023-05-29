@@ -202,7 +202,7 @@ public class Main {
 				String stkLineNumber = String.format("%02d:  ", calcStack.size() - i);
 				Output.printColor(Ansi.Color.CYAN, stkLineNumber);
 
-				// Configure the alignment
+				// Decimal Alignment
 				if (configAlignment.compareTo("d") == 0) {
 					int decimalLocation = 0;
 
@@ -222,12 +222,14 @@ public class Main {
 					}
 
 				} else if (configAlignment.compareTo("r") == 0) {
+					// Right Alignment
 					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e"))
 						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", calcStack.get(i).toEngineeringString());
 					else
 						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toEngineeringString()));
 
 				} else {
+					// Left Alignment
 					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e"))
 						stkLineNumber = calcStack.get(i).toEngineeringString();
 					else
@@ -251,7 +253,7 @@ public class Main {
 				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
 			}
 
-			// Break each line entered into a command and a parameter string
+			// Break each entered line (cmdInput) into a command (cmdInputCmd) and a parameter (cmdInputParam) string
 			try {
 				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
 				cmdInputCmd = ci[0];

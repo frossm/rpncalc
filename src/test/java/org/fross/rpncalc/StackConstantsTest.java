@@ -59,7 +59,7 @@ class StackConstantsTest {
 		assertEquals(1, calcStack.size());
 
 		// Ensure that the value is correct
-		assertEquals(1.61803398874989, calcStack.get(0).doubleValue());
+		assertEquals("1.61803398874989", calcStack.get(0).toEngineeringString());
 	}
 
 	@Test
@@ -74,7 +74,7 @@ class StackConstantsTest {
 		assertEquals(1, calcStack.size());
 
 		// Ensure that the value is correct
-		assertEquals(2.7182818284590452353602874713527, calcStack.get(0).doubleValue());
+		assertEquals("2.7182818284590452353602874713527", calcStack.get(0).toEngineeringString());
 	}
 
 	@Test
@@ -89,7 +89,7 @@ class StackConstantsTest {
 		assertEquals(1, calcStack.size());
 
 		// Ensure that the value is correct
-		assertEquals((double) 299792458, calcStack.get(0).doubleValue());
+		assertEquals("299792458", calcStack.get(0).toEngineeringString());
 	}
 
 }

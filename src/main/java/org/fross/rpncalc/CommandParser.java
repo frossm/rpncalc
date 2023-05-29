@@ -425,6 +425,7 @@ public class CommandParser {
 				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction.
 			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
 				Output.debugPrint("Fraction has been entered");
+				
 				try {
 					BigDecimal fracInteger = BigDecimal.ZERO;
 					BigDecimal fracDecimalEquiv = BigDecimal.ZERO;
@@ -460,6 +461,32 @@ public class CommandParser {
 					break;
 				}
 
+				// Number entered, add to stack.
+			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
+
+				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
+				calcStack.push(new BigDecimal(cmdInputCmd));
+
+				// Handle numbers with a single operand at the end (a NumOp)
+			} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
+				// Save current calcStack to the undoStack
+				calcStack.saveUndo();
+
+				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
+				// Verify stack contains at least one element
+				if (calcStack.size() >= 1) {
+					String TempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
+					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
+					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
+					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
+					calcStack.push(new BigDecimal(TempNum));
+					calcStack = Math.Parse(TempOp, calcStack);
+				} else {
+					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
+				}
+
 				// Scientific notation number entered
 			} else if (cmdInputCmd.toLowerCase().contains("e")) {
 				// Make sure the digits before and after the 'e' are numbers
@@ -487,32 +514,6 @@ public class CommandParser {
 				} catch (IllegalArgumentException ex) {
 					Output.printColorln(Ansi.Color.RED, "Illegal Scientific Notation Number Entered: '" + cmdInputCmd + "'");
 					break;
-				}
-
-				// Number entered, add to stack.
-			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
-				// Save current calcStack to the undoStack
-				calcStack.saveUndo();
-
-				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
-				calcStack.push(new BigDecimal(cmdInputCmd));
-
-				// Handle numbers with a single operand at the end (a NumOp)
-			} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
-				// Save current calcStack to the undoStack
-				calcStack.saveUndo();
-
-				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
-				// Verify stack contains at least one element
-				if (calcStack.size() >= 1) {
-					String TempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
-					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
-					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
-					calcStack.push(new BigDecimal(TempNum));
-					calcStack = Math.Parse(TempOp, calcStack);
-				} else {
-					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
 				}
 
 			} else {

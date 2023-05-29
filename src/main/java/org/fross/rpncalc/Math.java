@@ -27,6 +27,7 @@
 package org.fross.rpncalc;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 
 import org.fross.library.Output;
@@ -183,12 +184,13 @@ public class Math {
 	 * @param n2
 	 * @return
 	 */
-	public static long GreatestCommonDivisor(long n1, long n2) {
-		// Output.debugPrint("Finding Greatest Common Divisor between: '" + n1 + "' and '" + n2 + "'");
-		if (n2 == 0) {
+	public static BigInteger GreatestCommonDivisor(BigInteger n1, BigInteger n2) {
+		Output.debugPrint("Finding Greatest Common Divisor between: '" + n1.toString() + "' and '" + n2.toString() + "'");
+
+		if (n2.compareTo(BigInteger.ZERO) == 0) {
 			return n1;
 		}
-		return GreatestCommonDivisor(n2, n1 % n2);
+		return GreatestCommonDivisor(n2, n1.remainder(n2));
 	}
 
 	/**
@@ -199,7 +201,7 @@ public class Math {
 	 */
 	public static boolean isNumeric(String str) {
 		try {
-			Double.parseDouble(str);
+			new BigDecimal(str);
 			return true;
 		} catch (NumberFormatException ex) {
 			return false;
@@ -308,7 +310,8 @@ public class Math {
 		BigDecimal result = BigDecimal.ONE;
 
 		for (int factor = 2; factor <= num; factor++) {
-			result = result.multiply(new BigDecimal(factor), MathContext.UNLIMITED);		}
+			result = result.multiply(new BigDecimal(factor), MathContext.UNLIMITED);
+		}
 
 		return result;
 	}
