@@ -255,6 +255,11 @@ public class Main {
 
 			// Break each entered line (cmdInput) into a command (cmdInputCmd) and a parameter (cmdInputParam) string
 			try {
+				// Remove any commas from the string allowing for numbers such as "12,123" to be entered
+				// TODO: Should make this more international at some point
+				cmdInput = cmdInput.replaceAll(",", "");
+				
+				// Break the string into a command (cmdInputCmd) and a parameter (cmdInputParam)
 				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
 				cmdInputCmd = ci[0];
 				cmdInputParam = ci[1];

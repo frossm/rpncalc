@@ -172,8 +172,9 @@ public class Math {
 		Output.debugPrint(base.toString() + " ^ " + power.toString() + " = " + result.toString());
 
 		// Warn user the decimal has been dropped
+		// TODO: Should make this more international at some point
 		if (power.toPlainString().contains(".")) {
-			Output.printColorln(Ansi.Color.CYAN, "Warning: the decimal portion of the power (" + power.toString() + ") has been dropped");
+			Output.printColorln(Ansi.Color.CYAN, "Warning: The decimal portion of '" + power.toString() + "' has been dropped for the calculation");
 		}
 
 		stk.push(result);
