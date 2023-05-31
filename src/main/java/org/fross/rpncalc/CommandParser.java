@@ -464,15 +464,15 @@ public class CommandParser {
 				}
 
 				// Number entered, add to stack.
-			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
+			} else if (cmdInputCmd.replaceAll(" ", "").matches("^-?\\d*\\.?\\d*")) {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 
 				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
-				calcStack.push(new BigDecimal(cmdInputCmd));
+				calcStack.push(new BigDecimal(cmdInputCmd.replaceAll(" ", "")));
 
 				// Handle numbers with a single operand at the end (a NumOp)
-			} else if (cmdInputCmd.matches("^-?\\d*(\\.)?\\d* ?[\\*\\+\\-\\/\\^]")) {
+			} else if (cmdInputCmd.replaceAll(" ", "").matches("^-?\\d*\\.?\\d*[Ee]?\\d*[\\*\\+\\-\\/\\^]")) {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 

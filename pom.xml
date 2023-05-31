@@ -3,12 +3,12 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.0.5</version>
+	<version>5.0.6</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
 	<description>RPNCalc is an easy to use console based RPN calculator</description>
-	<url>https://fross.org</url>
+	<url>https://github.com/frossm/rpncalc</url>
 
 	<developers>
 		<developer>

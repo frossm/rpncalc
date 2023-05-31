@@ -61,6 +61,18 @@ class CommandParserTest {
 		CommandParser.Parse(stk1, stk2, "123.321", "123.321", "");
 		assertEquals(123.321, stk1.peek().doubleValue());
 		assertEquals(3, stk1.size());
+		
+		CommandParser.Parse(stk1, stk2, ".234", ".234", "");
+		assertEquals(.234, stk1.peek().doubleValue());
+		assertEquals(4, stk1.size());
+		
+		CommandParser.Parse(stk1, stk2, "123.321e12", "123.321e12", "");
+		assertEquals("123.321E+12", stk1.peek().toEngineeringString());
+		assertEquals(5, stk1.size());
+		
+		CommandParser.Parse(stk1, stk2, "-.1E44", "-.1E44", "");
+		assertEquals("-10E+42", stk1.peek().toEngineeringString());
+		assertEquals(6, stk1.size());
 	}
 
 	// Test fractional inputs
@@ -143,7 +155,33 @@ class CommandParserTest {
 		assertEquals(922.6115, stk1.peek().doubleValue());
 
 		// Test scientific notation with NumOps
-		// TODO
+		stk1.clear();
+		stk1.push(-123.456e12);
+		CommandParser.Parse(stk1, stk2, "123.456e12/", "123.456e12/", "");
+		assertEquals(1, stk1.size());
+		StackCommands.cmdRound(stk1, "4");
+		assertEquals("-1.0000", stk1.peek().toString());
+		
+		CommandParser.Parse(stk1, stk2, "3.3E14*", "3.3E14*", "");
+		assertEquals(1, stk1.size());
+		StackCommands.cmdRound(stk1, "4");
+		assertEquals("-330000000000000.0000", stk1.peek().toString());
+		
+		CommandParser.Parse(stk1, stk2, "2/", "2/", "");
+		assertEquals(1, stk1.size());
+		StackCommands.cmdRound(stk1, "4");
+		assertEquals("-165000000000000.0000", stk1.peek().toString());
+		
+		CommandParser.Parse(stk1, stk2, "2.34e12/", "2.234e12/", "");
+		assertEquals(1, stk1.size());
+		StackCommands.cmdRound(stk1, "9");
+		assertEquals("-70.512820513", stk1.peek().toString());
+		
+		CommandParser.Parse(stk1, stk2, ".02e2^", ".02e2^", "");
+		assertEquals(1, stk1.size());
+		StackCommands.cmdRound(stk1, "8");
+		assertEquals("4972.05785670", stk1.peek().toString());
+		
 	}
 
 	// Test the entry of a scientific notation number
