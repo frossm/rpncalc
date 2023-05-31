@@ -73,7 +73,7 @@ public class StackObj implements Cloneable {
 	 * @return
 	 */
 	public String getAsString(int index) {
-		return this.get(index).toEngineeringString();
+		return this.get(index).toString();
 	}
 
 	/**

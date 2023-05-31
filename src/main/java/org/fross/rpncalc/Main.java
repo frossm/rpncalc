@@ -178,7 +178,7 @@ public class Main {
 			// Loop through the stack and count the max digits before the decimal for use with the decimal
 			// alignment mode & overall length for right alignment mode
 			for (int k = 0; k < calcStack.size(); k++) {
-				int decimalIndex = Format.Comma(calcStack.get(k).toPlainString()).indexOf(".");
+				int decimalIndex = Format.Comma(calcStack.get(k).toString()).indexOf(".");
 
 				// If current stack item has more digits ahead of decimal make that the max - commas are included.
 				if (maxDigitsBeforeDecimal < decimalIndex) {
@@ -186,8 +186,8 @@ public class Main {
 				}
 
 				// Determine the length of the longest item in the stack for right alignment
-				if (Format.Comma(calcStack.get(k).toPlainString()).length() > maxLenOfNumbers) {
-					maxLenOfNumbers = Format.Comma(calcStack.get(k).toPlainString()).length();
+				if (Format.Comma(calcStack.get(k).toString()).length() > maxLenOfNumbers) {
+					maxLenOfNumbers = Format.Comma(calcStack.get(k).toString()).length();
 				}
 			}
 
@@ -207,12 +207,12 @@ public class Main {
 					int decimalLocation = 0;
 
 					// Put in spaces to align the decimals
-					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e")) {
-						stkLineNumber = calcStack.get(i).toEngineeringString();
+					if (calcStack.get(i).toString().toLowerCase().contains("e")) {
+						stkLineNumber = calcStack.get(i).toString();
 						decimalLocation = stkLineNumber.indexOf(".");
 
 					} else {
-						stkLineNumber = Format.Comma(calcStack.get(i).toEngineeringString());
+						stkLineNumber = Format.Comma(calcStack.get(i).toString());
 						decimalLocation = stkLineNumber.indexOf(".");
 					}
 
@@ -223,17 +223,17 @@ public class Main {
 
 				} else if (configAlignment.compareTo("r") == 0) {
 					// Right Alignment
-					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e"))
-						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", calcStack.get(i).toEngineeringString());
+					if (calcStack.get(i).toString().toLowerCase().contains("e"))
+						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", calcStack.get(i).toString());
 					else
-						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toEngineeringString()));
+						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toString()));
 
 				} else {
 					// Left Alignment
-					if (calcStack.get(i).toEngineeringString().toLowerCase().contains("e"))
-						stkLineNumber = calcStack.get(i).toEngineeringString();
+					if (calcStack.get(i).toString().toLowerCase().contains("e"))
+						stkLineNumber = calcStack.get(i).toString();
 					else
-						stkLineNumber = Format.Comma(calcStack.get(i).toEngineeringString());
+						stkLineNumber = Format.Comma(calcStack.get(i).toString());
 				}
 
 				// Finally display the current stack item after removing any spaces at the end
