@@ -187,11 +187,11 @@ public class Math {
 	 * @param num
 	 * @return
 	 */
-	public static BigDecimal Factorial(Long num) {
+	public static BigDecimal Factorial(BigDecimal num) {
 		BigDecimal result = BigDecimal.ONE;
 
-		for (long factor = 2; factor <= num; factor++) {
-			result = result.multiply(new BigDecimal(String.valueOf(factor)), MathContext.UNLIMITED);
+		for (BigDecimal factor = new BigDecimal("2"); factor.compareTo(num) <= 0; factor = factor.add(BigDecimal.ONE)) {
+			result = result.multiply(factor, MathContext.UNLIMITED);
 		}
 
 		return result;

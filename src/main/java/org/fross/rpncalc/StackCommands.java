@@ -356,7 +356,7 @@ public class StackCommands {
 			Output.printColorln(Ansi.Color.CYAN, "Warning: The decimal portion of '" + calcStack.peek().toString() + "' has been dropped for the calculation");
 		}
 		
-		BigDecimal result = Math.Factorial(calcStack.pop().toBigInteger().longValue());
+		BigDecimal result = Math.Factorial(calcStack.pop());
 		calcStack.push(result);
 	}
 

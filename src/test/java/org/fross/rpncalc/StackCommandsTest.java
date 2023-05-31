@@ -237,57 +237,6 @@ class StackCommandsTest {
 		assertEquals("123E+42", stk.get(stk.size() - 1).toEngineeringString());
 		assertEquals(1.23, stk.get(0).doubleValue());
 	}
-	
-	/**
-	 * Factorial test.  MathTest takes care of most of this, just make sure
-	 * it can be called with StackCommands.cmdFactorial()
-	 */
-	@Test
-	void testFactorial() {
-		StackObj stk = new StackObj();
-		
-		// Test #1
-		stk.push(12);
-		assertEquals(1, stk.size());
-		StackCommands.cmdFactorial(stk);
-		assertEquals("479001600", stk.pop().toEngineeringString());
-		assertEquals(0, stk.size());
-		
-		// Test #2
-		stk.push(12.123);
-		assertEquals(1, stk.size());
-		StackCommands.cmdFactorial(stk);
-		assertEquals("479001600", stk.pop().toEngineeringString());
-		assertEquals(0, stk.size());
-		
-		// Test #3
-		stk.push(12.999);
-		assertEquals(1, stk.size());
-		StackCommands.cmdFactorial(stk);
-		assertEquals("479001600", stk.pop().toEngineeringString());
-		assertEquals(0, stk.size());
-		
-		// Test #4
-		stk.push(13.0000001);
-		assertEquals(1, stk.size());
-		StackCommands.cmdFactorial(stk);
-		assertEquals("6227020800", stk.pop().toEngineeringString());
-		assertEquals(0, stk.size());
-		
-		// Test #5
-		stk.push(-6.1);
-		assertEquals(1, stk.size());
-		StackCommands.cmdFactorial(stk);
-		assertEquals("-6.1", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
-		
-		// Test #6
-		stk.push(0);
-		assertEquals(2, stk.size());
-		StackCommands.cmdFactorial(stk);
-		assertEquals("0", stk.peek().toEngineeringString());
-		assertEquals(2, stk.size());
-	}
 
 	/**
 	 * Test delete command no parameter. Should delete line1
@@ -497,6 +446,66 @@ class StackCommandsTest {
 		if (stk.peek().doubleValue() < 40 || stk.peek().doubleValue() > 60) {
 			fail();
 		}
+	}
+
+	/**
+	 * Factorial test. MathTest takes care of most of this, just make sure it can be called with StackCommands.cmdFactorial()
+	 */
+	@Test
+	void testCmdFactorial() {
+		StackObj stk = new StackObj();
+
+		// Test #1
+		stk.push(12);
+		assertEquals(1, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals("479001600", stk.pop().toEngineeringString());
+		assertEquals(0, stk.size());
+
+		// Test #2
+		stk.push(12.123);
+		assertEquals(1, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals("479001600", stk.pop().toEngineeringString());
+		assertEquals(0, stk.size());
+
+		// Test #3
+		stk.push(12.999);
+		assertEquals(1, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals("479001600", stk.pop().toEngineeringString());
+		assertEquals(0, stk.size());
+
+		// Test #4
+		stk.push(13.0000001);
+		assertEquals(1, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals("6227020800", stk.pop().toEngineeringString());
+		assertEquals(0, stk.size());
+
+		// Test #5
+		stk.push(-6.1);
+		assertEquals(1, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals("-6.1", stk.peek().toEngineeringString());
+		assertEquals(1, stk.size());
+
+		// Test #6
+		stk.push(0);
+		assertEquals(2, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals("0", stk.peek().toEngineeringString());
+		assertEquals(2, stk.size());
+
+		// Test #7
+		stk.clear();
+		stk.push(1e2);
+		assertEquals(1, stk.size());
+		StackCommands.cmdFactorial(stk);
+		assertEquals(
+				"93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000",
+				stk.peek().toString());
+		assertEquals(1, stk.size());
 	}
 
 	/**
