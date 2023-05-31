@@ -220,6 +220,13 @@ class MathTest {
 		assertEquals("1.5241383936E+24", stk.peek().toEngineeringString());
 		assertEquals(1, stk.size());
 
+		// Test #4
+		stk.clear();
+		stk.push(14345);
+		stk.push(0e2);
+		Math.Parse("^", stk);
+		assertEquals(BigDecimal.ONE, stk.peek());
+
 	}
 
 	/**

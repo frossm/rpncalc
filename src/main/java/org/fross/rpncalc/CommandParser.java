@@ -44,6 +44,9 @@ public class CommandParser {
 	 * @param cmdInputParam
 	 */
 	public static void Parse(StackObj calcStack, StackObj calcStack2, String cmdInput, String cmdInputCmd, String cmdInputParam) {
+		// Remove any commas in the command to allow for "1,234.00"
+		cmdInputCmd = cmdInputCmd.replaceAll(",", "");
+
 		// Massive switch statement to process user input and call the correct functions
 		switch (cmdInputCmd) {
 
@@ -464,15 +467,15 @@ public class CommandParser {
 				}
 
 				// Number entered, add to stack.
-			} else if (cmdInputCmd.replaceAll(" ", "").matches("^-?\\d*\\.?\\d*")) {
+			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 
 				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
-				calcStack.push(new BigDecimal(cmdInputCmd.replaceAll(" ", "")));
+				calcStack.push(new BigDecimal(cmdInputCmd));
 
 				// Handle numbers with a single operand at the end (a NumOp)
-			} else if (cmdInputCmd.replaceAll(" ", "").matches("^-?\\d*\\.?\\d*[Ee]?\\d*[\\*\\+\\-\\/\\^]")) {
+			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[\\*\\+\\-\\/\\^]")) {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 

@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -181,18 +182,19 @@ class StackOperationsTest {
 	 * Test stack output to file
 	 */
 	@Test
-	void textExport() {
+	void testExport() {
 		String testFileName = "target/rpncalc.export";
 		File testFile = new File(testFileName);
-		Double[] testValues = { -1.0123, 2.0234, 3.0345, -15.0456, 2.0567, 17.0678, 38.0789, 53.0891, 14.0123, 73.0234, 72.0345, 72.0456, 10.0567, 83.0678,
-				-60.0789, 76.0890, 59.090, 30.0234, -42.0345, 89.0456, 30.0567, 44.0678, -31.0789 };
+		String[] testValues = { "-1.0123", "2.0234", "3.0345", "-15.0456", "-3.123e17", "2.123E8", "2.0567", "17.0678", "38.0789", "53.0891", "14.0123",
+				"73.0234", "72.0345", "72.0456", "10.0567", "83.0678", "-60.0789", "76.0890", "59.090", "30.0234", "-42.0345", "89.0456", "4.56e19", "30.0567",
+				"44.0678", "-31.0789" };
 
 		// Build the StackObject
 		StackObj stk = new StackObj();
 		for (int i = 0; i < testValues.length; i++) {
 			stk.push(testValues[i]);
 		}
-		assertEquals(23, stk.size());
+		assertEquals(26, stk.size());
 
 		// Delete the testFile if it exists
 		try {
@@ -216,7 +218,7 @@ class StackOperationsTest {
 
 				// Test that read-from-file value = test value
 				for (int i = 0; i < testValues.length; i++) {
-					assertEquals(testValues[i].toString(), linesRead.get(i));
+					assertTrue(new BigDecimal(testValues[i]).compareTo(new BigDecimal(linesRead.get(i))) == 0);
 				}
 			} else {
 				throw new IOException();
@@ -247,13 +249,15 @@ class StackOperationsTest {
 	@Test
 	void testImport() {
 		String testFileName = "target/rpncalc.import";
-		Double[] testValues = { 2.34, 6.78, -2.11, 0.0, 12.12345, 4.44, -54.223, 100.001, 11.23 };
+		String[] testValues = { "-1.0123", "2.0234", "3.0345", "-15.0456", "-3.123e17", "2.123E8", "2.0567", "17.0678", "38.0789", "53.0891", "14.0123",
+				"73.0234", "72.0345", "72.0456", "10.0567", "83.0678", "-60.0789", "76.0890", "59.090", "30.0234", "-42.0345", "89.0456", "4.56e19", "30.0567",
+				"44.0678", "-31.0789" };
 
 		// Create a test file
 		try {
 			FileWriter fw = new FileWriter(new File(testFileName.toLowerCase()));
 
-			// Loop through the test values and compare
+			// Loop through the test values write them to disk
 			for (int i = 0; i < testValues.length; i++) {
 				fw.write(testValues[i] + "\n");
 			}
@@ -271,7 +275,7 @@ class StackOperationsTest {
 
 		// Verify the import values match the file data
 		for (int i = 0; i < testValues.length; i++) {
-			assertEquals(testValues[i], stk.get(i).doubleValue());
+			assertTrue(new BigDecimal(testValues[i]).compareTo(stk.get(i)) == 0);
 		}
 
 		// Delete the test import file
