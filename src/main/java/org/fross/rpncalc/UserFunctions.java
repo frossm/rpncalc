@@ -83,7 +83,7 @@ public class UserFunctions {
 
 								// Read the user input. If ctrl-C is entered, discard the function
 								try {
-									functionName = Main.scanner.readLine(">> ");
+									functionName = Main.scanner.readLine(Main.INPUT_PROMPT);
 								} catch (UserInterruptException ex) {
 									functionName = "";
 								} catch (Exception e) {

@@ -427,16 +427,14 @@ public class CommandParser {
 				Output.debugPrint("Executing User Defined Function: '" + cmdInput + "'");
 				UserFunctions.FunctionRun(calcStack, calcStack2, cmdInput);
 
-				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction.
+				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction
 			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
 				Output.debugPrint("Fraction has been entered");
-
 				try {
 					BigDecimal fracInteger = BigDecimal.ZERO;
 					BigDecimal fracDecimalEquiv = BigDecimal.ZERO;
 
-					// If there wasn't an integer entered, move the fraction to the parameter
-					// variable
+					// If there wasn't an integer entered, move the fraction to the parameter variable
 					if (cmdInputCmd.contains("/")) {
 						cmdInputParam = cmdInputCmd;
 					} else {
@@ -466,7 +464,7 @@ public class CommandParser {
 					break;
 				}
 
-				// Number entered, add to stack.
+				// Number entered, add to stack
 			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
@@ -474,22 +472,31 @@ public class CommandParser {
 				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
 				calcStack.push(new BigDecimal(cmdInputCmd));
 
-				// Handle numbers with a single operand at the end (a NumOp)
+				// Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
 			} else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[\\*\\+\\-\\/\\^]")) {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 
 				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
+
 				// Verify stack contains at least one element
 				if (calcStack.size() >= 1) {
-					String TempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
-					String TempNum = cmdInput.substring(0, cmdInput.length() - 1);
-					Output.debugPrint("NumOp Found: Num= '" + TempNum + "'");
-					Output.debugPrint("NumOp Found: Op = '" + TempOp + "'");
-					calcStack.push(new BigDecimal(TempNum));
-					calcStack = Math.Parse(TempOp, calcStack);
+					try {
+						String tempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
+						String tempNum = cmdInput.substring(0, cmdInput.length() - 1);
+						Output.debugPrint("NumOp Found: Num= '" + tempNum + "'");
+						Output.debugPrint("NumOp Found: Op = '" + tempOp + "'");
+						calcStack.push(new BigDecimal(tempNum));
+						calcStack = Math.Parse(tempOp, calcStack);
+						
+					} catch (NumberFormatException ex) {
+						// Prevents a crash if user enters "-+" (which they shouldn't do)
+						Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
+						break;
+					}
+					
 				} else {
-					Output.printColorln(Ansi.Color.RED, "One number is required for this NumOp function");
+					Output.printColorln(Ansi.Color.RED, "One number is required to be on the stack to usea a NumOp");
 				}
 
 				// Scientific notation number entered

@@ -52,6 +52,8 @@ public class Main {
 	public static final int CONFIG_DEFAULT_PROGRAM_WIDTH = 80;
 	public static final int CONFIG_DEFAULT_MEMORY_SLOTS = 10;
 	public static final String CONFIG_DEFAULT_ALIGNMENT = "l";
+	public static final int LINE_NUMBER_DIGITS = 2;
+	public static final String INPUT_PROMPT = ">> ";
 
 	// Class Variables
 	public static String VERSION;
@@ -177,8 +179,19 @@ public class Main {
 
 			// Loop through the stack and count the max digits before the decimal for use with the decimal
 			// alignment mode & overall length for right alignment mode
-			for (int k = 0; k < calcStack.size(); k++) {
-				int decimalIndex = Format.Comma(calcStack.get(k).toString()).indexOf(".");
+			for (int i = 0; i < calcStack.size(); i++) {
+				int decimalIndex = 0;
+				String currentStackItem = "";
+
+				// Add a comma to the current stack item if it's not in scientific notation
+				if (calcStack.getAsString(i).toLowerCase().contains("e")) {
+					currentStackItem = calcStack.getAsString(i);
+				} else {
+					currentStackItem = Format.Comma(calcStack.getAsString(i));
+				}
+
+				// Determine where the decimal point is located
+				decimalIndex = currentStackItem.indexOf(".");
 
 				// If current stack item has more digits ahead of decimal make that the max - commas are included.
 				if (maxDigitsBeforeDecimal < decimalIndex) {
@@ -186,9 +199,10 @@ public class Main {
 				}
 
 				// Determine the length of the longest item in the stack for right alignment
-				if (Format.Comma(calcStack.get(k).toString()).length() > maxLenOfNumbers) {
-					maxLenOfNumbers = Format.Comma(calcStack.get(k).toString()).length();
+				if (currentStackItem.length() > maxLenOfNumbers) {
+					maxLenOfNumbers = currentStackItem.length();
 				}
+
 			}
 
 			// Uncomment to debug alignment issues
@@ -197,59 +211,48 @@ public class Main {
 
 			// Display the current stack contents
 			for (int i = 0; i < calcStack.size(); i++) {
+				String currentStackItem = "";
 
-				// Display Stack Row Number
-				String stkLineNumber = String.format("%02d:  ", calcStack.size() - i);
-				Output.printColor(Ansi.Color.CYAN, stkLineNumber);
-
-				// Decimal Alignment
-				if (configAlignment.compareTo("d") == 0) {
-					int decimalLocation = 0;
-
-					// Put in spaces to align the decimals
-					if (calcStack.get(i).toString().toLowerCase().contains("e")) {
-						stkLineNumber = calcStack.get(i).toString();
-						decimalLocation = stkLineNumber.indexOf(".");
-
-					} else {
-						stkLineNumber = Format.Comma(calcStack.get(i).toString());
-						decimalLocation = stkLineNumber.indexOf(".");
-					}
-
-					// Insert the right number of spaces
-					for (int k = 0; k < maxDigitsBeforeDecimal - decimalLocation; k++) {
-						Output.print(" ");
-					}
-
-				} else if (configAlignment.compareTo("r") == 0) {
-					// Right Alignment
-					if (calcStack.get(i).toString().toLowerCase().contains("e"))
-						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", calcStack.get(i).toString());
-					else
-						stkLineNumber = String.format("%" + maxLenOfNumbers + "s", Format.Comma(calcStack.get(i).toString()));
-
+				// Add commas to the number if it's not in scientific notation
+				if (calcStack.getAsString(i).toLowerCase().contains("e")) {
+					currentStackItem = calcStack.getAsString(i).toLowerCase();
 				} else {
-					// Left Alignment
-					if (calcStack.get(i).toString().toLowerCase().contains("e"))
-						stkLineNumber = calcStack.get(i).toString();
-					else
-						stkLineNumber = Format.Comma(calcStack.get(i).toString());
+					currentStackItem = Format.Comma(calcStack.getAsString(i).toLowerCase());
 				}
 
-				// Finally display the current stack item after removing any spaces at the end
-				stkLineNumber = stkLineNumber.replaceAll("\\s+$", "");
-				Output.printColorln(Ansi.Color.WHITE, stkLineNumber);
+				// Display Stack Row Number without a newline
+				String stkLineNumber = String.format("%0" + LINE_NUMBER_DIGITS + "d:  ", calcStack.size() - i);
+				Output.printColor(Ansi.Color.CYAN, stkLineNumber);
+
+				// Decimal Alignment - insert spaces before number to align to the decimal point
+				if (configAlignment.compareTo("d") == 0) {
+					for (int k = 0; k < (maxDigitsBeforeDecimal - currentStackItem.indexOf(".")); k++) {
+						Output.print(" ");
+					}
+				}
+
+				// Right Alignment - insert spaces before number to right align
+				if (configAlignment.compareTo("r") == 0) {
+					for (int k = 0; k < (maxLenOfNumbers - currentStackItem.length()); k++) {
+						Output.print(" ");
+					}
+				}
+
+				// Now that the spaces are inserted (for decimal/right) display the number
+				// currentStackItem = currentStackItem.replaceAll("\\s+$", ""); // TODO: Delete this in the future if the below trim() works
+				Output.printColorln(Ansi.Color.WHITE, currentStackItem.trim());
 			}
 
 			// Input command from user
 			try {
-				cmdInput = scanner.readLine("\n>> ");
+				cmdInput = scanner.readLine("\n" + INPUT_PROMPT);
 			} catch (UserInterruptException ex) {
-				// User entered Ctrl-c so exit the program gracefully
+				// User entered Ctrl-c so exit the program gracefully by adding "exit" as the input
 				cmdInput = "exit";
 				Output.printColorln(Ansi.Color.CYAN, "Ctrl-C Detected. Exiting RPNCalc...");
 
 			} catch (Exception ex) {
+				// Should never get this error...
 				Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
 			}
 
@@ -258,14 +261,14 @@ public class Main {
 				// Remove any commas from the string allowing for numbers such as "12,123" to be entered
 				// TODO: Should make this more international at some point
 				cmdInput = cmdInput.replaceAll(",", "");
-				
+
 				// Break the string into a command (cmdInputCmd) and a parameter (cmdInputParam)
 				String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
 				cmdInputCmd = ci[0];
 				cmdInputParam = ci[1];
 
 			} catch (ArrayIndexOutOfBoundsException e) {
-				// Ignore if there is no command or parameter entered
+				// Ignore this exception if there is no command or parameter entered
 				if (cmdInputCmd.isEmpty()) {
 					Output.debugPrint("Blank line entered");
 					continue;
@@ -274,7 +277,7 @@ public class Main {
 
 			// While in debug mode, show the entered text along with the broken up command and parameter
 			Output.debugPrint(
-					"Complete cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
+					"Full cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
 			if (UserFunctions.recordingIsEnabled() == true) {
