@@ -1,5 +1,5 @@
 name: rpncalc
-version: '5.0.10'
+version: '5.0.11'
 summary: The command line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is an easy to use command line based Reverse Polish
@@ -17,7 +17,7 @@ description: |
 
 grade: stable
 confinement: strict
-base: core18
+base: core22
 
 title: RPNCalc
 website: https://github.com/frossm/rpncalc
@@ -26,10 +26,14 @@ issues: https://github.com/frossm/rpncalc/issues
 icon: graphics/PostIt-512x512.png
 license: MIT
 
-
 # Enable faster LZO compression
 compression: lzo
 
+# Ignore useless library warnings
+lint:
+   ignore:
+      - library
+         
 apps:
    rpncalc:
       command: rpncalc-wrapper
@@ -41,13 +45,21 @@ parts:
       plugin: dump
       source: snap/local
       source-type: local
-    
+
    library:
       plugin: maven
       source: https://github.com/frossm/library.git
       source-type: git
       source-tag: 'v2023.05.21'
-      maven-options: [install]
+      maven-parameters:
+         - install
+
+      build-packages:
+         - maven
+         - openjdk-11-jdk-headless
+
+      stage-packages:
+         - openjdk-11-jre-headless
 
    rpncalc:
       plugin: maven
@@ -58,8 +70,16 @@ parts:
          - library
          - wrapper
 
+      build-packages:
+         - maven
+         - openjdk-11-jdk-headless
+
+      stage-packages:
+         - openjdk-11-jre-headless
+
+
       # Bypass a build issue where an absolute reference is made to a file outside of the snap filesystem 
       # Ref: https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/23
       override-prime: |
-         snapcraftctl prime
+         craftctl default
          rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
