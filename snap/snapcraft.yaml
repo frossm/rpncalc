@@ -58,17 +58,14 @@ parts:
          - maven
          - openjdk-11-jdk-headless
 
-      stage-packages:
-         - openjdk-11-jre-headless
-
    rpncalc:
       plugin: maven
       source: https://github.com/frossm/rpncalc.git
       source-branch: master
       source-type: git
-      after:
-         - library
-         - wrapper
+      #after:
+      #   - library
+      #   - wrapper
 
       build-packages:
          - maven
