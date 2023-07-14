@@ -50,7 +50,7 @@ public class StackOperations {
 			Output.printColorln(Ansi.Color.RED, "Debug Disabled");
 		} else {
 			Debug.enable();
-			Output.debugPrint("Debug Enabled");
+			Output.debugPrintln("Debug Enabled");
 		}
 	}
 
@@ -133,7 +133,7 @@ public class StackOperations {
 		StackManagement.SaveStack(calcStack2, "2");
 
 		// Set new stack
-		Output.debugPrint("Loading new stack: '" + stackToLoad + "'");
+		Output.debugPrintln("Loading new stack: '" + stackToLoad + "'");
 		calcStack.setStackNameAndRestore(stackToLoad, "1");
 		calcStack2.setStackNameAndRestore(stackToLoad, "2");
 	}
@@ -142,7 +142,7 @@ public class StackOperations {
 	 * cmdReverse(): Reverse all of the elements in the stack. Last becomes first and first becomes last
 	 */
 	public static void cmdReverse(StackObj calcStack) {
-		Output.debugPrint("Reversing all items in the stack");
+		Output.debugPrintln("Reversing all items in the stack");
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
@@ -166,7 +166,7 @@ public class StackOperations {
 	 * 
 	 */
 	public static void cmdSwapStack(StackObj calcStack, StackObj calcStack2) {
-		Output.debugPrint("Swapping primary and secondary stack");
+		Output.debugPrintln("Swapping primary and secondary stack");
 
 		// Swap the stacks from the objects into their new homes
 		StackObj tempStack = new StackObj();
@@ -207,13 +207,13 @@ public class StackOperations {
 			return;
 		}
 
-		Output.debugPrint("Export filename: '" + fileName + "'");
+		Output.debugPrintln("Export filename: '" + fileName + "'");
 
 		// If the file exists, then delete it
 		try {
 			File file = new File(fileName);
 			if (file.exists()) {
-				Output.debugPrint("'" + fileName + "' exists - deleting");
+				Output.debugPrintln("'" + fileName + "' exists - deleting");
 				file.delete();
 			}
 		} catch (Exception ex) {
@@ -251,7 +251,7 @@ public class StackOperations {
 	public static void importStackFromDisk(StackObj calcStack, String arg) {
 		String fileName = arg.trim();
 
-		Output.debugPrint("Import filename as entered: '" + fileName + "'");
+		Output.debugPrintln("Import filename as entered: '" + fileName + "'");
 
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
@@ -306,9 +306,9 @@ public class StackOperations {
 		BigDecimal value2;
 
 		// Populate the array with the contents of the stack
-		Output.debugPrint("Size of Stack is: " + stkSize);
+		Output.debugPrintln("Size of Stack is: " + stkSize);
 		for (int i = 0; i < stkSize; i++) {
-			Output.debugPrint("Backup: Array[" + i + "] = " + stk.peek());
+			Output.debugPrintln("Backup: Array[" + i + "] = " + stk.peek());
 			tempArray[i] = stk.pop();
 		}
 
@@ -322,7 +322,7 @@ public class StackOperations {
 
 		// Recreate the stack
 		for (int i = stkSize - 1; i >= 0; i--) {
-			Output.debugPrint("Restore: Array[" + i + "] = " + tempArray[i].toPlainString() + " -> Stack");
+			Output.debugPrintln("Restore: Array[" + i + "] = " + tempArray[i].toPlainString() + " -> Stack");
 			stk.push(tempArray[i]);
 		}
 

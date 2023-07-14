@@ -91,7 +91,7 @@ public class Math {
 		BigDecimal a = stk.pop();
 		BigDecimal result = a.add(b, stk.mc);
 
-		Output.debugPrint("Adding: " + a.toString() + " + " + b.toString() + " = " + result.toString());
+		Output.debugPrintln("Adding: " + a.toString() + " + " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -107,7 +107,7 @@ public class Math {
 		BigDecimal a = stk.pop();
 		BigDecimal result = a.subtract(b, stk.mc);
 
-		Output.debugPrint("Subtracting: " + a.toString() + " - " + b.toString() + " = " + result.toString());
+		Output.debugPrintln("Subtracting: " + a.toString() + " - " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -123,7 +123,7 @@ public class Math {
 		BigDecimal a = stk.pop();
 		BigDecimal result = a.multiply(b, stk.mc);
 
-		Output.debugPrint("Multiplying: " + a.toString() + " * " + b.toString() + " = " + result.toString());
+		Output.debugPrintln("Multiplying: " + a.toString() + " * " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -153,7 +153,7 @@ public class Math {
 			Output.printColorln(Ansi.Color.RED, "Error dividing " + a + " / " + b);
 		}
 
-		Output.debugPrint("Dividing: " + a.toString() + " / " + b.toString() + " = " + result.toString());
+		Output.debugPrintln("Dividing: " + a.toString() + " / " + b.toString() + " = " + result.toString());
 		stk.push(result);
 		return stk;
 	}
@@ -169,7 +169,7 @@ public class Math {
 		BigDecimal base = stk.pop();
 		BigDecimal result = base.pow(power.intValue(), stk.mc);
 
-		Output.debugPrint(base.toString() + " ^ " + power.toString() + " = " + result.toString());
+		Output.debugPrintln(base.toString() + " ^ " + power.toString() + " = " + result.toString());
 
 		// Warn user the decimal has been dropped
 		// TODO: Should make this more international at some point
@@ -208,7 +208,7 @@ public class Math {
 	 * @return
 	 */
 	public static BigInteger GreatestCommonDivisor(BigInteger n1, BigInteger n2) {
-		Output.debugPrint("Finding Greatest Common Divisor between: '" + n1.toString() + "' and '" + n2.toString() + "'");
+		Output.debugPrintln("Finding Greatest Common Divisor between: '" + n1.toString() + "' and '" + n2.toString() + "'");
 
 		if (n2.compareTo(BigInteger.ZERO) == 0) {
 			return n1;
@@ -305,7 +305,7 @@ public class Math {
 				int lowerIndex = Integer.valueOf(stk.size() / 2);
 				int upperIndex = Integer.valueOf(stk.size() / 2 + 1);
 
-				Output.debugPrint("Median: UpperIndex=" + upperIndex + "  |  LowerIndex=" + lowerIndex);
+				Output.debugPrintln("Median: UpperIndex=" + upperIndex + "  |  LowerIndex=" + lowerIndex);
 				result = (stk.get(lowerIndex - 1).add(stk.get(upperIndex - 1), stk.mc)).divide(new BigDecimal("2"), MathContext.DECIMAL128);
 
 			} else {

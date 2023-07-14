@@ -405,7 +405,7 @@ public class CommandParser {
 		case "x":
 		case "exit":
 		case "quit":
-			Output.debugPrint("Exiting Command Loop");
+			Output.debugPrintln("Exiting Command Loop");
 			Main.ProcessCommandLoop = false;
 			break;
 
@@ -424,12 +424,12 @@ public class CommandParser {
 			// Determine if the command is a user defined function
 			// Verify user defined function exists
 			if (UserFunctions.FunctionExists(cmdInput) == true) {
-				Output.debugPrint("Executing User Defined Function: '" + cmdInput + "'");
+				Output.debugPrintln("Executing User Defined Function: '" + cmdInput + "'");
 				UserFunctions.FunctionRun(calcStack, calcStack2, cmdInput);
 
 				// Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction
 			} else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
-				Output.debugPrint("Fraction has been entered");
+				Output.debugPrintln("Fraction has been entered");
 				try {
 					BigDecimal fracInteger = BigDecimal.ZERO;
 					BigDecimal fracDecimalEquiv = BigDecimal.ZERO;
@@ -451,7 +451,7 @@ public class CommandParser {
 					BigDecimal endResult = fracInteger.add(fracDecimalEquiv);
 
 					// Simply convert the fraction to a decimal and add it to the stack
-					Output.debugPrint("Fraction Entered: '" + cmdInput + "' Decimal: " + endResult);
+					Output.debugPrintln("Fraction Entered: '" + cmdInput + "' Decimal: " + endResult);
 
 					// Save current calcStack to the undoStack
 					calcStack.saveUndo();
@@ -469,7 +469,7 @@ public class CommandParser {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 
-				Output.debugPrint("Placing the number '" + cmdInputCmd + "' onto the stack");
+				Output.debugPrintln("Placing the number '" + cmdInputCmd + "' onto the stack");
 				calcStack.push(new BigDecimal(cmdInputCmd));
 
 				// Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
@@ -477,15 +477,15 @@ public class CommandParser {
 				// Save current calcStack to the undoStack
 				calcStack.saveUndo();
 
-				Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
+				Output.debugPrintln("CalcStack has " + calcStack.size() + " elements");
 
 				// Verify stack contains at least one element
 				if (calcStack.size() >= 1) {
 					try {
 						String tempOp = cmdInputCmd.substring(cmdInputCmd.length() - 1, cmdInputCmd.length());
 						String tempNum = cmdInput.substring(0, cmdInput.length() - 1);
-						Output.debugPrint("NumOp Found: Num= '" + tempNum + "'");
-						Output.debugPrint("NumOp Found: Op = '" + tempOp + "'");
+						Output.debugPrintln("NumOp Found: Num= '" + tempNum + "'");
+						Output.debugPrintln("NumOp Found: Op = '" + tempOp + "'");
 						calcStack.push(new BigDecimal(tempNum));
 						calcStack = Math.Parse(tempOp, calcStack);
 						
@@ -513,7 +513,7 @@ public class CommandParser {
 						// Save current calcStack to the undoStack
 						calcStack.saveUndo();
 
-						Output.debugPrint("Adding the scientific notation number '" + cmdInputCmd + "' onto the stack");
+						Output.debugPrintln("Adding the scientific notation number '" + cmdInputCmd + "' onto the stack");
 						calcStack.push(new BigDecimal(cmdInputCmd.toLowerCase()));
 
 					} else {
@@ -531,7 +531,7 @@ public class CommandParser {
 			} else {
 				// If a user enters an invalid command, remove it from the recording if enabled
 				if (UserFunctions.recordingEnabled == true) {
-					Output.debugPrint("Removing '" + UserFunctions.recording.get(UserFunctions.recording.size() - 1) + "' from the recording");
+					Output.debugPrintln("Removing '" + UserFunctions.recording.get(UserFunctions.recording.size() - 1) + "' from the recording");
 					UserFunctions.RemoveItemFromRecording();
 				}
 

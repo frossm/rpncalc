@@ -217,16 +217,16 @@ public class StackObj implements Cloneable {
 		// Clear this stack before restoring
 		this.clear();
 
-		Output.debugPrint("RestoreStack: " + PREFS_PATH + "/" + this.queryStackName() + "/" + slot);
+		Output.debugPrintln("RestoreStack: " + PREFS_PATH + "/" + this.queryStackName() + "/" + slot);
 
 		// Override the default stack location with the provided one
 		Preferences prefs = Preferences.userRoot().node(PREFS_PATH + "/" + this.queryStackName() + "/" + slot);
 		int numElements = prefs.getInt("StackElements", 0);
 
-		Output.debugPrint("Restoring Stack:");
+		Output.debugPrintln("Restoring Stack:");
 		for (int i = 0; i < numElements; i++) {
 			this.push(prefs.getDouble("Stack" + i, 0.0));
-			Output.debugPrint("  - Restoring #" + (numElements - i) + ":  " + this.get(i));
+			Output.debugPrintln("  - Restoring #" + (numElements - i) + ":  " + this.get(i));
 		}
 
 		// Set the stack number to be 1 on a newly restored stack

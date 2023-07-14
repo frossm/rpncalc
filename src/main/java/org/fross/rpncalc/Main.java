@@ -152,12 +152,12 @@ public class Main {
 
 		// Display some useful information about the environment if in Debug Mode
 		Debug.displaySysInfo();
-		Output.debugPrint("Command Line Options");
-		Output.debugPrint("  - DebugModeOn:   " + Debug.query());
-		Output.debugPrint("  - StackName:     " + calcStack.queryStackName());
-		Output.debugPrint("  - Program Width: " + configProgramWidth);
-		Output.debugPrint("  - Memory Slots:  " + configMemorySlots);
-		Output.debugPrint("  - Color Enabled: " + Output.queryColorEnabled());
+		Output.debugPrintln("Command Line Options");
+		Output.debugPrintln("  - DebugModeOn:   " + Debug.query());
+		Output.debugPrintln("  - StackName:     " + calcStack.queryStackName());
+		Output.debugPrintln("  - Program Width: " + configProgramWidth);
+		Output.debugPrintln("  - Memory Slots:  " + configMemorySlots);
+		Output.debugPrintln("  - Color Enabled: " + Output.queryColorEnabled());
 
 		// Restore the items in the memory slots during startup
 		StackMemory.RestoreMemSlots();
@@ -206,8 +206,8 @@ public class Main {
 			}
 
 			// Uncomment to debug alignment issues
-			// Output.debugPrint("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
-			// Output.debugPrint("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
+			// Output.debugPrintln("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
+			// Output.debugPrintln("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
 
 			// Display the current stack contents
 			for (int i = 0; i < calcStack.size(); i++) {
@@ -270,13 +270,13 @@ public class Main {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// Ignore this exception if there is no command or parameter entered
 				if (cmdInputCmd.isEmpty()) {
-					Output.debugPrint("Blank line entered");
+					Output.debugPrintln("Blank line entered");
 					continue;
 				}
 			}
 
 			// While in debug mode, show the entered text along with the broken up command and parameter
-			Output.debugPrint(
+			Output.debugPrintln(
 					"Full cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded

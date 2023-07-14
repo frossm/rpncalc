@@ -46,7 +46,7 @@ public class StackManagement {
 	 * @param stackSlot - Stack Save slot number. Should be default, 1, or 2.
 	 */
 	public static void SaveStack(StackObj stk, String stackSlot) {
-		Output.debugPrint("SaveStack: " + PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
+		Output.debugPrintln("SaveStack: " + PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
 
 		// Override the default stack location with the provided one
 		Preferences p = Preferences.userRoot().node(PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
@@ -64,7 +64,7 @@ public class StackManagement {
 
 		// Loop through each member of the stack and save it to the preferences
 		for (int i = 0; i <= (int) stk.size() - 1; i++) {
-			Output.debugPrint("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i).toPlainString());
+			Output.debugPrintln("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i).toPlainString());
 			p.put("Stack" + i, stk.get(i).toPlainString());
 		}
 

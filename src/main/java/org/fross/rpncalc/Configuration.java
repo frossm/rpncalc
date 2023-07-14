@@ -58,8 +58,8 @@ public class Configuration {
 			command = argParse[0];
 			value = argParse[1].toLowerCase();
 
-			Output.debugPrint("Set Command: '" + command + "'");
-			Output.debugPrint("Set Value:   '" + value + "'");
+			Output.debugPrintln("Set Command: '" + command + "'");
+			Output.debugPrintln("Set Value:   '" + value + "'");
 
 			switch (command.toLowerCase()) {
 			case "align":
@@ -69,7 +69,7 @@ public class Configuration {
 					return;
 				}
 				Main.configAlignment = value;
-				Output.debugPrint("Saving Alignment value to preferences");
+				Output.debugPrintln("Saving Alignment value to preferences");
 				prefConfig.put("alignment", value);
 				Output.printColorln(Ansi.Color.CYAN, "Alignment set to '" + value + "'");
 				break;
@@ -80,7 +80,7 @@ public class Configuration {
 					value = "" + Main.PROGRAM_MINIMUM_WIDTH;
 				}
 				Main.configProgramWidth = Integer.parseInt(value);
-				Output.debugPrint("Saving Program Width value to preferences");
+				Output.debugPrintln("Saving Program Width value to preferences");
 				prefConfig.putInt("programwidth", Integer.parseInt(value));
 				Output.printColorln(Ansi.Color.CYAN, "Program Width set to '" + value + "'");
 				break;

@@ -56,7 +56,7 @@ public class StackMemory {
 			}
 
 			Main.configMemorySlots = Integer.parseInt(slots);
-			Output.debugPrint("Saving Memory Slots value to preferences");
+			Output.debugPrintln("Saving Memory Slots value to preferences");
 			prefConfig.putInt("memoryslots", Integer.parseInt(slots));
 
 		} catch (NumberFormatException ex) {
@@ -90,14 +90,14 @@ public class StackMemory {
 	public static void SaveMemSlots() {
 		Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
 
-		Output.debugPrint("Saving Memory Slots:");
+		Output.debugPrintln("Saving Memory Slots:");
 		try {
 			// Clear out any slots in the store in prep for writing the current slots
 			p.clear();
 
 			for (int i = 0; i < StackMemory.memorySlots.length; i++) {
 				if (memorySlots[i] != null) {
-					Output.debugPrint("  - Slot #" + i + ":  " + memorySlots[i]);
+					Output.debugPrintln("  - Slot #" + i + ":  " + memorySlots[i]);
 					p.put(Integer.toString(i), memorySlots[i].toPlainString());
 				}
 			}
@@ -105,7 +105,7 @@ public class StackMemory {
 			Output.printColorln(Ansi.Color.RED, "Error: Unable to save memory slots to preferences successfully");
 		}
 
-		Output.debugPrint("");
+		Output.debugPrintln("");
 	}
 
 	/**
@@ -115,11 +115,11 @@ public class StackMemory {
 	public static void RestoreMemSlots() {
 		Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
 
-		Output.debugPrint("Restoring Memory Slots:");
+		Output.debugPrintln("Restoring Memory Slots:");
 		try {
 			for (int i = 0; i < StackMemory.memorySlots.length; i++) {
 				if (p.get(Integer.toString(i), "ERROR") != "ERROR") {
-					Output.debugPrint("  - Slot #" + i + "  " + p.get(Integer.toString(i), "ERROR"));
+					Output.debugPrintln("  - Slot #" + i + "  " + p.get(Integer.toString(i), "ERROR"));
 					memorySlots[i] = new BigDecimal(p.get(Integer.toString(i), "ERROR"));
 				}
 			}
@@ -127,7 +127,7 @@ public class StackMemory {
 			Output.printColorln(Ansi.Color.RED, "Error: Unable to restore memory slots from preferences");
 		}
 
-		Output.debugPrint("");
+		Output.debugPrintln("");
 	}
 
 	/**
@@ -154,8 +154,8 @@ public class StackMemory {
 			argParse = arg.split(" ");
 			memSlot = Integer.parseInt(argParse[0]);
 
-			Output.debugPrint("Argument Parsing: Memory Slot Selected: " + memSlot);
-			Output.debugPrint("Argument Parsing: Memory Command: " + argParse[1]);
+			Output.debugPrintln("Argument Parsing: Memory Slot Selected: " + memSlot);
+			Output.debugPrintln("Argument Parsing: Memory Command: " + argParse[1]);
 
 			// Ensure provided slot is within range
 			if (memSlot < 0 || memSlot >= memorySlots.length) {

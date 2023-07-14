@@ -125,7 +125,7 @@ public class StackConversions {
 		// Get the Greatest Common Divisor so we can simply the fraction
 		BigInteger gcd = Math.GreatestCommonDivisor(numerator, denominator);
 
-		Output.debugPrint("Greatest Common Divisor for " + numerator.toString() + " and " + denominator.toString() + " is " + gcd.toString());
+		Output.debugPrintln("Greatest Common Divisor for " + numerator.toString() + " and " + denominator.toString() + " is " + gcd.toString());
 
 		// Simply the fraction
 		numerator = numerator.divide(gcd);

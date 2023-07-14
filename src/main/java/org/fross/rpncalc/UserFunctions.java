@@ -150,7 +150,7 @@ public class UserFunctions {
 				// Loop through each function (child of the root) and delete it
 				try {
 					for (String functionName : p.childrenNames()) {
-						Output.debugPrint("Removing function: " + functionName);
+						Output.debugPrintln("Removing function: " + functionName);
 						FunctionDelete(functionName);
 					}
 				} catch (BackingStoreException e) {
@@ -189,14 +189,14 @@ public class UserFunctions {
 		// If the command starts with an ignored item, just return before adding it to the recording
 		for (int i = 0; i < ignore.length; i++) {
 			if (arg.startsWith(ignore[i]) == true) {
-				Output.debugPrint("Record ignoring the command '" + ignore[i] + "'");
+				Output.debugPrintln("Record ignoring the command '" + ignore[i] + "'");
 				return;
 			}
 		}
 
-		Output.debugPrint("Adding '" + arg.trim().toLowerCase() + "' to recording");
+		Output.debugPrintln("Adding '" + arg.trim().toLowerCase() + "' to recording");
 		recording.add(arg.trim().toLowerCase());
-		Output.debugPrint("Current Recording: " + recording.toString());
+		Output.debugPrintln("Current Recording: " + recording.toString());
 	}
 
 	/**
@@ -227,10 +227,10 @@ public class UserFunctions {
 	 * 
 	 */
 	public static void SaveRecordingToPrefs(String functionName) {
-		Output.debugPrint("Function's Name set to: '" + functionName + "'");
+		Output.debugPrintln("Function's Name set to: '" + functionName + "'");
 
 		// Save the recording and clear it
-		Output.debugPrint("Save Recordings: " + PREFS_PATH_FUNCTIONS + "/" + functionName);
+		Output.debugPrintln("Save Recordings: " + PREFS_PATH_FUNCTIONS + "/" + functionName);
 		Preferences p = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
 
 		// Delete any existing function items with the same name
@@ -296,12 +296,12 @@ public class UserFunctions {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// Ignore if there is no command or parameter entered
 				if (command.isEmpty()) {
-					Output.debugPrint("Blank line entered");
+					Output.debugPrintln("Blank line entered");
 					continue;
 				}
 			}
 
-			Output.debugPrint("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
+			Output.debugPrintln("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
 			CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
 		}
 

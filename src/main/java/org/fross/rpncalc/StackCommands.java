@@ -94,7 +94,7 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("Taking the absolute value of " + calcStack.peek());
+		Output.debugPrintln("Taking the absolute value of " + calcStack.peek());
 
 		// Pop the stack item and push back the absolute value
 		calcStack.push(calcStack.pop().abs());
@@ -187,7 +187,7 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("Copying line" + lineNumToCopy + " to line1");
+		Output.debugPrintln("Copying line" + lineNumToCopy + " to line1");
 
 		// Copy the provided number if it's valid
 		try {
@@ -200,7 +200,7 @@ public class StackCommands {
 			}
 		} catch (Exception e) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element copy: '" + lineNumToCopy + "'");
-			Output.debugPrint(e.getMessage());
+			Output.debugPrintln(e.getMessage());
 		}
 	}
 
@@ -260,7 +260,7 @@ public class StackCommands {
 			endLine = temp;
 		}
 
-		Output.debugPrint("Range to Delete: Line" + startLine + " to Line" + endLine);
+		Output.debugPrintln("Range to Delete: Line" + startLine + " to Line" + endLine);
 
 		try {
 			// Ensure the number entered is is valid
@@ -283,7 +283,7 @@ public class StackCommands {
 
 		} catch (Exception e) {
 			Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + arg + "'");
-			Output.debugPrint(e.getMessage());
+			Output.debugPrintln(e.getMessage());
 		}
 	}
 
@@ -308,7 +308,7 @@ public class StackCommands {
 		}
 
 		// Display Debug Output
-		Output.debugPrint("Rolls: '" + rolls + "'  |  Die: '" + die + "'");
+		Output.debugPrintln("Rolls: '" + rolls + "'  |  Die: '" + die + "'");
 
 		// Verify that the entered numbers are valid
 		if (die <= 0) {
@@ -372,7 +372,7 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Changing sign of last stack element");
+			Output.debugPrintln("Changing sign of last stack element");
 			calcStack.push(calcStack.pop().multiply(new BigDecimal("-1")));
 		}
 	}
@@ -385,7 +385,7 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Taking the integer of " + calcStack.peek().toEngineeringString());
+			Output.debugPrintln("Taking the integer of " + calcStack.peek().toEngineeringString());
 
 			calcStack.push(new BigDecimal(calcStack.pop().toBigInteger()).toEngineeringString());
 
@@ -447,7 +447,7 @@ public class StackCommands {
 			sumY2 = sumY2.add(new BigDecimal(String.valueOf(y)).pow(2));
 
 			// Line by line debug output
-			Output.debugPrint(
+			Output.debugPrintln(
 					"#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + y.multiply(new BigDecimal(String.valueOf(x))) + "\tX2:" + (x * x) + "\tY2:" + y.pow(2));
 		}
 
@@ -464,14 +464,14 @@ public class StackCommands {
 		BigDecimal b = b_top.divide(b_bottom, MathContext.DECIMAL128);
 
 		// Output details if debug is enabled
-		Output.debugPrint("n:     " + n.toPlainString());
-		Output.debugPrint("sumX:  " + sumX.toPlainString());
-		Output.debugPrint("sumY:  " + sumY.toPlainString());
-		Output.debugPrint("sumXY: " + sumXY.toPlainString());
-		Output.debugPrint("sumX2: " + sumX2.toPlainString());
-		Output.debugPrint("sumY2: " + sumY2.toPlainString());
-		Output.debugPrint("a:     " + a.toPlainString());
-		Output.debugPrint("b:     " + b.toPlainString());
+		Output.debugPrintln("n:     " + n.toPlainString());
+		Output.debugPrintln("sumX:  " + sumX.toPlainString());
+		Output.debugPrintln("sumY:  " + sumY.toPlainString());
+		Output.debugPrintln("sumXY: " + sumXY.toPlainString());
+		Output.debugPrintln("sumX2: " + sumX2.toPlainString());
+		Output.debugPrintln("sumY2: " + sumY2.toPlainString());
+		Output.debugPrintln("a:     " + a.toPlainString());
+		Output.debugPrintln("b:     " + b.toPlainString());
 
 		// Rounded values are just for the display
 		BigDecimal nextValue = a.add(b.multiply(n.add(BigDecimal.ONE)));
@@ -500,7 +500,7 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Taking the natural logarithm of " + calcStack.peek().toString());
+			Output.debugPrintln("Taking the natural logarithm of " + calcStack.peek().toString());
 			calcStack.push(java.lang.Math.log(calcStack.pop().doubleValue()));
 
 		} else {
@@ -516,7 +516,7 @@ public class StackCommands {
 			// Save current calcStack to the undoStack
 			calcStack.saveUndo();
 
-			Output.debugPrint("Taking the base 10 logarithm of " + calcStack.peek());
+			Output.debugPrintln("Taking the base 10 logarithm of " + calcStack.peek());
 			calcStack.push(java.lang.Math.log10(calcStack.pop().doubleValue()));
 
 		} else {
@@ -634,7 +634,7 @@ public class StackCommands {
 		// Calculate the result. Negative numbers can cause problems - see the following for the result calculation
 		BigDecimal remainder = a.remainder(b, MathContext.DECIMAL128);
 
-		Output.debugPrint("Modulus: " + a + " % " + b + " = " + remainder.toPlainString());
+		Output.debugPrintln("Modulus: " + a + " % " + b + " = " + remainder.toPlainString());
 		calcStack.push(remainder);
 	}
 
@@ -646,8 +646,8 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("CalcStack has " + calcStack.size() + " elements");
-		Output.debugPrint("Operand entered: '" + op + "'");
+		Output.debugPrintln("CalcStack has " + calcStack.size() + " elements");
+		Output.debugPrintln("Operand entered: '" + op + "'");
 
 		// Verify stack contains at least two elements
 		if (calcStack.size() >= 2) {
@@ -672,7 +672,7 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("Create a percent by dividing by 100");
+		Output.debugPrintln("Create a percent by dividing by 100");
 		calcStack.push(calcStack.pop().divide(new BigDecimal("100")));
 	}
 
@@ -700,7 +700,7 @@ public class StackCommands {
 		}
 
 		// Display Debug Output
-		Output.debugPrint("Generating Random number between " + low + " and " + high + "(inclusive of both)");
+		Output.debugPrintln("Generating Random number between " + low + " and " + high + "(inclusive of both)");
 
 		// Verify that the low number <= the high number
 		if (low > high) {
@@ -835,7 +835,7 @@ public class StackCommands {
 			calcStack.saveUndo();
 
 			// We're good - make the swap
-			Output.debugPrint("Swapping line" + item1 + " and line" + item2 + " stack items");
+			Output.debugPrintln("Swapping line" + item1 + " and line" + item2 + " stack items");
 			StackOperations.StackSwapItems(calcStack, (item1 - 1), (item2) - 1);
 		}
 	}
@@ -860,7 +860,7 @@ public class StackCommands {
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
 
-		Output.debugPrint("Taking the square root of the last stack item");
+		Output.debugPrintln("Taking the square root of the last stack item");
 		calcStack.push(calcStack.pop().sqrt(MathContext.DECIMAL128));
 	}
 
@@ -891,7 +891,7 @@ public class StackCommands {
 
 		// Step1: Get the mean
 		BigDecimal mean1 = Math.mean(calcStack);
-		Output.debugPrint("Initial mean of the numbers: " + mean1.toPlainString());
+		Output.debugPrintln("Initial mean of the numbers: " + mean1.toPlainString());
 
 		// Step2: For each number: subtract the mean from the number and square the result
 		BigDecimal[] stdArray = new BigDecimal[calcStack.size()];
@@ -907,7 +907,7 @@ public class StackCommands {
 
 		// Step3: Work out the mean of those squared differences
 		BigDecimal mean2 = Math.mean(stdArray);
-		Output.debugPrint("Secondary mean of (number-mean)^2: " + mean2);
+		Output.debugPrintln("Secondary mean of (number-mean)^2: " + mean2);
 
 		// Clear the stack if no 'keep' parameter sent
 		if (keepFlag == false) {
@@ -929,7 +929,7 @@ public class StackCommands {
 	 * 
 	 */
 	public static void cmdUndo(StackObj calcStack, String arg) {
-		Output.debugPrint("Undoing command");
+		Output.debugPrintln("Undoing command");
 		int lineNum = 0;	// Undo line number NOT the position on the stack. That is one less.
 
 		// Determine if an "undo back to" line number was provided. If not use the last entry
@@ -951,7 +951,7 @@ public class StackCommands {
 			}
 		}
 
-		Output.debugPrint("  - Restoring back to line number: " + lineNum + "  |  index number: " + (lineNum - 1));
+		Output.debugPrintln("  - Restoring back to line number: " + lineNum + "  |  index number: " + (lineNum - 1));
 
 		if (calcStack.undoSize() >= 1) {
 			// Replace the calcStack items with the correct undo stack ones
@@ -960,7 +960,7 @@ public class StackCommands {
 
 			// Discard the items in the Undo stack after the selected index
 			for (int i = calcStack.undoSize(); i > lineNum - 1; i--) {
-				Output.debugPrint("  - Removing unneeded undo stack item at line " + (i) + " / index: " + (i - 1) + ":  " + calcStack.undoGet(i - 1));
+				Output.debugPrintln("  - Removing unneeded undo stack item at line " + (i) + " / index: " + (i - 1) + ":  " + calcStack.undoGet(i - 1));
 				calcStack.undoRemove(i - 1);
 			}
 
