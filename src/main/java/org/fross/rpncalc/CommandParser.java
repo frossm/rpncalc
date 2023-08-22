@@ -285,7 +285,13 @@ public class CommandParser {
 		 ******************************************************************************/
 		case "memory":
 		case "mem":
-			StackMemory.cmdMem(calcStack, cmdInputParam);
+			// I often mistype 'mem list' instead of 'list mem' I'm going to allow that to work
+			if (cmdInput.toLowerCase().startsWith("mem list")) {
+				Output.printColorln(Ansi.Color.CYAN, "Remapping command to 'list mem'");
+				CommandParser.Parse(calcStack, calcStack2, "list mem", "list", "mem");
+			} else {
+				StackMemory.cmdMem(calcStack, cmdInputParam);
+			}
 			break;
 
 		/*******************************************************************************
@@ -488,13 +494,13 @@ public class CommandParser {
 						Output.debugPrintln("NumOp Found: Op = '" + tempOp + "'");
 						calcStack.push(new BigDecimal(tempNum));
 						calcStack = Math.Parse(tempOp, calcStack);
-						
+
 					} catch (NumberFormatException ex) {
 						// Prevents a crash if user enters "-+" (which they shouldn't do)
 						Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
 						break;
 					}
-					
+
 				} else {
 					Output.printColorln(Ansi.Color.RED, "One number is required to be on the stack to usea a NumOp");
 				}
