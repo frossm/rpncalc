@@ -17,7 +17,6 @@ Functions are global and can work across any stack.  They are saved in the prefe
 When you execute a function, the steps of that function are executed one after the other.  Therefore when you execute `undo` you will undo back through your function step by step. You do not `undo` the entire function in one command.  Of course you can always run `undo NUM` where `NUM` is the steps to undo.
 
 The following commands can be entered during a recording, but are not recorded.
-- frac
 - list
 - debug
 - ver, version
