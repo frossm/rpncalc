@@ -52,7 +52,7 @@ public class UserFunctions {
 		String functionName = "";
 		String[] arguments = {};
 
-		// Break arguments into on/off and name.  If no name was given set to blank
+		// Break arguments into on/off and name. If no name was given set to blank
 		try {
 			arguments = args.trim().toLowerCase().split(" ");
 			functionName = arguments[1];
@@ -69,7 +69,7 @@ public class UserFunctions {
 				} else {
 					Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
 				}
-				
+
 			} else if (arguments[0].startsWith("off")) {
 				if (recordingEnabled == true) {
 					recordingEnabled = false;
@@ -111,7 +111,7 @@ public class UserFunctions {
 						SaveRecordingToPrefs(functionName);
 
 					} else {
-						Output.printColorln(Ansi.Color.CYAN, "No valid commands were recorded");
+						Output.printColorln(Ansi.Color.CYAN, "Recording off - No valid commands were recorded");
 					}
 				} else {
 					Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
@@ -183,8 +183,7 @@ public class UserFunctions {
 	 */
 	public static void RecordCommand(String arg) {
 		// Ignore the following commands from recording
-		String[] ignore = { "frac", "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit",
-				"quit" };
+		String[] ignore = { "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit", "quit" };
 
 		// If the command starts with an ignored item, just return before adding it to the recording
 		for (int i = 0; i < ignore.length; i++) {
