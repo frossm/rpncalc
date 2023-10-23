@@ -1068,6 +1068,10 @@ class StackCommandsTest {
 		stk.push(-65.4329);
 		StackCommands.cmdRound(stk, "12");
 		assertEquals(-65.4329, stk.pop().doubleValue());
+		
+		stk.push(0.1);
+		StackCommands.cmdRound(stk, "0");
+		assertEquals(0, stk.pop().doubleValue());
 
 		// Scientific Notation
 		stk.push(1.23456789e19);

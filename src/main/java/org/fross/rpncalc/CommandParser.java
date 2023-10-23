@@ -206,6 +206,7 @@ public class CommandParser {
 		case "frac":
 		case "fraction":
 			String[] outString = StackConversions.cmdFraction(calcStack, cmdInputParam);
+			// If there wasn't an error (which would return an empty string), display the results
 			if (!outString[0].isEmpty()) {
 				Output.printColorln(Ansi.Color.YELLOW, outString[0]);
 				Output.printColorln(Ansi.Color.WHITE, outString[1]);
@@ -450,10 +451,17 @@ public class CommandParser {
 					BigDecimal fracTop = new BigDecimal(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
 					BigDecimal fracBottom = new BigDecimal(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
 
+					Output.debugPrintln("Fraction Top:\t"+fracTop);
+					Output.debugPrintln("Fraction Bot:\t"+fracBottom);
+					
 					// Divide the fraction and get a decimal equivalent
 					fracDecimalEquiv = fracTop.divide(fracBottom, MathContext.DECIMAL128);
 
 					// Overall decimal equivalent (integer + decimal)
+					// If integer is negative, make the decimal negative so we can add them
+					if (fracInteger.signum() < 0) {
+						fracDecimalEquiv = fracDecimalEquiv.multiply(new BigDecimal("-1"));
+					}
 					BigDecimal endResult = fracInteger.add(fracDecimalEquiv);
 
 					// Simply convert the fraction to a decimal and add it to the stack

@@ -739,8 +739,8 @@ public class StackCommands {
 		try {
 			decimalPlaces = Integer.parseInt(arg);
 			// Ensure a negative number is not provided for decimal points to round
-			if (decimalPlaces <= 0) {
-				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' number of decimal places must be > 0");
+			if (decimalPlaces < 0) {
+				Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' number of decimal places must be >= 0");
 				return;
 			}
 

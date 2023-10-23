@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.0.14</version>
+	<version>5.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>

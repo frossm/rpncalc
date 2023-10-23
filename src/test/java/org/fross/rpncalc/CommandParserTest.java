@@ -102,7 +102,7 @@ class CommandParserTest {
 
 		CommandParser.Parse(stk1, stk2, "-4 1/64", "-4", "1/64");
 		StackCommands.cmdRound(stk1, "4");
-		assertEquals(-3.9844, stk1.peek().doubleValue());
+		assertEquals(-4.0156, stk1.peek().doubleValue());
 		assertEquals(4, stk1.size());
 
 		// Test scientific notation

@@ -152,7 +152,11 @@ public class StackObj implements Cloneable {
 	 * @param item
 	 */
 	public void push(String item) {
-		calcStack.push(new BigDecimal(item, this.mc));
+		try {
+			this.calcStack.push(new BigDecimal(item, this.mc));
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "Error: " + ex.getMessage());
+		}
 	}
 
 	/**

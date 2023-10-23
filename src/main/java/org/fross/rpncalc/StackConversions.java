@@ -94,7 +94,7 @@ public class StackConversions {
 		BigDecimal startingNumber = calcStack.peek();
 
 		// If starting number is negative, set a variable then remove the negative sign
-		if (startingNumber.compareTo(BigDecimal.ZERO) < 0) {
+		if (startingNumber.signum() < 0) {
 			negativeNumber = true;
 			startingNumber = startingNumber.abs();
 		}
@@ -111,16 +111,35 @@ public class StackConversions {
 			return outputString;
 		}
 
+		// Round the decimal number to the right denominator
+		// IF MY_DIM != ((FLOOR((MY_DIM * 16) + 0.5)) / 16)
+		// Reference: https://community.ptc.com/t5/3D-Part-Assembly-Design/Rounding-decimals-to-the-nearest-fraction/td-p/657420
+		BigInteger roundedNumberTemp = BigInteger.ZERO;
+		BigDecimal roundedNumber = BigDecimal.ZERO;
+		try {
+			roundedNumberTemp = startingNumber.multiply(new BigDecimal(denominator)).add(new BigDecimal("0.5")).toBigInteger();
+			roundedNumber = new BigDecimal(roundedNumberTemp).divide(new BigDecimal(denominator));
+		} catch (ArithmeticException ex) {
+			// Ignore error where division doesn't equate to the exact value - we're estimating here...
+		}
+
 		// Determine the integer portion of the number
-		BigInteger integerPart = startingNumber.toBigInteger();
+		BigInteger integerPart = roundedNumber.toBigInteger();
 
-		// Determine the fractional portion as an double
-		BigDecimal decimalPart = startingNumber.subtract(new BigDecimal(integerPart));
+		// Need to make the decimal a fraction my multiplying by the 10ths.
+		// Determine the number of decimals places and multiply by 10
+		int scaleMultiplier = 10;
+		for (int i = 1; i < roundedNumber.scale(); i++) {
+			scaleMultiplier *= 10;
+		}
 
-		// Convert to a fraction with provided base
-		// This will round to the nearest integer by adding 1/2 to the number and getting it's integer value
-		BigDecimal numeratorNotRounded = decimalPart.multiply(new BigDecimal(denominator));
-		BigInteger numerator = numeratorNotRounded.add(new BigDecimal(".5")).toBigInteger();
+		// Numerator = decimal portion * scale so we have an integer
+		// Decimal = the scale.  
+		// Example: 0.25 becomes 25/100  |   0.123 becomes 123/1000
+		BigDecimal numeratorTemp = roundedNumber.subtract(new BigDecimal(integerPart));
+		numeratorTemp = numeratorTemp.multiply(BigDecimal.valueOf(scaleMultiplier));
+		BigInteger numerator = numeratorTemp.toBigInteger();
+		denominator = BigInteger.valueOf(scaleMultiplier);
 
 		// Get the Greatest Common Divisor so we can simply the fraction
 		BigInteger gcd = Math.GreatestCommonDivisor(numerator, denominator);
@@ -138,16 +157,17 @@ public class StackConversions {
 
 		// Output the fractional display
 		// If there is no fractional result, remove it so we don't see '0/1'
-		String stackHeader = "-Fraction (Granularity: 1/" + (denominator.multiply(gcd)) + ")";
+		String stackHeader = "-Fraction (Granularity: 1/" + (param) + ")";
+		String result = integerPart + " " + ((numerator.compareTo(BigInteger.ZERO) == 0) ? "" : numerator.toString() + "/" + denominator);
+
+		// Header Top
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());
-		if (numerator.compareTo(BigInteger.ZERO) != 0) {
-			outputString[1] = " " + calcStack.peek().setScale(8, RoundingMode.HALF_UP) + " is approximately '" + integerPart + " " + numerator + "/"
-					+ denominator + "'";
-		} else {
-			outputString[1] = " " + calcStack.peek() + " does not have a fractional component with a base of " + (denominator.multiply(gcd));
-		}
+		// Results
+		outputString[1] = " " + calcStack.peek().setScale(5, RoundingMode.HALF_UP) + " is approximately '" + result.trim() + "'";
+		// Header Bottom
 		outputString[2] = "-".repeat(Main.configProgramWidth) + "\n";
-		outputString[3] = integerPart + " " + numerator + "/" + denominator;
+		// Results for testing
+		outputString[3] = result.trim();
 
 		return outputString;
 	}
