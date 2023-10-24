@@ -112,7 +112,7 @@ public class StackConversions {
 		}
 
 		// Round the decimal number to the right denominator
-		// IF MY_DIM != ((FLOOR((MY_DIM * 16) + 0.5)) / 16)
+		// IF MY_DIM != ((FLOOR((MY_DIM * 16) + 0.5)) / 16)  (for 1/16 as the denominator)
 		// Reference: https://community.ptc.com/t5/3D-Part-Assembly-Design/Rounding-decimals-to-the-nearest-fraction/td-p/657420
 		BigInteger roundedNumberTemp = BigInteger.ZERO;
 		BigDecimal roundedNumber = BigDecimal.ZERO;
