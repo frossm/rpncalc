@@ -112,15 +112,15 @@ public class StackConversions {
 		}
 
 		// Round the decimal number to the right denominator
-		// IF MY_DIM != ((FLOOR((MY_DIM * 16) + 0.5)) / 16)  (for 1/16 as the denominator)
+		// If My_Dim != ((Floor((My_Dim * 16) + 0.5)) / 16) (For 1/16 as the denominator)
 		// Reference: https://community.ptc.com/t5/3D-Part-Assembly-Design/Rounding-decimals-to-the-nearest-fraction/td-p/657420
 		BigInteger roundedNumberTemp = BigInteger.ZERO;
 		BigDecimal roundedNumber = BigDecimal.ZERO;
 		try {
 			roundedNumberTemp = startingNumber.multiply(new BigDecimal(denominator)).add(new BigDecimal("0.5")).toBigInteger();
-			roundedNumber = new BigDecimal(roundedNumberTemp).divide(new BigDecimal(denominator));
+			roundedNumber = new BigDecimal(roundedNumberTemp).divide(new BigDecimal(denominator), MathContext.DECIMAL128);
 		} catch (ArithmeticException ex) {
-			// Ignore error where division doesn't equate to the exact value - we're estimating here...
+			Output.printColorln(Ansi.Color.RED, "Error calculating the rounded fraction\n" + ex.getMessage());
 		}
 
 		// Determine the integer portion of the number
@@ -128,22 +128,18 @@ public class StackConversions {
 
 		// Need to make the decimal a fraction my multiplying by the 10ths.
 		// Determine the number of decimals places and multiply by 10
-		int scaleMultiplier = 10;
-		for (int i = 1; i < roundedNumber.scale(); i++) {
-			scaleMultiplier *= 10;
-		}
+		BigDecimal scaleMultiplier = BigDecimal.TEN.pow(roundedNumber.scale());
 
 		// Numerator = decimal portion * scale so we have an integer
-		// Decimal = the scale.  
-		// Example: 0.25 becomes 25/100  |   0.123 becomes 123/1000
+		// Decimal = the scale
+		// Example: 0.25 becomes 25/100 | 0.123 becomes 123/1000
 		BigDecimal numeratorTemp = roundedNumber.subtract(new BigDecimal(integerPart));
-		numeratorTemp = numeratorTemp.multiply(BigDecimal.valueOf(scaleMultiplier));
+		numeratorTemp = numeratorTemp.multiply(scaleMultiplier);
 		BigInteger numerator = numeratorTemp.toBigInteger();
-		denominator = BigInteger.valueOf(scaleMultiplier);
+		denominator = scaleMultiplier.toBigInteger();
 
 		// Get the Greatest Common Divisor so we can simply the fraction
 		BigInteger gcd = Math.GreatestCommonDivisor(numerator, denominator);
-
 		Output.debugPrintln("Greatest Common Divisor for " + numerator.toString() + " and " + denominator.toString() + " is " + gcd.toString());
 
 		// Simply the fraction
