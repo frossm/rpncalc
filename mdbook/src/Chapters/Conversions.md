@@ -19,6 +19,8 @@ if `frac 5` would have been entered (which means 1/5 is maximum granularity), yo
 
 |<div style="width:90px">Command</div>|Description|
 |-------|-----------|
+|to%|Converts `line1` from a "number" to a percent.  For example, `0.4455` becomes `44.55%`. This is simply done by multiplying the number by 100|
+|from%|Converts `line1` from a percent to a "number".  For example, `93.124%` becomes `.93124`. This is simply done by multiplying the number by 0.01|
 |frac [base]|Display a fractional estimate of the last stack item (`line1`) with the maximum granularity of 1/[base]. See the above description for more detail|
 |in2mm|Converts the value in `line1` from inches to millimeters|
 |mm2in|Converts the value in `line1` from millimeters to inches|

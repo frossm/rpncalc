@@ -340,22 +340,22 @@ public class StackCommands {
 			Output.printColorln(Ansi.Color.RED, "Error: There must be at least one item on the stack to perform a factorial");
 			return;
 		}
-		
+
 		// Ensure the provided number is not zero or negative
 		if (calcStack.peek().compareTo(BigDecimal.ZERO) < 1) {
 			Output.printColorln(Ansi.Color.RED, "ERROR: Factorial requires a number greater than zero");
 			return;
 		}
-		
+
 		// Save current calcStack to the undoStack
 		calcStack.saveUndo();
-		
+
 		// Warn user the decimal has been dropped
 		// TODO: Should make this more international at some point
 		if (calcStack.peek().toPlainString().contains(".")) {
 			Output.printColorln(Ansi.Color.CYAN, "Warning: The decimal portion of '" + calcStack.peek().toString() + "' has been dropped for the calculation");
 		}
-		
+
 		BigDecimal result = Math.Factorial(calcStack.pop());
 		calcStack.push(result);
 	}
@@ -656,24 +656,6 @@ public class StackCommands {
 			Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
 		}
 
-	}
-
-	/**
-	 * cmdPercent(): Turn a number into a percent by dividing by 100
-	 * 
-	 */
-	public static void cmdPercent(StackObj calcStack) {
-		// Ensure we have enough numbers on the stack
-		if (calcStack.size() < 1) {
-			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
-			return;
-		}
-
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
-		Output.debugPrintln("Create a percent by dividing by 100");
-		calcStack.push(calcStack.pop().divide(new BigDecimal("100")));
 	}
 
 	/**

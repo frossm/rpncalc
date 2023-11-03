@@ -981,33 +981,6 @@ class StackCommandsTest {
 	}
 
 	/**
-	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdPercent(org.fross.rpncalc.StackObj)}.
-	 */
-	@Test
-	void testCmdPercent() {
-		StackObj stk = new StackObj();
-
-		stk.push(2.34);
-		StackCommands.cmdPercent(stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.0234, stk.pop().doubleValue());
-
-		stk.push(-44.987);
-		StackCommands.cmdPercent(stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(-0.44987, stk.pop().doubleValue());
-
-		stk.push(-154.321E10);
-		StackCommands.cmdPercent(stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals("-15432100000.00000", stk.pop().toString());
-
-		stk.push(1.1E6);
-		StackCommands.cmdPercent(stk);
-		assertEquals(11000, stk.pop().doubleValue());
-	}
-
-	/**
 	 * Test method for {@link org.fross.rpncalc.StackCommands#cmdRandom(org.fross.rpncalc.StackObj, java.lang.String)}.
 	 * 
 	 * Need to work Random to support numbers > a long
@@ -1068,7 +1041,7 @@ class StackCommandsTest {
 		stk.push(-65.4329);
 		StackCommands.cmdRound(stk, "12");
 		assertEquals(-65.4329, stk.pop().doubleValue());
-		
+
 		stk.push(0.1);
 		StackCommands.cmdRound(stk, "0");
 		assertEquals(0, stk.pop().doubleValue());

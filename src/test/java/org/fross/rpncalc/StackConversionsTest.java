@@ -35,6 +35,64 @@ import org.junit.jupiter.api.Test;
  *
  */
 class StackConversionsTest {
+	/**
+	 * Test converting from a percent to a number
+	 * 
+	 * Example: 34.5% -> .345
+	 */
+	@Test
+	void testCmdFromPercent() {
+		StackObj stk = new StackObj();
+
+		stk.push("2.34");
+		StackConversions.cmdFromPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("0.02340", stk.pop().toString());
+
+		stk.push(-44.9873);
+		StackConversions.cmdFromPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("-0.44987", stk.pop().toString());
+
+		stk.push(-154.321E10);
+		StackConversions.cmdFromPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("-15432100000.00000", stk.pop().toString());
+
+		stk.push(1.1E6);
+		StackConversions.cmdFromPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("11000.00000", stk.pop().toString());
+	}
+
+	/**
+	 * Test converting from a number to a percent
+	 * 
+	 * Example: .345 -> 34.5%
+	 */
+	@Test
+	void testCmdToPercent() {
+		StackObj stk = new StackObj();
+
+		stk.push(71.2345);
+		StackConversions.cmdToPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(7123.45, stk.pop().doubleValue());
+
+		stk.push(-44.987);
+		StackConversions.cmdToPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals(-4498.7, stk.pop().doubleValue());
+
+		stk.push(-154.321E10);
+		StackConversions.cmdToPercent(stk);
+		StackCommands.cmdRound(stk, "5");
+		assertEquals("-154321000000000.00000", stk.pop().toString());
+
+		stk.push(1.1E6);
+		StackConversions.cmdToPercent(stk);
+		assertEquals("110000000.0", stk.pop().toString());
+	}
 
 	/**
 	 * Test method for {@link org.fross.rpncalc.StackConversions#cmdConvertIN2MM(org.fross.rpncalc.StackObj)}.
@@ -144,7 +202,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("71", result[3]);
-		
+
 		// Test #2
 		stk.clear();
 		stk.push(4.99);
@@ -167,7 +225,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("5", result[3]);
-				
+
 		// Test #3
 		stk.clear();
 		stk.push(23.212121);
@@ -190,7 +248,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("23", result[3]);
-		
+
 		// Test #3
 		stk.clear();
 		stk.push(71.7272);
@@ -213,7 +271,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("71 1/2", result[3]);
-		
+
 		// Test with negative numbers
 		// Test #-1
 		stk.clear();
@@ -237,7 +295,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("-71", result[3]);
-		
+
 		// Test #-2
 		stk.clear();
 		stk.push(-4.99);
@@ -260,7 +318,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("-5", result[3]);
-				
+
 		// Test #3
 		stk.clear();
 		stk.push(-23.212121);
@@ -283,7 +341,7 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("-23", result[3]);
-		
+
 		// Test #3
 		stk.clear();
 		stk.push(-71.7272);
@@ -306,9 +364,8 @@ class StackConversionsTest {
 		// 2
 		result = StackConversions.cmdFraction(stk, "2");
 		assertEquals("-71 1/2", result[3]);
-		
-		
-		// Misc	
+
+		// Misc
 		stk.clear();
 		stk.push(71.1);
 		result = StackConversions.cmdFraction(stk, "16");

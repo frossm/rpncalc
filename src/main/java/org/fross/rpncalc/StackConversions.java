@@ -39,6 +39,46 @@ public class StackConversions {
 	public static final BigInteger DEFAULT_FRACTION_DENOMINATOR = new BigInteger("64");  // Default Smallest Fraction Denominator
 
 	/**
+	 * cmdFromPercent(): Convert a percentage to a number by multiplying by .01
+	 * 
+	 * Example: 23.5% converts to .235
+	 * 
+	 */
+	public static void cmdFromPercent(StackObj calcStack) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		Output.debugPrintln("Create a percent by multiplying by 0.01");
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("0.01")));
+	}
+
+	/**
+	 * cmdToPercent(): Convert a number to a percentage by multiplying by 100
+	 * 
+	 * Example: 0.715 converts to 71.5%
+	 * 
+	 */
+	public static void cmdToPercent(StackObj calcStack) {
+		// Ensure we have enough numbers on the stack
+		if (calcStack.size() < 1) {
+			Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+			return;
+		}
+
+		// Save current calcStack to the undoStack
+		calcStack.saveUndo();
+
+		Output.debugPrintln("Create a percent by multiplying by 100");
+		calcStack.push(calcStack.pop().multiply(new BigDecimal("100")));
+	}
+
+	/**
 	 * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
 	 * 
 	 */
@@ -114,11 +154,11 @@ public class StackConversions {
 		// Round the decimal number to the right denominator
 		// If My_Dim != ((Floor((My_Dim * 16) + 0.5)) / 16) (For 1/16 as the denominator)
 		// Reference: https://community.ptc.com/t5/3D-Part-Assembly-Design/Rounding-decimals-to-the-nearest-fraction/td-p/657420
-		BigInteger roundedNumberTemp = BigInteger.ZERO;
 		BigDecimal roundedNumber = BigDecimal.ZERO;
 		try {
-			roundedNumberTemp = startingNumber.multiply(new BigDecimal(denominator)).add(new BigDecimal("0.5")).toBigInteger();
-			roundedNumber = new BigDecimal(roundedNumberTemp).divide(new BigDecimal(denominator), MathContext.DECIMAL128);
+			roundedNumber = startingNumber.multiply(new BigDecimal(denominator)).add(new BigDecimal("0.5")).setScale(0, RoundingMode.FLOOR);
+			;
+			roundedNumber = roundedNumber.divide(new BigDecimal(denominator), MathContext.DECIMAL128);
 		} catch (ArithmeticException ex) {
 			Output.printColorln(Ansi.Color.RED, "Error calculating the rounded fraction\n" + ex.getMessage());
 		}
@@ -127,7 +167,7 @@ public class StackConversions {
 		BigInteger integerPart = roundedNumber.toBigInteger();
 
 		// Need to make the decimal a fraction my multiplying by the 10ths.
-		// Determine the number of decimals places and multiply by 10
+		// Determine the number of decimals places and tale 10^scale
 		BigDecimal scaleMultiplier = BigDecimal.TEN.pow(roundedNumber.scale());
 
 		// Numerator = decimal portion * scale so we have an integer
@@ -154,7 +194,7 @@ public class StackConversions {
 		// Output the fractional display
 		// If there is no fractional result, remove it so we don't see '0/1'
 		String stackHeader = "-Fraction (Granularity: 1/" + (param) + ")";
-		String result = integerPart + " " + ((numerator.compareTo(BigInteger.ZERO) == 0) ? "" : numerator.toString() + "/" + denominator);
+		String result = integerPart + " " + ((numerator.compareTo(BigInteger.ZERO) == 0) ? "" : numerator + "/" + denominator);
 
 		// Header Top
 		outputString[0] = "\n" + stackHeader + "-".repeat(Main.configProgramWidth - stackHeader.length());

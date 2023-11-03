@@ -10,7 +10,6 @@ These commands, like the others you'll read about later, are executed by typing 
 
 |<div style="width:110px">Command</div>|Description|
 |-------|-----------|
-|%| **PERCENT**<br>Assumes `line1` contains a percent.  This converts that into a number by simply dividing that value by 100.  For example, if you want to take 50.123% of a number, you could just enter in `50.123 [ENTER] % [ENTER] *`|
 |aa [keep]| **ADD ALL**<br>Add all stack items together and replace the numbers on the stack with the result.  If the optional `keep` parameter is sent, the elements added will be retained on the stack and the total will be added to the top of the stack.  The entire `keep` command is not necessary, anything that starts with `k` will work|
 |abs| **ABSOLUTE VALUE**<br>Takes the [absolute value](https://en.wikipedia.org/wiki/Absolute_value#:~:text=In%20mathematics%2C%20the%20absolute%20value,and%20%7C0%7C%20%3D%200) of line 1.  The returns the positive value of the number.  Not the most useful command on it's own as you can always `f` flip the sign.  However it could be useful as part of a User Defined Function|
 |avg [keep]<br>mean [keep]|**AVERAGE / MEAN**<br>Calculate the [average](https://en.wikipedia.org/wiki/Average) of all of the numbers on the stack.  The stack will be replaced with the result.  If `keep` is provided, the stack will be retained and the average will be added on top. `average` or `mean` can also be used|

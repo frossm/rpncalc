@@ -89,11 +89,6 @@ public class CommandParser {
 			StackCommands.cmdFactorial(calcStack);
 			break;
 
-		// Percent
-		case "%":
-			StackCommands.cmdPercent(calcStack);
-			break;
-
 		// Swap Elements in a stack
 		case "swap":
 		case "s":
@@ -202,6 +197,14 @@ public class CommandParser {
 		/*******************************************************************************
 		 * Conversions
 		 ******************************************************************************/
+		// Percent
+		case "to%":
+			StackConversions.cmdToPercent(calcStack);
+			break;
+		case "from%":
+			StackConversions.cmdFromPercent(calcStack);
+			break;
+
 		// Fraction
 		case "frac":
 		case "fraction":
@@ -451,9 +454,9 @@ public class CommandParser {
 					BigDecimal fracTop = new BigDecimal(cmdInputParam.substring(0, cmdInputParam.indexOf('/')));
 					BigDecimal fracBottom = new BigDecimal(cmdInputParam.substring(cmdInputParam.indexOf('/') + 1));
 
-					Output.debugPrintln("Fraction Top:\t"+fracTop);
-					Output.debugPrintln("Fraction Bot:\t"+fracBottom);
-					
+					Output.debugPrintln("Fraction Top:\t" + fracTop);
+					Output.debugPrintln("Fraction Bot:\t" + fracBottom);
+
 					// Divide the fraction and get a decimal equivalent
 					fracDecimalEquiv = fracTop.divide(fracBottom, MathContext.DECIMAL128);
 

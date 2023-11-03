@@ -95,7 +95,8 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " u [STACK #]    Undo last action or back to the undo stack defined in 'list undo'");
 
 		Output.printColorln(Ansi.Color.YELLOW, "\nConversions:");
-		Output.printColorln(Ansi.Color.WHITE, " %              Convert line1 into a percentage by multipling it by 0.01");
+		Output.printColorln(Ansi.Color.WHITE, " to%            Convert line1 from a number to a percent (0.715 -> 71.5%)");
+		Output.printColorln(Ansi.Color.WHITE, " from%          Convert line1 from a percent to a number (23.5% -> 0.235)");
 		Output.printColorln(Ansi.Color.WHITE, " frac [base]    Display as a fraction with min provided base. Default base is 64th");
 		Output.printColorln(Ansi.Color.WHITE, " deg2rad        Convert line1 from degrees to radians");
 		Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from radians to degrees");
