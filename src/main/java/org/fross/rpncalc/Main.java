@@ -217,7 +217,7 @@ public class Main {
 				if (calcStack.getAsString(i).toLowerCase().contains("e")) {
 					currentStackItem = calcStack.getAsString(i).toLowerCase();
 				} else {
-					currentStackItem = Format.Comma(calcStack.getAsString(i).toLowerCase());
+					currentStackItem = Format.Comma(calcStack.getAsString(i));
 				}
 
 				// Display Stack Row Number without a newline
@@ -239,7 +239,6 @@ public class Main {
 				}
 
 				// Now that the spaces are inserted (for decimal/right) display the number
-				// currentStackItem = currentStackItem.replaceAll("\\s+$", ""); // TODO: Delete this in the future if the below trim() works
 				Output.printColorln(Ansi.Color.WHITE, currentStackItem.trim());
 			}
 
@@ -247,7 +246,7 @@ public class Main {
 			try {
 				cmdInput = scanner.readLine("\n" + INPUT_PROMPT);
 			} catch (UserInterruptException ex) {
-				// User entered Ctrl-c so exit the program gracefully by adding "exit" as the input
+				// User entered Ctrl-C so exit the program gracefully by placing the "exit" command as the input
 				cmdInput = "exit";
 				Output.printColorln(Ansi.Color.CYAN, "Ctrl-C Detected. Exiting RPNCalc...");
 
@@ -276,8 +275,7 @@ public class Main {
 			}
 
 			// While in debug mode, show the entered text along with the broken up command and parameter
-			Output.debugPrintln(
-					"Full cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
+			Output.debugPrintln("Full cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
 
 			// If recording is enabled, send the user input to be recorded
 			if (UserFunctions.recordingIsEnabled() == true) {

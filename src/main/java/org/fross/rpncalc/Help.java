@@ -143,10 +143,7 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
 		Output.printColorln(Ansi.Color.WHITE, " export FILE       Export the current stack to the provided file (one number per line)");
 		Output.printColorln(Ansi.Color.WHITE, " import FILE       Replace current stack with file contents (one number per line)");
-		Output.printColorln(Ansi.Color.WHITE, " list func         Display the detailed user defined functions");
-		Output.printColorln(Ansi.Color.WHITE, " list mem          Display contents of the memory slots");
-		Output.printColorln(Ansi.Color.WHITE, " list stacks       Show the list of saved stacks");
-		Output.printColorln(Ansi.Color.WHITE, " list undo         Show the current undo stack");
+		DisplayListCommands(Ansi.Color.WHITE);
 		Output.printColorln(Ansi.Color.WHITE, " load NAME         Load (or create if needed) a named stack");
 		Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
 		Output.printColorln(Ansi.Color.WHITE, " rev               Reverse the order of the items in the stack");
@@ -156,6 +153,17 @@ public class Help {
 		Output.printColorln(Ansi.Color.WHITE, " x | exit          Exit Calculator");
 		Output.printColorln(Ansi.Color.WHITE, " cx| clearexit     Clear the stack and then exit");
 
+	}
+
+	/**
+	 * DisplayListCommands(): Show valid list commands elsewhere as needed
+	 */
+	public static void DisplayListCommands(Ansi.Color clr) {
+		Output.printColorln(clr, " list func         Display the detailed user defined functions");
+		Output.printColorln(clr, " list mem          Display contents of the memory slots");
+		Output.printColorln(clr, " list stacks       Show the list of saved stacks");
+		Output.printColorln(clr, " list undo         Show the current undo stack");
+		return;
 	}
 
 	/**

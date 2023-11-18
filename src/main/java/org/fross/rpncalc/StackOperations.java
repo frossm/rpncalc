@@ -64,6 +64,7 @@ public class StackOperations {
 	 * undo: List the contents of the undo stack which shows previous stack states
 	 */
 	public static void cmdList(StackObj calcStack, String arg) {
+		// Process the different list commands as sent by arg
 		switch (arg.toLowerCase()) {
 		case "stacks":
 		case "stack":
@@ -118,7 +119,10 @@ public class StackOperations {
 			break;
 
 		default:
-			Output.printColorln(Ansi.Color.RED, "Error:  Unknown list command '" + arg + "'");
+			Output.printColorln(Ansi.Color.RED, "Error:  Unknown list command '" + arg + "'\n");
+			Output.printColorln(Ansi.Color.CYAN, "Allowed list commands:");
+			Help.DisplayListCommands(Ansi.Color.CYAN);
+			Output.printColorln(Ansi.Color.CYAN, "\nSee help or user guide for additional information");
 		}
 	}
 

@@ -78,14 +78,15 @@ public class CommandParser {
 			break;
 
 		// Delete
+		case "delete":
 		case "del":
 		case "d":
 			StackCommands.cmdDelete(calcStack, cmdInputParam);
 			break;
 
 		// Factorial
-		case "fact":
 		case "factorial":
+		case "fact":
 			StackCommands.cmdFactorial(calcStack);
 			break;
 
@@ -106,11 +107,13 @@ public class CommandParser {
 			break;
 
 		// AddAll
+		case "addall":
 		case "aa":
 			StackCommands.cmdAddAll(calcStack, cmdInputParam);
 			break;
 
 		// Modulus
+		case "modulus":
 		case "mod":
 			StackCommands.cmdModulus(calcStack);
 			break;
