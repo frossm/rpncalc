@@ -570,7 +570,7 @@ class StackCommandsTest {
 
 	/**
 	 * Testing the linear regression results
-	 * 
+	 * Reference for testing:  https://www.socscistatistics.com/tests/regression/default.aspx
 	 */
 	@Test
 	void testCmdLinearRegression() {
@@ -584,7 +584,7 @@ class StackCommandsTest {
 		stk.push(20.00);
 		stk.push(10.00);
 		stk.push(35.00);
-		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdLinearRegression(stk, "a");
 		StackCommands.cmdRound(stk, "4");
 		assertEquals(8, stk.size());
 		assertEquals(27.7143, stk.pop().doubleValue());
@@ -601,7 +601,7 @@ class StackCommandsTest {
 		stk.push(11.11);
 		stk.push(22.22);
 		stk.push(3.0);
-		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdLinearRegression(stk, "a");
 		StackCommands.cmdRound(stk, "6");
 		assertEquals(11, stk.size());
 		assertEquals(16.671333, stk.pop().doubleValue());
@@ -618,7 +618,7 @@ class StackCommandsTest {
 		stk.push(-34.88);
 		stk.push(40.99);
 		stk.push(3.00);
-		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdLinearRegression(stk, "a");
 		StackCommands.cmdRound(stk, "6");
 		assertEquals(11, stk.size());
 		assertEquals(4.271333, stk.pop().doubleValue());
@@ -629,7 +629,7 @@ class StackCommandsTest {
 		for (int i = 0; i < testValues.length; i++) {
 			stk.push(testValues[i]);
 		}
-		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdLinearRegression(stk, "a");
 		StackCommands.cmdRound(stk, "7");
 		assertEquals(48.9842105, stk.pop().doubleValue());
 
@@ -639,7 +639,7 @@ class StackCommandsTest {
 		for (int i = 0; i < testValues1.length; i++) {
 			stk.push(testValues1[i]);
 		}
-		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdLinearRegression(stk, "a");
 		StackCommands.cmdRound(stk, "9");
 		assertEquals(17, stk.size());
 		assertEquals(-9.101980055, stk.pop().doubleValue());
@@ -652,10 +652,45 @@ class StackCommandsTest {
 			stk.push(testValues2[i]);
 		}
 		assertEquals(12, stk.size());
-		StackCommands.cmdLinearRegression(stk);
+		StackCommands.cmdLinearRegression(stk, "a");
 		StackCommands.cmdRound(stk, "9");
 		assertEquals("47498562223075895424.242424242", stk.peek().toEngineeringString());
 		assertEquals(13, stk.size());
+		
+		// Test #7 - Custom X values
+		stk.clear();
+		Double[] testValues3 = { 29.0, 41.0, 8.0, 18.0, 22.0, 99.0, 32.0, 15.0, 31.0, 3.0, 72.0, 12.0, 60.0, 32.0, 54.0, 45.0, 34.0, 76.0, 5.0, 67.0 };
+		for (int i = 0; i < testValues3.length; i++) {
+			stk.push(testValues3[i]);
+		}
+		StackCommands.cmdLinearRegression(stk, "30 a");
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(58.6135, stk.pop().doubleValue());
+		assertEquals(20, stk.size());
+		
+		// Test #8 - Custom X values
+		stk.clear();
+		Double[] testValues4 = { 19.0, 41.0, 8.0, 18.0, 12.0, -99.0, 32.0, 15.0, 31.0, 3.0, 72.0, 12.0, 60.0, 32.0, 54.0, 45.0, 34.0, 76.0, 5.0, 67.0 };
+		for (int i = 0; i < testValues4.length; i++) {
+			stk.push(testValues4[i]);
+		}
+		StackCommands.cmdLinearRegression(stk, "22 a");
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(57.1564, stk.pop().doubleValue());
+		assertEquals(20, stk.size());
+		
+		// Test #9 - Custom X values
+		stk.clear();
+		Double[] testValues5 = { 29.0, 41.0, 8.0, 18.0, 22.0, -99.0, 32.0, 15.0, 31.0, 3.0, 72.0, 12.0, -60.0, 32.0, 54.0, 45.0, 14.0, 76.0, 5.0, 44.0 };
+		for (int i = 0; i < testValues5.length; i++) {
+			stk.push(testValues5[i]);
+		}
+		StackCommands.cmdLinearRegression(stk, "45 a");
+		StackCommands.cmdRound(stk, "4");
+		assertEquals(69.1932, stk.pop().doubleValue());
+		assertEquals(20, stk.size());
+		
+
 	}
 
 	/**

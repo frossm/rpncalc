@@ -406,10 +406,37 @@ public class StackCommands {
 	 * 
 	 * @param calcStack
 	 */
-	public static void cmdLinearRegression(StackObj calcStack) {
+	public static void cmdLinearRegression(StackObj calcStack, String args) {
+		boolean argAdd = false;
+		BigDecimal argX = new BigDecimal(calcStack.size());
+
 		// Ensure we have at least 2 values on the stack
 		if (calcStack.size() < 2) {
 			Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack to calculate a linear regression");
+			return;
+		}
+
+		// Process the arguments
+		try {
+			// If any arguments were supplied
+			if (!args.isEmpty()) {
+				// Loop through each option and process it
+				for (String a : args.split("\\s")) {
+					// Look for a string that starts with 'a'
+					if (a.toLowerCase().startsWith("a")) {
+						argAdd = true;
+						Output.debugPrintln("Setting LR ADD flag");
+						continue;
+					} else {
+						argX = new BigDecimal(a).subtract(BigDecimal.ONE);
+						Output.debugPrintln("Setting LR 'x' value to : " + argX.toString());
+						continue;
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			Output.printColorln(Ansi.Color.RED, "ERROR: Acceptable linear regression options are 'add' or a number");
 			return;
 		}
 
@@ -464,17 +491,18 @@ public class StackCommands {
 		BigDecimal b = b_top.divide(b_bottom, MathContext.DECIMAL128);
 
 		// Output details if debug is enabled
-		Output.debugPrintln("n:     " + n.toPlainString());
-		Output.debugPrintln("sumX:  " + sumX.toPlainString());
-		Output.debugPrintln("sumY:  " + sumY.toPlainString());
-		Output.debugPrintln("sumXY: " + sumXY.toPlainString());
-		Output.debugPrintln("sumX2: " + sumX2.toPlainString());
-		Output.debugPrintln("sumY2: " + sumY2.toPlainString());
-		Output.debugPrintln("a:     " + a.toPlainString());
-		Output.debugPrintln("b:     " + b.toPlainString());
+		Output.debugPrintln("n:         " + n.toPlainString());
+		Output.debugPrintln("sumX:      " + sumX.toPlainString());
+		Output.debugPrintln("sumY:      " + sumY.toPlainString());
+		Output.debugPrintln("sumXY:     " + sumXY.toPlainString());
+		Output.debugPrintln("sumX2:     " + sumX2.toPlainString());
+		Output.debugPrintln("sumY2:     " + sumY2.toPlainString());
+		Output.debugPrintln("a:         " + a.toPlainString());
+		Output.debugPrintln("b:         " + b.toPlainString());
+		Output.debugPrintln("NextValue: " + argX.toPlainString() + " (one less than displayed)");
 
 		// Rounded values are just for the display
-		BigDecimal nextValue = a.add(b.multiply(n.add(BigDecimal.ONE)));
+		BigDecimal nextValue = a.add(b.multiply(argX.add(BigDecimal.ONE)));
 		BigDecimal aRounded = a.setScale(4, RoundingMode.HALF_UP);
 		BigDecimal bRounded = b.setScale(4, RoundingMode.HALF_UP);
 		BigDecimal nextValueRounded = nextValue.setScale(4, RoundingMode.HALF_UP);
@@ -482,13 +510,15 @@ public class StackCommands {
 		// Display the LR formula
 		Output.printColorln(Ansi.Color.CYAN, "Slope Equation: y = " + bRounded + "x + " + aRounded);
 		Output.printColorln(Ansi.Color.CYAN, "Slope: " + bRounded + "   Y-Intercept: " + aRounded);
-		Output.printColorln(Ansi.Color.CYAN, "Predicted next value (" + nextValueRounded + ") added to the top of the stack");
+		Output.printColorln(Ansi.Color.CYAN, "Predicted value at x = " + argX.add(BigDecimal.ONE) + ": " + nextValueRounded);
 
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
-
-		// Add the next predicted value to the stack
-		calcStack.push(nextValue);
+		// Add the next predicted value to the stack if 'add' was selected
+		if (argAdd) {
+			// Save current calcStack to the undoStack
+			calcStack.saveUndo();
+			
+			calcStack.push(nextValue);
+		}
 
 	}
 
