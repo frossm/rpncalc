@@ -1,4 +1,4 @@
-<img align="right" width="175" src="../Images/Acknowlegement.png">
+<img align="right" width="175" src="../Images/Acknowledgment.png">
 
 # Acknowledgments
 

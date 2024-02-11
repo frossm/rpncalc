@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,203 +22,202 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * @author Michael Fross (michael@fross.org)
- *
  */
 class StackTrigTest {
 
-	/**
-	 * Test method for
-	 * {@link org.fross.rpncalc.StackTrig#cmdTrig(org.fross.rpncalc.StackObj, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	void testCmdTrig() {
-		StackObj stk = new StackObj();
+   /**
+    * Test method for
+    * {@link org.fross.rpncalc.StackTrig#cmdTrig(org.fross.rpncalc.StackObj, java.lang.String, java.lang.String)}.
+    */
+   @Test
+   void testCmdTrig() {
+      StackObj stk = new StackObj();
 
-		// Testing Sine - Degrees
-		stk.push(12.0);
-		StackTrig.cmdTrig(stk, "sin", "");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.20791, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing Sine - Degrees
+      stk.push(12.0);
+      StackTrig.cmdTrig(stk, "sin", "");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.20791, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.clear();
-		stk.push(1.2e11);
-		StackTrig.cmdTrig(stk, "sin", "");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals("0.8660255", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
+      stk.clear();
+      stk.push(1.2e11);
+      StackTrig.cmdTrig(stk, "sin", "");
+      StackCommands.cmdRound(stk, "7");
+      assertEquals("0.8660255", stk.peek().toEngineeringString());
+      assertEquals(1, stk.size());
 
-		// Testing Sine - Radians
-		stk.clear();
-		stk.push(1.2);
-		StackTrig.cmdTrig(stk, "sin", "rad");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.93204, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing Sine - Radians
+      stk.clear();
+      stk.push(1.2);
+      StackTrig.cmdTrig(stk, "sin", "rad");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.93204, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.clear();
-		stk.push(1.2e11);
-		StackTrig.cmdTrig(stk, "sin", "rad");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals("0.1715595", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
+      stk.clear();
+      stk.push(1.2e11);
+      StackTrig.cmdTrig(stk, "sin", "rad");
+      StackCommands.cmdRound(stk, "7");
+      assertEquals("0.1715595", stk.peek().toEngineeringString());
+      assertEquals(1, stk.size());
 
-		// Testing Cosine - Degrees
-		stk.clear();
-		stk.push(12.0);
-		StackTrig.cmdTrig(stk, "cos", "");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.97815, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing Cosine - Degrees
+      stk.clear();
+      stk.push(12.0);
+      StackTrig.cmdTrig(stk, "cos", "");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.97815, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.clear();
-		stk.push(1.2e11);
-		StackTrig.cmdTrig(stk, "cos", "");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals("-0.4999999", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
+      stk.clear();
+      stk.push(1.2e11);
+      StackTrig.cmdTrig(stk, "cos", "");
+      StackCommands.cmdRound(stk, "7");
+      assertEquals("-0.4999999", stk.peek().toEngineeringString());
+      assertEquals(1, stk.size());
 
-		// Testing Cosine - Radians
-		stk.clear();
-		stk.push(1.2);
-		StackTrig.cmdTrig(stk, "cos", "rad");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.36236, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing Cosine - Radians
+      stk.clear();
+      stk.push(1.2);
+      StackTrig.cmdTrig(stk, "cos", "rad");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.36236, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.clear();
-		stk.push(1.2e11);
-		StackTrig.cmdTrig(stk, "cos", "rad");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals("0.9851738", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
+      stk.clear();
+      stk.push(1.2e11);
+      StackTrig.cmdTrig(stk, "cos", "rad");
+      StackCommands.cmdRound(stk, "7");
+      assertEquals("0.9851738", stk.peek().toEngineeringString());
+      assertEquals(1, stk.size());
 
-		// Testing Tangent - Degrees
-		stk.clear();
-		stk.push(23.0);
-		StackTrig.cmdTrig(stk, "tan", "");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.42447, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing Tangent - Degrees
+      stk.clear();
+      stk.push(23.0);
+      StackTrig.cmdTrig(stk, "tan", "");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.42447, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.clear();
-		stk.push(1.2e11);
-		StackTrig.cmdTrig(stk, "tan", "");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals("-1.7320512", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
+      stk.clear();
+      stk.push(1.2e11);
+      StackTrig.cmdTrig(stk, "tan", "");
+      StackCommands.cmdRound(stk, "7");
+      assertEquals("-1.7320512", stk.peek().toEngineeringString());
+      assertEquals(1, stk.size());
 
-		// Testing Tangent - Radians
-		stk.clear();
-		stk.push(16.0);
-		StackTrig.cmdTrig(stk, "tan", "rad");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.30063, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing Tangent - Radians
+      stk.clear();
+      stk.push(16.0);
+      StackTrig.cmdTrig(stk, "tan", "rad");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.30063, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.clear();
-		stk.push(1.2e11);
-		StackTrig.cmdTrig(stk, "tan", "rad");
-		StackCommands.cmdRound(stk, "7");
-		assertEquals("0.1741414", stk.peek().toEngineeringString());
-		assertEquals(1, stk.size());
+      stk.clear();
+      stk.push(1.2e11);
+      StackTrig.cmdTrig(stk, "tan", "rad");
+      StackCommands.cmdRound(stk, "7");
+      assertEquals("0.1741414", stk.peek().toEngineeringString());
+      assertEquals(1, stk.size());
 
-	}
+   }
 
-	/**
-	 * Test method for
-	 * {@link org.fross.rpncalc.StackTrig#cmdArcTrig(org.fross.rpncalc.StackObj, java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	void testCmdArcTrig() {
-		StackObj stk = new StackObj();
+   /**
+    * Test method for
+    * {@link org.fross.rpncalc.StackTrig#cmdArcTrig(org.fross.rpncalc.StackObj, java.lang.String, java.lang.String)}.
+    */
+   @Test
+   void testCmdArcTrig() {
+      StackObj stk = new StackObj();
 
-		// Testing ArcSine - Degrees
-		stk.push(0.123);
-		StackTrig.cmdArcTrig(stk, "asin", "");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(7.06527, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing ArcSine - Degrees
+      stk.push(0.123);
+      StackTrig.cmdArcTrig(stk, "asin", "");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(7.06527, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		// Testing ArcSine - Radians
-		stk.clear();
-		stk.push(.123);
-		StackTrig.cmdArcTrig(stk, "asin", "rad");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(0.12331, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing ArcSine - Radians
+      stk.clear();
+      stk.push(.123);
+      StackTrig.cmdArcTrig(stk, "asin", "rad");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(0.12331, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		// Testing ArcCosine - Degrees
-		stk.clear();
-		stk.push(.345);
-		StackTrig.cmdArcTrig(stk, "acos", "");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(69.8182, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing ArcCosine - Degrees
+      stk.clear();
+      stk.push(.345);
+      StackTrig.cmdArcTrig(stk, "acos", "");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(69.8182, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		// Testing ArcCosine - Radians
-		stk.clear();
-		stk.push(.345);
-		StackTrig.cmdArcTrig(stk, "acos", "rad");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(1.21856, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing ArcCosine - Radians
+      stk.clear();
+      stk.push(.345);
+      StackTrig.cmdArcTrig(stk, "acos", "rad");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(1.21856, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		// Testing ArcTangent - Degrees
-		stk.clear();
-		stk.push(2.123);
-		StackTrig.cmdArcTrig(stk, "atan", "");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(64.77808, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing ArcTangent - Degrees
+      stk.clear();
+      stk.push(2.123);
+      StackTrig.cmdArcTrig(stk, "atan", "");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(64.77808, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		// Testing ArcTangent - Radians
-		stk.clear();
-		stk.push(2.123);
-		StackTrig.cmdArcTrig(stk, "atan", "rad");
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(1.13059, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      // Testing ArcTangent - Radians
+      stk.clear();
+      stk.push(2.123);
+      StackTrig.cmdArcTrig(stk, "atan", "rad");
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(1.13059, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-	}
+   }
 
-	/**
-	 * Test method for {@link org.fross.rpncalc.StackTrig#cmdHypotenuse(org.fross.rpncalc.StackObj)}.
-	 */
-	@Test
-	void testCmdHypotenuse() {
-		StackObj stk = new StackObj();
+   /**
+    * Test method for {@link org.fross.rpncalc.StackTrig#cmdHypotenuse(org.fross.rpncalc.StackObj)}.
+    */
+   @Test
+   void testCmdHypotenuse() {
+      StackObj stk = new StackObj();
 
-		stk.push(3.0);
-		stk.push(4.0);
-		StackTrig.cmdHypotenuse(stk);
-		assertEquals(5.0, stk.peek().doubleValue());
-		assertEquals(1, stk.size());
+      stk.push(3.0);
+      stk.push(4.0);
+      StackTrig.cmdHypotenuse(stk);
+      assertEquals(5.0, stk.peek().doubleValue());
+      assertEquals(1, stk.size());
 
-		stk.push(8.123);
-		stk.push(4.789);
-		StackTrig.cmdHypotenuse(stk);
-		StackCommands.cmdRound(stk, "5");
-		assertEquals(9.42962, stk.peek().doubleValue());
-		assertEquals(2, stk.size());
+      stk.push(8.123);
+      stk.push(4.789);
+      StackTrig.cmdHypotenuse(stk);
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(9.42962, stk.peek().doubleValue());
+      assertEquals(2, stk.size());
 
-		stk.push(12.65421);
-		stk.push(15.69857741);
-		StackTrig.cmdHypotenuse(stk);
-		StackCommands.cmdRound(stk, "9");
-		assertEquals(20.163689231, stk.peek().doubleValue());
-		assertEquals(3, stk.size());
+      stk.push(12.65421);
+      stk.push(15.69857741);
+      StackTrig.cmdHypotenuse(stk);
+      StackCommands.cmdRound(stk, "9");
+      assertEquals(20.163689231, stk.peek().doubleValue());
+      assertEquals(3, stk.size());
 
-	}
+   }
 
 }

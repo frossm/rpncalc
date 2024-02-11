@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,90 +22,87 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
-
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
 public class StackManagement {
-	// Class Constants
-	protected static final String PREFS_PATH = "/org/fross/rpn/stacks";
+   // Class Constants
+   protected static final String PREFS_PATH = "/org/fross/rpn/stacks";
 
-	// Class Variables
-	private static int currentStackNum = 1;
+   // Class Variables
+   private static int currentStackNum = 1;
 
-	/**
-	 * SaveStack(): Save the provided stack into the preferences system
-	 * 
-	 * @param stk       - Stack to Save
-	 * @param stackSlot - Stack Save slot number. Should be default, 1, or 2.
-	 */
-	public static void SaveStack(StackObj stk, String stackSlot) {
-		Output.debugPrintln("SaveStack: " + PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
+   /**
+    * SaveStack(): Save the provided stack into the preferences system
+    *
+    * @param stk       - Stack to Save
+    * @param stackSlot - Stack Save slot number. Should be default, 1, or 2.
+    */
+   public static void SaveStack(StackObj stk, String stackSlot) {
+      Output.debugPrintln("SaveStack: " + PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
 
-		// Override the default stack location with the provided one
-		Preferences p = Preferences.userRoot().node(PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
+      // Override the default stack location with the provided one
+      Preferences p = Preferences.userRoot().node(PREFS_PATH + "/" + stk.queryStackName() + "/" + stackSlot);
 
-		// Lets clear out any stack values that may exist
-		try {
-			p.clear();
-		} catch (BackingStoreException e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear current preferences in Stack #" + stackSlot);
-			Output.printColorln(Ansi.Color.RED, e.getMessage());
-		}
+      // Let's clear out any stack values that may exist
+      try {
+         p.clear();
+      } catch (BackingStoreException e) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear current preferences in Stack #" + stackSlot);
+         Output.printColorln(Ansi.Color.RED, e.getMessage());
+      }
 
-		// Save number of elements to key StackElements
-		p.putInt("StackElements", (int) stk.size());
+      // Save number of elements to key StackElements
+      p.putInt("StackElements", stk.size());
 
-		// Loop through each member of the stack and save it to the preferences
-		for (int i = 0; i <= (int) stk.size() - 1; i++) {
-			Output.debugPrintln("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i).toPlainString());
-			p.put("Stack" + i, stk.get(i).toPlainString());
-		}
+      // Loop through each member of the stack and save it to the preferences
+      for (int i = 0; i <= stk.size() - 1; i++) {
+         Output.debugPrintln("  - Saving #" + (stk.size() - i) + ":  " + stk.get(i).toPlainString());
+         p.put("Stack" + i, stk.get(i).toPlainString());
+      }
 
-	}
+   }
 
-	/**
-	 * QueryCurrentStackNum(): Return the current active stack number
-	 * 
-	 * @return
-	 */
-	public static int QueryCurrentStackNum() {
-		return currentStackNum;
-	}
+   /**
+    * QueryCurrentStackNum(): Return the current active stack number
+    *
+    * @return Current active stack number
+    */
+   public static int QueryCurrentStackNum() {
+      return currentStackNum;
+   }
 
-	/**
-	 * Toggle CurrentStackNum(): Toggle to the next stack
-	 * 
-	 */
-	public static void ToggleCurrentStackNum() {
-		if (currentStackNum == 1)
-			currentStackNum = 2;
-		else
-			currentStackNum = 1;
-	}
+   /**
+    * Toggle CurrentStackNum(): Toggle to the next stack
+    */
+   public static void ToggleCurrentStackNum() {
+      if (currentStackNum == 1) currentStackNum = 2;
+      else currentStackNum = 1;
+   }
 
-	/**
-	 * QueryStacks(): Return a string array of all current stacks
-	 * 
-	 * @return
-	 */
-	public static String[] QueryStacks() {
-		String[] stacks = {};
-		Preferences prefsQuery = Preferences.userRoot().node(PREFS_PATH);
+   /**
+    * QueryStacks(): Return a string array of all current stacks
+    *
+    * @return String array of all of the current stack
+    */
+   public static String[] QueryStacks() {
+      String[] stacks = {};
+      Preferences prefsQuery = Preferences.userRoot().node(PREFS_PATH);
 
-		try {
-			stacks = prefsQuery.childrenNames();
-		} catch (BackingStoreException ex) {
-			Output.printColor(Ansi.Color.RED, "Error Reading Stacks from Java Preferences");
-		}
+      try {
+         stacks = prefsQuery.childrenNames();
+      } catch (BackingStoreException ex) {
+         Output.printColor(Ansi.Color.RED, "Error Reading Stacks from Java Preferences");
+      }
 
-		return (stacks);
-	}
+      return (stacks);
+   }
 
 }

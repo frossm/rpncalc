@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,69 +22,66 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Michael Fross (michael@fross.org)
- *
  */
 class UserDefinedFunctionsTest {
-	/**
-	 * Test recording, testing, and deleting a UDF
-	 */
-	@Test
-	void CreateFunction() {
-		String testFunctionName = "automated-testing";
+   /**
+    * Test recording, testing, and deleting a UDF
+    */
+   @Test
+   void CreateFunction() {
+      String testFunctionName = "automated-testing";
 
-		// If the test function already exists for some reason delete it
-		if (UserFunctions.FunctionExists(testFunctionName)) {
-			UserFunctions.FunctionDelete(testFunctionName);
-		}
+      // If the test function already exists for some reason delete it
+      if (UserFunctions.FunctionExists(testFunctionName)) {
+         UserFunctions.FunctionDelete(testFunctionName);
+      }
 
-		// Create the test stack
-		StackObj stk = new StackObj();
+      // Create the test stack
+      StackObj stk = new StackObj();
 
-		// Add several values to the stack
-		stk.push(2.75);
-		stk.push(3.25);
-		assertEquals(2, stk.size());
+      // Add several values to the stack
+      stk.push(2.75);
+      stk.push(3.25);
+      assertEquals(2, stk.size());
 
-		// Enable recording
-		UserFunctions.cmdRecord("on");
-		assertTrue(UserFunctions.recordingIsEnabled());
+      // Enable recording
+      UserFunctions.cmdRecord("on");
+      assertTrue(UserFunctions.recordingIsEnabled());
 
-		// Add the numbers on the stack together
-		CommandParser.Parse(stk, stk, "+", "+", "");
-		UserFunctions.RecordCommand("+");
-		assertEquals(1, stk.size());
-		assertEquals(6, stk.peek().doubleValue());
+      // Add the numbers on the stack together
+      CommandParser.Parse(stk, stk, "+", "+", "");
+      UserFunctions.RecordCommand("+");
+      assertEquals(1, stk.size());
+      assertEquals(6, stk.peek().doubleValue());
 
-		// Stop the recording
-		UserFunctions.cmdRecord("off " + testFunctionName);
-		assertFalse(UserFunctions.recordingIsEnabled());
+      // Stop the recording
+      UserFunctions.cmdRecord("off " + testFunctionName);
+      assertFalse(UserFunctions.recordingIsEnabled());
 
-		// Ensure the test is in the preferences system
-		assertTrue(UserFunctions.FunctionExists(testFunctionName));
+      // Ensure the test is in the preferences system
+      assertTrue(UserFunctions.FunctionExists(testFunctionName));
 
-		// Use the new function to add two numbers
-		CommandParser.Parse(stk, stk, "4", "4", "");
-		assertEquals(2, stk.size());
-		CommandParser.Parse(stk, stk, testFunctionName, testFunctionName, "");
-		assertEquals(1, stk.size());
-		assertEquals(10, stk.peek().doubleValue());
+      // Use the new function to add two numbers
+      CommandParser.Parse(stk, stk, "4", "4", "");
+      assertEquals(2, stk.size());
+      CommandParser.Parse(stk, stk, testFunctionName, testFunctionName, "");
+      assertEquals(1, stk.size());
+      assertEquals(10, stk.peek().doubleValue());
 
-		// Remove the test function
-		UserFunctions.FunctionDelete(testFunctionName);
-		assertFalse(UserFunctions.FunctionExists(testFunctionName));
+      // Remove the test function
+      UserFunctions.FunctionDelete(testFunctionName);
+      assertFalse(UserFunctions.FunctionExists(testFunctionName));
 
-	}
+   }
 
 }

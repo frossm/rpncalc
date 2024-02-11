@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,107 +22,104 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
-
-import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 
+import java.util.prefs.Preferences;
+
 public class Configuration {
-	/**
-	 * set(): Set configuration Options
-	 * 
-	 */
-	public static void cmdSet(String arg) {
-		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
-		String[] argParse = null;
-		String command = "";
-		String value = "";
+   /**
+    * set(): Set configuration Options
+    */
+   public static void cmdSet(String arg) {
+      Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+      String[] argParse;
+      String command;
+      String value;
 
-		// If there is not a parameter provided, display the current values and return
-		if (arg.isBlank()) {
-			Output.printColorln(Ansi.Color.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
-			Output.printColorln(Ansi.Color.CYAN, "Width:    " + Main.configProgramWidth + "\t|  Sets the program width in characters");
-			Output.printColorln(Ansi.Color.CYAN, "Align:    " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
-			Output.printColorln(Ansi.Color.CYAN, "MemSlots: " + Main.configMemorySlots + "\t|  Sets number of available memory slots");
-			Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
-			return;
-		}
+      // If there is not a parameter provided, display the current values and return
+      if (arg.isBlank()) {
+         Output.printColorln(Ansi.Color.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
+         Output.printColorln(Ansi.Color.CYAN, "Width:    " + Main.configProgramWidth + "\t|  Sets the program width in characters");
+         Output.printColorln(Ansi.Color.CYAN, "Align:    " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
+         Output.printColorln(Ansi.Color.CYAN, "MemSlots: " + Main.configMemorySlots + "\t|  Sets number of available memory slots");
+         Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
+         return;
+      }
 
-		// Parse the provided argument into a command and value
-		try {
-			argParse = arg.split(" ");
-			command = argParse[0];
-			value = argParse[1].toLowerCase();
+      // Parse the provided argument into a command and value
+      try {
+         argParse = arg.split(" ");
+         command = argParse[0];
+         value = argParse[1].toLowerCase();
 
-			Output.debugPrintln("Set Command: '" + command + "'");
-			Output.debugPrintln("Set Value:   '" + value + "'");
+         Output.debugPrintln("Set Command: '" + command + "'");
+         Output.debugPrintln("Set Value:   '" + value + "'");
 
-			switch (command.toLowerCase()) {
-			case "align":
-			case "alignment":
-				if (value.compareTo("l") != 0 && value.compareTo("d") != 0 && value.compareTo("r") != 0) {
-					Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for usage");
-					return;
-				}
-				Main.configAlignment = value;
-				Output.debugPrintln("Saving Alignment value to preferences");
-				prefConfig.put("alignment", value);
-				Output.printColorln(Ansi.Color.CYAN, "Alignment set to '" + value + "'");
-				break;
+         switch (command.toLowerCase()) {
+            case "align":
+            case "alignment":
+               if (value.compareTo("l") != 0 && value.compareTo("d") != 0 && value.compareTo("r") != 0) {
+                  Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for usage");
+                  return;
+               }
+               Main.configAlignment = value;
+               Output.debugPrintln("Saving Alignment value to preferences");
+               prefConfig.put("alignment", value);
+               Output.printColorln(Ansi.Color.CYAN, "Alignment set to '" + value + "'");
+               break;
 
-			case "width":
-				if (Integer.parseInt(value) < Main.PROGRAM_MINIMUM_WIDTH) {
-					Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + Main.PROGRAM_MINIMUM_WIDTH + ". Setting width to that value.");
-					value = "" + Main.PROGRAM_MINIMUM_WIDTH;
-				}
-				Main.configProgramWidth = Integer.parseInt(value);
-				Output.debugPrintln("Saving Program Width value to preferences");
-				prefConfig.putInt("programwidth", Integer.parseInt(value));
-				Output.printColorln(Ansi.Color.CYAN, "Program Width set to '" + value + "'");
-				break;
+            case "width":
+               if (Integer.parseInt(value) < Main.PROGRAM_MINIMUM_WIDTH) {
+                  Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + Main.PROGRAM_MINIMUM_WIDTH + ". Setting width to that value.");
+                  value = "" + Main.PROGRAM_MINIMUM_WIDTH;
+               }
+               Main.configProgramWidth = Integer.parseInt(value);
+               Output.debugPrintln("Saving Program Width value to preferences");
+               prefConfig.putInt("programwidth", Integer.parseInt(value));
+               Output.printColorln(Ansi.Color.CYAN, "Program Width set to '" + value + "'");
+               break;
 
-			case "mem":
-			case "memslots":
-			case "memoryslots":
-				if (StackMemory.SetMaxMemorySlots(value) == true) {
-					Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + value + "'");
-				}
-				break;
+            case "mem":
+            case "memslots":
+            case "memoryslots":
+               if (StackMemory.SetMaxMemorySlots(value)) {
+                  Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + value + "'");
+               }
+               break;
 
-			default:
-				Output.printColorln(Ansi.Color.RED, "ERROR: Unknown set command: '" + command + "'");
-				return;
-			}
+            default:
+               Output.printColorln(Ansi.Color.RED, "ERROR: Unknown set command: '" + command + "'");
+         }
 
-		} catch (Exception ex) {
-			Output.printColorln(Ansi.Color.RED, "Error parsing set command: 'set " + arg + "'  See help for set command usage");
-			return;
-		}
-	}
+      } catch (Exception ex) {
+         Output.printColorln(Ansi.Color.RED, "Error parsing set command: 'set " + arg + "'  See help for set command usage");
+      }
+   }
 
-	/**
-	 * reset(): Resets the configuration variables back to default
-	 */
-	public static void cmdReset() {
-		Output.printColorln(Ansi.Color.CYAN, "Alignment, Width, and Memory slots reset to default values");
-		Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+   /**
+    * reset(): Resets the configuration variables back to default
+    */
+   public static void cmdReset() {
+      Output.printColorln(Ansi.Color.CYAN, "Alignment, Width, and Memory slots reset to default values");
+      Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 
-		// Reset Alignment
-		prefConfig.put("alignment", Main.CONFIG_DEFAULT_ALIGNMENT);
-		Main.configAlignment = Main.CONFIG_DEFAULT_ALIGNMENT;
+      // Reset Alignment
+      prefConfig.put("alignment", Main.CONFIG_DEFAULT_ALIGNMENT);
+      Main.configAlignment = Main.CONFIG_DEFAULT_ALIGNMENT;
 
-		// Reset Width
-		prefConfig.putInt("programwidth", Main.CONFIG_DEFAULT_PROGRAM_WIDTH);
-		Main.configProgramWidth = Main.CONFIG_DEFAULT_PROGRAM_WIDTH;
+      // Reset Width
+      prefConfig.putInt("programwidth", Main.CONFIG_DEFAULT_PROGRAM_WIDTH);
+      Main.configProgramWidth = Main.CONFIG_DEFAULT_PROGRAM_WIDTH;
 
-		// Reset the number of Memory Slots
-		StackMemory.SetMaxMemorySlots(Main.CONFIG_DEFAULT_MEMORY_SLOTS + "");
-		prefConfig.putInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
-		Main.configMemorySlots = Main.CONFIG_DEFAULT_MEMORY_SLOTS;
-	}
+      // Reset the number of Memory Slots
+      StackMemory.SetMaxMemorySlots(Main.CONFIG_DEFAULT_MEMORY_SLOTS + "");
+      prefConfig.putInt("memoryslots", Main.CONFIG_DEFAULT_MEMORY_SLOTS);
+      Main.configMemorySlots = Main.CONFIG_DEFAULT_MEMORY_SLOTS;
+   }
 
 }

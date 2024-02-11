@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,74 +22,74 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.Test;
-
 class StackConstantsTest {
-	@Test
-	void testCmdPI() {
-		StackObj calcStack = new StackObj();
-		StackConstants.cmdPI(calcStack);
+   @Test
+   void testCmdPI() {
+      StackObj calcStack = new StackObj();
+      StackConstants.cmdPI(calcStack);
 
-		// Ensure the stack is not null
-		assertNotNull(calcStack);
+      // Ensure the stack is not null
+      assertNotNull(calcStack);
 
-		// Ensure there is only one items in the stack
-		assertEquals(1, calcStack.size());
+      // Ensure there is only one item in the stack
+      assertEquals(1, calcStack.size());
 
-		// Ensure that the value is correct
-		assertEquals(java.lang.Math.PI, calcStack.get(0).doubleValue());
-	}
+      // Ensure that the value is correct
+      assertEquals(java.lang.Math.PI, calcStack.get(0).doubleValue());
+   }
 
-	@Test
-	void testCmdPHI() {
-		StackObj calcStack = new StackObj();
-		StackConstants.cmdPHI(calcStack);
+   @Test
+   void testCmdPHI() {
+      StackObj calcStack = new StackObj();
+      StackConstants.cmdPHI(calcStack);
 
-		// Ensure the stack is not null
-		assertNotNull(calcStack);
+      // Ensure the stack is not null
+      assertNotNull(calcStack);
 
-		// Ensure there is only one items in the stack
-		assertEquals(1, calcStack.size());
+      // Ensure there is only one item in the stack
+      assertEquals(1, calcStack.size());
 
-		// Ensure that the value is correct
-		assertEquals("1.61803398874989", calcStack.get(0).toEngineeringString());
-	}
+      // Ensure that the value is correct
+      assertEquals("1.61803398874989", calcStack.get(0).toEngineeringString());
+   }
 
-	@Test
-	void testCmdEuler() {
-		StackObj calcStack = new StackObj();
-		StackConstants.cmdEuler(calcStack);
+   @Test
+   void testCmdEuler() {
+      StackObj calcStack = new StackObj();
+      StackConstants.cmdEuler(calcStack);
 
-		// Ensure the stack is not null
-		assertNotNull(calcStack);
+      // Ensure the stack is not null
+      assertNotNull(calcStack);
 
-		// Ensure there is only one items in the stack
-		assertEquals(1, calcStack.size());
+      // Ensure there is only one item in the stack
+      assertEquals(1, calcStack.size());
 
-		// Ensure that the value is correct
-		assertEquals("2.7182818284590452353602874713527", calcStack.get(0).toEngineeringString());
-	}
+      // Ensure that the value is correct
+      assertEquals("2.7182818284590452353602874713527", calcStack.get(0).toEngineeringString());
+   }
 
-	@Test
-	void testCmdSpeedOfLight() {
-		StackObj calcStack = new StackObj();
-		StackConstants.cmdSpeedOfLight(calcStack);
+   @Test
+   void testCmdSpeedOfLight() {
+      StackObj calcStack = new StackObj();
+      StackConstants.cmdSpeedOfLight(calcStack);
 
-		// Ensure the stack is not null
-		assertNotNull(calcStack);
+      // Ensure the stack is not null
+      assertNotNull(calcStack);
 
-		// Ensure there is only one items in the stack
-		assertEquals(1, calcStack.size());
+      // Ensure there is only one item in the stack
+      assertEquals(1, calcStack.size());
 
-		// Ensure that the value is correct
-		assertEquals("299792458", calcStack.get(0).toEngineeringString());
-	}
+      // Ensure that the value is correct
+      assertEquals("299792458", calcStack.get(0).toEngineeringString());
+   }
 
 }

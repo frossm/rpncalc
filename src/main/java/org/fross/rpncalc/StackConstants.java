@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,53 +22,49 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
 
 public class StackConstants {
 
-	/**
-	 * cmdPI(): Add the value of PI to the stack
-	 * 
-	 */
-	public static void cmdPI(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
+   /**
+    * cmdPI(): Add the value of PI to the stack
+    */
+   public static void cmdPI(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
-		calcStack.push(String.valueOf(java.lang.Math.PI));
-	}
+      calcStack.push(String.valueOf(java.lang.Math.PI));
+   }
 
-	/**
-	 * cmdPHI(): Add the value PHI (Golden Ratio) to the stack
-	 * 
-	 */
-	public static void cmdPHI(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
+   /**
+    * cmdPHI(): Add the value PHI (Golden Ratio) to the stack
+    */
+   public static void cmdPHI(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
-		calcStack.push("1.61803398874989");
-	}
+      calcStack.push("1.61803398874989");
+   }
 
-	/**
-	 * cmdEuler(): Add the Euler constant to the stack
-	 * 
-	 */
-	public static void cmdEuler(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
+   /**
+    * cmdEuler(): Add the Euler constant to the stack
+    */
+   public static void cmdEuler(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
-		calcStack.push("2.7182818284590452353602874713527");
-	}
+      calcStack.push("2.7182818284590452353602874713527");
+   }
 
-	/**
-	 * cmdSpeedOfLight(): Add the speed of light in meters/second to the stack
-	 * 
-	 */
-	public static void cmdSpeedOfLight(StackObj calcStack) {
-		// Save current calcStack to the undoStack
-		calcStack.saveUndo();
+   /**
+    * cmdSpeedOfLight(): Add the speed of light in meters/second to the stack
+    */
+   public static void cmdSpeedOfLight(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
-		calcStack.push("299792458");
-	}
+      calcStack.push("299792458");
+   }
 }

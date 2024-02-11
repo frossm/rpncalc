@@ -1,3 +1,5 @@
+<img alt="Page Icon" align="right" width="150" src="../Images/Snap.png">
+
 # SNAP
 [![rpncalc](https://snapcraft.io//rpncalc/badge.svg)](https://snapcraft.io/rpncalc)
 
@@ -9,7 +11,7 @@ As an example, RPNCalc uses Java, but you don't have to have Java installed on y
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/rpncalc)
 
-As a shameless plug, you can [Search for 'Fross'](https://snapcraft.io/search?q=fross) to see all of my Snap packages.
+As a shameless plug, you can [Search for 'Fross'](https://snapcraft.io/search?q=fross) to see all of my Snap packages, or visit my [GitHub home](https://github.com/frossm) for my other open source software.
 
 While I'm a fan of Snaps, there are positives and negatives to using them.
 

@@ -1,8 +1,8 @@
-/******************************************************************************
+/* ------------------------------------------------------------------------------
  * RPNCalc
- * 
+ *
  * RPNCalc is is an easy to use console based RPN calculator
- * 
+ *
  *  Copyright (c) 2011-2024 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,312 +22,307 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *           
- ******************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
-
-import java.util.ArrayList;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 import org.jline.reader.UserInterruptException;
 
+import java.util.ArrayList;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
 public class UserFunctions {
-	// Class Constants
-	protected static final String PREFS_PATH_FUNCTIONS = "/org/fross/rpn/functions";
+   // Class Constants
+   protected static final String PREFS_PATH_FUNCTIONS = "/org/fross/rpn/functions";
 
-	// Class Variables
-	static boolean recordingEnabled = false;
-	static ArrayList<String> recording = new ArrayList<>();
+   // Class Variables
+   static boolean recordingEnabled = false;
+   static ArrayList<String> recording = new ArrayList<>();
 
-	/**
-	 * cmdRecord(): Processes record on/off request from user
-	 * 
-	 * @param args
-	 */
-	public static void cmdRecord(String args) {
-		boolean functionNameValid = false;
-		String functionName = "";
-		String[] arguments = {};
+   /**
+    * cmdRecord(): Processes record on/off request from user
+    *
+    * @param args Method parameters
+    */
+   public static void cmdRecord(String args) {
+      boolean functionNameValid = false;
+      String functionName;
+      String[] arguments = {};
 
-		// Break arguments into on/off and name. If no name was given set to blank
-		try {
-			arguments = args.trim().toLowerCase().split(" ");
-			functionName = arguments[1];
+      // Break arguments into on/off and name. If no name was given set to blank
+      try {
+         arguments = args.trim().toLowerCase().split(" ");
+         functionName = arguments[1];
 
-		} catch (Exception ex) {
-			functionName = "";
-		}
+      } catch (Exception ex) {
+         functionName = "";
+      }
 
-		// Determine the record command that was given
-		try {
-			if (arguments[0].startsWith("on")) {
-				if (recordingEnabled == false) {
-					recordingEnabled = true;
-				} else {
-					Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
-				}
+      // Determine the record command that was given
+      try {
+         if (arguments[0].startsWith("on")) {
+            if (!recordingEnabled) {
+               recordingEnabled = true;
+            } else {
+               Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
+            }
 
-			} else if (arguments[0].startsWith("off")) {
-				if (recordingEnabled == true) {
-					recordingEnabled = false;
+         } else if (arguments[0].startsWith("off")) {
+            if (recordingEnabled) {
+               recordingEnabled = false;
 
-					// Ensure we have something in the buffer to save. If not, just return
-					if (!recording.isEmpty()) {
-						if (functionName.isBlank()) {
-							while (functionNameValid == false) {
-								// Request a name for the user function
-								Output.printColorln(Ansi.Color.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
+               // Ensure we have something in the buffer to save. If not, just return
+               if (!recording.isEmpty()) {
+                  if (functionName.isBlank()) {
+                     while (!functionNameValid) {
+                        // Request a name for the user function
+                        Output.printColorln(Ansi.Color.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
 
-								// Read the user input. If ctrl-C is entered, discard the function
-								try {
-									functionName = Main.scanner.readLine(Main.INPUT_PROMPT);
-								} catch (UserInterruptException ex) {
-									functionName = "";
-								} catch (Exception e) {
-									Output.fatalError("Could not read user input", 5);
-								}
+                        // Read the user input. If ctrl-C is entered, discard the function
+                        try {
+                           functionName = Main.scanner.readLine(Main.INPUT_PROMPT);
+                        } catch (UserInterruptException ex) {
+                           functionName = "";
+                        } catch (Exception e) {
+                           Output.fatalError("Could not read user input", 5);
+                        }
 
-								// If no name is given, cancel the recording information
-								if (functionName.isBlank()) {
-									Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
-									recording.clear();
-									return;
-								}
+                        // If no name is given, cancel the recording information
+                        if (functionName.isBlank()) {
+                           Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
+                           recording.clear();
+                           return;
+                        }
 
-								// Ensure there are no spaces in the name
-								if (functionName.contains(" ")) {
-									Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
-									functionName = "";
-								} else {
-									functionNameValid = true;
-								}
-							}
-						}
+                        // Ensure there are no spaces in the name
+                        if (functionName.contains(" ")) {
+                           Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
+                           functionName = "";
+                        } else {
+                           functionNameValid = true;
+                        }
+                     }
+                  }
 
-						// We have a valid name so save to preferences
-						SaveRecordingToPrefs(functionName);
+                  // We have a valid name so save to preferences
+                  SaveRecordingToPrefs(functionName);
 
-					} else {
-						Output.printColorln(Ansi.Color.CYAN, "Recording off - No valid commands were recorded");
-					}
-				} else {
-					Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
-				}
-			} else {
-				Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
-				return;
-			}
-		} catch (StringIndexOutOfBoundsException ex) {
-			// User did not enter in a command
-			Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
-		}
+               } else {
+                  Output.printColorln(Ansi.Color.CYAN, "Recording off - No valid commands were recorded");
+               }
+            } else {
+               Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
+            }
+         } else {
+            Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
+         }
+      } catch (StringIndexOutOfBoundsException ex) {
+         // User did not enter a command
+         Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
+      }
 
-	}
+   }
 
-	/**
-	 * cmdFunction(): Allow users to manage functions
-	 * 
-	 * @param args
-	 */
-	public static void cmdFunction(String args) {
-		String command[] = args.toLowerCase().trim().split("\\s", 2);
+   /**
+    * cmdFunction(): Allow users to manage functions
+    *
+    * @param args Method Parameters
+    */
+   public static void cmdFunction(String args) {
+      String[] command = args.toLowerCase().trim().split("\\s", 2);
 
-		try {
-			if (command[0].equals("del")) {
-				try {
-					FunctionDelete(command[1]);
-				} catch (ArrayIndexOutOfBoundsException ex) {
-					Output.printColorln(Ansi.Color.RED, "ERROR: 'function del' requires a valid function name to delete");
-					return;
-				}
+      try {
+         if (command[0].equals("del")) {
+            try {
+               FunctionDelete(command[1]);
+            } catch (ArrayIndexOutOfBoundsException ex) {
+               Output.printColorln(Ansi.Color.RED, "ERROR: 'function del' requires a valid function name to delete");
+            }
 
-			} else if (command[0].equals("delall")) {
-				Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
+         } else if (command[0].equals("delall")) {
+            Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
 
-				// Loop through each function (child of the root) and delete it
-				try {
-					for (String functionName : p.childrenNames()) {
-						Output.debugPrintln("Removing function: " + functionName);
-						FunctionDelete(functionName);
-					}
-				} catch (BackingStoreException e) {
-					Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
-					return;
-				}
+            // Loop through each function (child of the root) and delete it
+            try {
+               for (String functionName : p.childrenNames()) {
+                  Output.debugPrintln("Removing function: " + functionName);
+                  FunctionDelete(functionName);
+               }
+            } catch (BackingStoreException e) {
+               Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
+            }
 
-			} else {
-				Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for function command.  Please see help");
-			}
-		} catch (StringIndexOutOfBoundsException ex) {
-			// User did not enter in a command
-			Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement for function comamnd.  Please see help");
-		}
-	}
+         } else {
+            Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for function command.  Please see help");
+         }
+      } catch (StringIndexOutOfBoundsException ex) {
+         // User did not enter a command
+         Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement for function command.  Please see help");
+      }
+   }
 
-	/**
-	 * RecordingEnabled(): Return true if recording is turned on
-	 * 
-	 * @return
-	 */
-	public static boolean recordingIsEnabled() {
-		return recordingEnabled;
-	}
+   /**
+    * RecordingEnabled(): Return true if recording is turned on
+    *
+    * @return Boolean value if recording is currently enabled
+    */
+   public static boolean recordingIsEnabled() {
+      return recordingEnabled;
+   }
 
-	/**
-	 * RecordCommand(): Save the user's input to the recording
-	 * 
-	 * @param arg
-	 */
-	public static void RecordCommand(String arg) {
-		// Ignore the following commands from recording
-		String[] ignore = { "list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit", "quit" };
+   /**
+    * RecordCommand(): Save the user's input to the recording
+    *
+    * @param arg Save this input to the recording
+    */
+   public static void RecordCommand(String arg) {
+      // Ignore the following commands from recording
+      String[] ignore = {"list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit", "quit"};
 
-		// If the command starts with an ignored item, just return before adding it to the recording
-		for (int i = 0; i < ignore.length; i++) {
-			if (arg.startsWith(ignore[i]) == true) {
-				Output.debugPrintln("Record ignoring the command '" + ignore[i] + "'");
-				return;
-			}
-		}
+      // If the command starts with an ignored item, just return before adding it to the recording
+      for (int i = 0; i < ignore.length; i++) {
+         if (arg.startsWith(ignore[i])) {
+            Output.debugPrintln("Record ignoring the command '" + ignore[i] + "'");
+            return;
+         }
+      }
 
-		Output.debugPrintln("Adding '" + arg.trim().toLowerCase() + "' to recording");
-		recording.add(arg.trim().toLowerCase());
-		Output.debugPrintln("Current Recording: " + recording.toString());
-	}
+      Output.debugPrintln("Adding '" + arg.trim().toLowerCase() + "' to recording");
+      recording.add(arg.trim().toLowerCase());
+      Output.debugPrintln("Current Recording: " + recording);
+   }
 
-	/**
-	 * RemoveItemFromRecording(): Remove the value at index from the recording Most likely used if user inputs an invalid command
-	 * 
-	 * @param index
-	 */
-	public static void RemoveItemFromRecording(int index) {
-		// Validate index
-		try {
-			if (index >= 0 && index > (recording.size() - 1)) {
-				recording.remove(index);
-			}
-		} catch (Exception ex) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Can't remove recorded item from index at position: " + index);
-		}
-	}
+   /**
+    * RemoveItemFromRecording(): Remove the value at index from the recording Most likely used if user inputs an invalid command
+    *
+    * @param index Index number of the recording to remove
+    */
+   public static void RemoveItemFromRecording(int index) {
+      // Validate index
+      try {
+         if (index >= 0 && index > (recording.size() - 1)) {
+            recording.remove(index);
+         }
+      } catch (Exception ex) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Can't remove recorded item from index at position: " + index);
+      }
+   }
 
-	/**
-	 * RemoveItemFromRecording(): If no argument is given, remove the last item
-	 */
-	public static void RemoveItemFromRecording() {
-		recording.remove(recording.size() - 1);
-	}
+   /**
+    * RemoveItemFromRecording(): If no argument is given, remove the last item
+    */
+   public static void RemoveItemFromRecording() {
+      recording.remove(recording.size() - 1);
+   }
 
-	/**
-	 * SaveRecordingToPrefs(): When you stop a recording, save it to the preferences system
-	 * 
-	 */
-	public static void SaveRecordingToPrefs(String functionName) {
-		Output.debugPrintln("Function's Name set to: '" + functionName + "'");
+   /**
+    * SaveRecordingToPrefs(): When you stop a recording, save it to the preferences system
+    */
+   public static void SaveRecordingToPrefs(String functionName) {
+      Output.debugPrintln("Function's Name set to: '" + functionName + "'");
 
-		// Save the recording and clear it
-		Output.debugPrintln("Save Recordings: " + PREFS_PATH_FUNCTIONS + "/" + functionName);
-		Preferences p = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
+      // Save the recording and clear it
+      Output.debugPrintln("Save Recordings: " + PREFS_PATH_FUNCTIONS + "/" + functionName);
+      Preferences p = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
 
-		// Delete any existing function items with the same name
-		try {
-			p.clear();
-		} catch (BackingStoreException e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear '" + functionName + "' prior to savings");
-		}
+      // Delete any existing function items with the same name
+      try {
+         p.clear();
+      } catch (BackingStoreException e) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear '" + functionName + "' prior to savings");
+      }
 
-		// Save the recording into the preference
-		p.putInt("FunctionSteps", recording.size());
-		for (int i = 0; i < recording.size(); i++) {
-			p.put("Step" + i, recording.get(i));
-		}
+      // Save the recording into the preference
+      p.putInt("FunctionSteps", recording.size());
+      for (int i = 0; i < recording.size(); i++) {
+         p.put("Step" + i, recording.get(i));
+      }
 
-		// Erase the recording as it's saved
-		recording.clear();
-	}
+      // Erase the recording as it's saved
+      recording.clear();
+   }
 
-	/**
-	 * FunctionDelete(): Delete a stored function
-	 * 
-	 * @param fname
-	 */
-	public static void FunctionDelete(String fname) {
-		// Verify user defined function exists
-		if (FunctionExists(fname) == false) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: '" + fname + "' is not a valid user defined function");
-			return;
-		}
+   /**
+    * FunctionDelete(): Delete a stored function
+    *
+    * @param fname Name of function to delete
+    */
+   public static void FunctionDelete(String fname) {
+      // Verify user defined function exists
+      if (!FunctionExists(fname)) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: '" + fname + "' is not a valid user defined function");
+         return;
+      }
 
-		// Remove the user defined function
-		Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + fname);
-		try {
-			pChild.removeNode();
+      // Remove the user defined function
+      Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + fname);
+      try {
+         pChild.removeNode();
 
-		} catch (BackingStoreException e) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Could not remove the function named: " + fname);
-		}
+      } catch (BackingStoreException e) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Could not remove the function named: " + fname);
+      }
 
-		Output.printColorln(Ansi.Color.CYAN, "User defined function deleted: '" + fname + "'");
-	}
+      Output.printColorln(Ansi.Color.CYAN, "User defined function deleted: '" + fname + "'");
+   }
 
-	/**
-	 * FunctionRun(): Execute the user defined function provided. Assumes functionName has been checked and is valid
-	 * 
-	 * @param func
-	 */
-	public static void FunctionRun(StackObj calcStack, StackObj calcStack2, String functionName) {
-		Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
-		Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
+   /**
+    * FunctionRun(): Execute the user defined function provided. Assumes functionName has been checked and is valid
+    */
+   public static void FunctionRun(StackObj calcStack, StackObj calcStack2, String functionName) {
+      Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
+      Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
 
-		// Loop through the steps in the function and send them to be executed
-		for (int i = 0; i < Integer.parseInt(pChild.get("FunctionSteps", "Error")); i++) {
-			String fullCommand = pChild.get("Step" + i, "Error");
-			String command = "";
-			String param = "";
+      // Loop through the steps in the function and send them to be executed
+      for (int i = 0; i < Integer.parseInt(pChild.get("FunctionSteps", "Error")); i++) {
+         String fullCommand = pChild.get("Step" + i, "Error");
+         String command = "";
+         String param = "";
 
-			try {
-				String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
-				command = ci[0];
-				param = ci[1];
-			} catch (ArrayIndexOutOfBoundsException e) {
-				// Ignore if there is no command or parameter entered
-				if (command.isEmpty()) {
-					Output.debugPrintln("Blank line entered");
-					continue;
-				}
-			}
+         try {
+            String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
+            command = ci[0];
+            param = ci[1];
+         } catch (ArrayIndexOutOfBoundsException e) {
+            // Ignore if there is no command or parameter entered
+            if (command.isEmpty()) {
+               Output.debugPrintln("Blank line entered");
+               continue;
+            }
+         }
 
-			Output.debugPrintln("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
-			CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
-		}
+         Output.debugPrintln("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
+         CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
+      }
 
-	}
+   }
 
-	/**
-	 * FunctionExists(): Returns true if the user defined function exists in the preferences system
-	 * 
-	 * @param fname
-	 * @return
-	 */
-	public static boolean FunctionExists(String fname) {
-		Preferences pParent = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
-		boolean childExists = false;
+   /**
+    * FunctionExists(): Returns true if the user defined function exists in the preferences system
+    *
+    * @param fname Function name to check for existence
+    * @return Boolean value checking for existence
+    */
+   public static boolean FunctionExists(String fname) {
+      Preferences pParent = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
+      boolean childExists = false;
 
-		// Verify that the user defined function exists
-		try {
-			for (String child : pParent.childrenNames()) {
-				if (child.equals(fname)) {
-					childExists = true;
-				}
-			}
-		} catch (BackingStoreException e1) {
-			Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from Java preferences");
-		}
+      // Verify that the user defined function exists
+      try {
+         for (String child : pParent.childrenNames()) {
+            if (child.equals(fname)) {
+               childExists = true;
+               break;
+            }
+         }
+      } catch (BackingStoreException e1) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from Java preferences");
+      }
 
-		return childExists;
-	}
+      return childExists;
+   }
 
 }
