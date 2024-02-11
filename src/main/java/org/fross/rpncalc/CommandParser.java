@@ -313,7 +313,7 @@ public class CommandParser {
          // Add PHI also known as The Golden Ratio
          case "phi":
             StackConstants.cmdPHI(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, added to the stack");
+            Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, has been added to the stack");
             break;
 
          // Euler's number

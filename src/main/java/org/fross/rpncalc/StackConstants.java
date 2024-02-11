@@ -26,6 +26,13 @@
  * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
 
+import org.fross.library.Output;
+import org.fusesource.jansi.Ansi;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 public class StackConstants {
 
    /**
@@ -42,10 +49,22 @@ public class StackConstants {
     * cmdPHI(): Add the value PHI (Golden Ratio) to the stack
     */
    public static void cmdPHI(StackObj calcStack) {
+      BigDecimal phi = new BigDecimal("1.61803398874989");
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
 
-      calcStack.push("1.61803398874989");
+
+      // If there is something in the stack, display the long and short sections
+      if (!calcStack.isEmpty()) {
+         BigDecimal value = calcStack.peek();
+         Output.printColorln(Ansi.Color.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(BigDecimal.ONE.divide(phi,
+               MathContext.DECIMAL128)).setScale(5, RoundingMode.HALF_UP));
+         Output.printColorln(Ansi.Color.YELLOW, "If Short Section = " + value + "    Long Section  = " + value.multiply(phi).setScale(5, RoundingMode.HALF_UP));
+      }
+
+      // Add the value of Phi to the top of the stack
+      calcStack.push(phi);
+
    }
 
    /**
