@@ -6,8 +6,8 @@ For me, the way I thought about using RPN back in the early 1990s was to approac
 
 ### Order of Operations - *PEMA*
 
-|Order||Description|
-|-----||-----------|
+|Order|Abbr|Description|
+|:---:|:--:|-----------|
 |#1|P|Parentheses First|
 |#2|E|Exponents - Powers and Square Roots, etc.|
 |#3|M|Multiplication and Division (left-to-right)|
