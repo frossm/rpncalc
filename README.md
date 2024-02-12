@@ -12,5 +12,5 @@ If you have questions, issues, feedback, or ideas, please let me know.  You can 
 
 <br>
 
-<img alt="Screen Shot1" align="left" width="49%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot1.jpg">
-<img alt="Screen Shot2" align="right" style="text-align: right" width="49%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot2.jpg">
+<img alt="Screen Shot1" width="49%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot1.jpg">
+<img alt="Screen Shot2" width="49%" src="https://github.com/frossm/rpncalc/raw/master/graphics/ScreenShot2.jpg">
