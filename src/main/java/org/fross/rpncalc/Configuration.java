@@ -44,9 +44,9 @@ public class Configuration {
       // If there is not a parameter provided, display the current values and return
       if (arg.isBlank()) {
          Output.printColorln(Ansi.Color.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
-         Output.printColorln(Ansi.Color.CYAN, "Width:    " + Main.configProgramWidth + "\t|  Sets the program width in characters");
-         Output.printColorln(Ansi.Color.CYAN, "Align:    " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
-         Output.printColorln(Ansi.Color.CYAN, "MemSlots: " + Main.configMemorySlots + "\t|  Sets number of available memory slots");
+         Output.printColorln(Ansi.Color.CYAN, String.format("Width:     %02d\t|  Sets the program width in characters", Main.configProgramWidth));
+         Output.printColorln(Ansi.Color.CYAN, "Align:      " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
+         Output.printColorln(Ansi.Color.CYAN, String.format("MemSlots:  %02d\t|  Sets number of available memory slots", Main.configMemorySlots));
          Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
          return;
       }

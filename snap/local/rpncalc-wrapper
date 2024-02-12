@@ -2,4 +2,4 @@
 #
 # Script is a wrapper which runs rpncalc in a bash script with the needed options
 #
-exec $SNAP/bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar $SNAP/jar/rpncalc.jar "$@"
+exec "$SNAP"/bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar "$SNAP"/jar/rpncalc.jar "$@"
