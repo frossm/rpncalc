@@ -60,7 +60,7 @@ public class StackCommands {
             keepFlag = true;
          }
       } catch (StringIndexOutOfBoundsException ex) {
-         keepFlag = false;
+         // keepFlag is already set to false, so just ignore this error
       }
 
       // Counter to hold the accumulating total
@@ -128,7 +128,7 @@ public class StackCommands {
             keepFlag = true;
          }
       } catch (StringIndexOutOfBoundsException ex) {
-         keepFlag = false;
+         // keepFlag is already false so just ignore this error
       }
 
       // Calculate the mean
@@ -233,13 +233,13 @@ public class StackCommands {
 
       // Determine line to delete by looking at arg
       try {
-         // If this doesn't have an exception, user entered in a single number integer
+         // If this doesn't have an exception, user has entered a single number integer
          // Simple delete that line
          startLine = Integer.parseInt(arg);
          endLine = startLine;
 
       } catch (NumberFormatException ex) {
-         // If a dash is present, user entered in a range
+         // If a dash is present, user entered a range
          if (arg.contains("-")) {
             try {
                startLine = Integer.parseInt(arg.split("-")[0]);
@@ -439,11 +439,9 @@ public class StackCommands {
                if (a.toLowerCase().startsWith("a")) {
                   argAdd = true;
                   Output.debugPrintln("Setting LR ADD flag");
-                  continue;
                } else {
                   argX = new BigDecimal(a).subtract(BigDecimal.ONE);
                   Output.debugPrintln("Setting LR 'x' value to : " + argX);
-                  continue;
                }
             }
          }
@@ -500,8 +498,8 @@ public class StackCommands {
       BigDecimal a = a_top.divide(a_bottom, MathContext.DECIMAL128);
 
       BigDecimal b_top = n.multiply(sumXY).subtract(sumX.multiply(sumY));
-      BigDecimal b_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
-      BigDecimal b = b_top.divide(b_bottom, MathContext.DECIMAL128);
+      // b_bottom is the same as a_bottom so just it that
+      BigDecimal b = b_top.divide(a_bottom, MathContext.DECIMAL128);
 
       // Output details if debug is enabled
       Output.debugPrintln("n:         " + n.toPlainString());
@@ -595,7 +593,7 @@ public class StackCommands {
             largestValue = calcStack.get(i);
       }
 
-      // Add lowest value to the stack
+      // Add the lowest value to the stack
       calcStack.push(largestValue);
 
       return true;
@@ -625,7 +623,7 @@ public class StackCommands {
             keepFlag = true;
          }
       } catch (StringIndexOutOfBoundsException ex) {
-         keepFlag = false;
+         // keepFlag is already false so just ignore this error
       }
 
       // Calculate the median
@@ -664,7 +662,7 @@ public class StackCommands {
             lowestValue = calcStack.get(i);
       }
 
-      // Add lowest value to the stack
+      // Add the lowest value to the stack
       calcStack.push(lowestValue);
 
       return true;
@@ -728,7 +726,7 @@ public class StackCommands {
    public static void cmdRandom(StackObj calcStack, String param) {
       long low = 1L;
       long high = 100L;
-      long randomNumber = 0L;
+      long randomNumber;
 
       // Parse out the low and high numbers
       try {
@@ -933,7 +931,7 @@ public class StackCommands {
             keepFlag = true;
          }
       } catch (StringIndexOutOfBoundsException ex) {
-         keepFlag = false;
+         // keepFlag is already false so just ignore this error
       }
 
       // Step1: Get the mean

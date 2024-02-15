@@ -493,7 +493,7 @@ public class CommandParser {
                calcStack.push(new BigDecimal(cmdInputCmd));
 
                // Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
-            } else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[\\*\\+\\-\\/\\^]")) {
+            } else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[*+\\-/^]")) {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
 
@@ -507,7 +507,7 @@ public class CommandParser {
                      Output.debugPrintln("NumOp Found: Num= '" + tempNum + "'");
                      Output.debugPrintln("NumOp Found: Op = '" + tempOp + "'");
                      calcStack.push(new BigDecimal(tempNum));
-                     calcStack = Math.Parse(tempOp, calcStack);
+                     Math.Parse(tempOp, calcStack);
 
                   } catch (NumberFormatException ex) {
                      // Prevents a crash if user enters "-+" (which they shouldn't do)
@@ -557,7 +557,9 @@ public class CommandParser {
 
             }
             break;
-      }
+
+      } // End of giant switch statement
+
    }
 
 }

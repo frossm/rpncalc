@@ -213,10 +213,14 @@ public class StackOperations {
          File file = new File(fileName);
          if (file.exists()) {
             Output.debugPrintln("'" + fileName + "' exists - deleting");
-            file.delete();
+
+            // Delete the file.  If it returns false, then throw an error
+            if (!file.delete()) {
+               throw new Exception("File Delete Failed");
+            }
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "'" + fileName + "' exists and was not able to be deleted");
+         Output.printColorln(Ansi.Color.RED, "'" + fileName + "' exists but could not be deleted\n" + ex.getMessage());
          return;
       }
 
@@ -239,7 +243,7 @@ public class StackOperations {
          return;
       }
 
-      Output.printColorln(Ansi.Color.CYAN, "Export successful to '" + fileName + "'");
+      Output.printColorln(Ansi.Color.CYAN, "Export successful: '" + new File(fileName).getAbsoluteFile() + "'");
    }
 
    /**
@@ -265,9 +269,9 @@ public class StackOperations {
             calcStack.clear();
 
             // Convert the strings to BigDecimal values. Skip empty lines
-            for (int i = 0; i < linesRead.size(); i++) {
-               if (!linesRead.get(i).isEmpty()) {
-                  calcStack.push(new BigDecimal(String.valueOf(linesRead.get(i))));
+            for (String s : linesRead) {
+               if (!s.isEmpty()) {
+                  calcStack.push(new BigDecimal(s));
                }
             }
 
@@ -295,9 +299,8 @@ public class StackOperations {
     * @param stk   Primary Stack
     * @param item1 First item to swap
     * @param item2 Second item to swap
-    * @return StackObj
     */
-   public static StackObj StackSwapItems(StackObj stk, int item1, int item2) {
+   public static void StackSwapItems(StackObj stk, int item1, int item2) {
       int stkSize = stk.size();
       BigDecimal[] tempArray = new BigDecimal[stkSize];
       BigDecimal value1;
@@ -324,7 +327,6 @@ public class StackOperations {
          stk.push(tempArray[i]);
       }
 
-      return (stk);
    }
 
 }

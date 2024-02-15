@@ -110,8 +110,8 @@ public class Main {
     * @param args
     */
    public static void main(String[] args) {
-      String cmdInput = "";        // What the user enters in totality
-      String cmdInputCmd = "";    // The first field - the command
+      String cmdInput = "";         // What the user enters in totality
+      String cmdInputCmd = "";      // The first field - the command
       String cmdInputParam = "";    // The remaining string - Parameters
       Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config"); // Persistent configuration settings
 
@@ -242,6 +242,7 @@ public class Main {
          // Input command from user
          try {
             cmdInput = scanner.readLine("\n" + INPUT_PROMPT);
+
          } catch (UserInterruptException ex) {
             // User entered Ctrl-C so exit the program gracefully by placing the "exit" command as the input
             cmdInput = "exit";
@@ -250,6 +251,12 @@ public class Main {
          } catch (Exception ex) {
             // Should never get this error...
             Output.fatalError("Could not read user input\n" + ex.getMessage(), 5);
+         }
+
+         // If nothing was entered, stop processing and request new input
+         if (cmdInput.isEmpty()) {
+            Output.debugPrintln("Blank line entered");
+            continue;
          }
 
          // Break each entered line (cmdInput) into a command (cmdInputCmd) and a parameter (cmdInputParam) string
@@ -264,11 +271,9 @@ public class Main {
             cmdInputParam = ci[1];
 
          } catch (ArrayIndexOutOfBoundsException e) {
-            // Ignore this exception if there is no command or parameter entered
-            if (cmdInputCmd.isEmpty()) {
-               Output.debugPrintln("Blank line entered");
-               continue;
-            }
+            // TODO: Ignore this error as it will trigger if just a command is entered with no parameter. There must be a better way...
+         } catch (Exception e) {
+            Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + cmdInput + "' into command and arguments");
          }
 
          // While in debug mode, show the entered text along with the broken up command and parameter
@@ -282,11 +287,11 @@ public class Main {
          // Call the parser to send the command to the correct function to execute
          CommandParser.Parse(calcStack, calcStack2, cmdInput, cmdInputCmd, cmdInputParam);
 
-         // Clear input parameters before we start again
+         // Clear input parameters before we start again with the next command
          cmdInputCmd = "";
          cmdInputParam = "";
 
-      } // End While Loop
+      } // End While Command Loop
 
       // If recording is on, complete the recording off process before exiting
       if (UserFunctions.recordingIsEnabled()) {

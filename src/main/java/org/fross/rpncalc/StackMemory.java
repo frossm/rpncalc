@@ -76,8 +76,8 @@ public class StackMemory {
    public static int QueryInUseMemorySlots() {
       int inUseCounter = 0;
 
-      for (int i = 0; i < memorySlots.length; i++) {
-         if (memorySlots[i] != null) inUseCounter++;
+      for (BigDecimal memorySlot : memorySlots) {
+         if (memorySlot != null) inUseCounter++;
       }
 
       return inUseCounter;
@@ -138,8 +138,8 @@ public class StackMemory {
       String[] argParse;
       int memSlot;
 
-      // Parse the command string provided. If we can't create an integer from the first
-      // arg then no stack number was provided
+      // Parse the command string provided. If we can't create an integer from the first arg then no stack number was provided
+      // arg contains either a command or a slot number + command
       try {
          argParse = arg.split(" ");
          memSlot = Integer.parseInt(argParse[0]);

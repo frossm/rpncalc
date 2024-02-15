@@ -268,9 +268,6 @@ public class StackObj implements Cloneable {
          sortedStack.push(tmpValue);
       }
 
-      // Clear the calcStack and replace the values with the sorted stack
-      calcStack.clear();
-
       // Fill the calcStack back with the sorted values from sortedStack
       if (mode.equalsIgnoreCase("ascending")) {
          // Ascending

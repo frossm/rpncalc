@@ -180,12 +180,12 @@ public class UserFunctions {
     */
    public static void RecordCommand(String arg) {
       // Ignore the following commands from recording
-      String[] ignore = {"list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit", "quit"};
+      String[] commandsToIgnore = {"list", "debug", "ver", "version", "h", "help", "?", "record", "rec", "function", "func", "reset", "cx", "x", "exit", "quit"};
 
       // If the command starts with an ignored item, just return before adding it to the recording
-      for (int i = 0; i < ignore.length; i++) {
-         if (arg.startsWith(ignore[i])) {
-            Output.debugPrintln("Record ignoring the command '" + ignore[i] + "'");
+      for (String s : commandsToIgnore) {
+         if (arg.startsWith(s)) {
+            Output.debugPrintln("Record ignoring the command '" + s + "'");
             return;
          }
       }
@@ -286,12 +286,11 @@ public class UserFunctions {
             String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
             command = ci[0];
             param = ci[1];
+
          } catch (ArrayIndexOutOfBoundsException e) {
-            // Ignore if there is no command or parameter entered
-            if (command.isEmpty()) {
-               Output.debugPrintln("Blank line entered");
-               continue;
-            }
+            // TODO: Ignore this error as it will trigger if just a command is entered with no parameter. There must be a better way...
+         } catch (Exception e) {
+            Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + fullCommand + "' into command and arguments");
          }
 
          Output.debugPrintln("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));

@@ -192,8 +192,10 @@ class StackOperationsTest {
 
       // Delete the testFile if it exists
       try {
-         testFile.delete();
-      } catch (Exception ex) {
+         if (!testFile.delete()) {
+            throw new IOException("Delete Failed");
+         }
+      } catch (IOException ex) {
          Output.println("Testing Export: Issue deleting test file: ' " + testFileName + "'");
       }
 
@@ -228,8 +230,12 @@ class StackOperationsTest {
       // Delete the test import file
       try {
          File file = new File(testFileName);
-         file.delete();
+
+         if (!file.delete()) {
+            throw new Exception("Unable to delete file");
+         }
          assertFalse(testFile.exists());
+
       } catch (Exception ex) {
          Output.println("Testing Export: Issue deleting test file: ' " + testFileName + "'");
       }
@@ -272,8 +278,11 @@ class StackOperationsTest {
       // Delete the test import file
       try {
          File file = new File(testFileName);
-         file.delete();
+         if (!file.delete()) {
+            throw new Exception("Unable to delete file");
+         }
          assertFalse(file.exists());
+
       } catch (Exception ex) {
          Output.println("Testing Import: Issue deleting test file: ' " + testFileName + "'");
       }
