@@ -362,6 +362,18 @@ public class CommandParser {
             StackOperations.exportStackToDisk(calcStack, cmdInputParam);
             break;
 
+         // Open browser to homepage
+         case "hp":
+         case "homepage":
+            StackOperations.cmdHomePage();
+            break;
+
+         // Open browser to User Guide
+         case "ug":
+         case "userguide":
+            StackOperations.cmdUserGuide();
+            break;
+
          // Import stack from disk
          case "import":
             StackOperations.importStackFromDisk(calcStack, cmdInputParam);

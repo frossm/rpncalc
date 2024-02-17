@@ -247,6 +247,20 @@ public class StackOperations {
    }
 
    /**
+    * cmdHomePage(): Open the configured browser to the RPNCalc Home Page
+    */
+   public static void cmdHomePage() {
+      Browser.Launch(Help.HOMEPAGE);
+   }
+
+   /**
+    * cmdUserGuide(): Open the configured browser to the RPNCalc User Guide
+    */
+   public static void cmdUserGuide() {
+      Browser.Launch(Help.USERGUIDE);
+   }
+
+   /**
     * LoadStackFromDisk(): Load the contents of a file into the stack. The file should have one stack item per line
     *
     * @param arg filename

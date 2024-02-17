@@ -266,7 +266,7 @@ public class Main {
             cmdInput = cmdInput.replaceAll(",", "");
 
             // Break the string into a command (cmdInputCmd) and a parameter (cmdInputParam)
-            String[] ci = cmdInput.toLowerCase().trim().split("\\s+", 2);
+            String[] ci = cmdInput.trim().split("\\s+", 2);
             cmdInputCmd = ci[0];
             cmdInputParam = ci[1];
 

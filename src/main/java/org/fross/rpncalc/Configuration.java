@@ -37,7 +37,6 @@ public class Configuration {
     */
    public static void cmdSet(String arg) {
       Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
-      String[] argParse;
       String command;
       String value;
 
@@ -47,15 +46,15 @@ public class Configuration {
          Output.printColorln(Ansi.Color.CYAN, String.format("Width:     %02d\t|  Sets the program width in characters", Main.configProgramWidth));
          Output.printColorln(Ansi.Color.CYAN, "Align:      " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
          Output.printColorln(Ansi.Color.CYAN, String.format("MemSlots:  %02d\t|  Sets number of available memory slots", Main.configMemorySlots));
+         Output.printColorln(Ansi.Color.CYAN, "Browser Path:      " + prefConfig.get("browser", "<Not Configured>"));
          Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
          return;
       }
 
       // Parse the provided argument into a command and value
       try {
-         argParse = arg.split(" ");
-         command = argParse[0];
-         value = argParse[1].toLowerCase();
+         command = arg.substring(0, arg.indexOf(" ")).toLowerCase();
+         value = arg.substring(arg.indexOf(" ") + 1);
 
          Output.debugPrintln("Set Command: '" + command + "'");
          Output.debugPrintln("Set Value:   '" + value + "'");
@@ -63,6 +62,7 @@ public class Configuration {
          switch (command.toLowerCase()) {
             case "align":
             case "alignment":
+               value = value.toLowerCase();
                if (value.compareTo("l") != 0 && value.compareTo("d") != 0 && value.compareTo("r") != 0) {
                   Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for usage");
                   return;
@@ -74,6 +74,7 @@ public class Configuration {
                break;
 
             case "width":
+               value = value.toLowerCase();
                if (Integer.parseInt(value) < Main.PROGRAM_MINIMUM_WIDTH) {
                   Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + Main.PROGRAM_MINIMUM_WIDTH + ". Setting width to that value.");
                   value = "" + Main.PROGRAM_MINIMUM_WIDTH;
@@ -92,6 +93,10 @@ public class Configuration {
                }
                break;
 
+            case "browser":
+               Browser.ConfigureBrowser(value);
+               break;
+
             default:
                Output.printColorln(Ansi.Color.RED, "ERROR: Unknown set command: '" + command + "'");
          }
@@ -102,7 +107,7 @@ public class Configuration {
    }
 
    /**
-    * reset(): Resets the configuration variables back to default
+    * cmdReset(): Resets the configuration variables back to default
     */
    public static void cmdReset() {
       Output.printColorln(Ansi.Color.CYAN, "Alignment, Width, and Memory slots reset to default values");

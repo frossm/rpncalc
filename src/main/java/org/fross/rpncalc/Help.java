@@ -37,6 +37,9 @@ import org.fusesource.jansi.Ansi;
  * @author Michael Fross (michael@fross.org)
  */
 public class Help {
+   protected static final String HOMEPAGE="https://github.com/frossm/rpncalc";
+   protected static final String USERGUIDE="https://frossm.github.io/RPNCalc-UserGuide";
+
    /**
     * Display(): Show help information
     */
@@ -50,8 +53,8 @@ public class Help {
       Output.printColor(Ansi.Color.WHITE, Format.CenterText(helpWidth, Main.COPYRIGHT));
       Output.printColorln(Ansi.Color.CYAN, "+\n+" + "-".repeat(helpWidth) + "+");
       Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "RPNCalc is the command line Reverse Polish Notation calculator"));
-      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://github.com/frossm/rpncalc"));
-      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, "https://frossm.github.io/RPNCalc-UserGuide"));
+      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, HOMEPAGE));
+      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(helpWidth, USERGUIDE));
 
       Output.printColorln(Ansi.Color.YELLOW, "\nCommand Line Options:");
       Output.printColorln(Ansi.Color.WHITE, " -D       Start in debug mode. Same as using the 'debug' command");
@@ -132,8 +135,10 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " record off        Disable recording");
 
       Output.printColorln(Ansi.Color.YELLOW, "\nConfiguration Options:");
+      Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
       Output.printColorln(Ansi.Color.WHITE, " set               Display current values of configurations you can set");
       Output.printColorln(Ansi.Color.WHITE, " set align l|d|r   Set alignment of the stack display to 'l'eft, 'd'ecimal, or 'r'ight");
+      Output.printColorln(Ansi.Color.WHITE, " set browser FILE  Set the full path (using slashes) to the web browser");
       Output.printColorln(Ansi.Color.WHITE, " set memslots NUM  Set the number of memory slots");
       Output.printColorln(Ansi.Color.WHITE, " set width NUM     Set the width of the display to num");
 
@@ -141,12 +146,13 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " debug             Toggle DEBUG mode on/off");
       Output.printColorln(Ansi.Color.WHITE, " h|?               Show this help information.  Either key will work");
       Output.printColorln(Ansi.Color.WHITE, " export FILE       Export the current stack to the provided file (one number per line)");
+      Output.printColorln(Ansi.Color.WHITE, " hp | homepage     Open up the configured browser to the RPNCalc Home Page");
       Output.printColorln(Ansi.Color.WHITE, " import FILE       Replace current stack with file contents (one number per line)");
       DisplayListCommands(Ansi.Color.WHITE);
       Output.printColorln(Ansi.Color.WHITE, " load NAME         Load (or create if needed) a named stack");
-      Output.printColorln(Ansi.Color.WHITE, " reset             Resets configurations set with 'set' back to defaults");
       Output.printColorln(Ansi.Color.WHITE, " rev               Reverse the order of the items in the stack");
       Output.printColorln(Ansi.Color.WHITE, " ss                Swap primary and secondary stack");
+      Output.printColorln(Ansi.Color.WHITE, " ug | userguide    Open up the configured browser to the RPNCalc User Guide");
       Output.printColorln(Ansi.Color.WHITE, " license           Display the software usage license");
       Output.printColorln(Ansi.Color.WHITE, " ver               Display current RPNCalc version & latest version on GitHub");
       Output.printColorln(Ansi.Color.WHITE, " x | exit          Exit Calculator");
