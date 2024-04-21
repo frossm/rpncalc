@@ -187,7 +187,7 @@ public class StackConversions {
 
       // Output the fractional display
       // If there is no fractional result, remove it, so we don't see '0/1'
-      String stackHeader = "-Fraction (Granularity: 1/" + (param) + ")";
+      String stackHeader = "-Fraction (Granularity: 1/" + denominator + ")";
       String result = integerPart + " " + ((numerator.compareTo(BigInteger.ZERO) == 0) ? "" : numerator + "/" + denominator);
 
       // Header Top

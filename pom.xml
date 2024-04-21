@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.2.4</version>
+	<version>5.2.5</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -35,6 +35,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release>11</maven.compiler.release>
+		<maven.minimum.version>3.6.3</maven.minimum.version>
 	</properties>
 
 	<build>
@@ -46,6 +47,31 @@
 		</resources>
 
 		<plugins>
+			<plugin>
+				<!-- ========================================================================================== -->
+				<!-- Enforce a minimum version of Maven to build                                                -->
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin          -->
+				<!-- ========================================================================================== -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.4.1</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${maven.minimum.version}</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<!-- ========================================================================================== -->
 				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin         -->
@@ -64,7 +90,7 @@
 				<!-- ========================================================================================== -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.12.1</version>
+				<version>3.13.0</version>
 				<configuration>
 					<release>${maven.compiler.release}</release>
 				</configuration>
@@ -87,7 +113,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.5.2</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -182,7 +208,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.1</version>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<id>chmod</id>
