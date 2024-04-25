@@ -17,16 +17,18 @@ The `frac [base]` command takes the item on the top of the stack (`line1`) and d
 if `frac 5` would have been entered (which means 1/5 is maximum granularity), you get `1.1234 is approximately 1 1/5`.
 
 
-|<div style="width:90px">Command</div>|Description|
-|-------|-----------|
-|to%|Converts `line1` from a "number" to a percent.  For example, `0.4455` becomes `44.55%`. This is simply done by multiplying the number by 100|
-|from%|Converts `line1` from a percent to a "number".  For example, `93.124%` becomes `.93124`. This is simply done by multiplying the number by 0.01|
-|frac [base]|Display a fractional estimate of the last stack item (`line1`) with the maximum granularity of 1/[base]. See the above description for more detail|
-|in2mm|Converts the value in `line1` from inches to millimeters|
-|mm2in|Converts the value in `line1` from millimeters to inches|
-|deg2rad|Convert `line1` from degrees into [radians](https://en.wikipedia.org/wiki/Radian)|
-|rad2deg|Convert `line1` from radians into degrees|
-|gram2oz<br>grams2oz|Convert `line1` from grams into ounces using the constant of 0.035274 ounces / gram|
-|oz2gram<br>oz2grams|Convert `line1` from ounces into grams using the constant of 28.349523125 grams / ounce|
-|kg2lbs<br>kgs2lbs|convert `line1` from kilograms to US pounds using the constant of 2.2046226218 lbs/kg|
-|lbs2kg<br>lbs2kgs|convert `line1` from US pounds using the constant of 0.45359237 kg/lbs|
+| <div style="width:90px">Command</div> | Description                                                                                                                                        |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| to%                                   | Converts `line1` from a "number" to a percent.  For example, `0.4455` becomes `44.55%`. This is simply done by multiplying the number by 100       |
+| from%                                 | Converts `line1` from a percent to a "number".  For example, `93.124%` becomes `.93124`. This is simply done by multiplying the number by 0.01     |
+| frac [base]                           | Display a fractional estimate of the last stack item (`line1`) with the maximum granularity of 1/[base]. See the above description for more detail |
+| in2mm                                 | Converts the value in `line1` from inches to millimeters                                                                                           |
+| mm2in                                 | Converts the value in `line1` from millimeters to inches                                                                                           |
+| in2ft                                 | Converts the value in `line1` from inches to feet                                                                                                  |
+| ft2in                                 | Converts the value in `line1` from feet to inches                                                                                          |
+| deg2rad                               | Convert `line1` from degrees into [radians](https://en.wikipedia.org/wiki/Radian)                                                                  |
+| rad2deg                               | Convert `line1` from radians into degrees                                                                                                          |
+| gram2oz<br>grams2oz                   | Convert `line1` from grams into ounces using the constant of 0.035274 ounces / gram                                                                |
+| oz2gram<br>oz2grams                   | Convert `line1` from ounces into grams using the constant of 28.349523125 grams / ounce                                                            |
+| kg2lbs<br>kgs2lbs                     | convert `line1` from kilograms to US pounds using the constant of 2.2046226218 lbs/kg                                                              |
+| lbs2kg<br>lbs2kgs                     | convert `line1` from US pounds using the constant of 0.45359237 kg/lbs                                                                             |

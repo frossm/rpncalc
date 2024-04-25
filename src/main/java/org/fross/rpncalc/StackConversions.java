@@ -75,9 +75,9 @@ public class StackConversions {
    }
 
    /**
-    * cmdConvertMM(): Assumes Line1 is in inches and converts to millimeters
+    * cmdConvertIn2Mm(): Assumes Line1 is in inches and converts to millimeters
     */
-   public static void cmdConvertIN2MM(StackObj calcStack) {
+   public static void cmdIn2Mm(StackObj calcStack) {
       // Verify at least one elements exists
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
@@ -92,9 +92,9 @@ public class StackConversions {
    }
 
    /**
-    * cmdConvertIN(): Assumes Line1 is in millimeters and converts to inches
+    * cmdConvertMm2In(): Assumes Line1 is in millimeters and converts to inches
     */
-   public static void cmdConvertMM2IN(StackObj calcStack) {
+   public static void cmdMm2In(StackObj calcStack) {
       // Verify at least one elements exists
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
@@ -106,6 +106,40 @@ public class StackConversions {
 
       // Pop off the last value, convert, and push it back
       calcStack.push(calcStack.pop().divide(new BigDecimal("25.4"), MathContext.DECIMAL128));
+   }
+
+   /**
+    * cmdConvertIn2Ft(): Assumes Line1 is in inches and converts to feet
+    */
+   public static void cmdIn2Ft(StackObj calcStack) {
+      // Verify at least one elements exists
+      if (calcStack.isEmpty()) {
+         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+         return;
+      }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      // Pop off the last value, convert, and push it back
+      calcStack.push(calcStack.pop().divide(new BigDecimal("12"), MathContext.DECIMAL128));
+   }
+
+   /**
+    * cmdConvertFt2In(): Assumes Line1 is in feet and converts to inches
+    */
+   public static void cmdFt2In(StackObj calcStack) {
+      // Verify at least one elements exists
+      if (calcStack.isEmpty()) {
+         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+         return;
+      }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      // Pop off the last value, convert, and push it back
+      calcStack.push(calcStack.pop().multiply(new BigDecimal("12")));
    }
 
    /**

@@ -92,39 +92,39 @@ class StackConversionsTest {
    }
 
    /**
-    * Test method for {@link org.fross.rpncalc.StackConversions#cmdConvertIN2MM(org.fross.rpncalc.StackObj)}.
+    * Test method for {@link org.fross.rpncalc.StackConversions#cmdIn2Mm(org.fross.rpncalc.StackObj)}.
     */
    @Test
    void testCmdConvertIN2MM() {
       StackObj stk = new StackObj();
 
       stk.push(31.6);
-      StackConversions.cmdConvertIN2MM(stk);
+      StackConversions.cmdIn2Mm(stk);
       assertEquals(802.64, stk.peek().doubleValue());
       assertEquals(1, stk.size());
 
       stk.push(1.234e12);
-      StackConversions.cmdConvertIN2MM(stk);
+      StackConversions.cmdIn2Mm(stk);
       assertEquals("3.13436E+13", stk.peek().toString());
       assertEquals(2, stk.size());
 
    }
 
    /**
-    * Test method for {@link org.fross.rpncalc.StackConversions#cmdConvertMM2IN(org.fross.rpncalc.StackObj)}.
+    * Test method for {@link org.fross.rpncalc.StackConversions#cmdMm2In(org.fross.rpncalc.StackObj)}.
     */
    @Test
    void testCmdConvertMM2IN() {
       StackObj stk = new StackObj();
 
       stk.push(666.0);
-      StackConversions.cmdConvertMM2IN(stk);
+      StackConversions.cmdMm2In(stk);
       StackCommands.cmdRound(stk, "4");
       assertEquals(26.2205, stk.peek().doubleValue());
       assertEquals(1, stk.size());
 
       stk.push(1.234e12);
-      StackConversions.cmdConvertMM2IN(stk);
+      StackConversions.cmdMm2In(stk);
       StackCommands.cmdRound(stk, "10");
       assertEquals("48582677165.3543307087", stk.peek().toEngineeringString());
       assertEquals(2, stk.size());
@@ -496,6 +496,42 @@ class StackConversionsTest {
       StackConversions.cmdLbs2Kg(stk);
       StackCommands.cmdRound(stk, "2");
       assertEquals("1959972630770000000.00", stk.pop().toEngineeringString());
+   }
+
+   /**
+    * Test Inches to Feet conversion
+    */
+   @Test
+   void testIn2Ft() {
+      StackObj stk = new StackObj();
+
+      stk.push(123.321);
+      StackConversions.cmdIn2Ft(stk);
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(10.27675, stk.pop().doubleValue());
+
+      stk.push(-50.987654);
+      StackConversions.cmdIn2Ft(stk);
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(-4.24897, stk.pop().doubleValue());
+   }
+
+   /**
+    * Test Feet to Inches conversion
+    */
+   @Test
+   void testFt2In() {
+      StackObj stk = new StackObj();
+
+      stk.push(7117.44);
+      StackConversions.cmdFt2In(stk);
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(85409.28, stk.pop().doubleValue());
+
+      stk.push(-32.0011);
+      StackConversions.cmdFt2In(stk);
+      StackCommands.cmdRound(stk, "5");
+      assertEquals(-384.0132, stk.pop().doubleValue());
    }
 
 }

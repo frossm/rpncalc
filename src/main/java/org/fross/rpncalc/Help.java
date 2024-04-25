@@ -104,6 +104,8 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " rad2deg        Convert line1 from radians to degrees");
       Output.printColorln(Ansi.Color.WHITE, " in2mm          Convert line1 from inches into millimeters");
       Output.printColorln(Ansi.Color.WHITE, " mm2in          Convert line1 from millimeters to inches");
+      Output.printColorln(Ansi.Color.WHITE, " in2ft          Convert line1 from inches into feet");
+      Output.printColorln(Ansi.Color.WHITE, " ft2in          Convert line1 from feet to inches");
       Output.printColorln(Ansi.Color.WHITE, " gram2oz        Convert line1 from grams to US ounces");
       Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
       Output.printColorln(Ansi.Color.WHITE, " kg2lbs         Convert line1 from kilograms to US pounds");
