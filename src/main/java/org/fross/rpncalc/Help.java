@@ -83,7 +83,7 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " fact           Take a factorial of line1. Decimals will be dropped");
       Output.printColorln(Ansi.Color.WHITE, " f              Flip the sign of the element at line1");
       Output.printColorln(Ansi.Color.WHITE, " int            Convert line1 to an integer. No rounding is performed");
-      Output.printColorln(Ansi.Color.WHITE, " lr [add] [x]   Linear Regress. 'add' will add next value. x adds the y value at that x");
+      Output.printColorln(Ansi.Color.WHITE, " lr [add] [x]   Linear Regr. 'add' puts next value on stk. 'x' shows the y value at that x");
       Output.printColorln(Ansi.Color.WHITE, " log | log10    Calculate the natural (base e) or base10 logarithm");
       Output.printColorln(Ansi.Color.WHITE, " min | max      Add the minimum or maximum stack value to the stack");
       Output.printColorln(Ansi.Color.WHITE, " median [keep]  Replace stack with median value. 'keep' will retain stack");

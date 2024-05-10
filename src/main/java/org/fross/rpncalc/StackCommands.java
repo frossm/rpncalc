@@ -417,7 +417,8 @@ public class StackCommands {
     * <a href="https://www.graphpad.com/quickcalcs/linear1">...</a>
     *
     * @param calcStack Primary Stack
-    * @param args      Method argument
+    * @param args      A value of 'x' in the equation.  It will display the predicted value of y at that x.
+    *                  'add' will simply add the next predicted value onto the stack.
     */
    public static void cmdLinearRegression(StackObj calcStack, String args) {
       boolean argAdd = false;
@@ -447,29 +448,22 @@ public class StackCommands {
          }
 
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Acceptable linear regression options are 'add' or a number");
+         Output.printColorln(Ansi.Color.RED, "ERROR: Acceptable linear regression options are 'add' or a number for 'x'");
          return;
       }
 
       // X is the number of stack items
       BigDecimal n = new BigDecimal(String.valueOf(calcStack.size()));
-      BigDecimal sumX = BigDecimal.ZERO;      // X values are the stack numbers
-      BigDecimal sumY = BigDecimal.ZERO;      // Sum of the stack values
-      BigDecimal sumXY = BigDecimal.ZERO;      // Sum of X times Y
-      BigDecimal sumX2 = BigDecimal.ZERO;      // Sum of X Squared
-      BigDecimal sumY2 = BigDecimal.ZERO;      // Sum of Y Squared
+      BigDecimal sumX = BigDecimal.ZERO;     // X values are the stack numbers
+      BigDecimal sumY = BigDecimal.ZERO;     // Sum of the stack values
+      BigDecimal sumXY = BigDecimal.ZERO;    // Sum of X times Y
+      BigDecimal sumX2 = BigDecimal.ZERO;    // Sum of X Squared
+      BigDecimal sumY2 = BigDecimal.ZERO;    // Sum of Y Squared
 
       // Loop through the items to calculate the needed sums
       for (int i = 0; i < calcStack.size(); i++) {
          int x = i + 1;
          BigDecimal y = calcStack.get(i);
-
-         // Calculate the sums:
-         // sumX += x;
-         // sumY += y;
-         // sumXY += x * y;
-         // sumX2 += x * x;
-         // sumY2 += y * y;
 
          // sumX & sumY
          sumX = sumX.add(new BigDecimal(String.valueOf(x)));
@@ -489,9 +483,9 @@ public class StackCommands {
                "#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + y.multiply(new BigDecimal(String.valueOf(x))) + "\tX2:" + (x * x) + "\tY2:" + y.pow(2));
       }
 
-		/* Calculate the remaining values
-		a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
-		b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX)); */
+		// Calculate the remaining values
+		// a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
+		// b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
 
       BigDecimal a_top = sumY.multiply(sumX2).subtract(sumX.multiply(sumXY));
       BigDecimal a_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
