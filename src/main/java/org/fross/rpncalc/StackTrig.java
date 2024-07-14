@@ -44,9 +44,6 @@ public class StackTrig {
          return;
       }
 
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();        // Save current calcStack to the undoStack
-
       double angle = 0.0;
 
       try {
@@ -61,6 +58,9 @@ public class StackTrig {
       } catch (StringIndexOutOfBoundsException ex) {
          angle = java.lang.Math.toRadians(angle);
       }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
       // Push the result back onto the stack
       switch (cmd) {
@@ -95,13 +95,13 @@ public class StackTrig {
          return;
       }
 
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();        // Save current calcStack to the undoStack
-
       double result;
       double originalValue;
 
       originalValue = calcStack.peek().doubleValue();
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
       // Calculate the arc trig function
       switch (cmd) {

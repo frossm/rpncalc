@@ -67,43 +67,6 @@ public class Main {
    static int configMemorySlots = CONFIG_DEFAULT_MEMORY_SLOTS;
    static String configAlignment = CONFIG_DEFAULT_ALIGNMENT;
 
-   /**
-    * DisplayStatusLine(): Display the last line of the header and the separator line. This is a separate function given it also
-    * inserts the loaded stack and spaces everything correctly.
-    */
-   public static void DisplayStatusLine() {
-      // Format the number of memory slots used
-      String sfMem = String.format("Mem:%02d", StackMemory.QueryInUseMemorySlots());
-
-      // Format the undo level to 2 digits. Can't image I'd need over 99 undo levels
-      String sfUndo = String.format("Undo:%02d", calcStack.undoSize());
-
-      // Determine how many dashes to use after remove space for the undo and stack name
-      int numDashes = configProgramWidth - 2 - sfMem.length() - sfUndo.length() - calcStack.queryStackName().length() - 11;
-
-      // [Recording] appears if it's turned on. Make room if it's enabled
-      if (UserFunctions.recordingIsEnabled()) numDashes -= 12;
-
-      // Print the StatusLine dashes
-      Output.printColor(Ansi.Color.CYAN, "+");
-      Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
-
-      // Print the StatusLine Data in chunks to be able to better control color output
-      if (UserFunctions.recordingIsEnabled()) {
-         Output.printColor(Ansi.Color.CYAN, "[");
-         Output.printColor(Ansi.Color.RED, "Recording");
-         Output.printColor(Ansi.Color.CYAN, "]-");
-      }
-      Output.printColor(Ansi.Color.CYAN, "[");
-      Output.printColor(Ansi.Color.WHITE, sfMem);
-      Output.printColor(Ansi.Color.CYAN, "]-[");
-      Output.printColor(Ansi.Color.WHITE, sfUndo);
-      Output.printColor(Ansi.Color.CYAN, "]-[");
-      Output.printColor(Ansi.Color.WHITE, calcStack.queryStackName() + ":" + StackManagement.QueryCurrentStackNum());
-      Output.printColor(Ansi.Color.CYAN, "]-");
-      Output.printColorln(Ansi.Color.CYAN, "+");
-   }
-
    /*
     * Main(): Start of program and holds main command loop
     *
@@ -172,7 +135,7 @@ public class Main {
          int maxLenOfNumbers = 0;
 
          // Display the dashed status line
-         DisplayStatusLine();
+         Display.ShowStatusLine(calcStack);
 
          // Loop through the stack and count the max digits before the decimal for use with the decimal
          // alignment mode & overall length for right alignment mode
@@ -184,7 +147,7 @@ public class Main {
             if (calcStack.getAsString(i).toLowerCase().contains("e")) {
                currentStackItem = calcStack.getAsString(i);
             } else {
-               currentStackItem = Format.Comma(calcStack.getAsString(i));
+               currentStackItem = Display.Comma(calcStack.get(i));
             }
 
             // Determine where the decimal point is located
@@ -214,7 +177,7 @@ public class Main {
             if (calcStack.getAsString(i).toLowerCase().contains("e")) {
                currentStackItem = calcStack.getAsString(i).toLowerCase();
             } else {
-               currentStackItem = Format.Comma(calcStack.getAsString(i));
+               currentStackItem = Display.Comma(calcStack.get(i));
             }
 
             // Display Stack Row Number without a newline

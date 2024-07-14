@@ -50,8 +50,8 @@ class UserDefinedFunctionsTest {
       StackObj stk = new StackObj();
 
       // Add several values to the stack
-      stk.push(2.75);
-      stk.push(3.25);
+      stk.push("150123123");
+      stk.push(3.25e4);
       assertEquals(2, stk.size());
 
       // Enable recording
@@ -62,7 +62,7 @@ class UserDefinedFunctionsTest {
       CommandParser.Parse(stk, stk, "+", "+", "");
       UserFunctions.RecordCommand("+");
       assertEquals(1, stk.size());
-      assertEquals(6, stk.peek().doubleValue());
+      assertEquals("150155623.0", stk.getAsString(0));
 
       // Stop the recording
       UserFunctions.cmdRecord("off " + testFunctionName);
@@ -76,7 +76,7 @@ class UserDefinedFunctionsTest {
       assertEquals(2, stk.size());
       CommandParser.Parse(stk, stk, testFunctionName, testFunctionName, "");
       assertEquals(1, stk.size());
-      assertEquals(10, stk.peek().doubleValue());
+      assertEquals("150155627.0", stk.getAsString(0));
 
       // Remove the test function
       UserFunctions.FunctionDelete(testFunctionName);

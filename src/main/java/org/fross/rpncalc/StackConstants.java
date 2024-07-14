@@ -42,7 +42,7 @@ public class StackConstants {
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
 
-      calcStack.push(String.valueOf(java.lang.Math.PI));
+      calcStack.push("3.14159265358979323846264338327950288419716939937510");
    }
 
    /**

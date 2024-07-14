@@ -44,7 +44,7 @@ class StackConstantsTest {
       assertEquals(1, calcStack.size());
 
       // Ensure that the value is correct
-      assertEquals(java.lang.Math.PI, calcStack.get(0).doubleValue());
+      assertEquals("3.14159265358979323846264338327950288419716939937510", calcStack.getAsString(0));
    }
 
    @Test
@@ -59,7 +59,7 @@ class StackConstantsTest {
       assertEquals(1, calcStack.size());
 
       // Ensure that the value is correct
-      assertEquals("1.61803398874989", calcStack.get(0).toEngineeringString());
+      assertEquals("1.61803398874989", calcStack.getAsString(0));
    }
 
    @Test
@@ -74,7 +74,7 @@ class StackConstantsTest {
       assertEquals(1, calcStack.size());
 
       // Ensure that the value is correct
-      assertEquals("2.7182818284590452353602874713527", calcStack.get(0).toEngineeringString());
+      assertEquals("2.7182818284590452353602874713527", calcStack.getAsString(0));
    }
 
    @Test
@@ -89,7 +89,7 @@ class StackConstantsTest {
       assertEquals(1, calcStack.size());
 
       // Ensure that the value is correct
-      assertEquals("299792458", calcStack.get(0).toEngineeringString());
+      assertEquals("299792458", calcStack.getAsString(0));
    }
 
 }

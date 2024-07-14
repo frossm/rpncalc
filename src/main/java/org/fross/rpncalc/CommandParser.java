@@ -543,6 +543,7 @@ public class CommandParser {
 
                // Scientific notation number entered
             } else if (cmdInputCmd.toLowerCase().contains("e")) {
+               Output.debugPrintln("Scientific Number Entered");
                // Make sure the digits before and after the 'e' are numbers
                try {
                   String[] numberSplit = cmdInputCmd.toLowerCase().trim().replace(" ", "").split("e");
