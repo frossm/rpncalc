@@ -33,10 +33,8 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DisplayTest {
-
    @Test
    void testComma() {
-
       assertEquals("1", Display.Comma(new BigDecimal("1")));
       assertEquals("1.01", Display.Comma(new BigDecimal("1.01")));
       assertEquals("-2.000000001231", Display.Comma(new BigDecimal("-2.000000001231")));
@@ -44,6 +42,19 @@ public class DisplayTest {
       assertEquals("-123,456,789.987654321", Display.Comma(new BigDecimal("-123456789.987654321")));
       assertEquals("-0.1234567890123456789", Display.Comma(new BigDecimal("-0.1234567890123456789")));
       assertEquals("-1,987,654,321,987,654,321", Display.Comma(new BigDecimal("-1987654321987654321")));
+   }
+
+   @Test
+   void testQueryDecimalIndex() {
+      assertEquals(6, Display.queryDecimalIndex("50,000"));
+      assertEquals(1, Display.queryDecimalIndex("1"));
+      assertEquals(1, Display.queryDecimalIndex("1.01"));
+      assertEquals(5, Display.queryDecimalIndex("-1234.4321"));
+      assertEquals(0, Display.queryDecimalIndex(".00001"));
+      assertEquals(18, Display.queryDecimalIndex("-1,123,454,678,999.1234532643"));
+      assertEquals(5, Display.queryDecimalIndex("-8e21"));
+      assertEquals(1, Display.queryDecimalIndex("1.02e+22"));
+      assertEquals(6, Display.queryDecimalIndex("-1e+22"));
    }
 
 }

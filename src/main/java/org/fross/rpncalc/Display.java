@@ -42,8 +42,23 @@ public class Display {
     */
    @SuppressWarnings("MalformedFormatString") // No idea what's wrong with the return statement
    public static String Comma(BigDecimal bd) {
-      Output.debugPrintln("BigDecimal Scale: " + bd.scale());
+      // Output.debugPrintln("Comma: BigDecimal Scale: " + bd.scale());
       return String.format("%,." + bd.scale() + "f", bd);
+   }
+
+   /**
+    * queryDecimalIndex(): Return the index of the decimal in a string.  If none is given assume it's at the end.
+    *
+    * @param str - String with or without a decimal point in it
+    * @return An integer with the location of the decimal (or the end if it doesn't exist)
+    */
+   public static int queryDecimalIndex(String str) {
+      // Determine where the decimal point is located. If no decimal exists (-1) assume it's at the end
+      int di = str.indexOf(".");
+      if (di == -1) {
+         di = str.length();
+      }
+      return di;
    }
 
    /**

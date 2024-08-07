@@ -150,8 +150,8 @@ public class Main {
                currentStackItem = Display.Comma(calcStack.get(i));
             }
 
-            // Determine where the decimal point is located
-            decimalIndex = currentStackItem.indexOf(".");
+            // Determine where the decimal point is located. If no decimal exists (-1) assume it's at the end
+            decimalIndex = Display.queryDecimalIndex(currentStackItem);
 
             // If current stack item has more digits ahead of decimal make that the max - commas are included.
             if (maxDigitsBeforeDecimal < decimalIndex) {
@@ -165,9 +165,9 @@ public class Main {
 
          }
 
-         // Uncomment to debug alignment issues
-         // Output.debugPrintln("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
-         // Output.debugPrintln("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
+         // Output information for alignment debugging
+         Output.debugPrintln("Alignment: Max digits before the decimal: " + maxDigitsBeforeDecimal);
+         Output.debugPrintln("Alignment: Max length of longest item in stack: " + maxLenOfNumbers);
 
          // Display the current stack contents
          for (int i = 0; i < calcStack.size(); i++) {
@@ -184,18 +184,17 @@ public class Main {
             String stkLineNumber = String.format("%0" + LINE_NUMBER_DIGITS + "d:  ", calcStack.size() - i);
             Output.printColor(Ansi.Color.CYAN, stkLineNumber);
 
-            // Decimal Alignment - insert spaces before number to align to the decimal point
+            // DECIMAL ALIGNMENT: Insert spaces before number to align to the decimal point
             if (configAlignment.compareTo("d") == 0) {
-               for (int k = 0; k < (maxDigitsBeforeDecimal - currentStackItem.indexOf(".")); k++) {
-                  Output.print(" ");
-               }
+               int decimalIndex = Display.queryDecimalIndex(currentStackItem);
+
+               // Output the spaces in front so the decimals align
+               Output.print(" ".repeat(maxDigitsBeforeDecimal - decimalIndex));
             }
 
-            // Right Alignment - insert spaces before number to right align
+            // RIGHT ALIGNMENT: Insert spaces before number to right align
             if (configAlignment.compareTo("r") == 0) {
-               for (int k = 0; k < (maxLenOfNumbers - currentStackItem.length()); k++) {
-                  Output.print(" ");
-               }
+               Output.print(" ".repeat(maxLenOfNumbers - currentStackItem.length()));
             }
 
             // Now that the spaces are inserted (for decimal/right) display the number

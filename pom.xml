@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.2.9</version>
+	<version>5.2.10</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -208,7 +208,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.4.0</version>
 				<executions>
 					<execution>
 						<id>chmod</id>
@@ -220,9 +220,12 @@
 							<executable>chmod</executable>
 							<arguments>
 								<argument>+x</argument>
-								<argument>
-									${project.build.directory}/${project.name}.jar</argument>
+								<argument>${project.build.directory}/${project.name}.jar</argument>
 							</arguments>
+							<successCodes>
+								<successCode>0</successCode>
+								<successCode>1</successCode>
+							</successCodes>
 						</configuration>
 					</execution>
 				</executions>
@@ -273,7 +276,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.11.0-M2</version>
+			<version>5.11.0-RC1</version>
 			<scope>test</scope>
 		</dependency>
 
