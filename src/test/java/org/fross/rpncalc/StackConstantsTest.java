@@ -63,9 +63,9 @@ class StackConstantsTest {
    }
 
    @Test
-   void testCmdEuler() {
+   void testCmdEulersNumber() {
       StackObj calcStack = new StackObj();
-      StackConstants.cmdEuler(calcStack);
+      StackConstants.cmdEulersNumber(calcStack);
 
       // Ensure the stack is not null
       assertNotNull(calcStack);
@@ -74,7 +74,22 @@ class StackConstantsTest {
       assertEquals(1, calcStack.size());
 
       // Ensure that the value is correct
-      assertEquals("2.7182818284590452353602874713527", calcStack.getAsString(0));
+      assertEquals("2.71828182845904523536028747135266249775724709369995", calcStack.getAsString(0));
+   }
+
+   @Test
+   void testCmdEulersConstant() {
+      StackObj calcStack = new StackObj();
+      StackConstants.cmdEulersConstant(calcStack);
+
+      // Ensure the stack is not null
+      assertNotNull(calcStack);
+
+      // Ensure there is only one item in the stack
+      assertEquals(1, calcStack.size());
+
+      // Ensure that the value is correct
+      assertEquals("0.577215664901532860606512090082402431", calcStack.getAsString(0));
    }
 
    @Test

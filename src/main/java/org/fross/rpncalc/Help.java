@@ -125,7 +125,8 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " mem copyall       Copy all memory items onto the stack");
 
       Output.printColorln(Ansi.Color.YELLOW, "\nConstants:");
-      Output.printColorln(Ansi.Color.WHITE, " euler             Add Euler's exponential growth constant (e)");
+      Output.printColorln(Ansi.Color.WHITE, " eulersnum         Add Euler's exponential growth number (e)");
+      Output.printColorln(Ansi.Color.WHITE, " eulersconst       Add Euler's mathematical constant (y)");
       Output.printColorln(Ansi.Color.WHITE, " phi               Add the Golden Ratio (phi)");
       Output.printColorln(Ansi.Color.WHITE, " pi                Add Archimede's constant (PI)");
       Output.printColorln(Ansi.Color.WHITE, " sol               Add the Speed of Light (c)");

@@ -327,9 +327,17 @@ public class CommandParser {
             break;
 
          // Euler's number
-         case "euler":
-            StackConstants.cmdEuler(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) to the stack");
+         case "eulersnum":
+         case "eulersnumber":
+            StackConstants.cmdEulersNumber(calcStack);
+            Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) has been added to the stack");
+            break;
+
+         // Euler's constant
+         case "eulersconst":
+         case "eulersconstant":
+            StackConstants.cmdEulersConstant(calcStack);
+            Output.printColorln(Ansi.Color.CYAN, "Euler's constant (y) has been added to the stack");
             break;
 
          // Speed of light

@@ -68,13 +68,23 @@ public class StackConstants {
    }
 
    /**
-    * cmdEuler(): Add the Euler constant to the stack
+    * cmdEulersNumber(): Add the Euler number to the stack
     */
-   public static void cmdEuler(StackObj calcStack) {
+   public static void cmdEulersNumber(StackObj calcStack) {
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
 
-      calcStack.push("2.7182818284590452353602874713527");
+      calcStack.push("2.71828182845904523536028747135266249775724709369995");
+   }
+
+   /**
+    * cmdEulersConstant(): Add the Euler constant to the stack
+    */
+   public static void cmdEulersConstant(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      calcStack.push("0.577215664901532860606512090082402431");
    }
 
    /**
