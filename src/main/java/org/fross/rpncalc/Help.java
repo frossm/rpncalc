@@ -108,8 +108,8 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " ft2in          Convert line1 from feet to inches");
       Output.printColorln(Ansi.Color.WHITE, " gram2oz        Convert line1 from grams to US ounces");
       Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
-      Output.printColorln(Ansi.Color.WHITE, " kg2lbs         Convert line1 from kilograms to US pounds");
-      Output.printColorln(Ansi.Color.WHITE, " lbs2kg         Convert line1 from US pounds to kilograms");
+      Output.printColorln(Ansi.Color.WHITE, " kg2lb          Convert line1 from kilograms to US pounds");
+      Output.printColorln(Ansi.Color.WHITE, " lb2kg          Convert line1 from US pounds to kilograms");
 
       Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
       Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle is in degrees unless rad is provided");

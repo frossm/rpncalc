@@ -252,26 +252,22 @@ public class CommandParser {
 
          // Convert grams to ounces
          case "gram2oz":
-         case "grams2oz":
             StackConversions.cmdGram2Oz(calcStack);
             break;
 
          // Convert ounces to grams
          case "oz2gram":
-         case "oz2grams":
             StackConversions.cmdOz2Gram(calcStack);
             break;
 
          // Convert Kilograms to US Pounds
-         case "kg2lbs":
-         case "kgs2lbs":
-            StackConversions.cmdKg2Lbs(calcStack);
+         case "kg2lb":
+            StackConversions.cmdKg2Lb(calcStack);
             break;
 
          // Convert US Pounds to Kilograms
-         case "lbs2kg":
-         case "lbs2kgs":
-            StackConversions.cmdLbs2Kg(calcStack);
+         case "lb2kg":
+            StackConversions.cmdLb2Kg(calcStack);
             break;
 
          /*------------------------------------------------------------------------------

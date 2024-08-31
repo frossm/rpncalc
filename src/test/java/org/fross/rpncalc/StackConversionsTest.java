@@ -455,21 +455,21 @@ class StackConversionsTest {
     * Test Kilograms to US pounds conversion
     */
    @Test
-   void testKg2Lbs() {
+   void testKg2Lb() {
       StackObj stk = new StackObj();
 
       stk.push(123.321);
-      StackConversions.cmdKg2Lbs(stk);
+      StackConversions.cmdKg2Lb(stk);
       StackCommands.cmdRound(stk, "5");
       assertEquals(271.87627, stk.pop().doubleValue());
 
       stk.push(-0.369);
-      StackConversions.cmdKg2Lbs(stk);
+      StackConversions.cmdKg2Lb(stk);
       StackCommands.cmdRound(stk, "5");
       assertEquals(-0.81351, stk.pop().doubleValue());
 
       stk.push(4.321e18);
-      StackConversions.cmdKg2Lbs(stk);
+      StackConversions.cmdKg2Lb(stk);
       StackCommands.cmdRound(stk, "2");
       assertEquals("9526174348797800000.00", stk.pop().toEngineeringString());
 
@@ -479,21 +479,21 @@ class StackConversionsTest {
     * Test US Pounds to Kilograms conversion
     */
    @Test
-   void testLbs2Kg() {
+   void testLb2Kg() {
       StackObj stk = new StackObj();
 
       stk.push(456.654);
-      StackConversions.cmdLbs2Kg(stk);
+      StackConversions.cmdLb2Kg(stk);
       StackCommands.cmdRound(stk, "5");
       assertEquals(207.13477, stk.pop().doubleValue());
 
       stk.push(-0.987654);
-      StackConversions.cmdLbs2Kg(stk);
+      StackConversions.cmdLb2Kg(stk);
       StackCommands.cmdRound(stk, "5");
       assertEquals(-0.44799, stk.pop().doubleValue());
 
       stk.push(4.321e18);
-      StackConversions.cmdLbs2Kg(stk);
+      StackConversions.cmdLb2Kg(stk);
       StackCommands.cmdRound(stk, "2");
       assertEquals("1959972630770000000.00", stk.pop().toEngineeringString());
    }

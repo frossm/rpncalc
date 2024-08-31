@@ -320,7 +320,7 @@ public class StackConversions {
     *
     * @param calcStack Primary Stack
     */
-   public static void cmdKg2Lbs(StackObj calcStack) {
+   public static void cmdKg2Lb(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
@@ -340,7 +340,7 @@ public class StackConversions {
     *
     * @param calcStack Primary Stack
     */
-   public static void cmdLbs2Kg(StackObj calcStack) {
+   public static void cmdLb2Kg(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
