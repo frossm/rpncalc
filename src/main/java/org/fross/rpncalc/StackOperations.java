@@ -84,7 +84,10 @@ public class StackOperations {
             break;
 
          case "undo":
-            Output.printColorln(Ansi.Color.YELLOW, "\n-Undo Stack for Stack #: " + StackManagement.QueryCurrentStackNum() + "-".repeat(Main.configProgramWidth - 26));
+            String headerText = "-Undo Stack for: " + calcStack.queryStackName() + ":" + StackManagement.QueryCurrentStackNum();
+            int numDashes = Main.configProgramWidth - headerText.length();
+            Output.printColorln(Ansi.Color.YELLOW, "\n" + headerText + "-".repeat(numDashes));
+
             for (int i = 0; i < calcStack.undoSize(); i++) {
                String sn = String.format("%02d:  %s", i + 1, calcStack.undoGet(i));
                Output.printColorln(Ansi.Color.CYAN, sn);
