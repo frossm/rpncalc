@@ -2,11 +2,13 @@
 
 # Acknowledgments
 
-This is a simple user guide for a tiny piece of software.  But I have used other people's art and applications to create RPNCalc and I want to ensure I recognize them and give them thanks.
+This is a simple user guide for a tiny piece of software.  But I have used other people's art and applications to create RPNCalc and I want to ensure I recognize them
+and give them thanks.
 
 ## Libraries
 
-Extensive use of several libraries were used in RPNCalc.  I'd like to publicly thank the authors and give them credit for their hard work. The licenses for these libraries is detailed in the `Licenses` chapter.
+Extensive use of several libraries were used in RPNCalc.  I'd like to publicly thank the authors and give them credit for their hard work. The licenses for these libraries
+is detailed in the `Licenses` chapter.
 
 - [JCommander](ttps://jcommander.org) is used to parse the command line for options and parameters
 
@@ -21,7 +23,6 @@ Extensive use of several libraries were used in RPNCalc.  I'd like to publicly t
 ## Graphics
 
 I'd like to give recognition and attribution to the authors of the icons used in this guide.
-
 
 - Configure: <a href="https://www.flaticon.com/free-icons/easy-installation" title="easy installation icons">Easy installation icons created by Freepik - Flaticon</a>
 
@@ -47,9 +48,16 @@ I'd like to give recognition and attribution to the authors of the icons used in
 
 - Acknowledgment: <a href="https://www.flaticon.com/free-icons/agreement" title="agreement icons">Agreement icons created by Freepik - Flaticon</a>
 
-- Other icons were sourced from [IconFinder](https://iconfinder.com) and were licensed via the [Creative Commons License](https://creativecommons.org/licenses/)
+- Other icons were sourced from [IconFinder](https://iconfinder.com) and are licensed via the [Creative Commons License](https://creativecommons.org/licenses/)
 
 ## mdBook
 
-This book was generated using [mdBook](https://github.com/rust-lang/mdBook).  mdBook is a utility to create modern online books from Markdown files and it is fantastic.  If you need to do something like this, mdBook is where you shoud look first in my humble opinion.
+This book was generated using [mdBook](https://github.com/rust-lang/mdBook).  mdBook is a utility to create modern online books from Markdown 
+files, and it is fantastic.  If you need to do something like this, mdBook is where you should look first in my humble opinion.
 
+## HP 15C Calculator
+
+And, lastly, probably the most important item in my personal RPN journey is my trusty HP 15C calculator.  I've had it since the late 1980's.  While I 
+don't use it much anymore, instead relying on RPNCalc, it's still an important item to me and always in my desk drawer.  Thanks 15C!
+
+<br><p align="center"> <img width="600" src ="../Images/HP15C.jpg">
