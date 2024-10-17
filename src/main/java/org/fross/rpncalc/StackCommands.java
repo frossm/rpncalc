@@ -484,8 +484,8 @@ public class StackCommands {
       }
 
 		// Calculate the remaining values
-		// a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
-		// b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
+		// Reference Formula:  a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
+		// Reference Formula:  b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
 
       BigDecimal a_top = sumY.multiply(sumX2).subtract(sumX.multiply(sumXY));
       BigDecimal a_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
@@ -590,6 +590,8 @@ public class StackCommands {
       // Add the lowest value to the stack
       calcStack.push(largestValue);
 
+      Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + calcStack.peek());
+
       return true;
    }
 
@@ -658,6 +660,8 @@ public class StackCommands {
 
       // Add the lowest value to the stack
       calcStack.push(lowestValue);
+
+      Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + calcStack.peek());
 
       return true;
    }

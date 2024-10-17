@@ -43,6 +43,8 @@ public class StackConstants {
       calcStack.saveUndo();
 
       calcStack.push("3.14159265358979323846264338327950288419716939937510");
+
+      Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
    }
 
    /**
@@ -65,6 +67,7 @@ public class StackConstants {
       // Add the value of Phi to the top of the stack
       calcStack.push(phi);
 
+      Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, has been added to the stack");
    }
 
    /**
@@ -75,6 +78,8 @@ public class StackConstants {
       calcStack.saveUndo();
 
       calcStack.push("2.71828182845904523536028747135266249775724709369995");
+
+      Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) has been added to the stack");
    }
 
    /**
@@ -85,6 +90,8 @@ public class StackConstants {
       calcStack.saveUndo();
 
       calcStack.push("0.577215664901532860606512090082402431");
+
+      Output.printColorln(Ansi.Color.CYAN, "Euler's constant (y) has been added to the stack");
    }
 
    /**
@@ -95,5 +102,7 @@ public class StackConstants {
       calcStack.saveUndo();
 
       calcStack.push("299792458");
+
+      Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
    }
 }

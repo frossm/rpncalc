@@ -283,17 +283,21 @@ public class UserFunctions {
          String param = "";
 
          try {
-            String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
-            command = ci[0];
-            param = ci[1];
+            // If the number of spaces in the full command is zero, don't execute a split so we don't get an ArrayIndexOutOfBoundsExceptionn
+            // Reference:  https://stackoverflow.com/questions/275944/how-do-i-count-the-number-of-occurrences-of-a-char-in-a-string
+            if (fullCommand.codePoints().filter(ch -> ch == ' ').count() == 0) {
+               command = fullCommand.toLowerCase().trim();
+            } else {
+               String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
+               command = ci[0];
+               param = ci[1];
+            }
 
-         } catch (ArrayIndexOutOfBoundsException e) {
-            // TODO: Ignore this error as it will trigger if just a command is entered with no parameter. There must be a better way...
          } catch (Exception e) {
             Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + fullCommand + "' into command and arguments");
          }
 
-         Output.debugPrintln("   Step" + i + ":  " + pChild.get("Step" + i, "Error"));
+         Output.debugPrintln("Step " + i + ":  " + pChild.get("Step" + i, "Error"));
          CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
       }
 

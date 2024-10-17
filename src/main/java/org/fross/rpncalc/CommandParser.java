@@ -173,16 +173,12 @@ public class CommandParser {
 
          // Minimum Value
          case "min":
-            if (StackCommands.cmdMinimum(calcStack)) {
-               Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + calcStack.peek());
-            }
+            StackCommands.cmdMinimum(calcStack);
             break;
 
          // Maximum Value
          case "max":
-            if (StackCommands.cmdMaximum(calcStack)) {
-               Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + calcStack.peek());
-            }
+            StackCommands.cmdMaximum(calcStack);
             break;
 
          // Random Number Generation
@@ -300,7 +296,7 @@ public class CommandParser {
          case "mem":
             // I often mistype 'mem list' instead of 'list mem' I'm going to allow that to work
             if (cmdInput.toLowerCase().startsWith("mem list")) {
-               Output.printColorln(Ansi.Color.CYAN, "Remapping command to 'list mem'");
+               Output.printColorln(Ansi.Color.CYAN, "Rewriting command to 'list mem'");
                CommandParser.Parse(calcStack, calcStack2, "list mem", "list", "mem");
             } else {
                StackMemory.cmdMem(calcStack, cmdInputParam);
@@ -313,34 +309,29 @@ public class CommandParser {
          // Add PI
          case "pi":
             StackConstants.cmdPI(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
             break;
 
          // Add PHI also known as The Golden Ratio
          case "phi":
             StackConstants.cmdPHI(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, has been added to the stack");
             break;
 
          // Euler's number
          case "eulersnum":
          case "eulersnumber":
             StackConstants.cmdEulersNumber(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) has been added to the stack");
             break;
 
          // Euler's constant
          case "eulersconst":
          case "eulersconstant":
             StackConstants.cmdEulersConstant(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "Euler's constant (y) has been added to the stack");
             break;
 
          // Speed of light
          case "sol":
          case "speedoflight":
             StackConstants.cmdSpeedOfLight(calcStack);
-            Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
             break;
 
          /*------------------------------------------------------------------------------
@@ -460,8 +451,7 @@ public class CommandParser {
             break;
 
          default:
-            // Determine if the command is a user defined function
-            // Verify user defined function exists
+            // Determine if the command is a user defined function and execute if it is
             if (UserFunctions.FunctionExists(cmdInput)) {
                Output.debugPrintln("Executing User Defined Function: '" + cmdInput + "'");
                UserFunctions.FunctionRun(calcStack, calcStack2, cmdInput);
