@@ -283,7 +283,7 @@ public class UserFunctions {
          String param = "";
 
          try {
-            // If the number of spaces in the full command is zero, don't execute a split so we don't get an ArrayIndexOutOfBoundsExceptionn
+            // If the number of spaces in the full command is zero, don't execute a split so we don't get an ArrayIndexOutOfBoundsException
             // Reference:  https://stackoverflow.com/questions/275944/how-do-i-count-the-number-of-occurrences-of-a-char-in-a-string
             if (fullCommand.codePoints().filter(ch -> ch == ' ').count() == 0) {
                command = fullCommand.toLowerCase().trim();

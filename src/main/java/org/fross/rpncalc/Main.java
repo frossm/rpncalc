@@ -239,7 +239,7 @@ public class Main {
          }
 
          // While in debug mode, show the entered text along with the broken up command and parameter
-         Output.debugPrintln("Full cmdInput: '" + cmdInput + "'  |  cmdInputCommand: '" + cmdInputCmd + "'  |  cmdInputParameter: '" + cmdInputParam + "'");
+         Output.debugPrintln("Full cmdInput: '" + cmdInput + "'  |  cmdInputCmd: '" + cmdInputCmd + "'  |  cmdInputParam: '" + cmdInputParam + "'");
 
          // If recording is enabled, send the user input to be recorded
          if (UserFunctions.recordingIsEnabled()) {

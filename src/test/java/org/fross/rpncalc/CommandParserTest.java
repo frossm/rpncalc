@@ -225,4 +225,28 @@ class CommandParserTest {
 
    }
 
+   // Test the entry of a percentage (15%, 2%, etc.)
+   @Test
+   void testPercentEntry() {
+      StackObj stk = new StackObj();
+
+      CommandParser.Parse(stk, stk, "15%", "15%", "");
+      assertEquals(1, stk.size());
+      assertEquals("0.15", stk.peek().toString());
+
+      CommandParser.Parse(stk, stk, "1%", "1%", "");
+      assertEquals(2, stk.size());
+      assertEquals("0.01", stk.peek().toString());
+
+      CommandParser.Parse(stk, stk, "-85%", "-85%", "");
+      assertEquals(3, stk.size());
+      assertEquals("-0.85", stk.peek().toString());
+
+      // Not sure if this makes a lot of sense, but let's test scientific notation percentages
+      CommandParser.Parse(stk, stk, "1.1e3%", "1.1e3%", "");
+      assertEquals(4, stk.size());
+      assertEquals("11", stk.peek().toString());
+
+   }
+
 }

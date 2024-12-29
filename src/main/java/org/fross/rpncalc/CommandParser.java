@@ -508,6 +508,26 @@ public class CommandParser {
                Output.debugPrintln("Placing the number '" + cmdInputCmd + "' onto the stack");
                calcStack.push(new BigDecimal(cmdInputCmd));
 
+               // If the number entered ends with a "%" then divide by 100 and add that to the stack
+            } else if (cmdInputCmd.matches("^\\S*\\d%$")) {
+               // Save current calcStack to the undoStack
+               calcStack.saveUndo();
+
+               String num = "";
+               try {
+                  num = cmdInputCmd.substring(0, cmdInputCmd.indexOf('%'));
+                  calcStack.push(new BigDecimal(num));
+                  calcStack.push("100");
+                  Math.Divide(calcStack);
+
+                  Output.debugPrintln("A percent number was entered:  " + num + "%");
+
+               } catch (IndexOutOfBoundsException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Unable to parse '" + cmdInputCmd + "'");
+               } catch (ArithmeticException | NullPointerException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error dividing " + num + " / 100");
+               }
+
                // Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
             } else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[*+\\-/^]")) {
                // Save current calcStack to the undoStack

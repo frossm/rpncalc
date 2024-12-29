@@ -2,15 +2,16 @@
 
 # High Level Usage
 
-RPNCalc is a command line application that must be run from a console / command prompt.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering the `h` (or `help` or `?`) command will display the in-program help page.  This page lists all of the commands and operands that can be used, but it is fairly terse  This can be also viewed at the bottom of the `Introduction Chapter` of this guide. This document is meant as a more comprehensive guide.
+RPNCalc is a command line application that must be run from a console / command prompt.  Executing it with a `-h` (or `-?`) switch, or starting the program and entering 
+the `h` (or `help` or `?`) command will display the in-program help page.  This page lists all the commands and operands that can be used, but it is fairly terse  This can be also viewed at the bottom of the `Introduction Chapter` of this guide. This document is meant as a more comprehensive guide.
 
 There are various command line switches that can be used when starting the program as are detailed in the `Command Line Options Chapter`.  They generally exist so that aliases can be used to control several key parameters, most likely the `-l StackName` switch.
 
 Once inside the program, you'll be presented a prompt where numbers, operands, and commands may be entered.  Numbers will be added to the stack which you can think of as an upside down stack of plates.  The top stack item (represented by `line1` in the program) is on the bottom.  You can think of this stack of plates as a Last In First Out (LIFO) approach.
 
-For example, you could enter `2 [ENTER]` it would be in the `line1` position and would be on the top of the stack.  If you then enter `3 [ENTER]` the `2` would move up go `line2` and the `3` would then be on `line1` and be on the top of the stack.  You can then enter in an operand, such as `+` to perform the action on the items opn the top of the stack. To continue our example, pressing `+ [ENTER]` would take the top two items off of the stack, add them, and put the result back on top of the stack (`line1`).  
+For example, you could enter `2 [ENTER]` it would be in the `line1` position and would be on the top of the stack.  If you then enter `3 [ENTER]` the `2` would move up go `line2` and the `3` would then be on `line1` and be on the top of the stack.  You can then enter an operand, such as `+` to perform the action on the items opn the top of the stack. To continue our example, pressing `+ [ENTER]` would take the top two items off of the stack, add them, and put the result back on top of the stack (`line1`).  
 
-I've gone into this in more detail in the `What is an RPN Calculator Chapter` and elsewhere and it's fairly easy and intuitive.  Once you get the hang of it, you'll overwhelming regret having to use a standard calculator in the future. ;-)
+I've gone into this in more detail in the `What is an RPN Calculator Chapter` and elsewhere and it's fairly easy and intuitive.  Once you get the hang of it, you will regret having to use a standard calculator in the future. ;-)
 
 #### Why is the stack "upside down?"
 
@@ -18,7 +19,8 @@ One question I get with RPNCalc is why is the top of the stack on the bottom?  T
 
 ### Decimals & Fractions
 
-In RPNCalc, the stacks always store numbers as decimals.  You can, however, enter in fractions and they will be instantly converted to a decimal equivalent and added to the stack.
+In RPNCalc, the stacks always store numbers as decimals.  You can, however, enter in fractions, and they will be instantly converted to a decimal equivalent and added to 
+the stack.
 
 **Example:**
 
@@ -52,9 +54,14 @@ will display `1 293/6250`.  This is a closer approximation than using base 16. T
 
 As of version 5, scientific notation is supported.  You can enter in values with the format `1.2345E18` and it will be saved as a value in the stack. There are a few areas where it's not 100% supported (i.e. NumOps at the time of this writing) but just about everything will work with it.
 
+### Percent Entry
+
+As of version 5.4.0, a number, followed by a `%` can be entered.  This will be divided by 100 prior to being added onto the stack.  This will work with both negative 
+numbers and scientific notation.
+
 ## Operands, Numbers, and Commands
 
-Numbers, whether decimal or fractions, can be entered on the command line and they get added to the stack.  That's fairly self explanatory.
+Numbers, whether decimal or fractions, can be entered on the command line, and they get added to the stack.  That's fairly self-explanatory.
 
 Operands perform basic match functions on those numbers.
 
