@@ -3,7 +3,7 @@
  *
  * RPNCalc is is an easy to use console based RPN calculator
  *
- *  Copyright (c) 2011-2024 Michael Fross
+ *  Copyright (c) 2011-2025 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -508,7 +508,7 @@ public class CommandParser {
                Output.debugPrintln("Placing the number '" + cmdInputCmd + "' onto the stack");
                calcStack.push(new BigDecimal(cmdInputCmd));
 
-               // If the number entered ends with a "%" then divide by 100 and add that to the stack
+               // If the number entered ends with a "%" then divide by 100 and add that result to the stack
             } else if (cmdInputCmd.matches("^\\S*\\d%$")) {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
@@ -525,7 +525,7 @@ public class CommandParser {
                } catch (IndexOutOfBoundsException ex) {
                   Output.printColorln(Ansi.Color.RED, "Unable to parse '" + cmdInputCmd + "'");
                } catch (ArithmeticException | NullPointerException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error dividing " + num + " / 100");
+                  Output.printColorln(Ansi.Color.RED, "Error dividing " + num + " by 100");
                }
 
                // Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
