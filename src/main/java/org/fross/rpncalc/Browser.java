@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.prefs.Preferences;
 
 public class Browser {
-   static Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+   static final Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 
    /**
     * Launch(): Launch the defined browser to the provided URL

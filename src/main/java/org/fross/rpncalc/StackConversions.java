@@ -78,7 +78,7 @@ public class StackConversions {
     * cmdConvertIn2Mm(): Assumes Line1 is in inches and converts to millimeters
     */
    public static void cmdIn2Mm(StackObj calcStack) {
-      // Verify at least one elements exists
+      // Verify at least one element exists
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
@@ -95,7 +95,7 @@ public class StackConversions {
     * cmdConvertMm2In(): Assumes Line1 is in millimeters and converts to inches
     */
    public static void cmdMm2In(StackObj calcStack) {
-      // Verify at least one elements exists
+      // Verify at least one element exists
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
@@ -112,7 +112,7 @@ public class StackConversions {
     * cmdConvertIn2Ft(): Assumes Line1 is in inches and converts to feet
     */
    public static void cmdIn2Ft(StackObj calcStack) {
-      // Verify at least one elements exists
+      // Verify at least one element exists
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
@@ -129,7 +129,7 @@ public class StackConversions {
     * cmdConvertFt2In(): Assumes Line1 is in feet and converts to inches
     */
    public static void cmdFt2In(StackObj calcStack) {
-      // Verify at least one elements exists
+      // Verify at least one element exists
       if (calcStack.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
