@@ -232,6 +232,33 @@ class StackCommandsTest {
       assertEquals("123E+42", stk.peek().toEngineeringString());
       assertEquals("123E+42", stk.get(stk.size() - 1).toEngineeringString());
       assertEquals(1.23, stk.get(0).doubleValue());
+
+      // Test relative copy
+      stk.clear();
+      stk.push(1);
+      stk.push(2);
+      stk.push(3);
+      stk.push(4);
+      stk.push(5);
+      StackCommands.cmdCopy(stk, "-3");
+      assertEquals(6, stk.size());
+      assertEquals("2", stk.pop().toString());
+
+      StackCommands.cmdCopy(stk, "-1");
+      assertEquals(6, stk.size());
+      assertEquals("4", stk.pop().toString());
+
+      StackCommands.cmdCopy(stk, "-4");
+      assertEquals(6, stk.size());
+      assertEquals("1", stk.pop().toString());
+
+      StackCommands.cmdCopy(stk, "-5");
+      assertEquals(5, stk.size());
+      assertEquals("4", stk.get(stk.size() - 2).toString());
+
+      StackCommands.cmdCopy(stk, "err");
+      assertEquals(5, stk.size());
+      assertEquals("4", stk.get(stk.size() - 2).toString());
    }
 
    /**

@@ -135,8 +135,7 @@ public class StackCommands {
       BigDecimal mean = Math.mean(calcStack);
 
       // If we are not going to keep the stack (the default) clear it
-      if (!keepFlag)
-         calcStack.clear();
+      if (!keepFlag) calcStack.clear();
 
       // Add the average to the stack
       calcStack.push(mean);
@@ -182,14 +181,26 @@ public class StackCommands {
          return;
       }
 
-      // Determine line number to copy
+      // If Arg is blank, set arg to the top of the stack number so we copy the last value
+      if (arg.isBlank()) arg = "1";
+
+      // Determine if the provided argument is not a number
+      if (!Math.isNumeric(arg)) {
+         Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid line number");
+         return;
+      }
+
       try {
+         // Grab the value from the argument
          lineNumToCopy = Integer.parseInt(arg);
-      } catch (NumberFormatException ex) {
-         if (!arg.isBlank()) {
-            Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid line number");
-            return;
+
+         // If a relative number is provided (i.e. `-1`) then set the value to copy back from the top of the stack
+         if (lineNumToCopy <= -1) {
+            lineNumToCopy = java.lang.Math.abs(lineNumToCopy);    // Remove the negative sign
+            lineNumToCopy = 1 + lineNumToCopy;
          }
+      } catch (Exception ex) {
+         Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid relative value");
       }
 
       // Save current calcStack to the undoStack
@@ -200,14 +211,14 @@ public class StackCommands {
       // Copy the provided number if it's valid
       try {
          // Ensure the number entered is valid
-         if (lineNumToCopy < 1 || lineNumToCopy > calcStack.size()) {
-            Output.printColorln(Ansi.Color.RED, "Invalid line number entered: " + lineNumToCopy);
+         if (lineNumToCopy > calcStack.size()) {
+            Output.printColorln(Ansi.Color.RED, "Invalid line number entered");
          } else {
             // Perform the copy
             calcStack.push(calcStack.get(calcStack.size() - lineNumToCopy));
          }
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing line number for element copy: '" + lineNumToCopy + "'");
+         Output.printColorln(Ansi.Color.RED, "Error parsing line number for copy: '" + lineNumToCopy + "'");
          Output.debugPrintln(e.getMessage());
       }
    }
@@ -479,13 +490,12 @@ public class StackCommands {
          sumY2 = sumY2.add(new BigDecimal(String.valueOf(y)).pow(2));
 
          // Line by line debug output
-         Output.debugPrintln(
-               "#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + y.multiply(new BigDecimal(String.valueOf(x))) + "\tX2:" + (x * x) + "\tY2:" + y.pow(2));
+         Output.debugPrintln("#" + i + ":\tx:" + x + "\ty:" + y + "\tXY:" + y.multiply(new BigDecimal(String.valueOf(x))) + "\tX2:" + (x * x) + "\tY2:" + y.pow(2));
       }
 
-		// Calculate the remaining values
-		// Reference Formula:  a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
-		// Reference Formula:  b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
+      // Calculate the remaining values
+      // Reference Formula:  a = ((sumY * sumX2) - (sumX * sumXY)) / ((n * sumX2) - (sumX * sumX));
+      // Reference Formula:  b = ((n * sumXY) - (sumX * sumY)) / ((n * sumX2) - (sumX * sumX));
 
       BigDecimal a_top = sumY.multiply(sumX2).subtract(sumX.multiply(sumXY));
       BigDecimal a_bottom = n.multiply(sumX2).subtract(sumX.pow(2));
@@ -583,8 +593,7 @@ public class StackCommands {
 
       // Loop through the stack and look for the largest value
       for (int i = 0; i < calcStack.size(); i++) {
-         if (calcStack.get(i).compareTo(largestValue) > 0)
-            largestValue = calcStack.get(i);
+         if (calcStack.get(i).compareTo(largestValue) > 0) largestValue = calcStack.get(i);
       }
 
       // Add the lowest value to the stack
@@ -626,8 +635,7 @@ public class StackCommands {
       BigDecimal median = Math.median(calcStack);
 
       // If we are not going to keep the stack (the default) clear it
-      if (!keepFlag)
-         calcStack.clear();
+      if (!keepFlag) calcStack.clear();
 
       // Add the average to the stack
       calcStack.push(median);
@@ -654,8 +662,7 @@ public class StackCommands {
 
       // Loop through the stack and look for the lowest value
       for (int i = 0; i < calcStack.size(); i++) {
-         if (calcStack.get(i).compareTo(lowestValue) < 1)
-            lowestValue = calcStack.get(i);
+         if (calcStack.get(i).compareTo(lowestValue) < 1) lowestValue = calcStack.get(i);
       }
 
       // Add the lowest value to the stack
