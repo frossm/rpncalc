@@ -230,8 +230,8 @@ public class StackCommands {
     * @param arg       Method argument
     */
    public static void cmdDelete(StackObj calcStack, String arg) {
-      int startLine = -1;
-      int endLine = -1;
+      int startLine = 0;
+      int endLine = 0;
 
       // Ensure we have at least one item on the stack
       if (calcStack.isEmpty()) {
@@ -240,17 +240,23 @@ public class StackCommands {
       }
 
       // Remove any spaces from arg
-      arg = arg.replace(" ", "");
+      arg = arg.trim().replace(" ", "");
 
       // Determine line to delete by looking at arg
       try {
          // If this doesn't have an exception, user has entered a single number integer
-         // Simple delete that line
          startLine = Integer.parseInt(arg);
+
+         // If it's a negative number, it's relative
+         if (startLine <= -1) {
+            startLine = 1 + java.lang.Math.abs(startLine);
+         }
+
+         // Set the endLine to the same as the start so we just delete that line
          endLine = startLine;
 
       } catch (NumberFormatException ex) {
-         // If a dash is present, user entered a range
+         // If a dash is present elsewhere, user entered a range to delete
          if (arg.contains("-")) {
             try {
                startLine = Integer.parseInt(arg.split("-")[0]);
@@ -261,13 +267,13 @@ public class StackCommands {
             }
          }
 
-         // An invalid argument was provided
-         if (!arg.isBlank() && startLine == -1) {
+         // An invalid or no argument was provided
+         if (!arg.isBlank() && startLine == 0) {
             Output.printColorln(Ansi.Color.RED, "Invalid line number provided: '" + arg + "'");
             return;
 
-         } else if (startLine == -1) {
             // No argument was provided - delete the item on the top of the stack
+         } else if (startLine == 0) {
             startLine = 1;
             endLine = 1;
          }

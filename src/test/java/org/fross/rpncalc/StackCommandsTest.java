@@ -333,6 +333,22 @@ class StackCommandsTest {
       StackCommands.cmdAddAll(stk, "keep");
       assertEquals(5, stk.size());
       assertEquals(19, stk.peek().doubleValue());
+
+      // Delete -2
+      stk.clear();
+      stk.push(5.0);
+      stk.push(4.0);
+      stk.push(3.0);
+      stk.push(2.0);
+      stk.push(1.0);
+      StackCommands.cmdDelete(stk, "-2");
+      assertEquals(4, stk.size());
+      assertEquals("2.0", stk.get(2).toString());
+
+      // Delete -3
+      StackCommands.cmdDelete(stk, "-3");
+      assertEquals(3, stk.size());
+      assertEquals("4.0", stk.get(0).toString());
    }
 
    /**
@@ -394,7 +410,7 @@ class StackCommandsTest {
       assertEquals(5, stk.size());
       StackCommands.cmdDelete(stk, "5-52a");
       assertEquals(5, stk.size());
-      StackCommands.cmdDelete(stk, "-1");
+      StackCommands.cmdDelete(stk, "x-1");
       assertEquals(5, stk.size());
       StackCommands.cmdDelete(stk, "4-1000");
       assertEquals(5, stk.size());
