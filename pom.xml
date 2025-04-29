@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.6.0</version>
+	<version>5.6.1</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -93,7 +93,7 @@
 				<!-- ========================================================================================== -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.14.0</version>
 				<configuration>
 					<release>${maven.compiler.release}</release>
 				</configuration>
@@ -106,7 +106,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.2</version>
+				<version>3.5.3</version>
 			</plugin>
 
 			<!-- ========================================================================================== -->
@@ -260,11 +260,11 @@
 			<version>1.82</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
+		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
 		<dependency>
-			<groupId>org.fusesource.jansi</groupId>
-			<artifactId>jansi</artifactId>
-			<version>2.4.1</version>
+			<groupId>org.jline</groupId>
+			<artifactId>jline-terminal-jansi</artifactId>
+			<version>3.29.0</version>
 		</dependency>
 
 		<!-- https://github.com/frossm/library -->
@@ -279,7 +279,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.12.0-RC1</version>
+			<version>5.13.0-M2</version>
 			<scope>test</scope>
 		</dependency>
 
