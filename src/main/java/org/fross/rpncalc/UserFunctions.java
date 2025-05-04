@@ -30,6 +30,10 @@ import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 import org.jline.reader.UserInterruptException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -133,31 +137,116 @@ public class UserFunctions {
     */
    public static void cmdFunction(String args) {
       String[] command = args.toLowerCase().trim().split("\\s", 2);
+      String fileNameStr = "";
 
       try {
-         if (command[0].equals("del")) {
-            try {
-               FunctionDelete(command[1]);
-            } catch (ArrayIndexOutOfBoundsException ex) {
-               Output.printColorln(Ansi.Color.RED, "ERROR: 'function del' requires a valid function name to delete");
-            }
-
-         } else if (command[0].equals("delall")) {
-            Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
-
-            // Loop through each function (child of the root) and delete it
-            try {
-               for (String functionName : p.childrenNames()) {
-                  Output.debugPrintln("Removing function: " + functionName);
-                  FunctionDelete(functionName);
+         switch (command[0]) {
+            case "del":
+               try {
+                  FunctionDelete(command[1]);
+               } catch (ArrayIndexOutOfBoundsException ex) {
+                  Output.printColorln(Ansi.Color.RED, "ERROR: 'function del' requires a valid function name to delete");
                }
-            } catch (BackingStoreException e) {
-               Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
-            }
+               break;
 
-         } else {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for function command.  Please see help");
+            case "delall":
+               Preferences p = Preferences.userRoot().node(UserFunctions.PREFS_PATH_FUNCTIONS);
+
+               // Loop through each function (child of the root) and delete it
+               try {
+                  for (String functionName : p.childrenNames()) {
+                     Output.debugPrintln("Removing function: " + functionName);
+                     FunctionDelete(functionName);
+                  }
+               } catch (BackingStoreException e) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
+               }
+               break;
+
+            case "export":
+               Output.printColorln(Ansi.Color.YELLOW, "Please enter the export filename. A blank name will cancel the export");
+               Output.printColorln(Ansi.Color.YELLOW, "Note, if needed, please use use '/' as the path separator");
+
+               // Read the user input. If ctrl-C is entered, discard the function
+               try {
+                  fileNameStr = Main.scanner.readLine(Main.INPUT_PROMPT);
+
+               } catch (UserInterruptException ex) {
+                  fileNameStr = "";
+               } catch (Exception e) {
+                  Output.fatalError("Could not read user input", 5);
+               }
+
+               // If no name is given, cancel export
+               if (fileNameStr.isBlank()) {
+                  Output.printColorln(Ansi.Color.YELLOW, "Canceling export");
+                  break;
+               }
+
+               // Output the full path/name of the output file
+               Output.printColorln(Ansi.Color.CYAN, "Export filename: '" + new File(fileNameStr).getAbsolutePath() + "'");
+
+               // Output preferences as an XML file
+               try {
+                  FileOutputStream fos = new FileOutputStream(fileNameStr);
+                  Preferences pExport = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
+                  pExport.exportSubtree(fos);
+                  fos.close();
+
+               } catch (IOException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  RPNCalc can't write to '" + fileNameStr + "'");
+               } catch (BackingStoreException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  Could not export the user defined functions (BackingStoreException)");
+               } catch (IllegalStateException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  Could not export the user defined functions (IllegalStateException)");
+               } catch (Exception ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  Could not export the user defined functions (Exception)");
+               }
+               break;
+
+            case "import":
+               Output.printColorln(Ansi.Color.YELLOW, "Please enter the import filename. A blank name will cancel the import");
+               Output.printColorln(Ansi.Color.YELLOW, "Note, if needed, please use use '/' as the path separator");
+
+               // Read the user input. If ctrl-C is entered, discard the function
+               try {
+                  fileNameStr = Main.scanner.readLine(Main.INPUT_PROMPT);
+
+               } catch (UserInterruptException ex) {
+                  fileNameStr = "";
+               } catch (Exception e) {
+                  Output.fatalError("Could not read user input", 5);
+               }
+
+               // If no name is given, cancel export
+               if (fileNameStr.isBlank()) {
+                  Output.printColorln(Ansi.Color.YELLOW, "Canceling import");
+                  break;
+               }
+
+               // Import preferences from the XML file
+               try {
+                  FileInputStream fis = new FileInputStream(fileNameStr);
+                  Preferences pImport = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
+                  pImport.importPreferences(fis);
+                  fis.close();
+
+                  Output.printColorln(Ansi.Color.CYAN, "Import complete");
+
+               } catch (IOException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  RPNCalc can't read from '" + fileNameStr + "'");
+               } catch (IllegalStateException ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  Could not import the user defined functions (IllegalStateException)");
+               } catch (Exception ex) {
+                  Output.printColorln(Ansi.Color.RED, "Error:  Could not import the user defined functions (Exception)");
+               }
+               break;
+
+            default:
+               Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for function command.  Please see help");
+               break;
          }
+
       } catch (StringIndexOutOfBoundsException ex) {
          // User did not enter a command
          Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement for function command.  Please see help");
@@ -215,7 +304,7 @@ public class UserFunctions {
     * RemoveItemFromRecording(): If no argument is given, remove the last item
     */
    public static void RemoveItemFromRecording() {
-      RemoveItemFromRecording(recording.size() -1);
+      RemoveItemFromRecording(recording.size() - 1);
    }
 
    /**

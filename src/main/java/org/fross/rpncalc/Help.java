@@ -134,6 +134,8 @@ public class Help {
       Output.printColorln(Ansi.Color.YELLOW, "\nUser Defined Functions:");
       Output.printColorln(Ansi.Color.WHITE, " func del NAME     Delete named user defined function");
       Output.printColorln(Ansi.Color.WHITE, " func delall       Delete all user defined functions");
+      Output.printColorln(Ansi.Color.WHITE, " func export       Export the currently defined functions to a file");
+      Output.printColorln(Ansi.Color.WHITE, " func import       Import functions from a file and append them to current ones");
       Output.printColorln(Ansi.Color.WHITE, " record on         Turn on command recording");
       Output.printColorln(Ansi.Color.WHITE, " record off        Disable recording");
 
