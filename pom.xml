@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.7.0</version>
+	<version>5.8.0</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -264,7 +264,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline-terminal-jansi</artifactId>
-			<version>3.29.0</version>
+			<version>3.30.3</version>
 		</dependency>
 
 		<!-- https://github.com/frossm/library -->
@@ -279,7 +279,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.13.0-M3</version>
+			<version>5.13.0-RC1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -287,7 +287,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline</artifactId>
-			<version>3.29.0</version>
+			<version>3.30.3</version>
 		</dependency>
 
 	</dependencies>

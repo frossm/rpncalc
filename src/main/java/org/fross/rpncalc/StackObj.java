@@ -155,6 +155,34 @@ public class StackObj implements Cloneable {
    }
 
    /**
+    * push(): Add a value to the stack at a specific position
+    *
+    * @param item
+    * @param location
+    */
+   public void push(String item, int location) {
+      BigDecimal[] array = new BigDecimal[calcStack.size()];
+
+      // Loop through stack and build an array of the current stack
+      for (int i = 0; i < calcStack.size(); i++) {
+         array[i] = calcStack.get(i);
+      }
+
+      // Clear the stack and get ready to reload it
+      calcStack.clear();
+
+      // Reload the stack pushing the new value at the right spot
+      for (int i = 0; i < array.length; i++) {
+         if (i == location) {
+            calcStack.push(new BigDecimal(item, this.mc));
+            calcStack.push(array[i]);
+         } else {
+            calcStack.push(array[i]);
+         }
+      }
+   }
+
+   /**
     * push(): Add an item onto the top of the stack
     *
     * @param item Double item to add to the stack

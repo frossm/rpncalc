@@ -51,7 +51,7 @@ public class CommandParser {
       switch (cmdInputCmd) {
 
          /*------------------------------------------------------------------------------
-          * Stack Calculator Commands
+          * Calculator Commands
           *-----------------------------------------------------------------------------*/
          // Undo
          case "undo":
@@ -82,6 +82,16 @@ public class CommandParser {
          case "del":
          case "d":
             StackCommands.cmdDelete(calcStack, cmdInputParam);
+            break;
+
+         // Down: Shift the stack down so Line2 becomes Line1 and the original Line1 goes to the bottom
+         case "down":
+            StackCommands.cmdDown(calcStack);
+            break;
+
+         // Up: Shift the stack up so Line1 becomes Line2 and the last stack items moves into Line1
+         case "up":
+            StackCommands.cmdUp(calcStack);
             break;
 
          // Factorial

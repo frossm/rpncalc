@@ -427,6 +427,68 @@ class StackCommandsTest {
    }
 
    /**
+    * Test the `Down` command where we shift the stack down so Line2 becomes Line1 and the original Line1 goes to the end
+    */
+   @Test
+   void testDown() {
+      StackObj stk = new StackObj();
+      stk.push(5.0);
+      stk.push(4.0);
+      stk.push(3.0);
+      stk.push(2.0);
+      stk.push(1.0);
+
+      StackCommands.cmdDown(stk);
+      assertEquals(5, stk.size());
+      assertEquals("1.0", stk.get(0).toString());
+      assertEquals("5.0", stk.get(1).toString());
+      assertEquals("4.0", stk.get(2).toString());
+      assertEquals("3.0", stk.get(3).toString());
+      assertEquals("2.0", stk.get(4).toString());
+      assertEquals(5, stk.size());
+
+      StackCommands.cmdDown(stk);
+      assertEquals(5, stk.size());
+      assertEquals("2.0", stk.get(0).toString());
+      assertEquals("1.0", stk.get(1).toString());
+      assertEquals("5.0", stk.get(2).toString());
+      assertEquals("4.0", stk.get(3).toString());
+      assertEquals("3.0", stk.get(4).toString());
+      assertEquals(5, stk.size());
+   }
+
+   /**
+    * Test the `Up` command where we shift the stack up so Line1 becomes Line2 and the last item becomes Line1
+    */
+   @Test
+   void testUp() {
+      StackObj stk = new StackObj();
+      stk.push(5.0);
+      stk.push(4.0);
+      stk.push(3.0);
+      stk.push(2.0);
+      stk.push(1.0);
+
+      StackCommands.cmdUp(stk);
+      assertEquals(5, stk.size());
+      assertEquals("4.0", stk.get(0).toString());
+      assertEquals("3.0", stk.get(1).toString());
+      assertEquals("2.0", stk.get(2).toString());
+      assertEquals("1.0", stk.get(3).toString());
+      assertEquals("5.0", stk.get(4).toString());
+      assertEquals(5, stk.size());
+
+      StackCommands.cmdUp(stk);
+      assertEquals(5, stk.size());
+      assertEquals("3.0", stk.get(0).toString());
+      assertEquals("2.0", stk.get(1).toString());
+      assertEquals("1.0", stk.get(2).toString());
+      assertEquals("5.0", stk.get(3).toString());
+      assertEquals("4.0", stk.get(4).toString());
+      assertEquals(5, stk.size());
+   }
+
+   /**
     * Test those bones! This is hard to get an exact test since the results are random, but we can check the ranges and
     * quantities
     */
