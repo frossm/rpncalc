@@ -1062,10 +1062,9 @@ public class StackCommands {
          return;
       }
 
-      // Move the bottom item to the top
-      BigDecimal bottomItem = calcStack.get(0);
+      // Push what's on the bottom of the stack to the top then delete the bottom item
+      calcStack.push(calcStack.get(0));
       calcStack.remove(0);
-      calcStack.push(bottomItem);
    }
 
 }

@@ -157,8 +157,8 @@ public class StackObj implements Cloneable {
    /**
     * push(): Add a value to the stack at a specific position
     *
-    * @param item
-    * @param location
+    * @param item String to insert into the stack
+    * @param location Insert at this point.  The bottom of that stack is 0.
     */
    public void push(String item, int location) {
       BigDecimal[] array = new BigDecimal[calcStack.size()];
