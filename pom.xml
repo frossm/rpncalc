@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.8.1</version>
+	<version>5.8.2</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -211,7 +211,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 				<executions>
 					<execution>
 						<id>chmod</id>
@@ -260,13 +260,6 @@
 			<version>1.82</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi -->
-		<dependency>
-			<groupId>org.jline</groupId>
-			<artifactId>jline-terminal-jansi</artifactId>
-			<version>3.30.3</version>
-		</dependency>
-
 		<!-- https://github.com/frossm/library -->
 		<!-- My personal library of common classes across my applications -->
 		<dependency>
@@ -279,7 +272,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>5.13.0-RC1</version>
+			<version>5.13.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -287,7 +280,7 @@
 		<dependency>
 			<groupId>org.jline</groupId>
 			<artifactId>jline</artifactId>
-			<version>3.30.3</version>
+			<version>3.30.4</version>
 		</dependency>
 
 	</dependencies>

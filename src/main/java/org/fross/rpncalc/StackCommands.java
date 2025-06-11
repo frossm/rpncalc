@@ -361,14 +361,14 @@ public class StackCommands {
     * @param calcStack Primary Stack
     */
    public static void cmdDown(StackObj calcStack) {
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
       // Ensure we have at least 2 values on the stack
       if (calcStack.size() < 2) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack");
          return;
       }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
       // Pop the top item and place it at the bottom
       calcStack.push(calcStack.pop().toString(), 0);
@@ -1053,14 +1053,14 @@ public class StackCommands {
     * @param calcStack Primary Stack
     */
    public static void cmdUp(StackObj calcStack) {
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
       // Ensure we have at least 2 values on the stack
       if (calcStack.size() < 2) {
          Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack");
          return;
       }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
 
       // Push what's on the bottom of the stack to the top then delete the bottom item
       calcStack.push(calcStack.get(0));
