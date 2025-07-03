@@ -1067,4 +1067,27 @@ public class StackCommands {
       calcStack.remove(0);
    }
 
+   /**
+    * cmdEcho(): Echo the provided message to the screen prior to the stack display
+    *
+    * @param calcStack Primary tack
+    * @param msg       Message to Display
+    */
+   public static void cmdEcho(StackObj calcStack, String msg) {
+      // Ensure we have a message to display
+      if (msg.isEmpty()) {
+         Output.printColorln(Ansi.Color.RED, "Error: The message to echo is empty");
+         return;
+      }
+
+      // Special Character Substitutions
+      // #CR#:  New Line
+      //
+      if (msg.contains("#CR#")) {
+         msg = msg.replace("#CR#", "\n");
+      }
+
+      Output.printColorln(Ansi.Color.CYAN, msg);
+   }
+
 }

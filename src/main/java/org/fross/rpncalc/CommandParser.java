@@ -203,6 +203,11 @@ public class CommandParser {
             StackCommands.cmdDice(calcStack, cmdInputParam);
             break;
 
+         // Echo
+         case "echo":
+            StackCommands.cmdEcho(calcStack, cmdInputParam);
+            break;
+
          /*------------------------------------------------------------------------------
           * Conversions
           *-----------------------------------------------------------------------------*/
