@@ -771,7 +771,7 @@ public class StackCommands {
       }
 
       // Display Debug Output
-      Output.debugPrintln("Generating Random number between " + low + " and " + high + "(inclusive of both)");
+      Output.debugPrintln("Generating Random number between " + low + " and " + high + " (inclusive of both)");
 
       // Verify that the low number <= the high number
       if (low > high) {

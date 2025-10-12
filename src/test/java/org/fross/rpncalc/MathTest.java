@@ -387,17 +387,20 @@ class MathTest {
 
    /**
     * Test Math.GetRandomNumberInRange
-    * While you never know what value you'll get, I want to test and make sure the upper and lower values are inclusive to the result.
+    * While you never know what value you'll get, I want to test the upper and lower values are inclusive to the result.
+    * Therefore, I'll run a lot of iterations with a smaller range and I should see both the lower and upper ranges.
     */
    @Test
    void GetRandomNumberInRangeInclusiveTest() {
+      int low = -1, high = 50;
+      int iterations = 1000;
       boolean lowerTestPass = false;
       boolean upperTestPass = false;
 
       // Test lower limit
-      for (int i = 0; i < 10000; i++) {
-         long num = Math.GetRandomNumberInRange(1, 50);
-         if (num == 1) {
+      for (int i = 1; i < iterations; i++) {
+         long num = Math.GetRandomNumberInRange(low, high);
+         if (num == low) {
             System.out.println("GetRandomNumberInRange Test: Lower Value Found at Iteration  " + i);
             lowerTestPass = true;
             break;
@@ -405,9 +408,9 @@ class MathTest {
       }
 
       // Test upper limit
-      for (int i = 0; i < 10000; i++) {
-         long num = Math.GetRandomNumberInRange(1, 50);
-         if (Math.GetRandomNumberInRange(1, 50) == 1) {
+      for (int i = 0; i < iterations; i++) {
+         long num = Math.GetRandomNumberInRange(low, high);
+         if (num == high) {
             System.out.println("GetRandomNumberInRange Test: Upper Value Found at Iteration  " + i);
             upperTestPass = true;
             break;
