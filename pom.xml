@@ -241,13 +241,9 @@
 	<repositories>
 		<!-- Define my custom GitHub repository where Library lives -->
 		<repository>
-			<id>github</id>
-			<name>GitHub frossm Library Package</name>
-			<url>https://maven.pkg.github.com/frossm/library</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
+			<id>project-repo</id>
+			<name>Project Local Repository</name>
+			<url>file://${project.basedir}/repo</url>
 		</repository>
 
 	</repositories>
