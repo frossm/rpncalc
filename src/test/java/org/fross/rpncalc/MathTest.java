@@ -385,4 +385,37 @@ class MathTest {
       assertEquals(new BigDecimal("2432902008176640000"), Math.Factorial(new BigDecimal("20")));
    }
 
+   /**
+    * Test Math.GetRandomNumberInRange
+    * While you never know what value you'll get, I want to test and make sure the upper and lower values are inclusive to the result.
+    */
+   @Test
+   void GetRandomNumberInRangeInclusiveTest() {
+      boolean lowerTestPass = false;
+      boolean upperTestPass = false;
+
+      // Test lower limit
+      for (int i = 0; i < 10000; i++) {
+         long num = Math.GetRandomNumberInRange(1, 50);
+         if (num == 1) {
+            System.out.println("GetRandomNumberInRange Test: Lower Value Found at Iteration  " + i);
+            lowerTestPass = true;
+            break;
+         }
+      }
+
+      // Test upper limit
+      for (int i = 0; i < 10000; i++) {
+         long num = Math.GetRandomNumberInRange(1, 50);
+         if (Math.GetRandomNumberInRange(1, 50) == 1) {
+            System.out.println("GetRandomNumberInRange Test: Upper Value Found at Iteration  " + i);
+            upperTestPass = true;
+            break;
+         }
+      }
+
+      // If upper and lower test pass, assert they are true
+      assertTrue(lowerTestPass);
+      assertTrue(upperTestPass);
+   }
 }

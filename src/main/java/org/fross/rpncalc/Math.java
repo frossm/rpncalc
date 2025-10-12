@@ -32,6 +32,7 @@ import org.fusesource.jansi.Ansi;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.security.SecureRandom;
 
 /**
  * Math: The math class contains the methods to parse the operands entered and perform the math tasks. It was done strictly,
@@ -317,6 +318,39 @@ public class Math {
       StackCommands.cmdUndo(stk, String.valueOf(stk.undoSize()));
 
       return result;
+   }
+
+   /**
+    * GetRandomNumberInRange(min,max): Return an int value of a random number between the 2 values provided (inclusive of min and max)
+    *
+    * @param min Minimum value
+    * @param max Maximum value
+    * @return
+    */
+   public static long GetRandomNumberInRange(long min, long max) {
+      SecureRandom secureRandom = new SecureRandom();
+
+      if (min > max) {
+         throw new IllegalArgumentException("min must be less than or equal to max");
+      }
+
+      // Calculate the range (max - min + 1 for inclusive)
+      long range = max - min + 1;
+
+      // Handle the case where range would overflow
+      if (range <= 0) {
+         // Range spans more than Long.MAX_VALUE, use different approach
+         long random;
+         do {
+            random = secureRandom.nextLong();
+         } while (random < min || random > max);
+
+         return random;
+      }
+
+      // Generate random number and shift by min
+      return java.lang.Math.abs(secureRandom.nextLong()) % range + min;
+
    }
 
 }

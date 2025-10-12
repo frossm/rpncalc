@@ -319,14 +319,14 @@ public class StackCommands {
     * @param param     Method argument
     */
    public static void cmdDice(StackObj calcStack, String param) {
-      int die = 6;
-      int rolls = 1;
+      long die = 6L;
+      long rolls = 1L;
 
       // Parse out the die sides and rolls
       try {
          if (!param.isEmpty()) {
-            rolls = Integer.parseInt(param.trim().split("[Dd]")[0]);
-            die = Integer.parseInt(param.trim().split("[Dd]")[1]);
+            rolls = Long.parseLong(param.trim().split("[Dd]")[0]);
+            die = Long.parseLong(param.trim().split("[Dd]")[1]);
          }
       } catch (Exception e) {
          Output.printColorln(Ansi.Color.RED, "Error parsing dice parameter('" + param + "').  Format: 'dice xdy' where x=rolls, y=sides");
@@ -350,7 +350,7 @@ public class StackCommands {
 
       // Roll them bones
       for (int i = 0; i < rolls; i++) {
-         long randomNum = new java.util.Random().nextInt(die) + 1;
+         long randomNum = Math.GetRandomNumberInRange(1L, die);
          calcStack.push(new BigDecimal(String.valueOf(randomNum)));
       }
    }
@@ -780,13 +780,13 @@ public class StackCommands {
       }
 
       // Generate the random number. This is inclusive to BOTH low and high values (hence the +1)
-      randomNumber = ThreadLocalRandom.current().nextLong(low, high + 1);
+      randomNumber = Math.GetRandomNumberInRange(low, high);
 
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
 
       // Add result to the calculator stack
-      calcStack.push(new BigDecimal(randomNumber));
+      calcStack.push(new BigDecimal(String.valueOf(randomNumber)));
    }
 
    /**
