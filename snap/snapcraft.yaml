@@ -46,30 +46,22 @@ parts:
       source: snap/local
       source-type: local
 
-   library:
-      plugin: maven
-      source: https://github.com/frossm/library.git
-      source-type: git
-      source-tag: 'v2024.01.22'
-      maven-parameters:
-         - install
-
-      build-packages:
-         - maven
-         - openjdk-11-jdk-headless
-
    rpncalc:
       plugin: maven
       source: https://github.com/frossm/rpncalc.git
       source-branch: master
       source-type: git
-      #after:
-      #   - library
-      #   - wrapper
 
       build-packages:
          - maven
          - openjdk-11-jdk-headless
+
+      override-build: |
+        # Install the bundled library JAR to Maven's local repository
+        mvn install:install-file -Dfile=libs/library.jar -DgroupId=org.fross -DartifactId=library -Dversion=2024.01.22 -Dpackaging=jar
+        
+        # Continue with normal build
+        craftctl default
 
       stage-packages:
          - openjdk-11-jre-headless
