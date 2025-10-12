@@ -56,18 +56,10 @@ parts:
          - maven
          - openjdk-11-jdk-headless
 
-      override-build: |
-        # Install the bundled library JAR to Maven's local repository
-        mvn org.apache.maven.plugins:maven-install-plugin:3.1.1:install-file -Dfile=libs/library.jar -DgroupId=org.fross -DartifactId=library -Dversion=2024.01.22 -Dpackaging=jar
-        
-        # Continue with normal build
-        craftctl default
-
       stage-packages:
          - openjdk-11-jre-headless
 
-
-      # Bypass a build issue where an absolute reference is made to a file outside of the snap filesystem 
+      # Bypass a build issue where an absolute reference is made to a file outside of the snap filesystem
       # Ref: https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/23
       override-prime: |
          craftctl default
