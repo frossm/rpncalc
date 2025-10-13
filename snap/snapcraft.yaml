@@ -17,7 +17,7 @@ description: |
 
 grade: stable
 confinement: strict
-base: core24
+base: core22
 
 title: RPNCalc
 website: https://github.com/frossm/rpncalc
