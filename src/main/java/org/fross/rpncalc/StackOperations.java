@@ -29,6 +29,7 @@ package org.fross.rpncalc;
 import org.fross.library.Debug;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
+import org.jline.reader.History;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -115,6 +116,14 @@ public class StackOperations {
                return;
             }
             Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
+            break;
+
+         case "history":
+         case "hist":
+            for (int i = 0; i < CommandHistory.size(); i++) {
+               Output.printColorln(Ansi.Color.CYAN, String.format("  %d: %s", i, CommandHistory.get(i).split("##")[0]));
+            }
+            Output.println("");
             break;
 
          default:

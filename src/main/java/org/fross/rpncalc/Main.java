@@ -37,6 +37,7 @@ import org.jline.reader.UserInterruptException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Stack;
 import java.util.prefs.Preferences;
 
 /**
@@ -240,6 +241,9 @@ public class Main {
 
          // While in debug mode, show the entered text along with the broken up command and parameter
          Output.debugPrintln("Full cmdInput: '" + cmdInput + "'  |  cmdInputCmd: '" + cmdInputCmd + "'  |  cmdInputParam: '" + cmdInputParam + "'");
+
+         // Save the entered command to the command history
+         CommandHistory.addCommand(cmdInput, cmdInputCmd, cmdInputParam);
 
          // If recording is enabled, send the user input to be recorded
          if (UserFunctions.recordingIsEnabled()) {

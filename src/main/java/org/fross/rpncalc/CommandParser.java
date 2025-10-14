@@ -208,6 +208,12 @@ public class CommandParser {
             StackCommands.cmdEcho(calcStack, cmdInputParam);
             break;
 
+         // Repeat
+         case "repeat":
+         case "rep":
+            StackCommands.cmdRepeat(calcStack, cmdInputParam);
+            break;
+
          /*------------------------------------------------------------------------------
           * Conversions
           *-----------------------------------------------------------------------------*/
@@ -607,6 +613,8 @@ public class CommandParser {
                // Let user know a bad command was provided
                Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
 
+               // Remove this invalid command from the command history
+               if (CommandHistory.size() > 1) CommandHistory.remove();
             }
             break;
 

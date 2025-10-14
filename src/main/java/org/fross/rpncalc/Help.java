@@ -93,6 +93,7 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " sort a|d       Sorts the stack in an ascending or descending manner");
       Output.printColorln(Ansi.Color.WHITE, " sqrt           Perform a square root of the line1 value");
       Output.printColorln(Ansi.Color.WHITE, " rand [L] [H]   Random integer between L and H inclusive.  Default is 1-100");
+      Output.printColorln(Ansi.Color.WHITE, " repeat [Num]   Repeat the last command Num times.  Default is 1");
       Output.printColorln(Ansi.Color.WHITE, " round [n]      Round to n decimal places. Default is 0 decimals");
       Output.printColorln(Ansi.Color.WHITE, " s [#] [#]      Swap the last two elements in the stack or the lines provided");
       Output.printColorln(Ansi.Color.WHITE, " sd [keep]      Standard deviation of stack items. 'keep' will retain stack");
@@ -176,6 +177,7 @@ public class Help {
       Output.printColorln(clr, " list mem          Display contents of the memory slots");
       Output.printColorln(clr, " list stacks       Show the list of saved stacks");
       Output.printColorln(clr, " list undo         Show the current undo stack");
+      Output.printColorln(clr, " list hist         Show the command history");
    }
 
    /**

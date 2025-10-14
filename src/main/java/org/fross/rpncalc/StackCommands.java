@@ -33,7 +33,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Stack;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class StackCommands {
    /**
@@ -787,6 +786,58 @@ public class StackCommands {
 
       // Add result to the calculator stack
       calcStack.push(new BigDecimal(String.valueOf(randomNumber)));
+   }
+
+   /**
+    * cmdRepeat(): Repeat the last command
+    *
+    * @param calcStack
+    * @param arg
+    */
+   public static void cmdRepeat(StackObj calcStack, String arg) {
+      int repetitions = 1;
+      String cmdInput = "", cmdInputCmd = "", cmdInputParam = "";
+
+      // Ensure we have something in the history stack
+      if (CommandHistory.size() < 1) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: No previous command to repeat");
+         return;
+      }
+
+      // Determine the number of repetitions
+      try {
+         repetitions = Integer.parseInt(arg);
+
+      } catch (NumberFormatException ex) {
+         // No number provided, set it to 1 as the default
+         if (arg.isEmpty()) {
+            repetitions = 1;
+         } else {
+            Output.printColorln(Ansi.Color.RED, "Invalid repetition number provided: '" + arg + "'");
+            return;
+         }
+      }
+
+      try {
+         cmdInput = CommandHistory.get().split("##")[0];
+         cmdInputCmd = CommandHistory.get().split("##")[1];
+         cmdInputParam = CommandHistory.get().split("##")[2];
+
+      } catch (ArrayIndexOutOfBoundsException e) {
+         // TODO: Ignore this error as it will trigger if just a command is entered with no parameter. There must be a better way...
+      } catch (Exception e) {
+         Output.printColorln(Ansi.Color.RED, "Unable to parse previous command: '" + CommandHistory.get() + "'");
+         return;
+      }
+
+      // Show the user the command we'll repeat
+      Output.debugPrintln("[REPEAT CMD] Full cmdInput: '" + cmdInput + "'  |  cmdInputCmd: '" + cmdInputCmd + "'  |  cmdInputParam: '" + cmdInputParam + "'");
+
+      // Execute the previous command
+      for (int i = 0; i < repetitions; i++) {
+         CommandParser.Parse(calcStack, calcStack, cmdInput, cmdInputCmd, cmdInputParam);
+      }
+
    }
 
    /**

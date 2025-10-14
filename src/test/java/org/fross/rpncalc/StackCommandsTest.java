@@ -1131,6 +1131,38 @@ class StackCommandsTest {
    }
 
    /**
+    * Test the repeat command
+    */
+   @Test
+   void testRepeat() {
+      StackObj stk = new StackObj();
+
+      // Try to do a repeat with nothing in the history
+      assertEquals(0, CommandHistory.size());
+      StackCommands.cmdRepeat(stk, "");
+      assertEquals(0, CommandHistory.size());
+
+      // Add three commands and see if they exist
+      CommandParser.Parse(stk, stk, "44", "44", "");
+      CommandHistory.addCommand("44", "44", "");
+
+      CommandParser.Parse(stk, stk, "2/", "2/", "");
+      CommandHistory.addCommand("2/", "2/", "");
+
+      CommandParser.Parse(stk, stk, "2+", "2+", "");
+      CommandHistory.addCommand("2+", "2+", "");
+
+      assertEquals(3, CommandHistory.size());
+      assertEquals("24", stk.peek().toString());
+
+      // Remove the last command
+      CommandHistory.remove();
+      assertEquals(2, CommandHistory.size());
+
+   }
+
+
+   /**
     * Test method for {@link org.fross.rpncalc.StackCommands#cmdRound(org.fross.rpncalc.StackObj, java.lang.String)}.
     */
    @Test
