@@ -118,8 +118,10 @@ public class StackOperations {
             Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
             break;
 
-         case "history":
-         case "hist":
+         case "cmd":
+         case "cmds":
+         case "command":
+         case "commands":
             for (int i = 0; i < CommandHistory.size(); i++) {
                Output.printColorln(Ansi.Color.CYAN, String.format("  %d: %s", i, CommandHistory.get(i).split("##")[0]));
             }

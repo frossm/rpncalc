@@ -3,7 +3,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.9.0</version>
+	<version>5.9.1</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -14,7 +14,7 @@
 		<developer>
 			<name>Michael Fross</name>
 			<email>michael@fross.org</email>
-			<url>https://fross.org</url>
+			<url>https://github.com/frossm</url>
 		</developer>
 	</developers>
 
@@ -244,6 +244,9 @@
 			<id>github</id>
 			<name>GitHub frossm Library Package</name>
 			<url>https://maven.pkg.github.com/frossm/library</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>

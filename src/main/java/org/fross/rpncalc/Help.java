@@ -177,7 +177,7 @@ public class Help {
       Output.printColorln(clr, " list mem          Display contents of the memory slots");
       Output.printColorln(clr, " list stacks       Show the list of saved stacks");
       Output.printColorln(clr, " list undo         Show the current undo stack");
-      Output.printColorln(clr, " list hist         Show the command history");
+      Output.printColorln(clr, " list commands     Show the command history");
    }
 
    /**
