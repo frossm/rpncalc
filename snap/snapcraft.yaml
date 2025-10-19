@@ -30,9 +30,9 @@ license: MIT
 compression: lzo
 
 # Ignore useless library warnings
-lint:
-   ignore:
-      - library
+#lint:
+#   ignore:
+#      - library
          
 apps:
    rpncalc:
@@ -46,17 +46,17 @@ parts:
       source: snap/local
       source-type: local
 
-   library:
-      plugin: maven
-      source: https://github.com/frossm/library.git
-      source-type: git
-      source-tag: 'v2024.01.22'
-      maven-parameters:
-         - install
-
-      build-packages:
-         - maven
-         - openjdk-11-jdk-headless
+#   library:
+#      plugin: maven
+#      source: https://github.com/frossm/library.git
+#      source-type: git
+#      source-tag: 'v2024.01.22'
+#      maven-parameters:
+#         - install
+#
+#      build-packages:
+#         - maven
+#         - openjdk-11-jdk-headless
 
    rpncalc:
       plugin: maven
