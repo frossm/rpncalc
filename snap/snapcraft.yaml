@@ -66,10 +66,10 @@ parts:
 
       build-packages:
          - maven
-         - openjdk-11-jdk-headless
+         - openjdk-17-jdk-headless
 
       stage-packages:
-         - openjdk-11-jre-headless
+         - openjdk-17-jre-headless
 
 
       # Bypass a build issue where an absolute reference is made to a file outside of the snap filesystem 

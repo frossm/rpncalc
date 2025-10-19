@@ -5,7 +5,7 @@
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.10.0</version>
+	<version>5.10.1</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
@@ -36,7 +36,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.release>11</maven.compiler.release>
+		<maven.compiler.release>17</maven.compiler.release>
 		<maven.minimum.version>3.6.3</maven.minimum.version>
 	</properties>
 
