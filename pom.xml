@@ -177,7 +177,7 @@
 			<!-- ============================================================================================== -->
 			<!-- Update snapcraft.yaml file to set the program and library versions                             -->
 			<!-- https://code.google.com/archive/p/maven-replacer-plugin/                                       -->
-			<!-- ==============================================================================================
+			<!-- ============================================================================================== -->
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -197,15 +197,16 @@
 							<token>version:.*</token>
 							<value>version: '${project.version}'</value>
 						</replacement>
+						<!--  Library Version Update
 						<replacement>
 							<token>source-tag:.*</token>
 							<value>source-tag: 'v${org.fross:library:jar.version}'</value>
 						</replacement>
+						-->
 					</replacements>
 				</configuration>
 			</plugin>
-			-->
-			
+
 			<!-- ============================================================================================== -->
 			<!-- For Linux machines, chmod the final jar file to be executable by the OS                        -->
 			<!-- Install binfmt-support to support this in Linux. I like to directly be able to run jar files   -->
@@ -243,7 +244,7 @@
 
 	<!-- Define additional package repositories.  Maven is included by default -->
 	<repositories>
-		<!-- Define my custom GitHub repository where Library lives
+		<!-- Define my custom GitHub repository where Library lives. Probably no longer needed.-->
 		<repository>
 			<id>github</id>
 			<name>GitHub frossm Library Package</name>
@@ -256,7 +257,6 @@
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
 		</repository>
-		-->
 
 	</repositories>
 
@@ -267,15 +267,6 @@
 			<artifactId>jcommander</artifactId>
 			<version>1.82</version>
 		</dependency>
-
-		<!-- https://github.com/frossm/library -->
-		<!-- My personal library of common classes across my applications
-		<dependency>
-			<groupId>org.fross</groupId>
-			<artifactId>library</artifactId>
-			<version>2024.01.22</version>
-		</dependency>
-		-->
 
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
 		<dependency>
