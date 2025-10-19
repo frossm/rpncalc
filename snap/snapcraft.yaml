@@ -64,8 +64,7 @@ parts:
       source-branch: master
       source-type: git
       maven-parameters:
-        - package
-        - DskipTests
+        - package -DskipTests
 
       build-packages:
          - maven
