@@ -76,4 +76,4 @@ parts:
       # Ref: https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/23
       override-prime: |
          craftctl default
-         rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
+         rm -vf usr/lib/jvm/java-17-openjdk-*/lib/security/blacklisted.certs
