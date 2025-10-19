@@ -63,6 +63,9 @@ parts:
       source: https://github.com/frossm/rpncalc.git
       source-branch: master
       source-type: git
+      maven-parameters:
+        - package
+        - DskipTests
 
       build-packages:
          - maven
