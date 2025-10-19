@@ -1,13 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.fross</groupId>
 	<artifactId>rpncalc</artifactId>
-	<version>5.9.1</version>
+	<version>5.10.0</version>
 	<packaging>jar</packaging>
 
 	<name>rpncalc</name>
-	<description>RPNCalc is an easy to use console based RPN calculator</description>
+	<description>RPNCalc is an easy-to-use console based RPN calculator</description>
 	<url>https://github.com/frossm/rpncalc</url>
 
 	<developers>
@@ -19,7 +21,7 @@
 	</developers>
 
 	<organization>
-		<name>Sinister Igloo Softworks</name>
+		<name>Westbury Softworks</name>
 		<url>fross.org</url>
 	</organization>
 
@@ -156,7 +158,7 @@
 			<!--                                                                                            -->
 			<!-- Reference: https://gitlab.com/josh-cain/dependencyversion-maven-plugin                     -->
 			<!-- Example: The library dependency version reference is: ${org.fross:library:jar.version}     -->
-			<!-- ========================================================================================== -->
+			<!-- ==========================================================================================
 			<plugin>
 				<groupId>io.reformanda.semper</groupId>
 				<artifactId>dependencyversion-maven-plugin</artifactId>
@@ -170,11 +172,12 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 
 			<!-- ============================================================================================== -->
 			<!-- Update snapcraft.yaml file to set the program and library versions                             -->
 			<!-- https://code.google.com/archive/p/maven-replacer-plugin/                                       -->
-			<!-- ============================================================================================== -->
+			<!-- ==============================================================================================
 			<plugin>
 				<groupId>com.google.code.maven-replacer-plugin</groupId>
 				<artifactId>replacer</artifactId>
@@ -201,6 +204,7 @@
 					</replacements>
 				</configuration>
 			</plugin>
+			-->
 			
 			<!-- ============================================================================================== -->
 			<!-- For Linux machines, chmod the final jar file to be executable by the OS                        -->
@@ -211,7 +215,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>3.6.2</version>
 				<executions>
 					<execution>
 						<id>chmod</id>
@@ -239,7 +243,7 @@
 
 	<!-- Define additional package repositories.  Maven is included by default -->
 	<repositories>
-		<!-- Define my custom GitHub repository where Library lives -->
+		<!-- Define my custom GitHub repository where Library lives
 		<repository>
 			<id>github</id>
 			<name>GitHub frossm Library Package</name>
@@ -252,6 +256,7 @@
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
 		</repository>
+		-->
 
 	</repositories>
 
@@ -264,12 +269,13 @@
 		</dependency>
 
 		<!-- https://github.com/frossm/library -->
-		<!-- My personal library of common classes across my applications -->
+		<!-- My personal library of common classes across my applications
 		<dependency>
 			<groupId>org.fross</groupId>
 			<artifactId>library</artifactId>
 			<version>2024.01.22</version>
 		</dependency>
+		-->
 
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
 		<dependency>
@@ -284,6 +290,13 @@
 			<groupId>org.jline</groupId>
 			<artifactId>jline</artifactId>
 			<version>3.30.6</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
+		<dependency>
+			<groupId>org.fusesource.jansi</groupId>
+			<artifactId>jansi</artifactId>
+			<version>2.4.2</version>
 		</dependency>
 
 	</dependencies>
