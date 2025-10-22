@@ -34,6 +34,29 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class StackConstants {
+   /**
+    * cmdEulersConstant(): Add the Euler constant to the stack
+    */
+   public static void cmdEulersConstant(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      calcStack.push("0.577215664901532860606512090082402431");
+
+      Output.printColorln(Ansi.Color.CYAN, "Euler's constant (y) has been added to the stack");
+   }
+
+   /**
+    * cmdEulersNumber(): Add the Euler number to the stack
+    */
+   public static void cmdEulersNumber(StackObj calcStack) {
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      calcStack.push("2.71828182845904523536028747135266249775724709369995");
+
+      Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) has been added to the stack");
+   }
 
    /**
     * cmdPI(): Add the value of PI to the stack
@@ -59,8 +82,7 @@ public class StackConstants {
       // If there is something in the stack, display the long and short sections
       if (!calcStack.isEmpty()) {
          BigDecimal value = calcStack.peek();
-         Output.printColorln(Ansi.Color.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(BigDecimal.ONE.divide(phi,
-               MathContext.DECIMAL128)).setScale(5, RoundingMode.HALF_UP));
+         Output.printColorln(Ansi.Color.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(BigDecimal.ONE.divide(phi, MathContext.DECIMAL128)).setScale(5, RoundingMode.HALF_UP));
          Output.printColorln(Ansi.Color.YELLOW, "If Short Section = " + value + "    Long Section  = " + value.multiply(phi).setScale(5, RoundingMode.HALF_UP));
       }
 
@@ -68,30 +90,6 @@ public class StackConstants {
       calcStack.push(phi);
 
       Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, has been added to the stack");
-   }
-
-   /**
-    * cmdEulersNumber(): Add the Euler number to the stack
-    */
-   public static void cmdEulersNumber(StackObj calcStack) {
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      calcStack.push("2.71828182845904523536028747135266249775724709369995");
-
-      Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) has been added to the stack");
-   }
-
-   /**
-    * cmdEulersConstant(): Add the Euler constant to the stack
-    */
-   public static void cmdEulersConstant(StackObj calcStack) {
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      calcStack.push("0.577215664901532860606512090082402431");
-
-      Output.printColorln(Ansi.Color.CYAN, "Euler's constant (y) has been added to the stack");
    }
 
    /**

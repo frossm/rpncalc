@@ -38,97 +38,6 @@ public class StackMemory {
    protected static BigDecimal[] memorySlots = new BigDecimal[Main.configMemorySlots];
 
    /**
-    * SetMaxMemorySlots(): Sets the number of memory slot available to be used
-    *
-    * @param slots the number of memory slots to use
-    * @return true if successful, false if otherwise
-    */
-   public static boolean SetMaxMemorySlots(String slots) {
-      Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
-      try {
-         int requestedSlots = Integer.parseInt(slots);
-
-         // Ensure we always have at least one memory slot
-         if (requestedSlots >= 1) {
-            memorySlots = new BigDecimal[requestedSlots];
-         } else {
-            Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
-            memorySlots = new BigDecimal[1];
-         }
-
-         Main.configMemorySlots = Integer.parseInt(slots);
-         Output.debugPrintln("Saving Memory Slots value to preferences");
-         prefConfig.putInt("memoryslots", Integer.parseInt(slots));
-
-      } catch (NumberFormatException ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
-         return false;
-      }
-
-      return true;
-   }
-
-   /**
-    * QueryInUseMemorySlots(): Return the number of memory slots being used
-    *
-    * @return the number of memory slots
-    */
-   public static int QueryInUseMemorySlots() {
-      int inUseCounter = 0;
-
-      for (BigDecimal memorySlot : memorySlots) {
-         if (memorySlot != null) inUseCounter++;
-      }
-
-      return inUseCounter;
-   }
-
-   /**
-    * SaveMemSlots(): Save the memory slots to the preferences system
-    */
-   public static void SaveMemSlots() {
-      Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
-
-      Output.debugPrintln("Saving Memory Slots:");
-      try {
-         // Clear out any slots in the store in prep for writing the current slots
-         p.clear();
-
-         for (int i = 0; i < StackMemory.memorySlots.length; i++) {
-            if (memorySlots[i] != null) {
-               Output.debugPrintln("  - Slot #" + i + ":  " + memorySlots[i]);
-               p.put(Integer.toString(i), memorySlots[i].toPlainString());
-            }
-         }
-      } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: Unable to save memory slots to preferences successfully");
-      }
-
-      Output.debugPrintln("");
-   }
-
-   /**
-    * RestoreMemSlots(): Restore the contents of the memory slots from the preferences system. Typically done at startup
-    */
-   public static void RestoreMemSlots() {
-      Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
-
-      Output.debugPrintln("Restoring Memory Slots:");
-      try {
-         for (int i = 0; i < StackMemory.memorySlots.length; i++) {
-            if (!p.get(Integer.toString(i), "ERROR").equals("ERROR")) {
-               Output.debugPrintln("  - Slot #" + i + "  " + p.get(Integer.toString(i), "ERROR"));
-               memorySlots[i] = new BigDecimal(p.get(Integer.toString(i), "ERROR"));
-            }
-         }
-      } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: Unable to restore memory slots from preferences");
-      }
-
-      Output.debugPrintln("");
-   }
-
-   /**
     * cmdMem(): Process mem commands from user
     *
     * @param calcStack Primary stack
@@ -239,4 +148,96 @@ public class StackMemory {
          Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");
       }
    }
+
+   /**
+    * QueryInUseMemorySlots(): Return the number of memory slots being used
+    *
+    * @return the number of memory slots
+    */
+   public static int QueryInUseMemorySlots() {
+      int inUseCounter = 0;
+
+      for (BigDecimal memorySlot : memorySlots) {
+         if (memorySlot != null) inUseCounter++;
+      }
+
+      return inUseCounter;
+   }
+
+   /**
+    * RestoreMemSlots(): Restore the contents of the memory slots from the preferences system. Typically done at startup
+    */
+   public static void RestoreMemSlots() {
+      Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
+
+      Output.debugPrintln("Restoring Memory Slots:");
+      try {
+         for (int i = 0; i < StackMemory.memorySlots.length; i++) {
+            if (!p.get(Integer.toString(i), "ERROR").equals("ERROR")) {
+               Output.debugPrintln("  - Slot #" + i + "  " + p.get(Integer.toString(i), "ERROR"));
+               memorySlots[i] = new BigDecimal(p.get(Integer.toString(i), "ERROR"));
+            }
+         }
+      } catch (Exception ex) {
+         Output.printColorln(Ansi.Color.RED, "Error: Unable to restore memory slots from preferences");
+      }
+
+      Output.debugPrintln("");
+   }
+
+   /**
+    * SaveMemSlots(): Save the memory slots to the preferences system
+    */
+   public static void SaveMemSlots() {
+      Preferences p = Preferences.userRoot().node("/org/fross/rpn/memoryslots");
+
+      Output.debugPrintln("Saving Memory Slots:");
+      try {
+         // Clear out any slots in the store in prep for writing the current slots
+         p.clear();
+
+         for (int i = 0; i < StackMemory.memorySlots.length; i++) {
+            if (memorySlots[i] != null) {
+               Output.debugPrintln("  - Slot #" + i + ":  " + memorySlots[i]);
+               p.put(Integer.toString(i), memorySlots[i].toPlainString());
+            }
+         }
+      } catch (Exception ex) {
+         Output.printColorln(Ansi.Color.RED, "Error: Unable to save memory slots to preferences successfully");
+      }
+
+      Output.debugPrintln("");
+   }
+
+   /**
+    * SetMaxMemorySlots(): Sets the number of memory slot available to be used
+    *
+    * @param slots the number of memory slots to use
+    * @return true if successful, false if otherwise
+    */
+   public static boolean SetMaxMemorySlots(String slots) {
+      Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
+      try {
+         int requestedSlots = Integer.parseInt(slots);
+
+         // Ensure we always have at least one memory slot
+         if (requestedSlots >= 1) {
+            memorySlots = new BigDecimal[requestedSlots];
+         } else {
+            Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
+            memorySlots = new BigDecimal[1];
+         }
+
+         Main.configMemorySlots = Integer.parseInt(slots);
+         Output.debugPrintln("Saving Memory Slots value to preferences");
+         prefConfig.putInt("memoryslots", Integer.parseInt(slots));
+
+      } catch (NumberFormatException ex) {
+         Output.printColorln(Ansi.Color.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
+         return false;
+      }
+
+      return true;
+   }
+
 }

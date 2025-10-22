@@ -31,57 +31,6 @@ import org.fusesource.jansi.Ansi;
 
 public class StackTrig {
    /**
-    * cmdTrig(): Calculate the trig functions. There was so much overlap in the functions I consolidated the operations together
-    *
-    * @param calcStack Primary Stack
-    * @param cmd       Command entered
-    * @param arg       Parameters after the command
-    */
-   public static void cmdTrig(StackObj calcStack, String cmd, String arg) {
-      // Ensure we have at least one item on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
-         return;
-      }
-
-      double angle = 0.0;
-
-      try {
-         angle = calcStack.pop().doubleValue();
-
-         // Calculations are done in radians. Convert if 'rad' is NOT provided as a parameter
-         if (arg.toLowerCase().charAt(0) != 'r') {
-            Output.printColorln(Ansi.Color.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
-            calcStack.push(angle);
-            return;
-         }
-      } catch (StringIndexOutOfBoundsException ex) {
-         angle = java.lang.Math.toRadians(angle);
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Push the result back onto the stack
-      switch (cmd) {
-         case "tan":
-            calcStack.push(java.lang.Math.tan(angle));
-            break;
-
-         case "sin":
-            calcStack.push(java.lang.Math.sin(angle));
-            break;
-
-         case "cos":
-            calcStack.push(java.lang.Math.cos(angle));
-            break;
-
-         default:
-            Output.printColorln(Ansi.Color.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
-      }
-   }
-
-   /**
     * cmdArcTrig(): Calculate the arc Trig functions. There was so much overlap in the functions I consolidated
     *
     * @param calcStack Primary Stack
@@ -155,4 +104,56 @@ public class StackTrig {
       // Pop the two values and push the hypotenuse back onto the stack
       calcStack.push(java.lang.Math.hypot(calcStack.pop().doubleValue(), calcStack.pop().doubleValue()));
    }
+
+   /**
+    * cmdTrig(): Calculate the trig functions. There was so much overlap in the functions I consolidated the operations together
+    *
+    * @param calcStack Primary Stack
+    * @param cmd       Command entered
+    * @param arg       Parameters after the command
+    */
+   public static void cmdTrig(StackObj calcStack, String cmd, String arg) {
+      // Ensure we have at least one item on the stack
+      if (calcStack.isEmpty()) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+         return;
+      }
+
+      double angle = 0.0;
+
+      try {
+         angle = calcStack.pop().doubleValue();
+
+         // Calculations are done in radians. Convert if 'rad' is NOT provided as a parameter
+         if (arg.toLowerCase().charAt(0) != 'r') {
+            Output.printColorln(Ansi.Color.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
+            calcStack.push(angle);
+            return;
+         }
+      } catch (StringIndexOutOfBoundsException ex) {
+         angle = java.lang.Math.toRadians(angle);
+      }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      // Push the result back onto the stack
+      switch (cmd) {
+         case "tan":
+            calcStack.push(java.lang.Math.tan(angle));
+            break;
+
+         case "sin":
+            calcStack.push(java.lang.Math.sin(angle));
+            break;
+
+         case "cos":
+            calcStack.push(java.lang.Math.cos(angle));
+            break;
+
+         default:
+            Output.printColorln(Ansi.Color.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
+      }
+   }
+
 }

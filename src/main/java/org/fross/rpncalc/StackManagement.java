@@ -40,6 +40,33 @@ public class StackManagement {
    private static int currentStackNum = 1;
 
    /**
+    * QueryCurrentStackNum(): Return the current active stack number
+    *
+    * @return Current active stack number
+    */
+   public static int QueryCurrentStackNum() {
+      return currentStackNum;
+   }
+
+   /**
+    * QueryStacks(): Return a string array of all current stacks
+    *
+    * @return String array of all of the current stack
+    */
+   public static String[] QueryStacks() {
+      String[] stacks = {};
+      Preferences prefsQuery = Preferences.userRoot().node(PREFS_PATH);
+
+      try {
+         stacks = prefsQuery.childrenNames();
+      } catch (BackingStoreException ex) {
+         Output.printColor(Ansi.Color.RED, "Error Reading Stacks from Java Preferences");
+      }
+
+      return (stacks);
+   }
+
+   /**
     * SaveStack(): Save the provided stack into the preferences system
     *
     * @param stk       - Stack to Save
@@ -71,38 +98,11 @@ public class StackManagement {
    }
 
    /**
-    * QueryCurrentStackNum(): Return the current active stack number
-    *
-    * @return Current active stack number
-    */
-   public static int QueryCurrentStackNum() {
-      return currentStackNum;
-   }
-
-   /**
     * Toggle CurrentStackNum(): Toggle to the next stack
     */
    public static void ToggleCurrentStackNum() {
       if (currentStackNum == 1) currentStackNum = 2;
       else currentStackNum = 1;
-   }
-
-   /**
-    * QueryStacks(): Return a string array of all current stacks
-    *
-    * @return String array of all of the current stack
-    */
-   public static String[] QueryStacks() {
-      String[] stacks = {};
-      Preferences prefsQuery = Preferences.userRoot().node(PREFS_PATH);
-
-      try {
-         stacks = prefsQuery.childrenNames();
-      } catch (BackingStoreException ex) {
-         Output.printColor(Ansi.Color.RED, "Error Reading Stacks from Java Preferences");
-      }
-
-      return (stacks);
    }
 
 }

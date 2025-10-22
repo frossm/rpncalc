@@ -47,90 +47,6 @@ public class UserFunctions {
    static ArrayList<String> recording = new ArrayList<>();
 
    /**
-    * cmdRecord(): Processes record on/off request from user
-    *
-    * @param args Method parameters
-    */
-   public static void cmdRecord(String args) {
-      boolean functionNameValid = false;
-      String functionName;
-      String[] arguments = {};
-
-      // Break arguments into on/off and name. If no name was given set to blank
-      try {
-         arguments = args.trim().toLowerCase().split(" ");
-         functionName = arguments[1];
-
-      } catch (Exception ex) {
-         functionName = "";
-      }
-
-      // Determine the record command that was given
-      try {
-         if (arguments[0].startsWith("on")) {
-            if (!recordingEnabled) {
-               recordingEnabled = true;
-            } else {
-               Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
-            }
-
-         } else if (arguments[0].startsWith("off")) {
-            if (recordingEnabled) {
-               recordingEnabled = false;
-
-               // Ensure we have something in the buffer to save. If not, just return
-               if (!recording.isEmpty()) {
-                  if (functionName.isBlank()) {
-                     while (!functionNameValid) {
-                        // Request a name for the user function
-                        Output.printColorln(Ansi.Color.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
-
-                        // Read the user input. If ctrl-C is entered, discard the function
-                        try {
-                           functionName = Main.scanner.readLine(Main.INPUT_PROMPT);
-                        } catch (UserInterruptException ex) {
-                           functionName = "";
-                        } catch (Exception e) {
-                           Output.fatalError("Could not read user input", 5);
-                        }
-
-                        // If no name is given, cancel the recording information
-                        if (functionName.isBlank()) {
-                           Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
-                           recording.clear();
-                           return;
-                        }
-
-                        // Ensure there are no spaces in the name
-                        if (functionName.contains(" ")) {
-                           Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
-                           functionName = "";
-                        } else {
-                           functionNameValid = true;
-                        }
-                     }
-                  }
-
-                  // We have a valid name so save to preferences
-                  SaveRecordingToPrefs(functionName);
-
-               } else {
-                  Output.printColorln(Ansi.Color.CYAN, "Recording off - No valid commands were recorded");
-               }
-            } else {
-               Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
-            }
-         } else {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
-         }
-      } catch (StringIndexOutOfBoundsException ex) {
-         // User did not enter a command
-         Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
-      }
-
-   }
-
-   /**
     * cmdFunction(): Allow users to manage functions
     *
     * @param args Method Parameters
@@ -254,6 +170,173 @@ public class UserFunctions {
    }
 
    /**
+    * cmdRecord(): Processes record on/off request from user
+    *
+    * @param args Method parameters
+    */
+   public static void cmdRecord(String args) {
+      boolean functionNameValid = false;
+      String functionName;
+      String[] arguments = {};
+
+      // Break arguments into on/off and name. If no name was given set to blank
+      try {
+         arguments = args.trim().toLowerCase().split(" ");
+         functionName = arguments[1];
+
+      } catch (Exception ex) {
+         functionName = "";
+      }
+
+      // Determine the record command that was given
+      try {
+         if (arguments[0].startsWith("on")) {
+            if (!recordingEnabled) {
+               recordingEnabled = true;
+            } else {
+               Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
+            }
+
+         } else if (arguments[0].startsWith("off")) {
+            if (recordingEnabled) {
+               recordingEnabled = false;
+
+               // Ensure we have something in the buffer to save. If not, just return
+               if (!recording.isEmpty()) {
+                  if (functionName.isBlank()) {
+                     while (!functionNameValid) {
+                        // Request a name for the user function
+                        Output.printColorln(Ansi.Color.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
+
+                        // Read the user input. If ctrl-C is entered, discard the function
+                        try {
+                           functionName = Main.scanner.readLine(Main.INPUT_PROMPT);
+                        } catch (UserInterruptException ex) {
+                           functionName = "";
+                        } catch (Exception e) {
+                           Output.fatalError("Could not read user input", 5);
+                        }
+
+                        // If no name is given, cancel the recording information
+                        if (functionName.isBlank()) {
+                           Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
+                           recording.clear();
+                           return;
+                        }
+
+                        // Ensure there are no spaces in the name
+                        if (functionName.contains(" ")) {
+                           Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
+                           functionName = "";
+                        } else {
+                           functionNameValid = true;
+                        }
+                     }
+                  }
+
+                  // We have a valid name so save to preferences
+                  SaveRecordingToPrefs(functionName);
+
+               } else {
+                  Output.printColorln(Ansi.Color.CYAN, "Recording off - No valid commands were recorded");
+               }
+            } else {
+               Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
+            }
+         } else {
+            Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
+         }
+      } catch (StringIndexOutOfBoundsException ex) {
+         // User did not enter a command
+         Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
+      }
+
+   }
+
+   /**
+    * FunctionDelete(): Delete a stored function
+    *
+    * @param fname Name of function to delete
+    */
+   public static void FunctionDelete(String fname) {
+      // Verify user defined function exists
+      if (!FunctionExists(fname)) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: '" + fname + "' is not a valid user defined function");
+         return;
+      }
+
+      // Remove the user defined function
+      Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + fname);
+      try {
+         pChild.removeNode();
+
+      } catch (BackingStoreException e) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Could not remove the function named: " + fname);
+      }
+
+      Output.printColorln(Ansi.Color.CYAN, "User defined function deleted: '" + fname + "'");
+   }
+
+   /**
+    * FunctionExists(): Returns true if the user defined function exists in the preferences system
+    *
+    * @param fname Function name to check for existence
+    * @return Boolean value checking for existence
+    */
+   public static boolean FunctionExists(String fname) {
+      Preferences pParent = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
+      boolean childExists = false;
+
+      // Verify that the user defined function exists
+      try {
+         for (String child : pParent.childrenNames()) {
+            if (child.equals(fname)) {
+               childExists = true;
+               break;
+            }
+         }
+      } catch (BackingStoreException e1) {
+         Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from Java preferences");
+      }
+
+      return childExists;
+   }
+
+   /**
+    * FunctionRun(): Execute the user defined function provided. Assumes functionName has been checked and is valid
+    */
+   public static void FunctionRun(StackObj calcStack, StackObj calcStack2, String functionName) {
+      Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
+      Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
+
+      // Loop through the steps in the function and send them to be executed
+      for (int i = 0; i < Integer.parseInt(pChild.get("FunctionSteps", "Error")); i++) {
+         String fullCommand = pChild.get("Step" + i, "Error");
+         String command = "";
+         String param = "";
+
+         try {
+            // If the number of spaces in the full command is zero, don't execute a split so we don't get an ArrayIndexOutOfBoundsException
+            // Reference:  https://stackoverflow.com/questions/275944/how-do-i-count-the-number-of-occurrences-of-a-char-in-a-string
+            if (fullCommand.codePoints().filter(ch -> ch == ' ').findAny().isEmpty()) {
+               command = fullCommand.toLowerCase().trim();
+            } else {
+               String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
+               command = ci[0];
+               param = ci[1];
+            }
+
+         } catch (Exception e) {
+            Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + fullCommand + "' into command and arguments");
+         }
+
+         Output.debugPrintln("Step " + i + ":  " + pChild.get("Step" + i, "Error"));
+         CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
+      }
+
+   }
+
+   /**
     * RecordingEnabled(): Return true if recording is turned on
     *
     * @return Boolean value if recording is currently enabled
@@ -332,89 +415,6 @@ public class UserFunctions {
 
       // Erase the recording as it's saved
       recording.clear();
-   }
-
-   /**
-    * FunctionDelete(): Delete a stored function
-    *
-    * @param fname Name of function to delete
-    */
-   public static void FunctionDelete(String fname) {
-      // Verify user defined function exists
-      if (!FunctionExists(fname)) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: '" + fname + "' is not a valid user defined function");
-         return;
-      }
-
-      // Remove the user defined function
-      Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + fname);
-      try {
-         pChild.removeNode();
-
-      } catch (BackingStoreException e) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not remove the function named: " + fname);
-      }
-
-      Output.printColorln(Ansi.Color.CYAN, "User defined function deleted: '" + fname + "'");
-   }
-
-   /**
-    * FunctionRun(): Execute the user defined function provided. Assumes functionName has been checked and is valid
-    */
-   public static void FunctionRun(StackObj calcStack, StackObj calcStack2, String functionName) {
-      Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
-      Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
-
-      // Loop through the steps in the function and send them to be executed
-      for (int i = 0; i < Integer.parseInt(pChild.get("FunctionSteps", "Error")); i++) {
-         String fullCommand = pChild.get("Step" + i, "Error");
-         String command = "";
-         String param = "";
-
-         try {
-            // If the number of spaces in the full command is zero, don't execute a split so we don't get an ArrayIndexOutOfBoundsException
-            // Reference:  https://stackoverflow.com/questions/275944/how-do-i-count-the-number-of-occurrences-of-a-char-in-a-string
-            if (fullCommand.codePoints().filter(ch -> ch == ' ').findAny().isEmpty()) {
-               command = fullCommand.toLowerCase().trim();
-            } else {
-               String[] ci = fullCommand.toLowerCase().trim().split("\\s+", 2);
-               command = ci[0];
-               param = ci[1];
-            }
-
-         } catch (Exception e) {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + fullCommand + "' into command and arguments");
-         }
-
-         Output.debugPrintln("Step " + i + ":  " + pChild.get("Step" + i, "Error"));
-         CommandParser.Parse(calcStack, calcStack2, fullCommand, command, param);
-      }
-
-   }
-
-   /**
-    * FunctionExists(): Returns true if the user defined function exists in the preferences system
-    *
-    * @param fname Function name to check for existence
-    * @return Boolean value checking for existence
-    */
-   public static boolean FunctionExists(String fname) {
-      Preferences pParent = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
-      boolean childExists = false;
-
-      // Verify that the user defined function exists
-      try {
-         for (String child : pParent.childrenNames()) {
-            if (child.equals(fname)) {
-               childExists = true;
-               break;
-            }
-         }
-      } catch (BackingStoreException e1) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from Java preferences");
-      }
-
-      return childExists;
    }
 
 }
