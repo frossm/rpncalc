@@ -29,7 +29,6 @@ package org.fross.rpncalc;
 import org.fross.library.Debug;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
-import org.jline.reader.History;
 
 import java.io.File;
 import java.io.FileWriter;

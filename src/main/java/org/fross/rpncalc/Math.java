@@ -325,7 +325,7 @@ public class Math {
     *
     * @param min Minimum value
     * @param max Maximum value
-    * @return
+    * @return random number in the provided range
     */
    public static long GetRandomNumberInRange(long min, long max) {
       SecureRandom secureRandom = new SecureRandom();

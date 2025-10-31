@@ -376,10 +376,9 @@ public class StackCommands {
    /**
     * cmdEcho(): Echo the provided message to the screen prior to the stack display
     *
-    * @param calcStack Primary tack
     * @param msg       Message to Display
     */
-   public static void cmdEcho(StackObj calcStack, String msg) {
+   public static void cmdEcho(String msg) {
       // Ensure we have a message to display
       if (msg.isEmpty()) {
          Output.printColorln(Ansi.Color.RED, "Error: The message to echo is empty");
@@ -814,11 +813,11 @@ public class StackCommands {
    /**
     * cmdRepeat(): Repeat the last command
     *
-    * @param calcStack
-    * @param arg
+    * @param calcStack Main calculator stack
+    * @param arg Method argument
     */
    public static void cmdRepeat(StackObj calcStack, String arg) {
-      int repetitions = 1;
+      int repetitions;
       String cmdInput = "", cmdInputCmd = "", cmdInputParam = "";
 
       // Ensure we have something in the history stack

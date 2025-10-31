@@ -205,7 +205,7 @@ public class CommandParser {
 
          // Echo
          case "echo":
-            StackCommands.cmdEcho(calcStack, cmdInputParam);
+            StackCommands.cmdEcho(cmdInputParam);
             break;
 
          // Repeat

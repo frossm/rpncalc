@@ -71,8 +71,8 @@ public class CommandHistory {
    /**
     * get(i): Return the history item at the provided point
     *
-    * @param i
-    * @return
+    * @param i Index
+    * @return String at index i
     */
    public static String get(int i) {
       try {
@@ -85,7 +85,7 @@ public class CommandHistory {
    /**
     * get(): Return the last command entered
     *
-    * @return
+    * @return last command entered
     */
    public static String get() {
       return cmdHistory.get(cmdHistory.size() - 1);
@@ -94,7 +94,7 @@ public class CommandHistory {
    /**
     * remove(i): Remove the specified command history item
     *
-    * @param i
+    * @param i index of item to remove
     */
    public static void remove(int i) {
       try {
@@ -108,7 +108,7 @@ public class CommandHistory {
    /**
     * size():  Return the size of the command history
     *
-    * @return
+    * @return the size of the command history stack
     */
    public static int size() {
       return cmdHistory.size();

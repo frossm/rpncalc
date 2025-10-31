@@ -37,7 +37,6 @@ import org.jline.reader.UserInterruptException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Stack;
 import java.util.prefs.Preferences;
 
 /**
