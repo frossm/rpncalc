@@ -1,295 +1,272 @@
+<!-- ============================================================================================== -->
+<!-- RPNCalc Maven Build Configuration                                                              -->
+<!--                                                                                                -->
+<!-- NOTE: This project uses parallel builds via .mvn/maven.config                                  -->
+<!-- The -T 1C flag enables 1 thread per CPU core for faster multi-module builds                    -->
+<!-- ============================================================================================== -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.fross</groupId>
-	<artifactId>rpncalc</artifactId>
-	<version>5.10.3</version>
-	<packaging>jar</packaging>
+    <groupId>org.fross</groupId>
+    <artifactId>rpncalc</artifactId>
+    <version>5.10.4</version>
+    <packaging>jar</packaging>
 
-	<name>rpncalc</name>
-	<description>RPNCalc is an easy-to-use console based RPN calculator</description>
-	<url>https://github.com/frossm/rpncalc</url>
+    <name>rpncalc</name>
+    <description>RPNCalc is the easy-to-use console based RPN calculator</description>
+    <url>https://github.com/frossm/rpncalc</url>
 
-	<developers>
-		<developer>
-			<name>Michael Fross</name>
-			<email>michael@fross.org</email>
-			<url>https://github.com/frossm</url>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>Michael Fross</name>
+            <email>michael@fross.org</email>
+            <url>https://github.com/frossm</url>
+        </developer>
+    </developers>
 
-	<organization>
-		<name>Westbury Softworks</name>
-		<url>fross.org</url>
-	</organization>
+    <organization>
+        <name>Westbury Softworks</name>
+        <url>fross.org</url>
+    </organization>
 
-	<inceptionYear>2011</inceptionYear>
+    <inceptionYear>2011</inceptionYear>
 
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>https://opensource.org/licenses/MIT</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.release>17</maven.compiler.release>
-		<maven.minimum.version>3.6.3</maven.minimum.version>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.minimum.version>3.6.3</maven.minimum.version>
+    </properties>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
-		<plugins>
-			<plugin>
-				<!-- ========================================================================================== -->
-				<!-- Enforce a minimum version of Maven to build                                                -->
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin          -->
-				<!-- ========================================================================================== -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.6.2</version>
-				<executions>
-					<execution>
-						<id>enforce-maven</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireMavenVersion>
-									<version>${maven.minimum.version}</version>
-								</requireMavenVersion>
-								<requireJavaVersion>
-									<version>${maven.compiler.release}</version>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+        <plugins>
+            <!-- ========================================================================================== -->
+            <!-- Enforce a minimum version of Maven to build                                                -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-enforcer-plugin          -->
+            <!-- ========================================================================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.6.2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${maven.minimum.version}</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${maven.compiler.release}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<!-- ========================================================================================== -->
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin         -->
-				<!-- ========================================================================================== -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.1</version>
-				<configuration>
-					<propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
-				</configuration>
-			</plugin>
+            <!-- ========================================================================================== -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin         -->
+            <!-- ========================================================================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<!-- ========================================================================================== -->
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin          -->
-				<!-- ========================================================================================== -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.1</version>
-				<configuration>
-					<release>${maven.compiler.release}</release>
-				</configuration>
-			</plugin>
+            <!-- ========================================================================================== -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin          -->
+            <!-- ========================================================================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.1</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
 
-			<!-- ========================================================================================== -->
-			<!-- Maven's Automated Testing Surefire plugin                                                  -->
-			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin          -->
-			<!-- ========================================================================================== -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.4</version>
-			</plugin>
+            <!-- ========================================================================================== -->
+            <!-- Maven's Automated Testing Surefire plugin                                                  -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin          -->
+            <!-- ========================================================================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.4</version>
+            </plugin>
 
-			<!-- ========================================================================================== -->
-			<!-- Build single executable "FatJar" with all dependencies included using Apache Shade         -->
-			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-shade-plugin             -->
-			<!-- ========================================================================================== -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.6.1</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<finalName>${project.name}</finalName>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
-							<filters>
-								<filter>
-									<artifact>*:*</artifact>
-									<excludes>
-										<exclude>org.junit.jupiter:junit-jupiter</exclude>
-										<exclude>META-INF/MANIFEST.MF</exclude>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-									</excludes>
-								</filter>
-							</filters>
-							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<manifestEntries>
-										<Main-Class>org.fross.${project.name}.Main</Main-Class>
-									</manifestEntries>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <!-- ========================================================================================== -->
+            <!-- Build single executable "FatJar" with all dependencies included using Apache Shade         -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-shade-plugin             -->
+            <!-- ========================================================================================== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>${project.name}</finalName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>org.junit.jupiter:junit-jupiter</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>org.fross.${project.name}.Main</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<!-- ========================================================================================== -->
-			<!-- Set a pom property to the version numbers of the defined dependencies                      -->
-			<!-- https://mvnrepository.com/artifact/io.reformanda.semper/dependencyversion-maven-plugin     -->
-			<!--                                                                                            -->
-			<!-- Reference: https://gitlab.com/josh-cain/dependencyversion-maven-plugin                     -->
-			<!-- Example: The library dependency version reference is: ${org.fross:library:jar.version}     -->
-			<!-- ==========================================================================================
-			<plugin>
-				<groupId>io.reformanda.semper</groupId>
-				<artifactId>dependencyversion-maven-plugin</artifactId>
-				<version>1.0.1</version>
-				<executions>
-					<execution>
-						<id>set-all</id>
-						<goals>
-							<goal>set-version</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
+            <!-- ============================================================================================== -->
+            <!-- Update snapcraft.yaml file to set the program and library versions                             -->
+            <!-- https://code.google.com/archive/p/maven-replacer-plugin/                                       -->
+            <!-- ============================================================================================== -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>snap/snapcraft.yaml</file>
+                    <replacements>
+                        <replacement>
+                            <token>version:.*</token>
+                            <value>version: '${project.version}'</value>
+                        </replacement>
+                     </replacements>
+                </configuration>
+            </plugin>
 
-			<!-- ============================================================================================== -->
-			<!-- Update snapcraft.yaml file to set the program and library versions                             -->
-			<!-- https://code.google.com/archive/p/maven-replacer-plugin/                                       -->
-			<!-- ============================================================================================== -->
-			<plugin>
-				<groupId>com.google.code.maven-replacer-plugin</groupId>
-				<artifactId>replacer</artifactId>
-				<version>1.5.3</version>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<file>snap/snapcraft.yaml</file>
-					<replacements>
-						<replacement>
-							<token>version:.*</token>
-							<value>version: '${project.version}'</value>
-						</replacement>
-						<!--  Library Version Update
-						<replacement>
-							<token>source-tag:.*</token>
-							<value>source-tag: 'v${org.fross:library:jar.version}'</value>
-						</replacement>
-						-->
-					</replacements>
-				</configuration>
-			</plugin>
+        </plugins>
+    </build>
 
-			<!-- ============================================================================================== -->
-			<!-- For Linux machines, chmod the final jar file to be executable by the OS                        -->
-			<!-- Install binfmt-support to support this in Linux. I like to directly be able to run jar files   -->
-			<!-- Comment out this plugin if you don't want this                                                 -->
-			<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin                         -->
-			<!-- ============================================================================================== -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.6.2</version>
-				<executions>
-					<execution>
-						<id>chmod</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>chmod</executable>
-							<arguments>
-								<argument>+x</argument>
-								<argument>${project.build.directory}/${project.name}.jar</argument>
-							</arguments>
-							<successCodes>
-								<successCode>0</successCode>
-								<successCode>1</successCode>
-							</successCodes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+    <!-- ============================================================================================== -->
+    <!-- Profile that only executes on Unix/Linux machines                                              -->
+    <!-- ============================================================================================== -->
+    <profiles>
+        <profile>
+            <id>linux-only</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                    <name>Linux</name>
+                </os>
+            </activation>
 
-		</plugins>
-	</build>
+            <build>
+                <plugins>
+                    <!-- ============================================================================================== -->
+                    <!-- For Linux machines, chmod the final jar file to be executable by the OS                        -->
+                    <!-- Install binfmt-support to support this in Linux. I like to directly be able to run jar files   -->
+                    <!-- Comment out this plugin if you don't want this                                                 -->
+                    <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin                         -->
+                    <!-- ============================================================================================== -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.6.2</version>
+                        <executions>
+                            <execution>
+                                <id>chmod</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>chmod</executable>
+                                    <arguments>
+                                        <argument>+x</argument>
+                                        <argument>${project.build.directory}/${project.name}.jar</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-	<!-- Define additional package repositories.  Maven is included by default -->
-	<repositories>
-		<!-- Define my custom GitHub repository where Library lives. Probably no longer needed.-->
-		<repository>
-			<id>github</id>
-			<name>GitHub frossm Library Package</name>
-			<url>https://maven.pkg.github.com/frossm/library</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-	</repositories>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.beust/jcommander -->
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>1.82</version>
+        </dependency>
 
-	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.beust/jcommander -->
-		<dependency>
-			<groupId>com.beust</groupId>
-			<artifactId>jcommander</artifactId>
-			<version>1.82</version>
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.0.1</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>6.0.0</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.jline/jline-reader -->
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>3.30.6</version>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.jline/jline-reader -->
-		<dependency>
-			<groupId>org.jline</groupId>
-			<artifactId>jline</artifactId>
-			<version>3.30.6</version>
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>2.4.2</version>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
-		<dependency>
-			<groupId>org.fusesource.jansi</groupId>
-			<artifactId>jansi</artifactId>
-			<version>2.4.2</version>
-		</dependency>
-
-	</dependencies>
+    </dependencies>
 
 </project>
