@@ -60,4 +60,8 @@ files, and it is fantastic.  If you need to do something like this, mdBook is wh
 And, lastly, probably the most important item in my personal RPN journey is my trusty HP 15C calculator.  I've had it since the late 1980's.  While I 
 don't use it much anymore, instead relying on RPNCalc, it's still an important item to me and always in my desk drawer.  Thanks 15C!
 
-<br><p align="center"> <img width="600" src ="../Images/HP15C.jpg">
+<br>
+
+<div>
+    <img style="width:600px;text-align:right" src="../Images/HP15C.jpg">
+</div>
