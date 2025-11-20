@@ -26,12 +26,12 @@ issues: https://github.com/frossm/rpncalc/issues
 icon: graphics/PostIt-512x512.png
 license: MIT
 
-architectures:
-  - build-on: amd64
-  - build-on: arm64
-  - build-on: armhf
-  - build-on: s390x
-  - build-on: ppc64el
+platforms:
+  amd64:
+  arm64:
+  #armhf:
+  #s390x:
+  #ppc64el:
 
 # Enable faster LZO compression
 compression: lzo
