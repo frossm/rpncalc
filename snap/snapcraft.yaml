@@ -29,9 +29,9 @@ license: MIT
 platforms:
   amd64:
   arm64:
-  #armhf:
-  #s390x:
-  #ppc64el:
+  armhf:
+  s390x:
+  ppc64el:
 
 # Enable faster LZO compression
 compression: lzo
