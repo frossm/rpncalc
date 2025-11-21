@@ -1,16 +1,16 @@
 name: rpncalc
-version: '5.10.7'
-summary: The command line Reverse Polish Notation (RPN) calculator
+version: '5.10.8'
+summary: The command-line Reverse Polish Notation (RPN) calculator
 description: |
-  RPNCalc is an easy to use command line based Reverse Polish
+  RPNCalc is the easy to use command-line based Reverse Polish
   Notation (RPN) calculator.
   
   RPN calculators make it very simple to do complex calculations, especially
-  if there are parentheses involved or order of operations is imporant. Take a look
-  at the user guide for more information on RPN Calculators.
+  if there are parentheses involved or order of operations is important. Take a look
+  at the user guide for more information on RPN Calculators and RPNCalc specifically.
   
-  For a quick summary of RPNCalc usage, run the program with the -h switch or head
-  over to the User Guide for detailed usage instructions.
+  For a quick summary of RPNCalc usage, run the program with the -h switch or enter `h` 
+  while in the program.
   
   Homepage: https://github.com/frossm/rpncalc
   RPNCalc user guide: https://frossm.github.io/RPNCalc-UserGuide

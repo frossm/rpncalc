@@ -20,4 +20,4 @@
 - [Snap Usage](./Chapters/Snap.md)
 - [Wrapup](./Chapters/Wrapup.md)
 - [Licenses](./Chapters/License.md)
-- [Acknowlegements](./Chapters/Acknowledgements.md)
+- [Acknowledgements](./Chapters/Acknowledgements.md)
