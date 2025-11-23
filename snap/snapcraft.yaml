@@ -26,9 +26,6 @@ description: |
   Homepage: https://github.com/frossm/rpncalc
   RPNCalc user guide: https://frossm.github.io/RPNCalc-UserGuide
 
-Homepage: https://github.com/frossm/rpncalc
-The full RPNCalc user guide: https://frossm.github.io/RPNCalc-UserGuide
-
 grade: stable
 confinement: strict
 base: core24
