@@ -1,29 +1,43 @@
 name: rpncalc
-version: '5.10.8'
+title: RPNCalc
+version: '5.10.9'
 summary: The command-line Reverse Polish Notation (RPN) calculator
 description: |
-  RPNCalc is the easy to use command-line based Reverse Polish
-  Notation (RPN) calculator.
-  
+  RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator. 
   RPN calculators make it very simple to do complex calculations, especially
-  if there are parentheses involved or order of operations is important. Take a look
-  at the user guide for more information on RPN Calculators and RPNCalc specifically.
+  if there are parentheses involved. In essence, you enter your numbers first,
+  and then the operator.
+  
+  So, to add 2 and 3 to get 5, you would first add the number 2 to the stack.
+  Then you would add 5 to the stack (pushing the 2 to the second position.)
+  Now, to add them you would enter + and RPNCalc would remove the 2 and 3 
+  from the stack, add them, and push 5 back onto the stack.
+  
+  There is a very large collection of functions that can be used.  Trig functions,
+  statistical functions, user defined functions, multiple stacks, constants, etc. 
   
   For a quick summary of RPNCalc usage, run the program with the -h switch or enter `h` 
-  while in the program.
+  within the program.
+  
+  Please take a look at the User guide for detailed information on what 
+  RPNCalc is and how to use it. Once you use an RPN calculator, 
+  it's hard to go back to a traditional one.
   
   Homepage: https://github.com/frossm/rpncalc
   RPNCalc user guide: https://frossm.github.io/RPNCalc-UserGuide
 
+Homepage: https://github.com/frossm/rpncalc
+The full RPNCalc user guide: https://frossm.github.io/RPNCalc-UserGuide
+
 grade: stable
 confinement: strict
 base: core24
+type: app
 
-title: RPNCalc
 website: https://github.com/frossm/rpncalc
 contact: rpncalc@fross.org
 issues: https://github.com/frossm/rpncalc/issues
-icon: graphics/PostIt-512x512.png
+icon: graphics/PostIt.svg
 license: MIT
 
 platforms:
@@ -33,7 +47,7 @@ platforms:
   s390x:
   ppc64el:
 
-# Enable faster LZO compression
+# Enable faster LZO decompression
 compression: lzo
 
 apps:
@@ -41,6 +55,7 @@ apps:
       command: rpncalc-wrapper
       plugs:
          - network
+         - home
 
 parts:
    wrapper:
@@ -54,6 +69,7 @@ parts:
       source-branch: master
       source-type: git
       maven-parameters:
+        # Having issues with the tests at SnapCraft. Skip this as they have all passed locally.
         - package -DskipTests
 
       build-packages:
@@ -63,8 +79,7 @@ parts:
       stage-packages:
          - openjdk-17-jre-headless
 
-
-      # Bypass a build issue where an absolute reference is made to a file outside of the snap filesystem 
+      # Bypass a build issue where an absolute reference is made to a file outside the snap filesystem
       # Ref: https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/23
       override-prime: |
          craftctl default
