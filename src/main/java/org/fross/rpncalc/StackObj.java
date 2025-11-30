@@ -250,10 +250,17 @@ public class StackObj implements Cloneable {
       Preferences prefs = Preferences.userRoot().node(PREFS_PATH + "/" + this.queryStackName() + "/" + slot);
       int numElements = prefs.getInt("StackElements", 0);
 
+      // Restore the stack items to the stack.  If there is an error, abort the stack restore & continue on
       Output.debugPrintln("Restoring Stack:");
+
       for (int i = 0; i < numElements; i++) {
-         this.push(prefs.getDouble("Stack" + i, 0.0));
-         Output.debugPrintln("  - Restoring #" + (numElements - i) + ":  " + this.get(i));
+         try {
+            this.push(prefs.getDouble("Stack" + i, 0.0));
+            Output.debugPrintln("  - Restoring #" + (numElements - i) + ":  " + this.get(i));
+         } catch (Exception ex) {
+            Output.printColor(Ansi.Color.RED, "ERROR: Error restoring stack.  Skipping...");
+            break;
+         }
       }
 
       // Set the stack number to be 1 on a newly restored stack
