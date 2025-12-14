@@ -287,6 +287,17 @@ public class CommandParser {
             StackConversions.cmdLb2Kg(calcStack);
             break;
 
+         // Convert Fahrenheit to Celsius
+         case "f2c":
+            StackConversions.cmdF2C(calcStack);
+            break;
+
+         // Convert Celsius to Fahrenheit
+         case "c2f":
+            StackConversions.cmdC2F(calcStack);
+            break;
+
+
          /*------------------------------------------------------------------------------
           * Stack Trigonometry Functions
           *-----------------------------------------------------------------------------*/

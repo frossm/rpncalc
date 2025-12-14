@@ -114,6 +114,8 @@ public class Help {
       Output.printColorln(Ansi.Color.WHITE, " oz2gram        Convert line1 from US ounces to grams");
       Output.printColorln(Ansi.Color.WHITE, " kg2lb          Convert line1 from kilograms to US pounds");
       Output.printColorln(Ansi.Color.WHITE, " lb2kg          Convert line1 from US pounds to kilograms");
+      Output.printColorln(Ansi.Color.WHITE, " f2c            Convert line1 from Fahrenheit to Celsius");
+      Output.printColorln(Ansi.Color.WHITE, " c2f            Convert line1 from Celsius to Fahrenheit");
 
       Output.printColorln(Ansi.Color.YELLOW, "\nTrigonometry Functions:");
       Output.printColorln(Ansi.Color.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle is in degrees unless rad is provided");

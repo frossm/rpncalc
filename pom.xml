@@ -11,7 +11,7 @@
 
     <groupId>org.fross</groupId>
     <artifactId>rpncalc</artifactId>
-    <version>5.10.11</version>
+    <version>5.11.01</version>
     <packaging>jar</packaging>
 
     <name>rpncalc</name>

@@ -353,4 +353,44 @@ public class StackConversions {
       // Make the conversion
       calcStack.push(calcStack.pop().multiply(new BigDecimal("0.45359237")));
    }
+
+   /**
+    * cmdF2C(): Convert Line1 from Fahrenheit to Celsius
+    *
+    * @param calcStack Primary Stack
+    */
+   public static void cmdF2C(StackObj calcStack) {
+      // Ensure we have something on the stack
+      if (calcStack.isEmpty()) {
+         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         return;
+      }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      BigDecimal f = calcStack.pop();
+      BigDecimal c = f.subtract(new BigDecimal("32")).multiply(new BigDecimal("0.55555555555555555555555555555556"));
+      calcStack.push(c);
+   }
+
+   /**
+    * cmdC2F(): Convert Line1 from Celsius to Fahrenheit
+    *
+    * @param calcStack Primary Stack
+    */
+   public static void cmdC2F(StackObj calcStack) {
+      // Ensure we have something on the stack
+      if (calcStack.isEmpty()) {
+         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         return;
+      }
+
+      // Save current calcStack to the undoStack
+      calcStack.saveUndo();
+
+      BigDecimal c = calcStack.pop();
+      BigDecimal f = c.multiply(new BigDecimal("1.8")).add(new BigDecimal("32"));
+      calcStack.push(f);
+   }
 }
