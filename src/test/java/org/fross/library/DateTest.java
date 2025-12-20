@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
  */
 class DateTest {
 
-	static final String[] monthsLong = { "", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "Novemember",
+	static final String[] monthsLong = { "", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
 			"December" };
 	static final String[] monthsShort = { "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	static java.util.Calendar jc = java.util.Calendar.getInstance();

@@ -40,10 +40,9 @@ public class Display {
     *
     * @param bd Bid Decimal number to comma-ize
     */
-   @SuppressWarnings("MalformedFormatString") // No idea what's wrong with the return statement
    public static String Comma(BigDecimal bd) {
-      // Output.debugPrintln("Comma: BigDecimal Scale: " + bd.scale());
-      return String.format("%,." + bd.scale() + "f", bd);
+      String formatString = String.format("%%,.%df", bd.scale());
+      return String.format(formatString, bd);
    }
 
    /**
@@ -54,11 +53,10 @@ public class Display {
     */
    public static int queryDecimalIndex(String str) {
       // Determine where the decimal point is located. If no decimal exists (-1) assume it's at the end
-      int di = str.indexOf(".");
-      if (di == -1) {
-         di = str.length();
-      }
-      return di;
+      if (!str.contains("."))
+         return str.length();
+      else
+         return str.indexOf(".");
    }
 
    /**

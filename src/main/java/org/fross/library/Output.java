@@ -64,7 +64,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColorln(Ansi.Color clr, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.println(ansi().a(Attribute.INTENSITY_BOLD).fg(clr).a(msg).reset());
 		} else {
 			println(msg);
@@ -79,7 +79,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColorln(Ansi.Color fclr, Ansi.Color bclr, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.println(ansi().a(Attribute.INTENSITY_BOLD).fg(fclr).bg(bclr).a(msg).reset());
 			Ansi.ansi().reset();
 		} else {
@@ -94,7 +94,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColorln(int colorIndexFG, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.println(ansi().fg(colorIndexFG).a(msg).reset());
 		} else {
 			println(msg);
@@ -111,7 +111,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColor(Ansi.Color fclr, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.print(ansi().a(Attribute.INTENSITY_BOLD).fg(fclr).a(msg).reset());
 		} else {
 			print(msg);
@@ -126,7 +126,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColor(Ansi.Color fclr, Ansi.Color bclr, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.print(ansi().a(Attribute.INTENSITY_BOLD).fg(fclr).bg(bclr).a(msg).reset());
 			Ansi.ansi().reset();
 		} else {
@@ -141,7 +141,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColor(int colorIndexFG, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.println(ansi().fg(colorIndexFG).a(msg).reset());
 		} else {
 			println(msg);
@@ -155,7 +155,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void printColor(int colorIndexFG, int colorIndexBG, String msg) {
-		if (colorizedOutput == true) {
+		if (colorizedOutput) {
 			System.out.println(ansi().fg(colorIndexFG).bg(colorIndexBG).a(msg).reset());
 		} else {
 			println(msg);
@@ -184,11 +184,11 @@ public class Output {
 	 * fatalError(): Print the provided string in RED and exit the program with the error code given
 	 * 
 	 * @param msg
-	 * @param errorcode
+	 * @param errorCode
 	 */
-	public static void fatalError(String msg, int errorcode) {
+	public static void fatalError(String msg, int errorCode) {
 		Output.printColorln(Ansi.Color.RED, "\nFATAL ERROR: " + msg);
-		System.exit(errorcode);
+		System.exit(errorCode);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void debugPrintln(String msg) {
-		if (Debug.query() == true) {
+		if (Debug.query()) {
 			Output.printColorln(Ansi.Color.RED, "DEBUG:  " + msg);
 		}
 	}
@@ -208,7 +208,7 @@ public class Output {
 	 * @param msg
 	 */
 	public static void debugPrint(String msg) {
-		if (Debug.query() == true) {
+		if (Debug.query()) {
 			Output.printColor(Ansi.Color.RED, "DEBUG:  " + msg);
 		}
 	}
@@ -218,7 +218,7 @@ public class Output {
 	 */
 	public static void clearScreen() {
 		// Can only clear the screen if ANSI sequences are being used
-		if (queryColorEnabled() == true) {
+		if (queryColorEnabled()) {
 			// Clear the screen
 			System.out.println(ansi().eraseScreen(Erase.ALL).reset());
 
