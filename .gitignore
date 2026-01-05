@@ -1,6 +1,8 @@
 mdbook/RPNCalc-UserGuide
 target/
 build/
+.gradle/
+.gradle-wrapper/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

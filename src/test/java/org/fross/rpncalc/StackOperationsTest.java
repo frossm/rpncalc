@@ -30,12 +30,14 @@ import org.fross.library.Debug;
 import org.fross.library.Output;
 import org.fusesource.jansi.Ansi;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
@@ -47,6 +49,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Michael Fross (michael@fross.org)
  */
 class StackOperationsTest {
+   // Set Temp Directory for import / export testing
+   @TempDir
+   static Path tempDir;
 
    /**
     * Testing turning debug on and off
@@ -179,8 +184,8 @@ class StackOperationsTest {
     */
    @Test
    void testExport() {
-      String testFileName = "target/rpncalc.export";
-      File testFile = new File(testFileName);
+      File testFile = tempDir.resolve("rpncalc.import").toFile();
+      String testFileName = testFile.getAbsolutePath();
       String[] testValues = {"-1.0123", "2.0234", "3.0345", "-15.0456", "-3.123e17", "2.123E8", "2.0567", "17.0678", "38.0789", "53.0891", "14.0123", "73.0234", "72.0345", "72.0456", "10.0567", "83.0678", "-60.0789", "76.0890", "59.090", "30.0234", "-42.0345", "89.0456", "4.56e19", "30.0567", "44.0678", "-31.0789"};
 
       // Build the StackObject
@@ -227,19 +232,6 @@ class StackOperationsTest {
          Output.printColorln(Ansi.Color.RED, "The data in '" + testFileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
       }
 
-      // Delete the test import file
-      try {
-         File file = new File(testFileName);
-
-         if (!file.delete()) {
-            throw new Exception("Unable to delete file");
-         }
-         assertFalse(testFile.exists());
-
-      } catch (Exception ex) {
-         Output.println("Testing Export: Issue deleting test file: ' " + testFileName + "'");
-      }
-
    }
 
    /**
@@ -247,7 +239,8 @@ class StackOperationsTest {
     */
    @Test
    void testImport() {
-      String testFileName = "target/rpncalc.import";
+      File testFile = tempDir.resolve("rpncalc.import").toFile();
+      String testFileName = testFile.getAbsolutePath();
       String[] testValues = {"-1.0123", "2.0234", "3.0345", "-15.0456", "-3.123e17", "2.123E8", "2.0567", "17.0678", "38.0789", "53.0891", "14.0123", "73.0234", "72.0345", "72.0456", "10.0567", "83.0678", "-60.0789", "76.0890", "59.090", "30.0234", "-42.0345", "89.0456", "4.56e19", "30.0567", "44.0678", "-31.0789"};
 
       // Create a test file
@@ -273,18 +266,6 @@ class StackOperationsTest {
       // Verify the import values match the file data
       for (int i = 0; i < testValues.length; i++) {
          assertEquals(0, new BigDecimal(testValues[i]).compareTo(stk.get(i)));
-      }
-
-      // Delete the test import file
-      try {
-         File file = new File(testFileName);
-         if (!file.delete()) {
-            throw new Exception("Unable to delete file");
-         }
-         assertFalse(file.exists());
-
-      } catch (Exception ex) {
-         Output.println("Testing Import: Issue deleting test file: ' " + testFileName + "'");
       }
 
    }
