@@ -28,7 +28,6 @@ package org.fross.rpncalc;
 
 import org.fross.library.Debug;
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -121,7 +120,7 @@ class StackOperationsTest {
       try {
          Preferences.userRoot().node(StackManagement.PREFS_PATH + "/junittest").removeNode();
       } catch (BackingStoreException e) {
-         Output.printColorln(Ansi.Color.RED, e.getMessage());
+         Output.printColorln(Output.RED, e.getMessage());
       }
 
       // Set the stack names
@@ -175,7 +174,7 @@ class StackOperationsTest {
       try {
          Preferences.userRoot().node(StackManagement.PREFS_PATH + "/junittest").removeNode();
       } catch (BackingStoreException e) {
-         Output.printColorln(Ansi.Color.RED, e.getMessage());
+         Output.printColorln(Output.RED, e.getMessage());
       }
    }
 
@@ -225,11 +224,11 @@ class StackOperationsTest {
             throw new IOException();
          }
       } catch (IOException ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from the file '" + testFileName + "'");
-         Output.printColorln(Ansi.Color.RED, "ERROR: Please note the file must be in lower case");
+         Output.printColorln(Output.RED, "ERROR: Could not read from the file '" + testFileName + "'");
+         Output.printColorln(Output.RED, "ERROR: Please note the file must be in lower case");
 
       } catch (NumberFormatException ex) {
-         Output.printColorln(Ansi.Color.RED, "The data in '" + testFileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
+         Output.printColorln(Output.RED, "The data in '" + testFileName + "' can't be read as it is not in the correct format.\nThe import file format is simply one number per line");
       }
 
    }
@@ -256,7 +255,7 @@ class StackOperationsTest {
          fw.close();
 
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  Could not create testfile used for import testing");
+         Output.printColorln(Output.RED, "ERROR:  Could not create testfile used for import testing");
          fail();
       }
 

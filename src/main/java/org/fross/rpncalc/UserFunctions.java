@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 import org.jline.reader.UserInterruptException;
 
 import java.io.File;
@@ -61,7 +60,7 @@ public class UserFunctions {
                try {
                   FunctionDelete(command[1]);
                } catch (ArrayIndexOutOfBoundsException ex) {
-                  Output.printColorln(Ansi.Color.RED, "ERROR: 'function del' requires a valid function name to delete");
+                  Output.printColorln(Output.RED, "ERROR: 'function del' requires a valid function name to delete");
                }
                break;
 
@@ -75,17 +74,17 @@ public class UserFunctions {
                      FunctionDelete(functionName);
                   }
                } catch (BackingStoreException e) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  Could not remove the user defined functions");
+                  Output.printColorln(Output.RED, "Error:  Could not remove the user defined functions");
                }
                break;
 
             case "export":
-               Output.printColorln(Ansi.Color.YELLOW, "Please enter the export filename. A blank name will cancel the export");
-               Output.printColorln(Ansi.Color.YELLOW, "Note, if needed, please use use '/' as the path separator");
+               Output.printColorln(Output.YELLOW, "Please enter the export filename. A blank name will cancel the export");
+               Output.printColorln(Output.YELLOW, "Note, if needed, please use use '/' as the path separator");
 
                // Read the user input. If ctrl-C is entered, discard the function
                try {
-                  fileNameStr = Main.scanner.readLine(Main.INPUT_PROMPT);
+                  fileNameStr = Main.lineReader.readLine(Main.INPUT_PROMPT);
 
                } catch (UserInterruptException ex) {
                   fileNameStr = "";
@@ -95,12 +94,12 @@ public class UserFunctions {
 
                // If no name is given, cancel export
                if (fileNameStr.isBlank()) {
-                  Output.printColorln(Ansi.Color.YELLOW, "Canceling export");
+                  Output.printColorln(Output.YELLOW, "Canceling export");
                   break;
                }
 
                // Output the full path/name of the output file
-               Output.printColorln(Ansi.Color.CYAN, "Export filename: '" + new File(fileNameStr).getAbsolutePath() + "'");
+               Output.printColorln(Output.CYAN, "Export filename: '" + new File(fileNameStr).getAbsolutePath() + "'");
 
                // Output preferences as an XML file
                try {
@@ -110,23 +109,23 @@ public class UserFunctions {
                   fos.close();
 
                } catch (IOException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  RPNCalc can't write to '" + fileNameStr + "'");
+                  Output.printColorln(Output.RED, "Error:  RPNCalc can't write to '" + fileNameStr + "'");
                } catch (BackingStoreException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  Could not export the user defined functions (BackingStoreException)");
+                  Output.printColorln(Output.RED, "Error:  Could not export the user defined functions (BackingStoreException)");
                } catch (IllegalStateException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  Could not export the user defined functions (IllegalStateException)");
+                  Output.printColorln(Output.RED, "Error:  Could not export the user defined functions (IllegalStateException)");
                } catch (Exception ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  Could not export the user defined functions (Exception)");
+                  Output.printColorln(Output.RED, "Error:  Could not export the user defined functions (Exception)");
                }
                break;
 
             case "import":
-               Output.printColorln(Ansi.Color.YELLOW, "Please enter the import filename. A blank name will cancel the import");
-               Output.printColorln(Ansi.Color.YELLOW, "Note, if needed, please use use '/' as the path separator");
+               Output.printColorln(Output.YELLOW, "Please enter the import filename. A blank name will cancel the import");
+               Output.printColorln(Output.YELLOW, "Note, if needed, please use use '/' as the path separator");
 
                // Read the user input. If ctrl-C is entered, discard the function
                try {
-                  fileNameStr = Main.scanner.readLine(Main.INPUT_PROMPT);
+                  fileNameStr = Main.lineReader.readLine(Main.INPUT_PROMPT);
 
                } catch (UserInterruptException ex) {
                   fileNameStr = "";
@@ -136,7 +135,7 @@ public class UserFunctions {
 
                // If no name is given, cancel export
                if (fileNameStr.isBlank()) {
-                  Output.printColorln(Ansi.Color.YELLOW, "Canceling import");
+                  Output.printColorln(Output.YELLOW, "Canceling import");
                   break;
                }
 
@@ -147,25 +146,25 @@ public class UserFunctions {
                   pImport.importPreferences(fis);
                   fis.close();
 
-                  Output.printColorln(Ansi.Color.CYAN, "Import complete");
+                  Output.printColorln(Output.CYAN, "Import complete");
 
                } catch (IOException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  RPNCalc can't read from '" + fileNameStr + "'");
+                  Output.printColorln(Output.RED, "Error:  RPNCalc can't read from '" + fileNameStr + "'");
                } catch (IllegalStateException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  Could not import the user defined functions (IllegalStateException)");
+                  Output.printColorln(Output.RED, "Error:  Could not import the user defined functions (IllegalStateException)");
                } catch (Exception ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error:  Could not import the user defined functions (Exception)");
+                  Output.printColorln(Output.RED, "Error:  Could not import the user defined functions (Exception)");
                }
                break;
 
             default:
-               Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for function command.  Please see help");
+               Output.printColorln(Output.RED, "ERROR: Illegal argument for function command.  Please see help");
                break;
          }
 
       } catch (StringIndexOutOfBoundsException ex) {
          // User did not enter a command
-         Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement for function command.  Please see help");
+         Output.printColorln(Output.RED, "ERROR: An argument is requirement for function command.  Please see help");
       }
    }
 
@@ -194,7 +193,7 @@ public class UserFunctions {
             if (!recordingEnabled) {
                recordingEnabled = true;
             } else {
-               Output.printColorln(Ansi.Color.CYAN, "Recording is already turned on");
+               Output.printColorln(Output.CYAN, "Recording is already turned on");
             }
 
          } else if (arguments[0].startsWith("off")) {
@@ -206,11 +205,11 @@ public class UserFunctions {
                   if (functionName.isBlank()) {
                      while (!functionNameValid) {
                         // Request a name for the user function
-                        Output.printColorln(Ansi.Color.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
+                        Output.printColorln(Output.YELLOW, "Please enter the name of this function. A blank name will cancel the recording");
 
                         // Read the user input. If ctrl-C is entered, discard the function
                         try {
-                           functionName = Main.scanner.readLine(Main.INPUT_PROMPT);
+                           functionName = Main.lineReader.readLine(Main.INPUT_PROMPT);
                         } catch (UserInterruptException ex) {
                            functionName = "";
                         } catch (Exception e) {
@@ -219,14 +218,14 @@ public class UserFunctions {
 
                         // If no name is given, cancel the recording information
                         if (functionName.isBlank()) {
-                           Output.printColorln(Ansi.Color.YELLOW, "Discarding the recording");
+                           Output.printColorln(Output.YELLOW, "Discarding the recording");
                            recording.clear();
                            return;
                         }
 
                         // Ensure there are no spaces in the name
                         if (functionName.contains(" ")) {
-                           Output.printColor(Ansi.Color.RED, "Error: Spaces in function names are not allowed\n");
+                           Output.printColor(Output.RED, "Error: Spaces in function names are not allowed\n");
                            functionName = "";
                         } else {
                            functionNameValid = true;
@@ -238,17 +237,17 @@ public class UserFunctions {
                   SaveRecordingToPrefs(functionName);
 
                } else {
-                  Output.printColorln(Ansi.Color.CYAN, "Recording off - No valid commands were recorded");
+                  Output.printColorln(Output.CYAN, "Recording off - No valid commands were recorded");
                }
             } else {
-               Output.printColorln(Ansi.Color.RED, "Recording is already turned off");
+               Output.printColorln(Output.RED, "Recording is already turned off");
             }
          } else {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
+            Output.printColorln(Output.RED, "ERROR: Illegal argument for record.  Must be 'on' or 'off'. Please see help");
          }
       } catch (StringIndexOutOfBoundsException ex) {
          // User did not enter a command
-         Output.printColorln(Ansi.Color.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
+         Output.printColorln(Output.RED, "ERROR: An argument is requirement (on | off) for the record command.  Please see help");
       }
 
    }
@@ -261,7 +260,7 @@ public class UserFunctions {
    public static void FunctionDelete(String fname) {
       // Verify user defined function exists
       if (!FunctionExists(fname)) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: '" + fname + "' is not a valid user defined function");
+         Output.printColorln(Output.RED, "ERROR: '" + fname + "' is not a valid user defined function");
          return;
       }
 
@@ -271,10 +270,10 @@ public class UserFunctions {
          pChild.removeNode();
 
       } catch (BackingStoreException e) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not remove the function named: " + fname);
+         Output.printColorln(Output.RED, "ERROR: Could not remove the function named: " + fname);
       }
 
-      Output.printColorln(Ansi.Color.CYAN, "User defined function deleted: '" + fname + "'");
+      Output.printColorln(Output.CYAN, "User defined function deleted: '" + fname + "'");
    }
 
    /**
@@ -296,7 +295,7 @@ public class UserFunctions {
             }
          }
       } catch (BackingStoreException e1) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not read from Java preferences");
+         Output.printColorln(Output.RED, "ERROR: Could not read from Java preferences");
       }
 
       return childExists;
@@ -307,7 +306,7 @@ public class UserFunctions {
     */
    public static void FunctionRun(StackObj calcStack, StackObj calcStack2, String functionName) {
       Preferences pChild = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS + "/" + functionName);
-      Output.printColorln(Ansi.Color.CYAN, "Executing User Defined Function: '" + functionName + "'");
+      Output.printColorln(Output.CYAN, "Executing User Defined Function: '" + functionName + "'");
 
       // Loop through the steps in the function and send them to be executed
       for (int i = 0; i < Integer.parseInt(pChild.get("FunctionSteps", "Error")); i++) {
@@ -327,7 +326,7 @@ public class UserFunctions {
             }
 
          } catch (Exception e) {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + fullCommand + "' into command and arguments");
+            Output.printColorln(Output.RED, "ERROR: Problem parsing the command: '" + fullCommand + "' into command and arguments");
          }
 
          Output.debugPrintln("Step " + i + ":  " + pChild.get("Step" + i, "Error"));
@@ -379,7 +378,7 @@ public class UserFunctions {
             recording.remove(index);
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Can't remove recorded item from index at position: " + index);
+         Output.printColorln(Output.RED, "ERROR: Can't remove recorded item from index at position: " + index);
       }
    }
 
@@ -404,7 +403,7 @@ public class UserFunctions {
       try {
          p.clear();
       } catch (BackingStoreException e) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear '" + functionName + "' prior to savings");
+         Output.printColorln(Output.RED, "ERROR: Could not clear '" + functionName + "' prior to savings");
       }
 
       // Save the recording into the preference

@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 
@@ -77,22 +76,22 @@ public class Display {
       if (UserFunctions.recordingIsEnabled()) numDashes -= 12;
 
       // Print the StatusLine dashes
-      Output.printColor(Ansi.Color.CYAN, "+");
-      Output.printColor(Ansi.Color.CYAN, "-".repeat(numDashes));
+      Output.printColor(Output.CYAN, "+");
+      Output.printColor(Output.CYAN, "-".repeat(numDashes));
 
       // Print the StatusLine Data in chunks to be able to better control color output
       if (UserFunctions.recordingIsEnabled()) {
-         Output.printColor(Ansi.Color.CYAN, "[");
-         Output.printColor(Ansi.Color.RED, "Recording");
-         Output.printColor(Ansi.Color.CYAN, "]-");
+         Output.printColor(Output.CYAN, "[");
+         Output.printColor(Output.RED, "Recording");
+         Output.printColor(Output.CYAN, "]-");
       }
-      Output.printColor(Ansi.Color.CYAN, "[");
-      Output.printColor(Ansi.Color.WHITE, sfMem);
-      Output.printColor(Ansi.Color.CYAN, "]-[");
-      Output.printColor(Ansi.Color.WHITE, sfUndo);
-      Output.printColor(Ansi.Color.CYAN, "]-[");
-      Output.printColor(Ansi.Color.WHITE, calcStack.queryStackName() + ":" + StackManagement.QueryCurrentStackNum());
-      Output.printColor(Ansi.Color.CYAN, "]-");
-      Output.printColorln(Ansi.Color.CYAN, "+");
+      Output.printColor(Output.CYAN, "[");
+      Output.printColor(Output.WHITE, sfMem);
+      Output.printColor(Output.CYAN, "]-[");
+      Output.printColor(Output.WHITE, sfUndo);
+      Output.printColor(Output.CYAN, "]-[");
+      Output.printColor(Output.WHITE, calcStack.queryStackName() + ":" + StackManagement.QueryCurrentStackNum());
+      Output.printColor(Output.CYAN, "]-");
+      Output.printColorln(Output.CYAN, "+");
    }
 }

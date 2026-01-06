@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -45,7 +44,7 @@ public class StackConversions {
    public static void cmdFromPercent(StackObj calcStack) {
       // Ensure we have enough numbers on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
          return;
       }
 
@@ -63,7 +62,7 @@ public class StackConversions {
    public static void cmdToPercent(StackObj calcStack) {
       // Ensure we have enough numbers on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
          return;
       }
 
@@ -80,7 +79,7 @@ public class StackConversions {
    public static void cmdIn2Mm(StackObj calcStack) {
       // Verify at least one element exists
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
       }
 
@@ -97,7 +96,7 @@ public class StackConversions {
    public static void cmdMm2In(StackObj calcStack) {
       // Verify at least one element exists
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
       }
 
@@ -114,7 +113,7 @@ public class StackConversions {
    public static void cmdIn2Ft(StackObj calcStack) {
       // Verify at least one element exists
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
       }
 
@@ -131,7 +130,7 @@ public class StackConversions {
    public static void cmdFt2In(StackObj calcStack) {
       // Verify at least one element exists
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 element on the stack to convert");
+         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
          return;
       }
 
@@ -156,7 +155,7 @@ public class StackConversions {
 
       // Verify we have an item on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  There must be at least one item on the stack");
          return outputString;
       }
 
@@ -176,7 +175,7 @@ public class StackConversions {
       try {
          if (!param.isEmpty()) denominator = new BigInteger(param);
       } catch (NumberFormatException ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: '" + param + "' is not a valid denominator");
+         Output.printColorln(Output.RED, "ERROR: '" + param + "' is not a valid denominator");
          return outputString;
       }
 
@@ -188,7 +187,7 @@ public class StackConversions {
          roundedNumber = startingNumber.multiply(new BigDecimal(denominator)).add(new BigDecimal("0.5")).setScale(0, RoundingMode.FLOOR);
          roundedNumber = roundedNumber.divide(new BigDecimal(denominator), MathContext.DECIMAL128);
       } catch (ArithmeticException ex) {
-         Output.printColorln(Ansi.Color.RED, "Error calculating the rounded fraction\n" + ex.getMessage());
+         Output.printColorln(Output.RED, "Error calculating the rounded fraction\n" + ex.getMessage());
       }
 
       // Determine the integer portion of the number
@@ -243,7 +242,7 @@ public class StackConversions {
    public static void cmdRad2Deg(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -262,7 +261,7 @@ public class StackConversions {
    public static void cmdDeg2Rad(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -283,7 +282,7 @@ public class StackConversions {
    public static void cmdGram2Oz(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -303,7 +302,7 @@ public class StackConversions {
    public static void cmdOz2Gram(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -323,7 +322,7 @@ public class StackConversions {
    public static void cmdKg2Lb(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -343,7 +342,7 @@ public class StackConversions {
    public static void cmdLb2Kg(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -362,7 +361,7 @@ public class StackConversions {
    public static void cmdF2C(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 
@@ -382,7 +381,7 @@ public class StackConversions {
    public static void cmdC2F(StackObj calcStack) {
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There are no items on the stack.");
+         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
          return;
       }
 

@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -44,7 +43,7 @@ public class StackCommands {
    public static void cmdAddAll(StackObj calcStack, String arg) {
       // Ensure we have enough numbers on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least two items on the stack");
+         Output.printColorln(Output.RED, "ERROR:  This operation requires at least two items on the stack");
          return;
       }
 
@@ -89,7 +88,7 @@ public class StackCommands {
    public static void cmdAbsoluteValue(StackObj calcStack) {
       // Ensure we have enough numbers on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
          return;
       }
 
@@ -112,7 +111,7 @@ public class StackCommands {
    public static void cmdAverage(StackObj calcStack, String arg) {
       // Ensure we have enough numbers on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  Average requires at least two items on the stack");
+         Output.printColorln(Output.RED, "ERROR:  Average requires at least two items on the stack");
          return;
       }
 
@@ -144,7 +143,6 @@ public class StackCommands {
     * cmdClean(): Clean the screen by clearing it and then showing existing stack
     */
    public static void cmdClean() {
-      // Rather than printing several hundred new lines, use the jAnsi clear screen
       Output.clearScreen();
    }
 
@@ -160,7 +158,7 @@ public class StackCommands {
       // Empty the stack
       calcStack.clear();
 
-      // Use jAnsi to clear the screen
+      // Clear the actual screen
       Output.clearScreen();
    }
 
@@ -176,7 +174,7 @@ public class StackCommands {
 
       // Ensure we have at least one number to copy
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: The stack must contain at least one number to copy");
+         Output.printColorln(Output.RED, "Error: The stack must contain at least one number to copy");
          return;
       }
 
@@ -185,7 +183,7 @@ public class StackCommands {
 
       // Determine if the provided argument is not a number
       if (!Math.isNumeric(arg)) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid line number");
+         Output.printColorln(Output.RED, "ERROR:  '" + arg + "' is not a valid line number");
          return;
       }
 
@@ -199,7 +197,7 @@ public class StackCommands {
             lineNumToCopy = 1 + lineNumToCopy;
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' is not a valid relative value");
+         Output.printColorln(Output.RED, "ERROR:  '" + arg + "' is not a valid relative value");
       }
 
       // Save current calcStack to the undoStack
@@ -211,13 +209,13 @@ public class StackCommands {
       try {
          // Ensure the number entered is valid
          if (lineNumToCopy > calcStack.size()) {
-            Output.printColorln(Ansi.Color.RED, "Invalid line number entered");
+            Output.printColorln(Output.RED, "Invalid line number entered");
          } else {
             // Perform the copy
             calcStack.push(calcStack.get(calcStack.size() - lineNumToCopy));
          }
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing line number for copy: '" + lineNumToCopy + "'");
+         Output.printColorln(Output.RED, "Error parsing line number for copy: '" + lineNumToCopy + "'");
          Output.debugPrintln(e.getMessage());
       }
    }
@@ -234,7 +232,7 @@ public class StackCommands {
 
       // Ensure we have at least one item on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "There must be at least one item on the stack to delete");
+         Output.printColorln(Output.RED, "There must be at least one item on the stack to delete");
          return;
       }
 
@@ -261,14 +259,14 @@ public class StackCommands {
                startLine = Integer.parseInt(arg.split("-")[0]);
                endLine = Integer.parseInt(arg.split("-")[1]);
             } catch (Exception e) {
-               Output.printColorln(Ansi.Color.RED, "Invalid range provided: '" + arg + "'");
+               Output.printColorln(Output.RED, "Invalid range provided: '" + arg + "'");
                return;
             }
          }
 
          // An invalid or no argument was provided
          if (!arg.isBlank() && startLine == 0) {
-            Output.printColorln(Ansi.Color.RED, "Invalid line number provided: '" + arg + "'");
+            Output.printColorln(Output.RED, "Invalid line number provided: '" + arg + "'");
             return;
 
             // No argument was provided - delete the item on the top of the stack
@@ -290,7 +288,7 @@ public class StackCommands {
       try {
          // Ensure the number entered is valid
          if (startLine < 1 || endLine > calcStack.size()) {
-            Output.printColorln(Ansi.Color.RED, "Deletion range must be between 1 and " + calcStack.size());
+            Output.printColorln(Output.RED, "Deletion range must be between 1 and " + calcStack.size());
 
          } else {
             int counter = 0;   // Account for a shrinking calcStack.size() as items are removed
@@ -306,7 +304,7 @@ public class StackCommands {
          }
 
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing line number for element delete: '" + arg + "'");
+         Output.printColorln(Output.RED, "Error parsing line number for element delete: '" + arg + "'");
          Output.debugPrintln(e.getMessage());
       }
    }
@@ -328,7 +326,7 @@ public class StackCommands {
             die = Long.parseLong(param.trim().split("[Dd]")[1]);
          }
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing dice parameter('" + param + "').  Format: 'dice xdy' where x=rolls, y=sides");
+         Output.printColorln(Output.RED, "Error parsing dice parameter('" + param + "').  Format: 'dice xdy' where x=rolls, y=sides");
          return;
       }
 
@@ -337,10 +335,10 @@ public class StackCommands {
 
       // Verify that the entered numbers are valid
       if (die <= 0) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: die must have greater than zero sides");
+         Output.printColorln(Output.RED, "ERROR: die must have greater than zero sides");
          return;
       } else if (rolls < 1) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: You have to specify at least 1 roll");
+         Output.printColorln(Output.RED, "ERROR: You have to specify at least 1 roll");
          return;
       }
 
@@ -362,7 +360,7 @@ public class StackCommands {
    public static void cmdDown(StackObj calcStack) {
       // Ensure we have at least 2 values on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack");
+         Output.printColorln(Output.RED, "Error: There must be at least two items on the stack");
          return;
       }
 
@@ -381,7 +379,7 @@ public class StackCommands {
    public static void cmdEcho(String msg) {
       // Ensure we have a message to display
       if (msg.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: The message to echo is empty");
+         Output.printColorln(Output.RED, "Error: The message to echo is empty");
          return;
       }
 
@@ -392,7 +390,7 @@ public class StackCommands {
          msg = msg.replace("#CR#", "\n");
       }
 
-      Output.printColorln(Ansi.Color.CYAN, msg);
+      Output.printColorln(Output.CYAN, msg);
    }
 
    /**
@@ -403,13 +401,13 @@ public class StackCommands {
    public static void cmdFactorial(StackObj calcStack) {
       // Ensure we have an item on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least one item on the stack to perform a factorial");
+         Output.printColorln(Output.RED, "Error: There must be at least one item on the stack to perform a factorial");
          return;
       }
 
       // Ensure the provided number is not zero or negative
       if (calcStack.peek().compareTo(BigDecimal.ZERO) < 1) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Factorial requires a number greater than zero");
+         Output.printColorln(Output.RED, "ERROR: Factorial requires a number greater than zero");
          return;
       }
 
@@ -419,7 +417,7 @@ public class StackCommands {
       // Warn user the decimal has been dropped
       // TODO: Should make this more international at some point
       if (calcStack.peek().toPlainString().contains(".")) {
-         Output.printColorln(Ansi.Color.CYAN, "Warning: The decimal portion of '" + calcStack.peek().toString() + "' has been dropped for the calculation");
+         Output.printColorln(Output.CYAN, "Warning: The decimal portion of '" + calcStack.peek().toString() + "' has been dropped for the calculation");
       }
 
       BigDecimal result = Math.Factorial(calcStack.pop());
@@ -433,7 +431,7 @@ public class StackCommands {
     */
    public static void cmdFlipSign(StackObj calcStack) {
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least one item on the stack to flip it's sign");
+         Output.printColorln(Output.RED, "Error: There must be at least one item on the stack to flip it's sign");
 
       } else {
          // Save current calcStack to the undoStack
@@ -459,7 +457,7 @@ public class StackCommands {
          calcStack.push(new BigDecimal(calcStack.pop().toBigInteger()).toEngineeringString());
 
       } else {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR: Must be at least one item on the stack");
       }
    }
 
@@ -483,7 +481,7 @@ public class StackCommands {
 
       // Ensure we have at least 2 values on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack to calculate a linear regression");
+         Output.printColorln(Output.RED, "Error: There must be at least two items on the stack to calculate a linear regression");
          return;
       }
 
@@ -505,7 +503,7 @@ public class StackCommands {
          }
 
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Acceptable linear regression options are 'add' or a number for 'x'");
+         Output.printColorln(Output.RED, "ERROR: Acceptable linear regression options are 'add' or a number for 'x'");
          return;
       }
 
@@ -569,9 +567,9 @@ public class StackCommands {
       BigDecimal nextValueRounded = nextValue.setScale(4, RoundingMode.HALF_UP);
 
       // Display the LR formula
-      Output.printColorln(Ansi.Color.CYAN, "Slope Equation: y = " + bRounded + "x + " + aRounded);
-      Output.printColorln(Ansi.Color.CYAN, "Slope: " + bRounded + "   Y-Intercept: " + aRounded);
-      Output.printColorln(Ansi.Color.CYAN, "Predicted value at x = " + argX.add(BigDecimal.ONE) + ": " + nextValueRounded);
+      Output.printColorln(Output.CYAN, "Slope Equation: y = " + bRounded + "x + " + aRounded);
+      Output.printColorln(Output.CYAN, "Slope: " + bRounded + "   Y-Intercept: " + aRounded);
+      Output.printColorln(Output.CYAN, "Predicted value at x = " + argX.add(BigDecimal.ONE) + ": " + nextValueRounded);
 
       // Add the next predicted value to the stack if 'add' was selected
       if (argAdd) {
@@ -597,7 +595,7 @@ public class StackCommands {
          calcStack.push(java.lang.Math.log(calcStack.pop().doubleValue()));
 
       } else {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR: Must be at least one item on the stack");
       }
    }
 
@@ -615,7 +613,7 @@ public class StackCommands {
          calcStack.push(java.lang.Math.log10(calcStack.pop().doubleValue()));
 
       } else {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR: Must be at least one item on the stack");
       }
    }
 
@@ -630,7 +628,7 @@ public class StackCommands {
 
       // Ensure we have enough numbers on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
          return false;
       }
 
@@ -645,7 +643,7 @@ public class StackCommands {
       // Add the lowest value to the stack
       calcStack.push(largestValue);
 
-      Output.printColorln(Ansi.Color.CYAN, "Maximum value added to stack: " + calcStack.peek());
+      Output.printColorln(Output.CYAN, "Maximum value added to stack: " + calcStack.peek());
 
       return true;
    }
@@ -659,7 +657,7 @@ public class StackCommands {
    public static void cmdMedian(StackObj calcStack, String arg) {
       // Ensure we have enough numbers on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  Median requires at least two items on the stack");
+         Output.printColorln(Output.RED, "ERROR:  Median requires at least two items on the stack");
          return;
       }
 
@@ -699,7 +697,7 @@ public class StackCommands {
 
       // Ensure we have enough numbers on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  This operation requires at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
          return false;
       }
 
@@ -714,7 +712,7 @@ public class StackCommands {
       // Add the lowest value to the stack
       calcStack.push(lowestValue);
 
-      Output.printColorln(Ansi.Color.CYAN, "Minimum value added to stack: " + calcStack.peek());
+      Output.printColorln(Output.CYAN, "Minimum value added to stack: " + calcStack.peek());
 
       return true;
    }
@@ -727,7 +725,7 @@ public class StackCommands {
    public static void cmdModulus(StackObj calcStack) {
       // Ensure we have at least 2 items on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least two items on the stack");
+         Output.printColorln(Output.RED, "ERROR:  There must be at least two items on the stack");
          return;
       }
 
@@ -762,7 +760,7 @@ public class StackCommands {
       if (calcStack.size() >= 2) {
          Math.Parse(op, calcStack);
       } else {
-         Output.printColorln(Ansi.Color.RED, "Two numbers are required for this operation");
+         Output.printColorln(Output.RED, "Two numbers are required for this operation");
       }
 
    }
@@ -786,8 +784,8 @@ public class StackCommands {
             high = Long.parseLong(param.trim().split("\\s")[1]);
          }
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
-         Output.printColorln(Ansi.Color.RED, "See usage information in the help page");
+         Output.printColorln(Output.RED, "Error parsing low and high parameters.  Low: '" + low + "' High: '" + high + "'");
+         Output.printColorln(Output.RED, "See usage information in the help page");
          return;
       }
 
@@ -796,7 +794,7 @@ public class StackCommands {
 
       // Verify that the low number <= the high number
       if (low > high) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: the first number much be less than or equal to the high number");
+         Output.printColorln(Output.RED, "ERROR: the first number much be less than or equal to the high number");
          return;
       }
 
@@ -822,7 +820,7 @@ public class StackCommands {
 
       // Ensure we have something in the history stack
       if (CommandHistory.size() < 1) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: No previous command to repeat");
+         Output.printColorln(Output.RED, "ERROR: No previous command to repeat");
          return;
       }
 
@@ -835,7 +833,7 @@ public class StackCommands {
          if (arg.isEmpty()) {
             repetitions = 1;
          } else {
-            Output.printColorln(Ansi.Color.RED, "Invalid repetition number provided: '" + arg + "'");
+            Output.printColorln(Output.RED, "Invalid repetition number provided: '" + arg + "'");
             return;
          }
       }
@@ -848,7 +846,7 @@ public class StackCommands {
       } catch (ArrayIndexOutOfBoundsException e) {
          // TODO: Ignore this error as it will trigger if just a command is entered with no parameter. There must be a better way...
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "Unable to parse previous command: '" + CommandHistory.get() + "'");
+         Output.printColorln(Output.RED, "Unable to parse previous command: '" + CommandHistory.get() + "'");
          return;
       }
 
@@ -876,7 +874,7 @@ public class StackCommands {
 
       // Ensure we have something on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  There must be at least one item on the stack");
          return;
       }
 
@@ -885,7 +883,7 @@ public class StackCommands {
          decimalPlaces = Integer.parseInt(arg);
          // Ensure a negative number is not provided for decimal points to round
          if (decimalPlaces < 0) {
-            Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' number of decimal places must be >= 0");
+            Output.printColorln(Output.RED, "ERROR:  '" + arg + "' number of decimal places must be >= 0");
             return;
          }
 
@@ -894,7 +892,7 @@ public class StackCommands {
             decimalPlaces = 0;
          } else {
             // Error out for any non-valid characters
-            Output.printColorln(Ansi.Color.RED, "ERROR:  '" + arg + "' not a valid number of decimal places");
+            Output.printColorln(Output.RED, "ERROR:  '" + arg + "' not a valid number of decimal places");
             return;
          }
       }
@@ -918,7 +916,7 @@ public class StackCommands {
    public static void cmdSort(StackObj calcStack, String param) {
       // Ensure we have enough numbers on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  Sort requires at least two items on the stack");
+         Output.printColorln(Output.RED, "ERROR:  Sort requires at least two items on the stack");
          return;
       }
 
@@ -935,7 +933,7 @@ public class StackCommands {
             throw new IllegalArgumentException();
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Sort requires an (a)scending or (d)escending argument");
+         Output.printColorln(Output.RED, "ERROR: Sort requires an (a)scending or (d)escending argument");
       }
 
    }
@@ -953,7 +951,7 @@ public class StackCommands {
 
       // Verify at least two elements exist
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least 2 elements on the stack to swap");
+         Output.printColorln(Output.RED, "Error: There must be at least 2 elements on the stack to swap");
          return;
       }
 
@@ -965,16 +963,16 @@ public class StackCommands {
          }
 
       } catch (NumberFormatException e) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing line number for stack swap: '" + item1 + "' and '" + item2 + "'");
+         Output.printColorln(Output.RED, "Error parsing line number for stack swap: '" + item1 + "' and '" + item2 + "'");
          return;
 
       } catch (Exception e) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:\n" + e.getMessage());
+         Output.printColorln(Output.RED, "ERROR:\n" + e.getMessage());
       }
 
       // Make sure the numbers are valid
       if (item1 < 1 || item1 > calcStack.size() || item2 < 1 || item2 > calcStack.size()) {
-         Output.printColorln(Ansi.Color.RED, "Invalid element entered.  Must be between 1 and " + calcStack.size());
+         Output.printColorln(Output.RED, "Invalid element entered.  Must be between 1 and " + calcStack.size());
 
       } else {
          // Save current calcStack to the undoStack
@@ -994,13 +992,13 @@ public class StackCommands {
    public static void cmdSqrt(StackObj calcStack) {
       // Verify we have an item on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR:  There must be at least one item on the stack");
          return;
       }
 
       // If the number to take the square root of is negative, return an error
       if (calcStack.peek().compareTo(BigDecimal.ZERO) < 0) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  You can not take the square root of a negative number");
+         Output.printColorln(Output.RED, "ERROR:  You can not take the square root of a negative number");
          return;
       }
 
@@ -1022,7 +1020,7 @@ public class StackCommands {
    public static void cmdStdDeviation(StackObj calcStack, String arg) {
       // Ensure we have enough numbers on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  Standard Deviation requires at least two items on the stack");
+         Output.printColorln(Output.RED, "ERROR:  Standard Deviation requires at least two items on the stack");
          return;
       }
 
@@ -1088,7 +1086,7 @@ public class StackCommands {
 
          // Ensure number provided as > 0 and less than the size of the undo stack
          if (lineNum <= 0 || lineNum > calcStack.undoSize()) {
-            Output.printColorln(Ansi.Color.RED, "An invalid undo line number entered: '" + arg + "'");
+            Output.printColorln(Output.RED, "An invalid undo line number entered: '" + arg + "'");
             return;
          }
       } catch (NumberFormatException ex) {
@@ -1096,7 +1094,7 @@ public class StackCommands {
             // No number was provided, use the top stack item
             lineNum = calcStack.undoSize();
          } else {
-            Output.printColorln(Ansi.Color.RED, "An invalid undo line number entered: '" + arg + "'");
+            Output.printColorln(Output.RED, "An invalid undo line number entered: '" + arg + "'");
             return;
          }
       }
@@ -1115,7 +1113,7 @@ public class StackCommands {
          }
 
       } else {
-         Output.printColorln(Ansi.Color.RED, "Error: Already at oldest change");
+         Output.printColorln(Output.RED, "Error: Already at oldest change");
       }
    }
 
@@ -1128,7 +1126,7 @@ public class StackCommands {
    public static void cmdUp(StackObj calcStack) {
       // Ensure we have at least 2 values on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "Error: There must be at least two items on the stack");
+         Output.printColorln(Output.RED, "Error: There must be at least two items on the stack");
          return;
       }
 

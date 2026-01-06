@@ -1,72 +1,96 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
    java
    application
-   id("com.github.ben-manes.versions") version "0.53.0"  // Check for dependency updates
+   id("com.github.ben-manes.versions") version "0.53.0"
+   id("com.gradleup.shadow") version "9.3.0"
 }
 
 group = "org.fross"
+val javaVersion = 21
 
-repositories {
-   mavenCentral()
-}
-
-dependencies {
-   // https://mvnrepository.com/artifact/com.beust/jcommander
-   implementation("com.beust:jcommander:1.82")
-
-   // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
-   implementation("org.fusesource.jansi:jansi:2.4.2")
-
-   // https://mvnrepository.com/artifact/org.jline/jline-reader
-   implementation("org.jline:jline:3.30.6")
-
-   // https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi
-   implementation("org.jline:jline-terminal-jansi:3.30.6")
-
-   // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
-   implementation("org.apache.commons:commons-math3:3.6.1")
-
-   // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0-M1")
-
-   // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
-   testImplementation("org.junit.jupiter:junit-jupiter-engine:6.1.0-M1")
-
-   // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
-   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
 
 application {
    mainClass.set("org.fross.rpncalc.Main")
 }
 
 
-// Custom task to build the Fat Jar (Uber Jar)
-tasks.register<Jar>("fatJar") {
-   group = "build"
-   description = "Assembles a fat jar containing all dependencies."
-
-   dependsOn(tasks.test)
-
-   archiveFileName.set("${project.name}.jar")
-
-   manifest {
-      attributes(
-         "Main-Class" to application.mainClass.get(),
-         "Implementation-Title" to project.name,
-         "Implementation-Version" to project.version
-      )
-   }
-
-   // Standard fat jar logic: include your code and all libraries
-   from(sourceSets.main.get().output)
-   from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-
-   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+// Tell Gradle to output java 21 compatible bytecode
+tasks.withType<JavaCompile> {
+   options.release.set(javaVersion)
+}
+tasks.withType<Test> {
+   // Ensure tests also run in a compatible mode
+   useJUnitPlatform()
 }
 
 
-// test:  Run the JUnit5 tests
+repositories {
+   mavenCentral()
+}
+
+
+dependencies {
+   implementation("com.beust:jcommander:1.82")
+   implementation("org.apache.commons:commons-math3:3.6.1")
+
+   // --- JLine Terminal Access ---
+   implementation("org.jline:jline-reader:3.30.6")
+   implementation("org.jline:jline-terminal:3.30.6")
+   implementation("org.jline:jline-native:3.30.6")          // Native support for Linux/Mac/Win
+   implementation("org.jline:jline-terminal-ffm:3.30.6")
+
+   // --- JUnit5 Testing ---
+   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0-M1")
+   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.0-M1")
+   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.0-M1")
+}
+
+
+// Let Gradle know that to not try and cached the Versions plugin and prevent warnings
+// Hopefully this won't be needed with future versions of the plugin
+tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates") {
+   notCompatibleWithConfigurationCache("The versions plugin is not yet compatible with the configuration cache.")
+}
+
+
+// Update the Java resources with project version and inception date
+tasks.processResources {
+   val tokens = mapOf(
+      "project.version" to project.version.toString(),
+      "project.inceptionYear" to (project.findProperty("inceptionYear")?.toString() ?: "2011")
+   )
+
+   inputs.properties(tokens)
+   filesMatching("**/app.properties") {
+      filter(org.apache.tools.ant.filters.ReplaceTokens::class, "tokens" to tokens)
+   }
+}
+
+
+// Configure the ShadowJar task
+tasks.named<ShadowJar>("shadowJar") {
+   group = "build"
+   description = "Creates a 'Fat Jar' file containing all dependencies"
+   dependsOn("test")
+   dependsOn("updateSnapVersion")
+   archiveFileName.set("${project.name}.jar")
+
+   // Merge ServiceLoader files so JLine can find its Terminal providers
+   mergeServiceFiles()
+
+   minimize {
+      // Don't let the "minifier" remove JLine classes used via reflection
+      exclude(dependency("org.jline:.*:.*"))
+   }
+
+   // Standard excludes to keep the JAR clean
+   exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+   exclude("META-INF/LICENSE*", "META-INF/NOTICE*", "META-INF/maven/**")
+}
+
+// Execute JUnit Tests
 tasks.test {
    useJUnitPlatform()
 
@@ -79,33 +103,16 @@ tasks.test {
 }
 
 
-// Update the app.properties variables with the values specified in the gradle.properties file
-tasks.processResources {
-   // Gradle automatically finds "version" and "inceptionYear" from gradle.properties
-   val tokens = mapOf(
-      "project.version" to project.version.toString(),
-      "project.inceptionYear" to project.property("inceptionYear").toString()
-   )
-
-   inputs.properties(tokens)
-
-   filesMatching("**/app.properties") {
-      filter(org.apache.tools.ant.filters.ReplaceTokens::class, "tokens" to tokens)
-   }
-}
-
-
 // install:  This copies the fat jar to the C:\Utils directory
 tasks.register<Copy>("install") {
    group = "distribution"
-   description = "Builds, tests, and copies the fatJar to C:/Utils"
+   description = "Builds, tests, and copies the shadowJar to C:/Utils"
+   dependsOn("shadowJar")
 
-   dependsOn("fatJar")
-
-   from(tasks.named("fatJar"))
+   from(tasks.named("shadowJar"))
    into("C:/Utils")
 
-   // Capture values into local variables so the cache is happy
+   // Capture these here so they are available during execution
    val progName = project.name
    val progVersion = project.version.toString()
 
@@ -114,5 +121,32 @@ tasks.register<Copy>("install") {
       println("Installed: $progName.jar -> C:/Utils")
       println("Version:   $progVersion")
       println("------------------------")
+   }
+}
+
+
+// updateSnapVersion:  Update Snapcraft Version in snapcraft.yaml
+tasks.register("updateSnapVersion") {
+   group = "versioning"
+   description = "Updates the version in snapcraft.yaml to match the project version"
+
+   // Capture the values into local variables OUTSIDE doLast to avoid Gradle warnings
+   val newVersion = project.version.toString()
+   val snapFileLocation = layout.projectDirectory.file("snap/snapcraft.yaml").asFile
+
+   doLast {
+      if (snapFileLocation.exists()) {
+         println("Updating Snapcraft file: ${snapFileLocation.path}")
+
+         val content = snapFileLocation.readText()
+         val updatedContent = content.replace(
+            Regex("""(?m)^version:\s*['"]?.*['"]?"""), "version: '$newVersion'"
+         )
+
+         snapFileLocation.writeText(updatedContent)
+         println("Successfully updated snapcraft.yaml to version: $newVersion")
+      } else {
+         println("Warning: snapcraft.yaml not found at ${snapFileLocation.path}")
+      }
    }
 }

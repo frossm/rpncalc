@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -231,9 +230,9 @@ public class CommandParser {
             String[] outString = StackConversions.cmdFraction(calcStack, cmdInputParam);
             // If there wasn't an error (which would return an empty string), display the results
             if (!outString[0].isEmpty()) {
-               Output.printColorln(Ansi.Color.YELLOW, outString[0]);
-               Output.printColorln(Ansi.Color.WHITE, outString[1]);
-               Output.printColorln(Ansi.Color.YELLOW, outString[2]);
+               Output.printColorln(Output.YELLOW, outString[0]);
+               Output.printColorln(Output.WHITE, outString[1]);
+               Output.printColorln(Output.YELLOW, outString[2]);
             }
             break;
 
@@ -328,7 +327,7 @@ public class CommandParser {
          case "mem":
             // I often mistype 'mem list' instead of 'list mem' I'm going to allow that to work
             if (cmdInput.toLowerCase().startsWith("mem list")) {
-               Output.printColorln(Ansi.Color.CYAN, "Rewriting command to 'list mem'");
+               Output.printColorln(Output.CYAN, "Rewriting command to 'list mem'");
                CommandParser.Parse(calcStack, calcStack2, "list mem", "list", "mem");
             } else {
                StackMemory.cmdMem(calcStack, cmdInputParam);
@@ -528,7 +527,7 @@ public class CommandParser {
                   calcStack.push(endResult);
 
                } catch (NumberFormatException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
+                  Output.printColorln(Output.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
                   break;
                }
 
@@ -555,9 +554,9 @@ public class CommandParser {
                   Output.debugPrintln("Percent entered:  " + num + "% * 0.01 = " + calcStack.peek());
 
                } catch (IndexOutOfBoundsException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Unable to parse '" + cmdInputCmd + "'");
+                  Output.printColorln(Output.RED, "Unable to parse '" + cmdInputCmd + "'");
                } catch (ArithmeticException | NullPointerException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Error multiplying " + num + " by 0.01");
+                  Output.printColorln(Output.RED, "Error multiplying " + num + " by 0.01");
                }
 
                // Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
@@ -579,12 +578,12 @@ public class CommandParser {
 
                   } catch (NumberFormatException ex) {
                      // Prevents a crash if user enters "-+" (which they shouldn't do)
-                     Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
+                     Output.printColorln(Output.RED, "Unknown Command: '" + cmdInput + "'");
                      break;
                   }
 
                } else {
-                  Output.printColorln(Ansi.Color.RED, "One number is required to be on the stack to use a NumOp");
+                  Output.printColorln(Output.RED, "One number is required to be on the stack to use a NumOp");
                }
 
                // Scientific notation number entered
@@ -610,7 +609,7 @@ public class CommandParser {
                   }
 
                } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException ex) {
-                  Output.printColorln(Ansi.Color.RED, "Illegal Scientific Notation Number Entered: '" + cmdInputCmd + "'");
+                  Output.printColorln(Output.RED, "Illegal Scientific Notation Number Entered: '" + cmdInputCmd + "'");
                   break;
                }
 
@@ -622,7 +621,7 @@ public class CommandParser {
                }
 
                // Let user know a bad command was provided
-               Output.printColorln(Ansi.Color.RED, "Unknown Command: '" + cmdInput + "'");
+               Output.printColorln(Output.RED, "Unknown Command: '" + cmdInput + "'");
 
                // Remove this invalid command from the command history
                if (CommandHistory.size() > 1) CommandHistory.remove();

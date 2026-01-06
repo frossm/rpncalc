@@ -3,7 +3,7 @@
  * 
  *  Library holds methods and classes frequently used by my programs.
  * 
- *  Copyright (c) 2018-2024 Michael Fross
+ *  Copyright (c) 2011-2026 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.fusesource.jansi.Ansi;
-
 public class Format {
 
 	/**
@@ -46,7 +44,7 @@ public class Format {
 		try {
 			df = new DecimalFormat("#,###.00#######");
 		} catch (Exception Ex) {
-			Output.printColorln(Ansi.Color.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
+			Output.printColorln(Output.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
 		return (String.valueOf(df.format(num)));
@@ -74,7 +72,7 @@ public class Format {
 		try {
 			df = new DecimalFormat("#,###.00#######");
 		} catch (Exception Ex) {
-			Output.printColorln(Ansi.Color.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
+			Output.printColorln(Output.RED, "ERROR Adding Commas to numbers:\n" + Ex.getMessage());
 		}
 
 		return (String.valueOf(df.format(new BigDecimal(num))));

@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 public class StackTrig {
    /**
@@ -40,7 +39,7 @@ public class StackTrig {
    public static void cmdArcTrig(StackObj calcStack, String cmd, String arg) {
       // Ensure we have at least one item on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR: Must be at least one item on the stack");
          return;
       }
 
@@ -67,7 +66,7 @@ public class StackTrig {
             break;
 
          default:
-            Output.printColorln(Ansi.Color.RED, "ERROR: Unknown command: '" + cmd + "'");
+            Output.printColorln(Output.RED, "ERROR: Unknown command: '" + cmd + "'");
             calcStack.push(originalValue);
             return;
       }
@@ -78,7 +77,7 @@ public class StackTrig {
             calcStack.push(result);
          } else {
             calcStack.push(originalValue);
-            Output.printColorln(Ansi.Color.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
+            Output.printColorln(Output.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
          }
 
       } catch (StringIndexOutOfBoundsException ex) {
@@ -94,7 +93,7 @@ public class StackTrig {
    public static void cmdHypotenuse(StackObj calcStack) {
       // Ensure we have two items on the stack
       if (calcStack.size() < 2) {
-         Output.printColorln(Ansi.Color.RED, "ERROR:  There must be two items on the stack to calculate the hypotenuse");
+         Output.printColorln(Output.RED, "ERROR:  There must be two items on the stack to calculate the hypotenuse");
          return;
       }
 
@@ -115,7 +114,7 @@ public class StackTrig {
    public static void cmdTrig(StackObj calcStack, String cmd, String arg) {
       // Ensure we have at least one item on the stack
       if (calcStack.isEmpty()) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Must be at least one item on the stack");
+         Output.printColorln(Output.RED, "ERROR: Must be at least one item on the stack");
          return;
       }
 
@@ -126,7 +125,7 @@ public class StackTrig {
 
          // Calculations are done in radians. Convert if 'rad' is NOT provided as a parameter
          if (arg.toLowerCase().charAt(0) != 'r') {
-            Output.printColorln(Ansi.Color.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
+            Output.printColorln(Output.RED, "ERROR: unknown " + cmd + " parameter: '" + arg + "'");
             calcStack.push(angle);
             return;
          }
@@ -152,7 +151,7 @@ public class StackTrig {
             break;
 
          default:
-            Output.printColorln(Ansi.Color.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
+            Output.printColorln(Output.RED, "ERROR: Could not understand trig command: '" + cmd + "'");
       }
    }
 

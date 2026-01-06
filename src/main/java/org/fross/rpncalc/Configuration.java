@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.util.prefs.Preferences;
 
@@ -42,12 +41,12 @@ public class Configuration {
 
       // If there is not a parameter provided, display the current values and return
       if (arg.isBlank()) {
-         Output.printColorln(Ansi.Color.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
-         Output.printColorln(Ansi.Color.CYAN, String.format("Width:     %02d\t|  Sets the program width in characters", Main.configProgramWidth));
-         Output.printColorln(Ansi.Color.CYAN, "Align:      " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
-         Output.printColorln(Ansi.Color.CYAN, String.format("MemSlots:  %02d\t|  Sets number of available memory slots", Main.configMemorySlots));
-         Output.printColorln(Ansi.Color.CYAN, "Browser Path:      " + prefConfig.get("browser", "<Not Configured>"));
-         Output.printColorln(Ansi.Color.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
+         Output.printColorln(Output.YELLOW, "\n-Configuration Values" + "-".repeat(Main.configProgramWidth - 21));
+         Output.printColorln(Output.CYAN, String.format("Width:     %02d\t|  Sets the program width in characters", Main.configProgramWidth));
+         Output.printColorln(Output.CYAN, "Align:      " + Main.configAlignment + "\t|  Set display alignment. Values: (l)eft, (d)ecimal, (r)ight");
+         Output.printColorln(Output.CYAN, String.format("MemSlots:  %02d\t|  Sets number of available memory slots", Main.configMemorySlots));
+         Output.printColorln(Output.CYAN, "Browser Path:      " + prefConfig.get("browser", "<Not Configured>"));
+         Output.printColorln(Output.YELLOW, "-".repeat(Main.configProgramWidth) + "\n");
          return;
       }
 
@@ -64,32 +63,32 @@ public class Configuration {
             case "alignment":
                value = value.toLowerCase();
                if (value.compareTo("l") != 0 && value.compareTo("d") != 0 && value.compareTo("r") != 0) {
-                  Output.printColorln(Ansi.Color.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for usage");
+                  Output.printColorln(Output.RED, "Alignment can only be 'l'eft, 'd'ecimal, or 'r'ight. See help for usage");
                   return;
                }
                Main.configAlignment = value;
                Output.debugPrintln("Saving Alignment value to preferences");
                prefConfig.put("alignment", value);
-               Output.printColorln(Ansi.Color.CYAN, "Alignment set to '" + value + "'");
+               Output.printColorln(Output.CYAN, "Alignment set to '" + value + "'");
                break;
 
             case "width":
                value = value.toLowerCase();
                if (Integer.parseInt(value) < Main.PROGRAM_MINIMUM_WIDTH) {
-                  Output.printColorln(Ansi.Color.RED, "Error.  Minimum width is " + Main.PROGRAM_MINIMUM_WIDTH + ". Setting width to that value.");
+                  Output.printColorln(Output.RED, "Error.  Minimum width is " + Main.PROGRAM_MINIMUM_WIDTH + ". Setting width to that value.");
                   value = "" + Main.PROGRAM_MINIMUM_WIDTH;
                }
                Main.configProgramWidth = Integer.parseInt(value);
                Output.debugPrintln("Saving Program Width value to preferences");
                prefConfig.putInt("programwidth", Integer.parseInt(value));
-               Output.printColorln(Ansi.Color.CYAN, "Program Width set to '" + value + "'");
+               Output.printColorln(Output.CYAN, "Program Width set to '" + value + "'");
                break;
 
             case "mem":
             case "memslots":
             case "memoryslots":
                if (StackMemory.SetMaxMemorySlots(value)) {
-                  Output.printColorln(Ansi.Color.CYAN, "Memory Slots set to '" + value + "'");
+                  Output.printColorln(Output.CYAN, "Memory Slots set to '" + value + "'");
                }
                break;
 
@@ -98,11 +97,11 @@ public class Configuration {
                break;
 
             default:
-               Output.printColorln(Ansi.Color.RED, "ERROR: Unknown set command: '" + command + "'");
+               Output.printColorln(Output.RED, "ERROR: Unknown set command: '" + command + "'");
          }
 
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing set command: 'set " + arg + "'  See help for set command usage");
+         Output.printColorln(Output.RED, "Error parsing set command: 'set " + arg + "'  See help for set command usage");
       }
    }
 
@@ -110,7 +109,7 @@ public class Configuration {
     * cmdReset(): Resets the configuration variables back to default
     */
    public static void cmdReset() {
-      Output.printColorln(Ansi.Color.CYAN, "Alignment, Width, and Memory slots reset to default values");
+      Output.printColorln(Output.CYAN, "Alignment, Width, and Memory slots reset to default values");
       Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config");
 
       // Reset Alignment

@@ -1,20 +1,20 @@
 /**************************************************************************************************************
  * Library Project
- * 
+ * <p>
  *  Library holds methods and classes frequently used by my programs.
- * 
- *  Copyright (c) 2018-2024 Michael Fross
- *
+ * <p>
+ *  Copyright (c) 2011-2026 Michael Fross
+ * <p>
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
  *  in the Software without restriction, including without limitation the rights
  *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *  copies of the Software, and to permit persons to whom the Software is
  *  furnished to do so, subject to the following conditions:
- *
+ * <p>
  *  The above copyright notice and this permission notice shall be included in all
  *  copies or substantial portions of the Software.
- *
+ * <p>
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,232 +22,201 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *   
+ *
  ***************************************************************************************************************/
 package org.fross.library;
 
-import static org.fusesource.jansi.Ansi.ansi;
-
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.Ansi.Attribute;
-import org.fusesource.jansi.Ansi.Erase;
-import org.fusesource.jansi.AnsiConsole;
+import org.jline.terminal.Terminal;
+import org.jline.utils.AttributedStringBuilder;
+import org.jline.utils.AttributedStyle;
+import org.jline.utils.InfoCmp.Capability;
 
 public class Output {
-	static boolean colorizedOutput = true;		// By default, color is enabled
+   // Shorthand color constants
+   public static final int BLACK = AttributedStyle.BLACK;     // 0
+   public static final int RED = AttributedStyle.RED;         // 1
+   public static final int GREEN = AttributedStyle.GREEN;     // 2
+   public static final int YELLOW = AttributedStyle.YELLOW;   // 3
+   public static final int BLUE = AttributedStyle.BLUE;       // 4
+   public static final int MAGENTA = AttributedStyle.MAGENTA; // 5
+   public static final int CYAN = AttributedStyle.CYAN;       // 6
+   public static final int WHITE = AttributedStyle.WHITE;     // 7
 
-	/**
-	 * enableColor(): Enable or disable colorized output
-	 * 
-	 * @param value
-	 */
-	public static void enableColor(boolean value) {
-		colorizedOutput = value;
-	}
+   static boolean colorizedOutput = true;      // By default, color is enabled
+   private static Terminal terminal;
 
-	/**
-	 * queryColorEnabled(): Return true if colorized output is configured. False if not.
-	 * 
-	 * @return
-	 */
-	public static boolean queryColorEnabled() {
-		return colorizedOutput;
-	}
+   public static void setTerminal(Terminal t) {
+      terminal = t;
+   }
 
-	/**
-	 * printColorln(): Print to the console with the provided foreground color
-	 * 
-	 * Allowable colors are: - Ansi.Color.BLACK - Ansi.Color.RED - Ansi.Color.GREEN - Ansi.Color.YELLOW - Ansi.Color.BLUE -
-	 * Ansi.Color.MAGENTA - Ansi.Color.CYAN - Ansi.Color.WHITE - Ansi.Color.DEFAULT
-	 * 
-	 * @param Color
-	 * @param msg
-	 */
-	public static void printColorln(Ansi.Color clr, String msg) {
-		if (colorizedOutput) {
-			System.out.println(ansi().a(Attribute.INTENSITY_BOLD).fg(clr).a(msg).reset());
-		} else {
-			println(msg);
-		}
-	}
+   /**
+    * enableColor(): Enable or disable colorized output
+    *
+    * @param value TRUE or FALSE to enable colorized output
+    */
+   public static void enableColor(boolean value) {
+      colorizedOutput = value;
+   }
 
-	/**
-	 * printColorln(): Overloaded. Added background parameter
-	 * 
-	 * @param fclr
-	 * @param bclr
-	 * @param msg
-	 */
-	public static void printColorln(Ansi.Color fclr, Ansi.Color bclr, String msg) {
-		if (colorizedOutput) {
-			System.out.println(ansi().a(Attribute.INTENSITY_BOLD).fg(fclr).bg(bclr).a(msg).reset());
-			Ansi.ansi().reset();
-		} else {
-			print(msg);
-		}
-	}
+   /**
+    * queryColorEnabled(): Return true if colorized output is configured. False if not.
+    *
+    * @return Return TRUE or FALSE if colorized output is enabled
+    */
+   public static boolean queryColorEnabled() {
+      return colorizedOutput;
+   }
 
-	/**
-	 * printColorln(): Overloaded. FG Color can be selected by an index number 0-256
-	 * 
-	 * @param colorIndexFG
-	 * @param msg
-	 */
-	public static void printColorln(int colorIndexFG, String msg) {
-		if (colorizedOutput) {
-			System.out.println(ansi().fg(colorIndexFG).a(msg).reset());
-		} else {
-			println(msg);
-		}
-	}
+   /**
+    * printColor(): Print to the console with the provided foreground & background color
+    * <p>
+    *
+    * @param fgColor Foreground Color
+    * @param bgColor Background Color
+    * @param msg     Message to display
+    */
+   public static void printColor(int fgColor, int bgColor, String msg) {
+      if (terminal != null && colorizedOutput) {
+         // Initialize style with Foreground and Bold
+         AttributedStyle style = AttributedStyle.DEFAULT.foreground(fgColor).bold();
 
-	/**
-	 * printColor(): Print to the console with the provided foreground color
-	 * 
-	 * Allowable colors are: - Ansi.Color.BLACK - Ansi.Color.RED - Ansi.Color.GREEN - Ansi.Color.YELLOW - Ansi.Color.BLUE -
-	 * Ansi.Color.MAGENTA - Ansi.Color.CYAN - Ansi.Color.WHITE - Ansi.Color.DEFAULT
-	 * 
-	 * @param fclr
-	 * @param msg
-	 */
-	public static void printColor(Ansi.Color fclr, String msg) {
-		if (colorizedOutput) {
-			System.out.print(ansi().a(Attribute.INTENSITY_BOLD).fg(fclr).a(msg).reset());
-		} else {
-			print(msg);
-		}
-	}
+         // Apply background if it's not -1 (transparent/default)
+         if (bgColor != -1) {
+            style = style.background(bgColor);
+         }
 
-	/**
-	 * printColor(): Overloaded. Added background parameter
-	 * 
-	 * @param fclr
-	 * @param bclr
-	 * @param msg
-	 */
-	public static void printColor(Ansi.Color fclr, Ansi.Color bclr, String msg) {
-		if (colorizedOutput) {
-			System.out.print(ansi().a(Attribute.INTENSITY_BOLD).fg(fclr).bg(bclr).a(msg).reset());
-			Ansi.ansi().reset();
-		} else {
-			print(msg);
-		}
-	}
+         // Build the string
+         String styledMsg = new AttributedStringBuilder().style(style).append(msg).toAnsi();
 
-	/**
-	 * printColor(): Overloaded. FG Color can be selected by an index number 0-256
-	 * 
-	 * @param colorIndexFG
-	 * @param msg
-	 */
-	public static void printColor(int colorIndexFG, String msg) {
-		if (colorizedOutput) {
-			System.out.println(ansi().fg(colorIndexFG).a(msg).reset());
-		} else {
-			println(msg);
-		}
-	}
-	
-	/**
-	 * printColor(): Overloaded. FG & BG Color can be selected by an index number 0-256
-	 * 
-	 * @param colorIndexFG
-	 * @param msg
-	 */
-	public static void printColor(int colorIndexFG, int colorIndexBG, String msg) {
-		if (colorizedOutput) {
-			System.out.println(ansi().fg(colorIndexFG).bg(colorIndexBG).a(msg).reset());
-		} else {
-			println(msg);
-		}
-	}
+         terminal.writer().print(styledMsg);
+         terminal.flush();
 
-	/**
-	 * println(): Basic System.out.println call. It's here so all text output can go through this function.
-	 * 
-	 * @param msg
-	 */
-	public static void println(String msg) {
-		System.out.println(msg);
-	}
+      } else {
+         print(msg);
+      }
+   }
 
-	/**
-	 * print(): Basic System.out.print call. It's here so out text output can go through this function.
-	 * 
-	 * @param msg
-	 */
-	public static void print(String msg) {
-		System.out.print(msg);
-	}
+   /**
+    * printColor(): Overloaded. Just provide a foreground color
+    *
+    * @param fgColor Foreground Color
+    * @param msg     Message to display
+    */
+   public static void printColor(int fgColor, String msg) {
+      printColor(fgColor, -1, msg);
+   }
 
-	/**
-	 * fatalError(): Print the provided string in RED and exit the program with the error code given
-	 * 
-	 * @param msg
-	 * @param errorCode
-	 */
-	public static void fatalError(String msg, int errorCode) {
-		Output.printColorln(Ansi.Color.RED, "\nFATAL ERROR: " + msg);
-		System.exit(errorCode);
-	}
+   /**
+    * printColorln(): Print to the console with the provided foreground color
+    * <p>
+    *
+    * @param fgColor Foreground Color
+    * @param bgColor Background Color
+    * @param msg     Message to display
+    */
+   public static void printColorln(int fgColor, int bgColor, String msg) {
+      printColor(fgColor, bgColor, msg + "\n");
+   }
 
-	/**
-	 * debugPrintln(): Print the provided text in RED with the preface of DEBUG: with a newline
-	 * 
-	 * @param msg
-	 */
-	public static void debugPrintln(String msg) {
-		if (Debug.query()) {
-			Output.printColorln(Ansi.Color.RED, "DEBUG:  " + msg);
-		}
-	}
+   /**
+    * printColorln(): Overloaded. Added background parameter
+    *
+    * @param fgColor Foreground Color
+    * @param msg     Message to display
+    */
+   public static void printColorln(int fgColor, String msg) {
+      printColor(fgColor, -1, msg + "\n");
+   }
 
-	/**
-	 * debugPrint(): Print the provided text in RED with the preface of DEBUG: and no new line at the end
-	 * 
-	 * @param msg
-	 */
-	public static void debugPrint(String msg) {
-		if (Debug.query()) {
-			Output.printColor(Ansi.Color.RED, "DEBUG:  " + msg);
-		}
-	}
+   /**
+    * println(): Basic System.out.println call. It's here so all text output can go through this function.
+    *
+    * @param msg Message to display
+    */
+   public static void println(String msg) {
+      if (terminal != null) {
+         terminal.writer().println(msg);
+         terminal.flush();
+      } else {
+         System.out.println(msg);
+      }
+   }
 
-	/**
-	 * clearScreen(): Uses the JAnsi library to clear the screen
-	 */
-	public static void clearScreen() {
-		// Can only clear the screen if ANSI sequences are being used
-		if (queryColorEnabled()) {
-			// Clear the screen
-			System.out.println(ansi().eraseScreen(Erase.ALL).reset());
+   /**
+    * print(): Basic System.out.print call. It's here so out text output can go through this function.
+    *
+    * @param msg Message to display
+    */
+   public static void print(String msg) {
+      if (terminal != null) {
+         terminal.writer().print(msg);
+         terminal.flush();
+      } else {
+         System.out.print(msg);
+      }
+   }
 
-			// Position cursor at the top
-			System.out.println(ansi().cursor(0, 0));
-		}
-	}
+   /**
+    * fatalError(): Print the provided string in RED and exit the program with the error code given
+    *
+    * @param msg       Message to display
+    * @param errorCode Error code to return
+    */
+   public static void fatalError(String msg, int errorCode) {
+      Output.printColorln(RED, "\nFATAL ERROR: " + msg);
+      System.exit(errorCode);
+   }
 
-	/**
-	 * JAnsi256Test(): Simple printout of colors to test jAnsi 256 on terminals
-	 * 
-	 */
-	public static void JAnsi256Test() {
-		// Test Foregrounds
-		Ansi ansi = Ansi.ansi();
-		for (int index = 0; index < 256; index++) {
-			// ansi.fg(index).a("FG %d ".formatted(index));
-			System.out.print(ansi().fg(index).a(String.format("FG%d  ", index)).reset());
-		}
-		AnsiConsole.out().println(ansi);
-		System.out.println("\n");
+   /**
+    * debugPrintln(): Print the provided text in RED with the preface of DEBUG: with a newline
+    *
+    * @param msg Message to display
+    */
+   public static void debugPrintln(String msg) {
+      debugPrint(msg + "\n");
+   }
 
-		// Test Backgrounds
-		ansi = Ansi.ansi();
-		for (int index = 0; index < 256; index++) {
-			// ansi.bg(index).a("BG %d ".formatted(index));
-			System.out.print(ansi().bg(index).a(String.format("BG%d  ", index)).reset());
-		}
-		AnsiConsole.out().println(ansi);
-	}
+   /**
+    * debugPrint(): Print the provided text in RED with the preface of DEBUG: and no new line at the end
+    *
+    * @param msg Message to display
+    */
+   public static void debugPrint(String msg) {
+      if (Debug.query()) {
+         Output.printColor(RED, "DEBUG:  " + msg);
+      }
+   }
+
+   /**
+    * clearScreen(): Clears the screen
+    */
+   public static void clearScreen() {
+      if (terminal == null) return;
+
+      // This looks up the OS-specific "clear" command (like 'cls' or 'clear')
+      terminal.puts(Capability.clear_screen);
+      terminal.puts(Capability.cursor_home);
+
+      // Always flush to ensure the command is sent to the screen immediately
+      terminal.flush();
+   }
+
+   /**
+    * JAnsi256Test(): Simple printout of colors to test jAnsi 256 on terminals
+    *
+    */
+   public static void JAnsi256Test() {
+      // Test Foregrounds
+      for (int index = 0; index < 256; index++) {
+         Output.printColor(index, String.format("%d", index));
+      }
+
+      System.out.println("\n");
+
+      // Test Backgrounds
+      for (int index = 0; index < 256; index++) {
+         Output.printColor(-1, index, String.format("%d", index));
+      }
+   }
 
 }

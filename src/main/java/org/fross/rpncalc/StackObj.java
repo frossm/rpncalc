@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -150,7 +149,7 @@ public class StackObj implements Cloneable {
       try {
          this.calcStack.push(new BigDecimal(item, this.mc));
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: " + ex.getMessage());
+         Output.printColorln(Output.RED, "Error: " + ex.getMessage());
       }
    }
 
@@ -226,7 +225,7 @@ public class StackObj implements Cloneable {
       try {
          undoStack.push((Stack<BigDecimal>) calcStack.clone());
       } catch (ClassCastException ex) {
-         Output.printColor(Ansi.Color.RED, "Error saving to the undo state");
+         Output.printColor(Output.RED, "Error saving to the undo state");
       }
 
    }
@@ -258,7 +257,7 @@ public class StackObj implements Cloneable {
             this.push(prefs.getDouble("Stack" + i, 0.0));
             Output.debugPrintln("  - Restoring #" + (numElements - i) + ":  " + this.get(i));
          } catch (Exception ex) {
-            Output.printColor(Ansi.Color.RED, "ERROR: Error restoring stack.  Skipping...");
+            Output.printColor(Output.RED, "ERROR: Error restoring stack.  Skipping...");
             break;
          }
       }
@@ -284,7 +283,7 @@ public class StackObj implements Cloneable {
     */
    public void sort(String mode) {
       if (!mode.equalsIgnoreCase("ascending") && !mode.equalsIgnoreCase("descending")) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: sort requires a 'ascending' or 'descending' parameter");
+         Output.printColorln(Output.RED, "ERROR: sort requires a 'ascending' or 'descending' parameter");
          return;
       }
 

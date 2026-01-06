@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi.Color;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class Browser {
          Runtime.getRuntime().exec(command);
 
       } catch (IOException ex) {
-         Output.printColorln(Color.RED, "ERROR: Could not launch browser: '" + command + "'");
+         Output.printColorln(Output.RED, "ERROR: Could not launch browser: '" + command + "'");
       }
    }
 
@@ -77,16 +76,16 @@ public class Browser {
       if (new File(bName).canExecute()) {
          // Save this file as the browser in the config and return
          prefConfig.put("browser", bName);
-         Output.printColorln(Color.CYAN, "Browser set to: '" + prefConfig.get("browser", "<not configured>") + "'");
+         Output.printColorln(Output.CYAN, "Browser set to: '" + prefConfig.get("browser", "<not configured>") + "'");
 
       } else {
-         Output.printColorln(Color.RED, "ERROR: Provided browser is not valid: '" + bName + "'");
+         Output.printColorln(Output.RED, "ERROR: Provided browser is not valid: '" + bName + "'");
          // Since the provided bName is not valid, ask for one explicitly
-         Output.printColorln(Color.YELLOW, "Enter the full path to your preferred browser");
-         Output.printColorln(Color.YELLOW, "NOTE: Always use slashes '/' instead of backslashes '\\')");
+         Output.printColorln(Output.YELLOW, "Enter the full path to your preferred browser");
+         Output.printColorln(Output.YELLOW, "NOTE: Always use slashes '/' instead of backslashes '\\')");
 
          try {
-            String browserInput = Main.scanner.readLine(":: ");
+            String browserInput = UserInput.GetInput(":: ");
             Output.println("");
 
             // If the user entered nothing, remove preference
@@ -96,20 +95,18 @@ public class Browser {
             } else {
                // Confirm entered browser can be executed
                if (!new File(browserInput).canExecute()) {
-                  Output.printColorln(Color.RED, "ERROR: Provided file is not executable: '" + browserInput + "'");
+                  Output.printColorln(Output.RED, "ERROR: Provided file is not executable: '" + browserInput + "'");
                } else {
                   prefConfig.put("browser", browserInput);
-                  Output.printColorln(Color.CYAN, "Browser set to: '" + prefConfig.get("browser", "<not configured>") + "'");
+                  Output.printColorln(Output.CYAN, "Browser set to: '" + prefConfig.get("browser", "<not configured>") + "'");
                }
 
             }
 
          } catch (Exception e) {
-            Output.printColorln(Color.RED, "ERROR: Could not read user input");
+            Output.printColorln(Output.RED, "ERROR: Could not read user input");
          }
-
       }
-
    }
 
 }

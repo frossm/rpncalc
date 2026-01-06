@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -60,7 +59,7 @@ public class StackManagement {
       try {
          stacks = prefsQuery.childrenNames();
       } catch (BackingStoreException ex) {
-         Output.printColor(Ansi.Color.RED, "Error Reading Stacks from Java Preferences");
+         Output.printColor(Output.RED, "Error Reading Stacks from Java Preferences");
       }
 
       return (stacks);
@@ -82,8 +81,8 @@ public class StackManagement {
       try {
          p.clear();
       } catch (BackingStoreException e) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not clear current preferences in Stack #" + stackSlot);
-         Output.printColorln(Ansi.Color.RED, e.getMessage());
+         Output.printColorln(Output.RED, "ERROR: Could not clear current preferences in Stack #" + stackSlot);
+         Output.printColorln(Output.RED, e.getMessage());
       }
 
       // Save number of elements to key StackElements

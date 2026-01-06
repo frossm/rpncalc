@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -74,7 +73,7 @@ public class Math {
             break;
 
          default:
-            Output.printColorln(Ansi.Color.RED, "ERROR:  Illegal Operand Sent to Math.Parse(): '" + op + "'");
+            Output.printColorln(Output.RED, "ERROR:  Illegal Operand Sent to Math.Parse(): '" + op + "'");
       }
 
       return result;
@@ -137,7 +136,7 @@ public class Math {
    public static StackObj Divide(StackObj stk) {
       // Ensure we don't divide by zero
       if (stk.peek().compareTo(BigDecimal.ZERO) == 0) {
-         Output.printColorln(Ansi.Color.RED, "Dividing by zero is not allowed. You could wind up going back in time...");
+         Output.printColorln(Output.RED, "Dividing by zero is not allowed. You could wind up going back in time...");
          return stk;
       }
 
@@ -148,7 +147,7 @@ public class Math {
       try {
          result = a.divide(b, MathContext.DECIMAL128);
       } catch (ArithmeticException | NullPointerException ex) {
-         Output.printColorln(Ansi.Color.RED, "Error dividing " + a + " / " + b);
+         Output.printColorln(Output.RED, "Error dividing " + a + " / " + b);
       }
 
       Output.debugPrintln("Dividing: " + a.toString() + " / " + b.toString() + " = " + result);
@@ -172,7 +171,7 @@ public class Math {
       // Warn user the decimal has been dropped
       // TODO: Should make this more international at some point
       if (power.toPlainString().contains(".")) {
-         Output.printColorln(Ansi.Color.CYAN, "Warning: The decimal portion of '" + power + "' has been dropped for the calculation");
+         Output.printColorln(Output.CYAN, "Warning: The decimal portion of '" + power + "' has been dropped for the calculation");
       }
 
       stk.push(result);
@@ -310,7 +309,7 @@ public class Math {
             result = stk.get(stk.size() / 2);
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "ERROR: Could not calculate the median");
+         Output.printColorln(Output.RED, "ERROR: Could not calculate the median");
          return BigDecimal.ZERO;
       }
 

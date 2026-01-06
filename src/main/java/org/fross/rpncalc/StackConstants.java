@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -43,7 +42,7 @@ public class StackConstants {
 
       calcStack.push("0.577215664901532860606512090082402431");
 
-      Output.printColorln(Ansi.Color.CYAN, "Euler's constant (y) has been added to the stack");
+      Output.printColorln(Output.CYAN, "Euler's constant (y) has been added to the stack");
    }
 
    /**
@@ -55,7 +54,7 @@ public class StackConstants {
 
       calcStack.push("2.71828182845904523536028747135266249775724709369995");
 
-      Output.printColorln(Ansi.Color.CYAN, "Euler's number (e) has been added to the stack");
+      Output.printColorln(Output.CYAN, "Euler's number (e) has been added to the stack");
    }
 
    /**
@@ -67,7 +66,7 @@ public class StackConstants {
 
       calcStack.push("3.14159265358979323846264338327950288419716939937510");
 
-      Output.printColorln(Ansi.Color.CYAN, "The value PI added to the stack");
+      Output.printColorln(Output.CYAN, "The value PI added to the stack");
    }
 
    /**
@@ -82,14 +81,14 @@ public class StackConstants {
       // If there is something in the stack, display the long and short sections
       if (!calcStack.isEmpty()) {
          BigDecimal value = calcStack.peek();
-         Output.printColorln(Ansi.Color.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(BigDecimal.ONE.divide(phi, MathContext.DECIMAL128)).setScale(5, RoundingMode.HALF_UP));
-         Output.printColorln(Ansi.Color.YELLOW, "If Short Section = " + value + "    Long Section  = " + value.multiply(phi).setScale(5, RoundingMode.HALF_UP));
+         Output.printColorln(Output.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(BigDecimal.ONE.divide(phi, MathContext.DECIMAL128)).setScale(5, RoundingMode.HALF_UP));
+         Output.printColorln(Output.YELLOW, "If Short Section = " + value + "    Long Section  = " + value.multiply(phi).setScale(5, RoundingMode.HALF_UP));
       }
 
       // Add the value of Phi to the top of the stack
       calcStack.push(phi);
 
-      Output.printColorln(Ansi.Color.CYAN, "Phi, the golden ratio, has been added to the stack");
+      Output.printColorln(Output.CYAN, "Phi, the golden ratio, has been added to the stack");
    }
 
    /**
@@ -101,6 +100,6 @@ public class StackConstants {
 
       calcStack.push("299792458");
 
-      Output.printColorln(Ansi.Color.CYAN, "Speed of Light (c) added to the stack");
+      Output.printColorln(Output.CYAN, "Speed of Light (c) added to the stack");
    }
 }

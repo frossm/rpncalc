@@ -3,7 +3,7 @@
  * 
  *  Library holds methods and classes frequently used by my programs.
  * 
- *  Copyright (c) 2018-2024 Michael Fross
+ *  Copyright (c) 2011-2026 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal

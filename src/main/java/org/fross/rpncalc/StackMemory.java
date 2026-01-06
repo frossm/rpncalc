@@ -27,7 +27,6 @@
 package org.fross.rpncalc;
 
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -67,7 +66,7 @@ public class StackMemory {
 
          // Ensure provided slot is within range
          if (memSlot < 0 || memSlot >= memorySlots.length) {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Memory Slot Number must be between 0 and " + (memorySlots.length - 1));
+            Output.printColorln(Output.RED, "ERROR: Memory Slot Number must be between 0 and " + (memorySlots.length - 1));
             return;
          }
 
@@ -77,23 +76,23 @@ public class StackMemory {
             case "add":
                // Ensure there is a value to save to the memory slot
                if (!calcStack.isEmpty()) {
-                  Output.printColorln(Ansi.Color.CYAN, "Adding '" + calcStack.peek() + "' to Memory Slot #" + memSlot);
+                  Output.printColorln(Output.CYAN, "Adding '" + calcStack.peek() + "' to Memory Slot #" + memSlot);
                   memorySlots[memSlot] = calcStack.peek();
                } else {
-                  Output.printColorln(Ansi.Color.RED, "ERROR: There must be at least one value on the stack");
+                  Output.printColorln(Output.RED, "ERROR: There must be at least one value on the stack");
                }
                break;
 
             // Clear the provided slot's value
             case "clr":
             case "clear":
-               Output.printColorln(Ansi.Color.CYAN, "Clearing Memory Slot #" + memSlot);
+               Output.printColorln(Output.CYAN, "Clearing Memory Slot #" + memSlot);
                memorySlots[memSlot] = null;
                break;
 
             case "clrall":
             case "clearall":
-               Output.printColorln(Ansi.Color.CYAN, "Clearing All Memory Slots");
+               Output.printColorln(Output.CYAN, "Clearing All Memory Slots");
                Arrays.fill(memorySlots, null);
                break;
 
@@ -103,9 +102,9 @@ public class StackMemory {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
 
-               Output.printColorln(Ansi.Color.CYAN, "Copying value from Memory Slot #" + memSlot);
+               Output.printColorln(Output.CYAN, "Copying value from Memory Slot #" + memSlot);
                if (memorySlots[memSlot] != null) calcStack.push(memorySlots[memSlot]);
-               else Output.printColorln(Ansi.Color.RED, "Memory Slot #" + memSlot + " is empty");
+               else Output.printColorln(Output.RED, "Memory Slot #" + memSlot + " is empty");
                break;
 
             // Copy everything back onto the stack. Lower number to stop of stack (line 1)
@@ -114,7 +113,7 @@ public class StackMemory {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
 
-               Output.printColorln(Ansi.Color.CYAN, "Copying all memory items to the stack");
+               Output.printColorln(Output.CYAN, "Copying all memory items to the stack");
                for (int i = memorySlots.length - 1; i >= 0; i--) {
                   if (memorySlots[i] != null) {
                      calcStack.push(memorySlots[i]);
@@ -131,21 +130,21 @@ public class StackMemory {
                         memorySlots[calcStack.size() - 1 - i] = calcStack.get(i);
                      }
                   } else {
-                     Output.printColorln(Ansi.Color.RED, "ERROR: There are not enough memory slots to hold the stack. See -m switch");
+                     Output.printColorln(Output.RED, "ERROR: There are not enough memory slots to hold the stack. See -m switch");
                      return;
                   }
                } catch (Exception ex) {
-                  Output.printColorln(Ansi.Color.RED, "ERROR: An known error occurred copying stack to memory slots");
+                  Output.printColorln(Output.RED, "ERROR: An known error occurred copying stack to memory slots");
                   return;
                }
                break;
 
             default:
                // Slot was valid number, but unknown mem command
-               Output.printColorln(Ansi.Color.RED, "ERROR: Unknown memory command: '" + argParse[1] + "'.  See help");
+               Output.printColorln(Output.RED, "ERROR: Unknown memory command: '" + argParse[1] + "'.  See help");
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");
+         Output.printColorln(Output.RED, "Error parsing mem command: 'mem " + arg + "'  See help for mem command usage");
       }
    }
 
@@ -179,7 +178,7 @@ public class StackMemory {
             }
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: Unable to restore memory slots from preferences");
+         Output.printColorln(Output.RED, "Error: Unable to restore memory slots from preferences");
       }
 
       Output.debugPrintln("");
@@ -203,7 +202,7 @@ public class StackMemory {
             }
          }
       } catch (Exception ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: Unable to save memory slots to preferences successfully");
+         Output.printColorln(Output.RED, "Error: Unable to save memory slots to preferences successfully");
       }
 
       Output.debugPrintln("");
@@ -224,7 +223,7 @@ public class StackMemory {
          if (requestedSlots >= 1) {
             memorySlots = new BigDecimal[requestedSlots];
          } else {
-            Output.printColorln(Ansi.Color.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
+            Output.printColorln(Output.RED, "Error: There must be at least 1 memory slot.  Setting to 1.");
             memorySlots = new BigDecimal[1];
          }
 
@@ -233,7 +232,7 @@ public class StackMemory {
          prefConfig.putInt("memoryslots", Integer.parseInt(slots));
 
       } catch (NumberFormatException ex) {
-         Output.printColorln(Ansi.Color.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
+         Output.printColorln(Output.RED, "Error: Could not set the number of memory slots to '" + slots + "'");
          return false;
       }
 

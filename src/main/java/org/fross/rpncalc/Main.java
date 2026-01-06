@@ -29,10 +29,10 @@ package org.fross.rpncalc;
 import org.fross.library.Debug;
 import org.fross.library.Format;
 import org.fross.library.Output;
-import org.fusesource.jansi.Ansi;
 import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +57,8 @@ public class Main {
    // Class Variables
    public static String VERSION;
    public static String COPYRIGHT;
-   static final LineReader scanner = LineReaderBuilder.builder().build();
+   public static Terminal terminal = null;
+   public static LineReader lineReader = null;
    static boolean ProcessCommandLoop = true;
    static final StackObj calcStack = new StackObj();
    static final StackObj calcStack2 = new StackObj();
@@ -77,6 +78,32 @@ public class Main {
       String cmdInputCmd = "";      // The first field - the command
       String cmdInputParam = "";    // The remaining string - Parameters
       Preferences prefConfig = Preferences.userRoot().node("/org/fross/rpn/config"); // Persistent configuration settings
+
+      // Silence the following JLine warning line when you start
+      // WARNING: Unable to create a system terminal, creating a dumb terminal
+      java.util.logging.LogManager.getLogManager().reset();
+      java.util.logging.Logger.getLogger("org.jline").setLevel(java.util.logging.Level.OFF);
+
+      // Force JLine to assume the terminal supports ANSI color and movement
+      System.setProperty("org.jline.terminal.type", "xterm-256color");
+
+      // Create a terminal used for input and output with JLine
+      try {
+         // This will print the actual reason (like "Missing library" or "Access Denied") to the console
+         System.setProperty("org.jline.terminal.debug", "true");
+         terminal = TerminalBuilder.builder()
+               .system(true)
+               .build();
+
+         // Let Output and Input classes know which terminal to use
+         Output.setTerminal(terminal);
+         UserInput.setTerminal(terminal);
+
+
+      } catch (IOException ex) {
+         // Note: Since terminal failed, we use System.out as a fallback
+         System.out.println("Unable to create a terminal. Visuals will be impacted.");
+      }
 
       // Process application level properties file
       // Update properties from Maven at build time:
@@ -123,11 +150,11 @@ public class Main {
       StackMemory.RestoreMemSlots();
 
       // Display the initial program header information
-      Output.printColorln(Ansi.Color.CYAN, "+" + "-".repeat(configProgramWidth - 2) + "+");
-      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "RPN Calculator  v" + VERSION, "|", "|"));
-      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, COPYRIGHT, "|", "|"));
-      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "Enter command 'h' for help details", "|", "|"));
-      Output.printColorln(Ansi.Color.CYAN, Format.CenterText(configProgramWidth, "", "|", "|"));
+      Output.printColorln(Output.CYAN, "+" + "-".repeat(configProgramWidth - 2) + "+");
+      Output.printColorln(Output.CYAN, Format.CenterText(configProgramWidth, "RPN Calculator  v" + VERSION, "|", "|"));
+      Output.printColorln(Output.CYAN, Format.CenterText(configProgramWidth, COPYRIGHT, "|", "|"));
+      Output.printColorln(Output.CYAN, Format.CenterText(configProgramWidth, "Enter command 'h' for help details", "|", "|"));
+      Output.printColorln(Output.CYAN, Format.CenterText(configProgramWidth, "", "|", "|"));
 
       // Start Main Command Loop
       while (ProcessCommandLoop) {
@@ -182,7 +209,7 @@ public class Main {
 
             // Display Stack Row Number without a newline
             String stkLineNumber = String.format("%0" + LINE_NUMBER_DIGITS + "d:  ", calcStack.size() - i);
-            Output.printColor(Ansi.Color.CYAN, stkLineNumber);
+            Output.printColor(Output.CYAN, stkLineNumber);
 
             // DECIMAL ALIGNMENT: Insert spaces before number to align to the decimal point
             if (configAlignment.compareTo("d") == 0) {
@@ -198,17 +225,17 @@ public class Main {
             }
 
             // Now that the spaces are inserted (for decimal/right) display the number
-            Output.printColorln(Ansi.Color.WHITE, currentStackItem.trim());
+            Output.printColorln(Output.WHITE, currentStackItem.trim());
          }
 
          // Input command from user
          try {
-            cmdInput = scanner.readLine("\n" + INPUT_PROMPT);
+            cmdInput = UserInput.GetInput("\n" + INPUT_PROMPT);
 
          } catch (UserInterruptException ex) {
             // User entered Ctrl-C so exit the program gracefully by placing the "exit" command as the input
             cmdInput = "exit";
-            Output.printColorln(Ansi.Color.CYAN, "Ctrl-C Detected. Exiting RPNCalc...");
+            Output.printColorln(Output.CYAN, "Ctrl-C Detected. Exiting RPNCalc...");
 
          } catch (Exception ex) {
             // Should never get this error...
@@ -235,7 +262,7 @@ public class Main {
          } catch (ArrayIndexOutOfBoundsException e) {
             // TODO: Ignore this error as it will trigger if just a command is entered with no parameter. There must be a better way...
          } catch (Exception e) {
-            Output.printColorln(Ansi.Color.RED, "ERROR: Problem parsing the command: '" + cmdInput + "' into command and arguments");
+            Output.printColorln(Output.RED, "ERROR: Problem parsing the command: '" + cmdInput + "' into command and arguments");
          }
 
          // While in debug mode, show the entered text along with the broken up command and parameter
@@ -260,7 +287,7 @@ public class Main {
 
       // If recording is on, complete the recording off process before exiting
       if (UserFunctions.recordingIsEnabled()) {
-         Output.printColorln(Ansi.Color.YELLOW, "\nRecording is in progress:");
+         Output.printColorln(Output.YELLOW, "\nRecording is in progress:");
          UserFunctions.cmdRecord("off");
       }
 
