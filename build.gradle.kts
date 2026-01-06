@@ -5,27 +5,34 @@ plugins {
 }
 
 group = "org.fross"
-version = "5.11.01"
 
 repositories {
    mavenCentral()
 }
 
 dependencies {
-   // 1. JCommander (The one we just found was missing!)
+   // https://mvnrepository.com/artifact/com.beust/jcommander
    implementation("com.beust:jcommander:1.82")
 
-   // 2. JLine 3 and its Windows color support
+   // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
    implementation("org.fusesource.jansi:jansi:2.4.2")
+
+   // https://mvnrepository.com/artifact/org.jline/jline-reader
    implementation("org.jline:jline:3.30.6")
+
+   // https://mvnrepository.com/artifact/org.jline/jline-terminal-jansi
    implementation("org.jline:jline-terminal-jansi:3.30.6")
 
-   // 3. Apache Commons Math
+   // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
    implementation("org.apache.commons:commons-math3:3.6.1")
 
-   // JUnit5 Testing
+   // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
    testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0-M1")
-   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.0-M1")
+
+   // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+   testImplementation("org.junit.jupiter:junit-jupiter-engine:6.1.0-M1")
+
+   // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
