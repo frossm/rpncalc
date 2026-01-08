@@ -65,23 +65,20 @@ parts:
     build-attributes: [network]
 
     override-build: |
+      # Ensure that gradlew is executable
       chmod +x gradlew
       
-      # If we are on Launchpad (cloud), set proxy flags. If local, leave empty.
-      PROXY_FLAGS=""
-      if [ -n "${http_proxy:-}" ]; then
-        PROXY_HOST=$(echo $http_proxy | sed 's/http:\/\/\([^:]*\):.*/\1/')
-        PROXY_PORT=$(echo $http_proxy | sed 's/.*:\([0-9]*\)\/*/\1/')
-        PROXY_FLAGS="-Dhttp.proxyHost=$PROXY_HOST -Dhttp.proxyPort=$PROXY_PORT -Dhttps.proxyHost=$PROXY_HOST -Dhttps.proxyPort=$PROXY_PORT"
-      fi
-
-      ./gradlew shadowJar -x test --console=plain $PROXY_FLAGS
+      # Build the application
+      ./gradlew shadowJar -x test --console=plain
       
+      # Move the shadowJar to the right place
       mkdir -p $SNAPCRAFT_PART_INSTALL/jar
       cp build/libs/*.jar $SNAPCRAFT_PART_INSTALL/jar/rpncalc.jar
       
+      # Move the wrapper and ensure it's executablel
       cp $SNAPCRAFT_PROJECT_DIR/snap/local/rpncalc-wrapper $SNAPCRAFT_PART_INSTALL/
       chmod +x $SNAPCRAFT_PART_INSTALL/rpncalc-wrapper
+
     build-packages:
       - gradle
       - openjdk-21-jdk-headless
