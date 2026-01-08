@@ -60,19 +60,19 @@ apps:
 
 parts:
   rpncalc:
-    plugin: gradle
-    source: https://github.com/frossm/rpncalc.git
-    source-branch: master
-    source-type: git
+    plugin: nil
+    source: .
+    build-attributes: [network]
 
     override-build: |
       # Ensure that the gradle wrapper is executable
       chmod +x gradlew
-      ./gradlew shadowJar -x test
+
+      ./gradlew shadowJar -x test --console=plain
 
       # Install the JAR
       mkdir -p $SNAPCRAFT_PART_INSTALL/jar
-      cp build/libs/rpncalc*.jar $SNAPCRAFT_PART_INSTALL/jar/rpncalc.jar
+      cp build/libs/*.jar $SNAPCRAFT_PART_INSTALL/jar/rpncalc.jar
 
       # Copy the wrapper from your local project into the snap root
       cp $SNAPCRAFT_PROJECT_DIR/snap/local/rpncalc-wrapper $SNAPCRAFT_PART_INSTALL/
