@@ -103,7 +103,7 @@ tasks.test {
 }
 
 
-// install:  This copies the fat jar to the C:\Utils directory
+// install:  This copies the fat jar to the C:\Utils directory after building and testing it
 tasks.register<Copy>("install") {
    group = "distribution"
    description = "Builds, tests, and copies the shadowJar to C:/Utils"
@@ -111,6 +111,9 @@ tasks.register<Copy>("install") {
 
    from(tasks.named("shadowJar"))
    into("C:/Utils")
+
+   // Force Gradle to copy the file ever time and igore the cache.
+   outputs.upToDateWhen { false }
 
    // Capture these here so they are available during execution
    val progName = project.name
