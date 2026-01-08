@@ -1,6 +1,6 @@
 name: rpncalc
 title: RPNCalc
-version: '6.0.0'
+version: '6.0.1'
 summary: The command-line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator. 
@@ -50,34 +50,38 @@ compression: lzo
 apps:
    rpncalc:
       command: rpncalc-wrapper
+      environment:
+        PATH: $SNAP/usr/lib/jvm/java-21-openjdk-amd64/bin:$PATH
+        JAVA_HOME: $SNAP/usr/lib/jvm/java-21-openjdk-amd64
+
       plugs:
          - network
          - home
 
 parts:
-   wrapper:
-      plugin: dump
-      source: snap/local
-      source-type: local
+  rpncalc:
+    plugin: gradle
+    source: https://github.com/frossm/rpncalc.git
+    source-branch: master
+    source-type: git
 
-   rpncalc:
-      plugin: maven
-      source: https://github.com/frossm/rpncalc.git
-      source-branch: master
-      source-type: git
-      maven-parameters:
-        # Having issues with the tests at SnapCraft. Skip this as they have all passed locally.
-        - package -DskipTests
+    override-build: |
+      # Ensure that the gradle wrapper is executable
+      chmod +x gradlew
+      ./gradlew shadowJar -x test
 
-      build-packages:
-         - maven
-         - openjdk-17-jdk-headless
+      # Install the JAR
+      mkdir -p $SNAPCRAFT_PART_INSTALL/jar
+      cp build/libs/rpncalc*.jar $SNAPCRAFT_PART_INSTALL/jar/rpncalc.jar
 
-      stage-packages:
-         - openjdk-17-jre-headless
+      # Copy the wrapper from your local project into the snap root
+      cp $SNAPCRAFT_PROJECT_DIR/snap/local/rpncalc-wrapper $SNAPCRAFT_PART_INSTALL/
+      chmod +x $SNAPCRAFT_PART_INSTALL/rpncalc-wrapper
 
-      # Bypass a build issue where an absolute reference is made to a file outside the snap filesystem
-      # Ref: https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/23
-      override-prime: |
-         craftctl default
-         rm -vf usr/lib/jvm/java-17-openjdk-*/lib/security/blacklisted.certs
+    build-packages:
+      - gradle
+      - openjdk-21-jdk-headless
+
+    stage-packages:
+      - openjdk-21-jre-headless
+

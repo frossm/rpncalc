@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Runs RPNCalc as a bash script with the needed options
 #
-exec "$SNAP"/bin/java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar "$SNAP"/jar/rpncalc.jar "$@"
+exec java -Djava.util.prefs.userRoot="$SNAP_USER_DATA" -Dorg.jline.terminal.dumb=true -jar "$SNAP"/jar/rpncalc.jar "$@"
