@@ -1,10 +1,36 @@
+/* ------------------------------------------------------------------------------
+ * RPNCalc
+ *
+ * RPNCalc is is an easy to use console based RPN calculator
+ *
+ *  Copyright (c) 2011-2026 Michael Fross
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * ------------------------------------------------------------------------------*/
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
    java
    application
    id("com.github.ben-manes.versions") version "0.53.0"
-   id("com.gradleup.shadow") version "9.3.0"
+   id("com.gradleup.shadow") version "9.3.1"
 }
 
 group = "org.fross"
@@ -20,6 +46,7 @@ application {
 tasks.withType<JavaCompile> {
    options.release.set(javaVersion)
 }
+
 tasks.withType<Test> {
    // Ensure tests also run in a compatible mode
    useJUnitPlatform()
@@ -57,6 +84,9 @@ tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("
 
 // Update the Java resources with project version and inception date
 tasks.processResources {
+   // Tell Gradle: "Before you process resources, run the version updater"
+   dependsOn("updateSnapVersion")
+
    val tokens = mapOf(
       "project.version" to project.version.toString(),
       "project.inceptionYear" to (project.findProperty("inceptionYear")?.toString() ?: "2011")
@@ -74,7 +104,6 @@ tasks.named<ShadowJar>("shadowJar") {
    group = "build"
    description = "Creates a 'Fat Jar' file containing all dependencies"
    dependsOn("test")
-   dependsOn("updateSnapVersion")
    archiveFileName.set("${project.name}.jar")
 
    // Merge ServiceLoader files so JLine can find its Terminal providers
@@ -112,23 +141,23 @@ tasks.register<Copy>("install") {
    from(tasks.named("shadowJar"))
    into("C:/Utils")
 
-   // Force Gradle to copy the file ever time and igore the cache.
+   // Force Gradle to ignore the cache and copy the file every time
    outputs.upToDateWhen { false }
 
-   // Capture these here so they are available during execution
+   // Capture these here so they are available during execution and Gradle won't throw an error
    val progName = project.name
    val progVersion = project.version.toString()
 
    doLast {
-      println("\n--- RELEASE COMPLETE ---")
+      println("\n---------- RELEASE COMPLETE ----------")
       println("Installed: $progName.jar -> C:/Utils")
       println("Version:   $progVersion")
-      println("------------------------")
+      println("--------------------------------------")
    }
 }
 
 
-// updateSnapVersion:  Update Snapcraft Version in snapcraft.yaml
+// updateSnapVersion:  Update application version in snapcraft.yaml
 tasks.register("updateSnapVersion") {
    group = "versioning"
    description = "Updates the version in snapcraft.yaml to match the project version"
@@ -138,18 +167,22 @@ tasks.register("updateSnapVersion") {
    val snapFileLocation = layout.projectDirectory.file("snap/snapcraft.yaml").asFile
 
    doLast {
-      if (snapFileLocation.exists()) {
-         println("Updating Snapcraft file: ${snapFileLocation.path}")
-
-         val content = snapFileLocation.readText()
-         val updatedContent = content.replace(
-            Regex("""(?m)^version:\s*['"]?.*['"]?"""), "version: '$newVersion'"
-         )
-
-         snapFileLocation.writeText(updatedContent)
-         println("Successfully updated snapcraft.yaml to version: $newVersion")
-      } else {
-         println("Warning: snapcraft.yaml not found at ${snapFileLocation.path}")
+      if (!snapFileLocation.exists()) {
+         throw GradleException("FATAL: snapcraft.yaml not found at ${snapFileLocation.path}. Build aborted.")
       }
+
+      println("Updating Snapcraft file: ${snapFileLocation.path}")
+      val content = snapFileLocation.readText()
+
+      if (!content.contains(Regex("""(?m)^version:"""))) {
+         throw GradleException("FATAL: 'version:' key not found in snapcraft.yaml. Check file formatting.")
+      }
+
+      val updatedContent = content.replace(
+         Regex("""(?m)^version:\s*['"]?.*['"]?"""), "version: '$newVersion'"
+      )
+
+      snapFileLocation.writeText(updatedContent)
+      println("Successfully updated snapcraft.yaml to version: $newVersion")
    }
 }
