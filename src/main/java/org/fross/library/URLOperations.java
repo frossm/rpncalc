@@ -26,87 +26,101 @@
  * ------------------------------------------------------------------------------*/
 package org.fross.library;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URI;
 import java.net.URL;
 
 public class URLOperations {
 
-	/**
-	 * ReadURL: Retrieve data from a website
-	 * 
-	 * @param urlString
-	 * @return
-	 * @throws Exception
-	 */
-	public static String ReadURL(String urlString) throws Exception {
-		BufferedReader reader = null;
+   /**
+    * ReadURL: Retrieve data from a website
+    *
+    * @param urlString
+    * @return
+    * @throws Exception
+    */
+   public static String ReadURL(String urlString) throws Exception {
+      BufferedReader reader = null;
+      StringBuilder buffer = null;
 
-		try {
-			URL url = new URL(urlString);
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
-			StringBuilder buffer = new StringBuilder();
-			int read;
-			char[] chars = new char[1024];
-			while ((read = reader.read(chars)) != -1) {
-				buffer.append(chars, 0, read);
-			}
+      try {
+         URL url = new URI(urlString).toURL();
+         reader = new BufferedReader(new InputStreamReader(url.openStream()));
+         buffer = new StringBuilder();
+         int read;
+         char[] chars = new char[1024];
+         while ((read = reader.read(chars)) != -1) {
+            buffer.append(chars, 0, read);
+         }
 
-			return buffer.toString();
+      } catch (Exception ex) {
+         Output.printColorln(Output.RED, "ERROR: An IO Error Occurred\n" + ex.getMessage());
+      } finally {
+         if (reader != null) {
+            reader.close();
+         }
+      }
 
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-	}
+      return buffer.toString();
+   }
 
-	/**
-	 * DownloadFileFromURL(): Download a file from a URL to the provided directory
-	 * 
-	 * @param urlStr
-	 * @param file
-	 * @throws IOException
-	 */
-	public static void DownloadURLToFile(String urlStr, String file) throws IOException {
-		final int blockSize = 1024;
-		URL url = new URL(urlStr);
-		BufferedInputStream bis = new BufferedInputStream(url.openStream());
-		FileOutputStream fos = new FileOutputStream(file);
-		byte[] buffer = new byte[blockSize];
-		int count = 0;
+   /**
+    * DownloadFileFromURL(): Download a file from a URL to the provided directory
+    *
+    * @param urlStr
+    * @param file
+    * @throws IOException
+    */
+   public static void DownloadURLToFile(String urlStr, String file) throws IOException {
+      final int blockSize = 1024;
+      URL url;
+      BufferedInputStream bis = null;
+      FileOutputStream fos = null;
 
-		// Download chunks of the file and write them out
-		while ((count = bis.read(buffer, 0, blockSize)) != -1) {
-			fos.write(buffer, 0, count);
-		}
+      try {
+         url = new URI(urlStr).toURL();
+         bis = new BufferedInputStream(url.openStream());
+         fos = new FileOutputStream(file);
 
-		// Cleanup by closing the streams
-		fos.close();
-		bis.close();
-	}
+      } catch (Exception ex) {
+         Output.printColorln(Output.RED, "ERROR: An error occurred opening the URL\n" + ex.getMessage());
+      }
 
-	/**
-	 * main(): Used for testing DownloadFileFromURL()
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String url = args[0];
-		String fullFilePathAndName = args[1].replace('\\', '/');
+      // Download chunks of the file and write them out
+      int count;
+      byte[] buffer = new byte[blockSize];
+      try {
+         while ((count = bis.read(buffer, 0, blockSize)) != -1) {
+            fos.write(buffer, 0, count);
+         }
 
-		// Download Test
-		try {
-			System.out.println("Testing URL Download to File:");
-			System.out.println("   Downloading: " + url);
-			System.out.println("   Destination: " + fullFilePathAndName);
-			DownloadURLToFile(url, fullFilePathAndName);
-		} catch (IOException ex) {
-			System.out.println("An IO Error Occurred: Arguments are URL, DownloadedFilePath\n" + ex.getMessage());
-		}
-	}
+      } catch (NullPointerException ex) {
+         Output.printColorln(Output.RED, "ERROR: An error occurred reading from the URL\n" + ex.getMessage());
+      }
+
+      // Cleanup by closing the streams
+      fos.close();
+      bis.close();
+   }
+
+   /**
+    * main(): Used for testing DownloadFileFromURL()
+    *
+    * @param args URL
+    */
+   public static void main(String[] args) {
+      String url = args[0];
+      String fullFilePathAndName = args[1].replace('\\', '/');
+
+      // Download Test
+      try {
+         System.out.println("Testing URL Download to File:");
+         System.out.println("   Downloading: " + url);
+         System.out.println("   Destination: " + fullFilePathAndName);
+         DownloadURLToFile(url, fullFilePathAndName);
+      } catch (IOException ex) {
+         System.out.println("An IO Error Occurred: Arguments are URL, DownloadedFilePath\n" + ex.getMessage());
+      }
+   }
 
 }

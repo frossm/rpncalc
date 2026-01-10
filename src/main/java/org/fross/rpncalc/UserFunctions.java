@@ -79,22 +79,32 @@ public class UserFunctions {
                break;
 
             case "export":
-               Output.printColorln(Output.YELLOW, "Please enter the export filename. A blank name will cancel the export");
-               Output.printColorln(Output.YELLOW, "Note, if needed, please use use '/' as the path separator");
-
-               // Read the user input. If ctrl-C is entered, discard the function
+               // Let's see if an export filename was provided
                try {
-                  fileNameStr = UserInput.GetInput(Main.INPUT_PROMPT);
+                  fileNameStr = command[1];
 
-               } catch (UserInterruptException ex) {
-                  fileNameStr = "";
-               } catch (Exception e) {
-                  Output.fatalError("Could not read user input", 5);
+               } catch (IndexOutOfBoundsException ex) {
+                  // No output filename provided. Read the user input. If ctrl-C is entered, discard the function
+                  Output.printColorln(Output.YELLOW, "Please enter the export filename. A blank name will cancel the export");
+                  Output.printColorln(Output.YELLOW, "Note, if needed, please use use '/' as the path separator");
+
+                  try {
+                     fileNameStr = UserInput.GetInput(Main.INPUT_PROMPT);
+
+                  } catch (UserInterruptException e) {
+                     fileNameStr = "";
+                  } catch (Exception e) {
+                     Output.fatalError("Could not read user input", 5);
+                  }
+
+               } catch (Exception ex) {
+                  Output.printColorln(Output.RED, "ERROR: Couldn't determine the func export filename");
+                  return;
                }
 
                // If no name is given, cancel export
                if (fileNameStr.isBlank()) {
-                  Output.printColorln(Output.YELLOW, "Canceling export");
+                  Output.printColorln(Output.YELLOW, "No filename provided - canceling export");
                   break;
                }
 
@@ -120,20 +130,29 @@ public class UserFunctions {
                break;
 
             case "import":
-               Output.printColorln(Output.YELLOW, "Please enter the import filename. A blank name will cancel the import");
-               Output.printColorln(Output.YELLOW, "Note, if needed, please use use '/' as the path separator");
-
-               // Read the user input. If ctrl-C is entered, discard the function
+               // Was an import filename passed?
                try {
-                  fileNameStr = UserInput.GetInput(Main.INPUT_PROMPT);
+                  fileNameStr = command[1];
+               } catch (IndexOutOfBoundsException ex) {
+                  // No input filename provided. Read the user input. If ctrl-C is entered, discard the function
+                  Output.printColorln(Output.YELLOW, "Please enter the import filename. A blank name will cancel the import");
+                  Output.printColorln(Output.YELLOW, "Note, if needed, please use use '/' as the path separator");
 
-               } catch (UserInterruptException ex) {
-                  fileNameStr = "";
-               } catch (Exception e) {
-                  Output.fatalError("Could not read user input", 5);
+                  // Read the user input. If ctrl-C is entered, discard the function
+                  try {
+                     fileNameStr = UserInput.GetInput(Main.INPUT_PROMPT);
+
+                  } catch (UserInterruptException e) {
+                     fileNameStr = "";
+                  } catch (Exception e) {
+                     Output.fatalError("Could not read user input", 5);
+                  }
+               } catch (Exception ex) {
+                  Output.printColorln(Output.RED, "ERROR: Couldn't determine the function import filename");
+                  return;
                }
 
-               // If no name is given, cancel export
+               // If no name is given, cancel import
                if (fileNameStr.isBlank()) {
                   Output.printColorln(Output.YELLOW, "Canceling import");
                   break;
@@ -143,7 +162,7 @@ public class UserFunctions {
                try {
                   FileInputStream fis = new FileInputStream(fileNameStr);
                   Preferences pImport = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
-                  pImport.importPreferences(fis);
+                  Preferences.importPreferences(fis);
                   fis.close();
 
                   Output.printColorln(Output.CYAN, "Import complete");

@@ -1,6 +1,6 @@
 name: rpncalc
 title: RPNCalc
-version: '6.0.3'
+version: '6.0.4'
 summary: The command-line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator. 
@@ -75,7 +75,7 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/jar
       cp build/libs/*.jar $SNAPCRAFT_PART_INSTALL/jar/rpncalc.jar
       
-      # Move the wrapper and ensure it's executablel
+      # Move the wrapper and ensure it's executable
       cp $SNAPCRAFT_PROJECT_DIR/snap/local/rpncalc-wrapper $SNAPCRAFT_PART_INSTALL/
       chmod +x $SNAPCRAFT_PART_INSTALL/rpncalc-wrapper
 

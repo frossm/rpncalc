@@ -26,7 +26,14 @@
  * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
 
+import org.fross.library.Output;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,16 +41,26 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Michael Fross (michael@fross.org)
  */
 class UserDefinedFunctionsTest {
+   final String TEST_FUNCTION_NAME = "automated-test-function";
+   final String TEST_FILE_NAME = "automated-test-file";
+
    /**
-    * Test recording, testing, and deleting a UDF
+    * Remove the automated-testing UDF
+    * Note: This is not an actual test, but rather a support method
+    */
+   void RemoveUDFFunction() {
+      UserFunctions.FunctionDelete(TEST_FUNCTION_NAME);
+
+   }
+
+   /**
+    * Test creating, testing, and deleting a UDF
     */
    @Test
-   void CreateFunction() {
-      String testFunctionName = "automated-testing";
-
+   void UDFFunctionTest() {
       // If the test function already exists for some reason delete it
-      if (UserFunctions.FunctionExists(testFunctionName)) {
-         UserFunctions.FunctionDelete(testFunctionName);
+      if (UserFunctions.FunctionExists(TEST_FUNCTION_NAME)) {
+         RemoveUDFFunction();
       }
 
       // Create the test stack
@@ -65,22 +82,57 @@ class UserDefinedFunctionsTest {
       assertEquals("150155623.0", stk.getAsString(0));
 
       // Stop the recording
-      UserFunctions.cmdRecord("off " + testFunctionName);
+      UserFunctions.cmdRecord("off " + TEST_FUNCTION_NAME);
       assertFalse(UserFunctions.recordingIsEnabled());
 
-      // Ensure the test is in the preferences system
-      assertTrue(UserFunctions.FunctionExists(testFunctionName));
+      // Ensure the test exists
+      assertTrue(UserFunctions.FunctionExists(TEST_FUNCTION_NAME));
 
       // Use the new function to add two numbers
       CommandParser.Parse(stk, stk, "4", "4", "");
       assertEquals(2, stk.size());
-      CommandParser.Parse(stk, stk, testFunctionName, testFunctionName, "");
+      CommandParser.Parse(stk, stk, TEST_FUNCTION_NAME, TEST_FUNCTION_NAME, "");
       assertEquals(1, stk.size());
       assertEquals("150155627.0", stk.getAsString(0));
 
-      // Remove the test function
-      UserFunctions.FunctionDelete(testFunctionName);
-      assertFalse(UserFunctions.FunctionExists(testFunctionName));
+      // --------------- Function Export Test ---------------
+      // Export the UDFs
+      CommandParser.Parse(stk, stk, "func export " + TEST_FILE_NAME, "func", "export " + TEST_FILE_NAME);
+
+      // Test if the file exists
+      File testFile = new File(TEST_FILE_NAME);
+      assertTrue(testFile.exists());
+
+      // Test that it contain the string TEST_FUNCTION_NAME
+      try (Stream<String> lines = Files.lines(Path.of(testFile.toURI()))) {
+         assertTrue(lines.anyMatch(line -> line.contains(TEST_FUNCTION_NAME)));
+      } catch (IOException ex) {
+         Output.printColorln(Output.RED, "Func Export test failed: \n " + ex.getMessage());
+         fail();
+      }
+
+      // --------------- Function Import Test ---------------
+      // Remove all functions and import the previously exported file
+      CommandParser.Parse(stk, stk, "func delall", "func", "delall");
+
+      // Restore functions back to what they were before we tested
+      CommandParser.Parse(stk, stk, "func import " + TEST_FILE_NAME, "func", "import " + TEST_FILE_NAME);
+
+      // Test that the function we created earlier exists
+      assertTrue(UserFunctions.FunctionExists(TEST_FUNCTION_NAME));
+
+      // --------------- Clean Up ---------------
+      // Remove the exported file
+      if (testFile.delete()) {
+         Output.println("Text Function Export File Successfully Deleted: " + testFile.getAbsolutePath());
+         assertFalse(testFile.exists());
+      } else {
+         Output.printColorln(Output.RED, "Text Function Export File Could Not Be Deleted: " + testFile.getAbsolutePath());
+      }
+
+      // Remove the created function
+      RemoveUDFFunction();
+      assertFalse(UserFunctions.FunctionExists(TEST_FUNCTION_NAME));
 
    }
 
