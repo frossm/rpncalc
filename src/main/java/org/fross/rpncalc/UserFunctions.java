@@ -84,7 +84,7 @@ public class UserFunctions {
 
                // Read the user input. If ctrl-C is entered, discard the function
                try {
-                  fileNameStr = Main.lineReader.readLine(Main.INPUT_PROMPT);
+                  fileNameStr = UserInput.GetInput(Main.INPUT_PROMPT);
 
                } catch (UserInterruptException ex) {
                   fileNameStr = "";
@@ -125,7 +125,7 @@ public class UserFunctions {
 
                // Read the user input. If ctrl-C is entered, discard the function
                try {
-                  fileNameStr = Main.lineReader.readLine(Main.INPUT_PROMPT);
+                  fileNameStr = UserInput.GetInput(Main.INPUT_PROMPT);
 
                } catch (UserInterruptException ex) {
                   fileNameStr = "";
@@ -209,7 +209,7 @@ public class UserFunctions {
 
                         // Read the user input. If ctrl-C is entered, discard the function
                         try {
-                           functionName = Main.lineReader.readLine(Main.INPUT_PROMPT);
+                           functionName = UserInput.GetInput(Main.INPUT_PROMPT);
                         } catch (UserInterruptException ex) {
                            functionName = "";
                         } catch (Exception e) {
