@@ -1,8 +1,8 @@
-/**************************************************************************************************************
+/* ------------------------------------------------------------------------------
  * Library Project
- * 
+ *
  *  Library holds methods and classes frequently used by my programs.
- * 
+ *
  *  Copyright (c) 2011-2026 Michael Fross
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,8 +22,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *   
- ***************************************************************************************************************/
+ *
+ * ------------------------------------------------------------------------------*/
 package org.fross.library;
 
 import java.util.regex.Matcher;
