@@ -35,11 +35,15 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.io.TempDir;
 
 public class URLOperationsTest {
    final String URL_ADDRESS = "https://greenwoodsoftware.com/less";
-   final String DOWNLOAD_FILE = "rpncalc_test";
    final String TEST_RESULT = "<title> Less </title>";
+
+   // Set Temp Directory for import / export testing
+   @TempDir
+   static Path tempDir;
 
    /**
     * Test ReadURL
@@ -52,7 +56,7 @@ public class URLOperationsTest {
          result = URLOperations.ReadURL(URL_ADDRESS);
          assertTrue(result.contains(TEST_RESULT));
       } catch (Exception ex) {
-         fail();
+         fail(ex.getMessage());
       }
 
    }
@@ -62,31 +66,31 @@ public class URLOperationsTest {
     */
    @Test
    void DownloadURLToFileTest() {
+      File tempFile = tempDir.resolve("RPNCalc_URLOperationsTest").toFile();
+
       try {
-         URLOperations.DownloadURLToFile(URL_ADDRESS, DOWNLOAD_FILE);
+         URLOperations.DownloadURLToFile(URL_ADDRESS, tempFile.getAbsolutePath());
       } catch (Exception ex) {
          fail();
       }
 
       // Test if the file exists
-      File testFile = new File(DOWNLOAD_FILE);
-      Output.printColorln(Output.WHITE, "DownloadURLToFile File: " + testFile.getAbsolutePath());
-      assertTrue(testFile.exists());
+      Output.printColorln(Output.WHITE, "DownloadURLToFile File: " + tempFile.getAbsolutePath());
+      assertTrue(tempFile.exists());
 
       // Test that it contain the string TEST_FUNCTION_NAME
-      try (Stream<String> lines = Files.lines(Path.of(testFile.toURI()))) {
+      try (Stream<String> lines = Files.lines(Path.of(tempFile.toURI()))) {
          assertTrue(lines.anyMatch(line -> line.contains(TEST_RESULT)));
       } catch (IOException ex) {
-         fail();
+         fail(ex.getMessage());
       }
 
       // Remove the downloaded file
-      if (testFile.delete()) {
+      if (tempFile.delete()) {
          // Test that the file no longer exists
-         assertFalse(testFile.exists());
+         assertFalse(tempFile.exists());
       } else {
-         Output.printColorln(Output.RED, "DownloadURLToFileTest TestFile Could Not Be Deleted: " + testFile.getAbsolutePath());
-         fail();
+         fail("Unable to delete test file: " + tempFile.getAbsolutePath());
       }
 
    }

@@ -28,6 +28,7 @@ package org.fross.rpncalc;
 
 import org.fross.library.Output;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +43,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class UserDefinedFunctionsTest {
    final String TEST_FUNCTION_NAME = "automated-test-function";
-   final String TEST_FILE_NAME = "automated-test-file";
+
+   // Set Temp Directory for import / export testing
+   @TempDir
+   static Path tempDir;
 
    /**
     * Remove the automated-testing UDF
@@ -50,7 +54,6 @@ class UserDefinedFunctionsTest {
     */
    void RemoveUDFFunction() {
       UserFunctions.FunctionDelete(TEST_FUNCTION_NAME);
-
    }
 
    /**
@@ -96,19 +99,20 @@ class UserDefinedFunctionsTest {
       assertEquals("150155627.0", stk.getAsString(0));
 
       // --------------- Function Export Test ---------------
+      File tempFile = tempDir.resolve("RPNCalc_UDFTest").toFile();
+
       // Export the UDFs
-      CommandParser.Parse(stk, stk, "func export " + TEST_FILE_NAME, "func", "export " + TEST_FILE_NAME);
+      CommandParser.Parse(stk, stk, "func export " + tempFile.getAbsolutePath(), "func", "export " + tempFile.getAbsolutePath());
 
       // Test if the file exists
-      File testFile = new File(TEST_FILE_NAME);
-      assertTrue(testFile.exists());
+      assertTrue(tempFile.exists());
 
       // Test that it contain the string TEST_FUNCTION_NAME
-      try (Stream<String> lines = Files.lines(Path.of(testFile.toURI()))) {
+      try (Stream<String> lines = Files.lines(Path.of(tempFile.toURI()))) {
          assertTrue(lines.anyMatch(line -> line.contains(TEST_FUNCTION_NAME)));
       } catch (IOException ex) {
          Output.printColorln(Output.RED, "Func Export test failed: \n " + ex.getMessage());
-         fail();
+         fail(ex.getMessage());
       }
 
       // --------------- Function Import Test ---------------
@@ -116,18 +120,18 @@ class UserDefinedFunctionsTest {
       CommandParser.Parse(stk, stk, "func delall", "func", "delall");
 
       // Restore functions back to what they were before we tested
-      CommandParser.Parse(stk, stk, "func import " + TEST_FILE_NAME, "func", "import " + TEST_FILE_NAME);
+      CommandParser.Parse(stk, stk, "func import " + tempFile.getAbsolutePath(), "func", "import " + tempFile.getAbsolutePath());
 
       // Test that the function we created earlier exists
       assertTrue(UserFunctions.FunctionExists(TEST_FUNCTION_NAME));
 
       // --------------- Clean Up ---------------
       // Remove the exported file
-      if (testFile.delete()) {
-         Output.println("Text Function Export File Successfully Deleted: " + testFile.getAbsolutePath());
-         assertFalse(testFile.exists());
+      if (tempFile.delete()) {
+         Output.println("Text Function Export File Successfully Deleted: " + tempFile.getAbsolutePath());
+         assertFalse(tempFile.exists());
       } else {
-         Output.printColorln(Output.RED, "Text Function Export File Could Not Be Deleted: " + testFile.getAbsolutePath());
+         Output.printColorln(Output.RED, "Text Function Export File Could Not Be Deleted: " + tempFile.getAbsolutePath());
       }
 
       // Remove the created function

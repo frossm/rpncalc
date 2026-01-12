@@ -196,7 +196,7 @@ class StackOperationsTest {
 
       // Delete the testFile if it exists
       try {
-         if (!testFile.delete()) {
+         if (testFile.exists() && !testFile.delete()) {
             throw new IOException("Delete Failed");
          }
       } catch (IOException ex) {
