@@ -16,7 +16,7 @@ is detailed in the `Licenses` chapter.
 
 - [jUnit5](https://github.com/junit-team/junit5) is used for automated unit testing
 
-- [Maven](https://maven.apache.org/) build tool is used extensively in RPNCalc
+- [Gradle](https://gradle.org/) build tool is used extensively in RPNCalc
 
 - [OpenJDK](https://adoptium.net) is the engine that runs Java on my systems.  You may be running another Java Development Kit (JDK) or Java Runtime Environment (JRE)
 

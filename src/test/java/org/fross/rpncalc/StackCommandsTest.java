@@ -186,7 +186,7 @@ class StackCommandsTest {
       // Ensure there are 10 items
       assertEquals(10, stk.size());
 
-      // Clear the stack and check that it's empty. Don't use cmdClear as that will erase the maven test screen
+      // Clear the stack and check that it's empty. Don't use cmdClear as that will erase the test screen
       stk.clear();
       assertEquals(0, stk.size());
       assertTrue(stk.isEmpty());

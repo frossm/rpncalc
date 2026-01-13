@@ -106,7 +106,7 @@ public class Main {
       }
 
       // Process application level properties file
-      // Update properties from Maven at build time:
+      // Update properties from the build configuration at build time:
       // Ref: https://stackoverflow.com/questions/3697449/retrieve-version-from-maven-pom-xml-in-code
       try {
          InputStream iStream = Main.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);

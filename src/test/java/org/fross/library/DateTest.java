@@ -47,7 +47,7 @@ class DateTest {
     */
    @Test
    void getCurrentHourTest() {
-      assertEquals(jc.get(java.util.Calendar.HOUR_OF_DAY), Date.getCurrentHour());
+      assertEquals(jc.get(java.util.Calendar.HOUR_OF_DAY), Date.getCurrentHour24());
    }
 
    /**

@@ -36,27 +36,23 @@ plugins {
 group = "org.fross"
 val javaVersion = 21
 
-
 application {
    mainClass.set("org.fross.rpncalc.Main")
 }
 
-
-// Tell Gradle to output java 21 compatible bytecode
+// Tell Gradle to output the right java version's bytecode
 tasks.withType<JavaCompile> {
    options.release.set(javaVersion)
 }
 
+// Ensure we use JUnit
 tasks.withType<Test> {
-   // Ensure tests also run in a compatible mode
    useJUnitPlatform()
 }
-
 
 repositories {
    mavenCentral()
 }
-
 
 dependencies {
    implementation("com.beust:jcommander:1.82")
@@ -68,12 +64,11 @@ dependencies {
    implementation("org.jline:jline-native:3.30.6")          // Native support for Linux/Mac/Win
    implementation("org.jline:jline-terminal-ffm:3.30.6")
 
-   // --- JUnit5 Testing ---
+   // --- JUnit Testing ---
    testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0-M1")
    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.0-M1")
    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.0-M1")
 }
-
 
 // Let Gradle know that to not try and cached the Versions plugin and prevent warnings
 // Hopefully this won't be needed with future versions of the plugin
@@ -81,14 +76,15 @@ tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("
    notCompatibleWithConfigurationCache("The versions plugin is not yet compatible with the configuration cache.")
 }
 
-
 // Update the Java resources with project version and inception date
 tasks.processResources {
-   // Tell Gradle: "Before you process resources, run the version updater"
+   // Before you process resources, update the snapcraft version
    dependsOn("updateSnapVersion")
 
    val tokens = mapOf(
       "project.version" to project.version.toString(),
+
+      // If it can't get the property, default to 2011
       "project.inceptionYear" to (project.findProperty("inceptionYear")?.toString() ?: "2011")
    )
 
@@ -98,8 +94,7 @@ tasks.processResources {
    }
 }
 
-
-// Configure the ShadowJar task
+// Create the fully executable shadowJar (FatJar)
 tasks.named<ShadowJar>("shadowJar") {
    group = "build"
    description = "Creates a 'Fat Jar' file containing all dependencies"
@@ -131,7 +126,6 @@ tasks.test {
    }
 }
 
-
 // install:  This copies the fat jar to the C:\Utils directory after building and testing it
 tasks.register<Copy>("install") {
    group = "distribution"
@@ -155,7 +149,6 @@ tasks.register<Copy>("install") {
       println("--------------------------------------")
    }
 }
-
 
 // updateSnapVersion:  Update application version in snapcraft.yaml
 tasks.register("updateSnapVersion") {

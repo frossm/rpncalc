@@ -26,6 +26,8 @@
  * ------------------------------------------------------------------------------*/
 package org.fross.library;
 
+import java.util.Calendar;
+
 public class Date {
 	static final String[] monthsLong = { "", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
 			"December" };
@@ -71,7 +73,18 @@ public class Date {
 	 */
 	public static int getCurrentHour() {
 		java.util.Calendar jc = java.util.Calendar.getInstance();
-		int hour = jc.get(java.util.Calendar.HOUR);
+		int hour = jc.get(Calendar.HOUR);
+		return hour;
+	}
+
+	/**
+	 * getCurrentHour24(): Return an integer value for the current hour in 24 hour format
+	 *
+	 * @return
+	 */
+	public static int getCurrentHour24() {
+		java.util.Calendar jc = java.util.Calendar.getInstance();
+		int hour = jc.get(Calendar.HOUR_OF_DAY);
 		return hour;
 	}
 
