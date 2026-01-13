@@ -129,6 +129,20 @@ public class Format {
 	}
 
 	/**
+	 * CenterTextSpacesToAdd(): Return the number of spaced to add at the start and end of the text to center it
+	 * 
+	 * @param width
+	 * @param lineToCenter
+	 * @param pre
+	 * @param post
+	 * @return
+	 */
+	public static int CenterTextSpacesToAdd(int width, String lineToCenter, String pre, String post) {
+		int spacesToAdd = ((width - lineToCenter.length() - pre.length() - post.length()) / 2);
+		return (spacesToAdd);
+	}
+
+	/**
 	 * CenterText(): Center the text within the width provided. If no pre and post are provided, assume spaces
 	 * 
 	 * @param width

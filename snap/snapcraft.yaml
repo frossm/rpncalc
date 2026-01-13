@@ -1,6 +1,6 @@
 name: rpncalc
 title: RPNCalc
-version: '6.0.12'
+version: '6.0.13'
 summary: The command-line Reverse Polish Notation (RPN) calculator
 description: |
   RPNCalc is the command-line based Reverse Polish Notation (RPN) calculator. 
@@ -14,7 +14,8 @@ description: |
   from the stack, add them, and push 5 back onto the stack.
   
   There is a very large collection of functions that can be used.  Trig functions,
-  statistical functions, user defined functions, multiple stacks, constants, etc. 
+  statistical functions, user defined functions, multiple stacks, constants, 
+  conversions, etc. 
   
   For a quick summary of RPNCalc usage, run the program with the -h switch or enter `h` 
   within the program.

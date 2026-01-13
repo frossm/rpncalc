@@ -207,10 +207,10 @@ public class Output {
    }
 
    /**
-    * JAnsi256Test(): Simple printout of colors to test jAnsi 256 on terminals
+    * Ansi256Test(): Simple printout of colors to test jAnsi 256 on terminals
     *
     */
-   public static void JAnsi256Test() {
+   public static void Ansi256Test() {
       // Test Foregrounds
       for (int index = 0; index < 256; index++) {
          Output.printColor(index, String.format("%d", index));

@@ -102,7 +102,7 @@ class FormatTest {
     * Test method for {@link org.fross.library.Format#CenterText(int, java.lang.String)}.
     */
    @Test
-   void testCenterTextIntString() {
+   void testCenterTextInString() {
       String in = "Even Length String";
       String out = " Even Length String ";
 
@@ -112,6 +112,26 @@ class FormatTest {
       out = "    Odd Length String    ";
       assertEquals(out, Format.CenterText(25, in));
    }
+
+   /**
+    * Test CenterTextSpacesToAdd
+    */
+   @Test
+   void testCenterTextSpacesToAdd() {
+      assertEquals(20, Format.CenterTextSpacesToAdd(80,
+            "This is a fairly large even sized String", "", ""));
+
+      assertEquals(4, Format.CenterTextSpacesToAdd(80,
+            "It's a dog eat dog world out there, and I'm wearing milk bone underwear", "", ""));
+
+      assertEquals(35, Format.CenterTextSpacesToAdd(80,
+            "Hi There!", "", ""));
+
+      assertEquals(-23, Format.CenterTextSpacesToAdd(25,
+            "It's a dog eat dog world out there, and I'm wearing milk bone underwear", "", ""));
+
+   }
+
 
    /**
     * Test method for {@link org.fross.library.Format#Capitalize(java.lang.String)}.

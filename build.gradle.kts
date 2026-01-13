@@ -157,10 +157,10 @@ tasks.register<Copy>("install") {
    val progVersion = project.version.toString()
 
    doLast {
-      println("\n---------- RELEASE COMPLETE ----------")
+      println("\n-------------------- RELEASE COMPLETE --------------------")
       println("Installed: $progName.jar -> $installDirectory")
       println("Version:   $progVersion")
-      println("--------------------------------------")
+      println("----------------------------------------------------------")
    }
 }
 
@@ -294,11 +294,11 @@ val publishUserGuide by tasks.registering(Sync::class) {
    doLast {
       // Display the summary
       val count = targetDir.walkTopDown().filter { it.isFile }.count()
-      println("\n---------- PUBLISH COMPLETE ----------")
+      println("\n-------------------- PUBLISH COMPLETE --------------------")
       println("Generated from: ${sourceDir.canonicalPath}")
       println("Published to:   ${targetDir.canonicalPath}")
       println("Sync complete:  $count files verified")
-      println("--------------------------------------")
+      println("----------------------------------------------------------")
    }
 }
 
