@@ -197,6 +197,11 @@ public class Output {
       terminal.puts(Capability.clear_screen);
       terminal.puts(Capability.cursor_home);
 
+      // I had issues with clearing the screen in Linux. This is a failsafe.
+      // \033[2J = Clear entire screen
+      // \033[H  = Move cursor to home (0,0)
+      terminal.writer().print("\033[H\033[2J");
+
       // Always flush to ensure the command is sent to the screen immediately
       terminal.flush();
    }
