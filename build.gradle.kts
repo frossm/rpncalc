@@ -76,6 +76,11 @@ tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("
    notCompatibleWithConfigurationCache("The versions plugin is not yet compatible with the configuration cache.")
 }
 
+// Define what custom tasks are run with the clean task
+tasks.clean {
+   dependsOn("cleanMdBook")
+}
+
 // Update the Java resources with project version and inception date
 tasks.processResources {
    // Before you process resources, update the snapcraft version
@@ -178,4 +183,27 @@ tasks.register("updateSnapVersion") {
       snapFileLocation.writeText(updatedContent)
       println("Successfully updated snapcraft.yaml to version: $newVersion")
    }
+}
+
+// Clean mdBook
+val cleanMdBook by tasks.registering(Exec::class) {
+   group = "documentation"
+   description = "Runs mdbook clean from the 'mdbook' directory"
+
+   // The root directory of the mdbook
+   val baseDir = layout.projectDirectory.dir("mdbook")
+
+   // The actual guide folder for the existence check
+   val guideDir = baseDir.dir("RPNCalc-UserGuide")
+
+   // Change into the parent mdbook folder
+   workingDir = baseDir.asFile
+
+   // Just run if the RPNCalc-UserGuide directory exists
+   onlyIf {
+      guideDir.asFile.exists()
+   }
+
+   // Execute the mdbook clean command
+   commandLine("mdbook", "clean")
 }
