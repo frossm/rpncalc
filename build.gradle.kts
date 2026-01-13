@@ -25,6 +25,7 @@
  *
  * ------------------------------------------------------------------------------*/
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.security.MessageDigest
 
 plugins {
    java
@@ -99,7 +100,7 @@ tasks.processResources {
    }
 }
 
-// Create the fully executable shadowJar (FatJar)
+// ShadowJar:  Create the fully executable shadowJar (FatJar)
 tasks.named<ShadowJar>("shadowJar") {
    group = "build"
    description = "Creates a 'Fat Jar' file containing all dependencies"
@@ -117,6 +118,9 @@ tasks.named<ShadowJar>("shadowJar") {
    // Standard excludes to keep the JAR clean
    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
    exclude("META-INF/LICENSE*", "META-INF/NOTICE*", "META-INF/maven/**")
+
+   // Always generate the checksums after building the shadowJar
+   finalizedBy(generateChecksums)
 }
 
 // Execute JUnit Tests
@@ -134,11 +138,16 @@ tasks.test {
 // install:  This copies the fat jar to the C:\Utils directory after building and testing it
 tasks.register<Copy>("install") {
    group = "distribution"
-   description = "Builds, tests, and copies the shadowJar to C:/Utils"
-   dependsOn("shadowJar")
+   description = "Builds, tests, and copies the shadowJar to the install directory"
+
+   val installDirectory = "C:/Utils"
+
+   // This install task depends on shadowJar
+   val shadowTask = tasks.named<ShadowJar>("shadowJar")
+   dependsOn(shadowTask)
 
    from(tasks.named("shadowJar"))
-   into("C:/Utils")
+   into(installDirectory)
 
    // Force Gradle to ignore the cache and copy the file every time
    outputs.upToDateWhen { false }
@@ -149,7 +158,7 @@ tasks.register<Copy>("install") {
 
    doLast {
       println("\n---------- RELEASE COMPLETE ----------")
-      println("Installed: $progName.jar -> C:/Utils")
+      println("Installed: $progName.jar -> $installDirectory")
       println("Version:   $progVersion")
       println("--------------------------------------")
    }
@@ -206,4 +215,48 @@ val cleanMdBook by tasks.registering(Exec::class) {
 
    // Execute the mdbook clean command
    commandLine("mdbook", "clean")
+}
+
+// Generate Checksums during builds automatically
+val generateChecksums by tasks.registering {
+   group = "distribution"
+   description = "Generates MD5, SHA-1, and SHA-256 checksums for the shadow JAR"
+
+   // Link this task to the shadowJar task by having that as a dependency
+   val shadowJarTask = tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar")
+   dependsOn(shadowJarTask)
+
+   // Define Inputs/Outputs for Gradle's "Up-To-Date" check
+   val archiveFile = shadowJarTask.get().archiveFile.get().asFile
+   val outputDir = archiveFile.parentFile
+
+   inputs.file(archiveFile)
+
+   // List the specific files we will create as outputs
+   outputs.files(
+      outputDir.resolve("CHECKSUM.MD5"),
+      outputDir.resolve("CHECKSUM.SHA1"),
+      outputDir.resolve("CHECKSUM.SHA256")
+   )
+
+   doLast {
+      val fileName = archiveFile.name
+
+      mapOf(
+         "MD5" to "CHECKSUM.MD5",
+         "SHA-1" to "CHECKSUM.SHA1",
+         "SHA-256" to "CHECKSUM.SHA256"
+      ).forEach { (algorithm, outName) ->
+         val digest = MessageDigest.getInstance(algorithm)
+
+         // Efficiently read file and generate hex string
+         val hash = archiveFile.readBytes().let { bytes ->
+            digest.digest(bytes).joinToString("") { "%02x".format(it) }
+         }
+
+         val outFile = File(outputDir, outName)
+         outFile.writeText("$hash  $fileName\n")
+         println("Generated $outName in build/libs")
+      }
+   }
 }
