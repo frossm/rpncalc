@@ -260,3 +260,56 @@ val generateChecksums by tasks.registering {
       }
    }
 }
+
+// Publish the RPNCalc UserGuide
+val publishUserGuide by tasks.registering(Sync::class) {
+   group = "documentation"
+   description = "Mirrors User Guide using robust relative path resolution"
+
+   // Resolve paths relative to this project's root
+   val sourceDir = projectDir.resolve("mdbook/RPNCalc-UserGuide")
+   val websiteRepo = projectDir.parentFile.resolve("frossm.github.io")
+   val targetDir = websiteRepo.resolve("RPNCalc-UserGuide")
+
+   // Build the mdBook before we do anything
+   dependsOn("buildMdBook")
+
+   // Configure the Gradle sync
+   from(sourceDir)
+   into(targetDir)
+
+   // Ensure the mdbook RPNCalc-UserGuide source and destination directory exist
+   doFirst {
+      // Ensure the source directory exists
+      if (!sourceDir.exists()) {
+         throw GradleException("Could not find website repo at: ${websiteRepo.canonicalPath}")
+      }
+
+      // Ensure the parent of the future destination (frossm.github.io) exists
+      if (!websiteRepo.exists()) {
+         throw GradleException("Website repo not found at: ${websiteRepo.canonicalPath}")
+      }
+   }
+
+   doLast {
+      // Display the summary
+      val count = targetDir.walkTopDown().filter { it.isFile }.count()
+      println("\n---------- PUBLISH COMPLETE ----------")
+      println("Generated from: ${sourceDir.canonicalPath}")
+      println("Published to:   ${targetDir.canonicalPath}")
+      println("Sync complete:  $count files verified")
+      println("--------------------------------------")
+   }
+}
+
+// Runs the mdBook build task to generate the RPNCalc-UserGuide book
+tasks.register<Exec>("buildMdBook") {
+   val mdbookRootDir = layout.projectDirectory.dir("mdbook")
+
+   workingDir = mdbookRootDir.asFile
+   commandLine("mdbook", "build")
+
+   // Optimization: Only run if the markdown source files changed
+   inputs.dir(mdbookRootDir.dir("src"))
+   outputs.dir(mdbookRootDir.dir("RPNCalc-UserGuide"))
+}
