@@ -55,13 +55,6 @@ public class CommandHistory {
    }
 
    /**
-    * remove(): Remove the last command history item
-    */
-   public static void remove() {
-      cmdHistory.remove(cmdHistory.size() - 1);
-   }
-
-   /**
     * clear(): Clear the command history
     */
    public static void clear() {
@@ -104,6 +97,12 @@ public class CommandHistory {
       }
    }
 
+   /**
+    * remove(): Remove the last command history item
+    */
+   public static void remove() {
+      cmdHistory.remove(cmdHistory.size() - 1);
+   }
 
    /**
     * size():  Return the size of the command history

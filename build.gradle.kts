@@ -41,20 +41,30 @@ application {
    mainClass.set("org.fross.rpncalc.Main")
 }
 
-// Tell Gradle to output the right java version's bytecode
+// --------------------------------------------------------------------------------------------------------
+// JavaCompile Tasks: Tell Gradle to output the right java version's bytecode
+// --------------------------------------------------------------------------------------------------------
 tasks.withType<JavaCompile> {
    options.release.set(javaVersion)
 }
 
-// Ensure we use JUnit
+// --------------------------------------------------------------------------------------------------------
+// Test Tasks:  Ensure we use JUnit when testing
+// --------------------------------------------------------------------------------------------------------
 tasks.withType<Test> {
    useJUnitPlatform()
 }
 
+// --------------------------------------------------------------------------------------------------------
+// Define repositories used in the app
+// --------------------------------------------------------------------------------------------------------
 repositories {
    mavenCentral()
 }
 
+// --------------------------------------------------------------------------------------------------------
+// dependencies list
+// --------------------------------------------------------------------------------------------------------
 dependencies {
    implementation("com.beust:jcommander:1.82")
    implementation("org.apache.commons:commons-math3:3.6.1")
@@ -71,18 +81,24 @@ dependencies {
    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.0-M1")
 }
 
+// --------------------------------------------------------------------------------------------------------
 // Let Gradle know that to not try and cached the Versions plugin and prevent warnings
 // Hopefully this won't be needed with future versions of the plugin
+// --------------------------------------------------------------------------------------------------------
 tasks.named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates") {
    notCompatibleWithConfigurationCache("The versions plugin is not yet compatible with the configuration cache.")
 }
 
-// Define what custom tasks are run with the clean task
+// --------------------------------------------------------------------------------------------------------
+// Clean Tasks:  Define what custom tasks are run with the clean task
+// --------------------------------------------------------------------------------------------------------
 tasks.clean {
    dependsOn("cleanMdBook")
 }
 
-// Update the Java resources with project version and inception date
+// --------------------------------------------------------------------------------------------------------
+// ProcessResources Tasks: Update the Java resources with project version and inception date
+// --------------------------------------------------------------------------------------------------------
 tasks.processResources {
    // Before you process resources, update the snapcraft version
    dependsOn("updateSnapVersion")
@@ -100,16 +116,21 @@ tasks.processResources {
    }
 }
 
-// ShadowJar:  Create the fully executable shadowJar (FatJar)
+// --------------------------------------------------------------------------------------------------------
+// shadowJar:  Create the fully executable shadowJar (FatJar)
+// --------------------------------------------------------------------------------------------------------
 tasks.named<ShadowJar>("shadowJar") {
    group = "build"
    description = "Creates a 'Fat Jar' file containing all dependencies"
-   dependsOn("test")
    archiveFileName.set("${project.name}.jar")
+
+   // Ensure we run a test cycle before creating the Shadow Jar
+   dependsOn("test")
 
    // Merge ServiceLoader files so JLine can find its Terminal providers
    mergeServiceFiles()
 
+   // Shrink the Shadow Jar by remove unused classes
    minimize {
       // Don't let the "minifier" remove JLine classes used via reflection
       exclude(dependency("org.jline:.*:.*"))
@@ -123,7 +144,9 @@ tasks.named<ShadowJar>("shadowJar") {
    finalizedBy(generateChecksums)
 }
 
-// Execute JUnit Tests
+// --------------------------------------------------------------------------------------------------------
+// Test Tasks: Execute JUnit Tests
+// --------------------------------------------------------------------------------------------------------
 tasks.test {
    useJUnitPlatform()
 
@@ -135,7 +158,9 @@ tasks.test {
    }
 }
 
-// install:  This copies the fat jar to the C:\Utils directory after building and testing it
+// --------------------------------------------------------------------------------------------------------
+// install:  Copies the Shadow Jar file to the C:\Utils directory after building and testing it
+// --------------------------------------------------------------------------------------------------------
 tasks.register<Copy>("install") {
    group = "distribution"
    description = "Builds, tests, and copies the shadowJar to the install directory"
@@ -164,7 +189,9 @@ tasks.register<Copy>("install") {
    }
 }
 
-// updateSnapVersion:  Update application version in snapcraft.yaml
+// --------------------------------------------------------------------------------------------------------
+// updateSnapVersion:  Update application version field in the snap/snapcraft.yaml file
+// --------------------------------------------------------------------------------------------------------
 tasks.register("updateSnapVersion") {
    group = "versioning"
    description = "Updates the version in snapcraft.yaml to match the project version"
@@ -194,30 +221,9 @@ tasks.register("updateSnapVersion") {
    }
 }
 
-// Clean mdBook
-val cleanMdBook by tasks.registering(Exec::class) {
-   group = "documentation"
-   description = "Runs mdbook clean from the 'mdbook' directory"
-
-   // The root directory of the mdbook
-   val baseDir = layout.projectDirectory.dir("mdbook")
-
-   // The actual guide folder for the existence check
-   val guideDir = baseDir.dir("RPNCalc-UserGuide")
-
-   // Change into the parent mdbook folder
-   workingDir = baseDir.asFile
-
-   // Just run if the RPNCalc-UserGuide directory exists
-   onlyIf {
-      guideDir.asFile.exists()
-   }
-
-   // Execute the mdbook clean command
-   commandLine("mdbook", "clean")
-}
-
-// Generate Checksums during builds automatically
+// --------------------------------------------------------------------------------------------------------
+// generateChecksums:  Generate Checksums automatically during builds in the build/libs directory
+// --------------------------------------------------------------------------------------------------------
 val generateChecksums by tasks.registering {
    group = "distribution"
    description = "Generates MD5, SHA-1, and SHA-256 checksums for the shadow JAR"
@@ -261,7 +267,9 @@ val generateChecksums by tasks.registering {
    }
 }
 
-// Publish the RPNCalc UserGuide
+// --------------------------------------------------------------------------------------------------------
+// publishUserGuide:  Publish the RPNCalc UserGuide to the fross.github.io directory
+// --------------------------------------------------------------------------------------------------------
 val publishUserGuide by tasks.registering(Sync::class) {
    group = "documentation"
    description = "Mirrors User Guide using robust relative path resolution"
@@ -302,7 +310,9 @@ val publishUserGuide by tasks.registering(Sync::class) {
    }
 }
 
-// Runs the mdBook build task to generate the RPNCalc-UserGuide book
+// --------------------------------------------------------------------------------------------------------
+// buildMdBook: Runs the mdBook build task to generate the RPNCalc-UserGuide
+// --------------------------------------------------------------------------------------------------------
 tasks.register<Exec>("buildMdBook") {
    val mdbookRootDir = layout.projectDirectory.dir("mdbook")
 
@@ -312,4 +322,29 @@ tasks.register<Exec>("buildMdBook") {
    // Optimization: Only run if the markdown source files changed
    inputs.dir(mdbookRootDir.dir("src"))
    outputs.dir(mdbookRootDir.dir("RPNCalc-UserGuide"))
+}
+
+// --------------------------------------------------------------------------------------------------------
+// CleanMdBook:  Run 'mdbook clean' in the mdbook directory to remove RPNCalc-UserGuide
+// --------------------------------------------------------------------------------------------------------
+val cleanMdBook by tasks.registering(Exec::class) {
+   group = "documentation"
+   description = " Run 'mdook clean' in the mdbook directory to remove RPNCalc-UserGuide"
+
+   // The root directory of the mdbook
+   val baseDir = layout.projectDirectory.dir("mdbook")
+
+   // The actual guide folder for the existence check
+   val guideDir = baseDir.dir("RPNCalc-UserGuide")
+
+   // Change into the parent mdbook folder
+   workingDir = baseDir.asFile
+
+   // Just run if the RPNCalc-UserGuide directory exists
+   onlyIf {
+      guideDir.asFile.exists()
+   }
+
+   // Execute the mdbook clean command
+   commandLine("mdbook", "clean")
 }
