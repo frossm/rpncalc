@@ -36,8 +36,8 @@ import org.fross.library.Output;
  * @author Michael Fross (michael@fross.org)
  */
 public class Help {
-   protected static final String HOMEPAGE="https://github.com/frossm/rpncalc";
-   protected static final String USERGUIDE="https://frossm.github.io/RPNCalc-UserGuide";
+   protected static final String HOMEPAGE = "https://github.com/frossm/rpncalc";
+   protected static final String USERGUIDE = "https://frossm.github.io/RPNCalc-UserGuide";
 
    /**
     * Display(): Show help information
@@ -100,21 +100,9 @@ public class Help {
       Output.printColorln(Output.WHITE, " up             Shift the stack up. Line1 becomes Line2, last stack items becomes Line1");
 
       Output.printColorln(Output.YELLOW, "\nConversions:");
-      Output.printColorln(Output.WHITE, " to%            Convert line1 from a number to a percent (0.715 -> 71.5%)");
-      Output.printColorln(Output.WHITE, " from%          Convert line1 from a percent to a number (23.5% -> 0.235)");
-      Output.printColorln(Output.WHITE, " frac [base]    Display as a fraction with min provided base. Default base is 64th");
-      Output.printColorln(Output.WHITE, " deg2rad        Convert line1 from degrees to radians");
-      Output.printColorln(Output.WHITE, " rad2deg        Convert line1 from radians to degrees");
-      Output.printColorln(Output.WHITE, " in2mm          Convert line1 from inches into millimeters");
-      Output.printColorln(Output.WHITE, " mm2in          Convert line1 from millimeters to inches");
-      Output.printColorln(Output.WHITE, " in2ft          Convert line1 from inches into feet");
-      Output.printColorln(Output.WHITE, " ft2in          Convert line1 from feet to inches");
-      Output.printColorln(Output.WHITE, " gram2oz        Convert line1 from grams to US ounces");
-      Output.printColorln(Output.WHITE, " oz2gram        Convert line1 from US ounces to grams");
-      Output.printColorln(Output.WHITE, " kg2lb          Convert line1 from kilograms to US pounds");
-      Output.printColorln(Output.WHITE, " lb2kg          Convert line1 from US pounds to kilograms");
-      Output.printColorln(Output.WHITE, " f2c            Convert line1 from Fahrenheit to Celsius");
-      Output.printColorln(Output.WHITE, " c2f            Convert line1 from Celsius to Fahrenheit");
+      Output.printColorln(Output.WHITE, " frac [base]      Display as a fraction with min provided base. Default base is 64th");
+      Output.printColorln(Output.WHITE, " convert FROM TO  Convert the amount provided from one unit to another");
+      Output.printColorln(Output.WHITE, " convertunits     Display the supported units available to convert");
 
       Output.printColorln(Output.YELLOW, "\nTrigonometry Functions:");
       Output.printColorln(Output.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle is in degrees unless rad is provided");

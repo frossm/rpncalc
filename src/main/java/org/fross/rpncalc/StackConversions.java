@@ -37,108 +37,98 @@ public class StackConversions {
    // Class Constants
    public static final BigInteger DEFAULT_FRACTION_DENOMINATOR = new BigInteger("64");  // Default Smallest Fraction Denominator
 
-   /**
-    * cmdFromPercent(): Convert a percentage to a number by multiplying by .01
-    * Example: 23.5% converts to .235
-    */
-   public static void cmdFromPercent(StackObj calcStack) {
-      // Ensure we have enough numbers on the stack
+   public static void cmdConvert(StackObj calcStack, String args) {
+      String fromUnit = "";
+      String toUnit = "";
+      BigDecimal result;
+
+      // Verify at least one item exists on the stack
       if (calcStack.isEmpty()) {
          Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
          return;
       }
 
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      Output.debugPrintln("Create a percent by multiplying by 0.01");
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("0.01")));
-   }
-
-   /**
-    * cmdToPercent(): Convert a number to a percentage by multiplying by 100
-    * Example: 0.715 converts to 71.5%
-    */
-   public static void cmdToPercent(StackObj calcStack) {
-      // Ensure we have enough numbers on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
+      // Determine the from and to values
+      try {
+         fromUnit = args.split(" ")[0];
+         toUnit = args.split(" ")[1];
+      } catch (Exception ex) {
+         Output.printColorln(Output.RED, "ERROR:  Two units are required.  'convert FROM TO'\n");
+         StackConversions.DisplayConversionUnits(Output.CYAN);
          return;
       }
 
+      Output.debugPrintln("Converting " + calcStack.peek() + " from " + fromUnit + " to " + toUnit);
+
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
 
-      Output.debugPrintln("Create a percent by multiplying by 100");
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("100")));
+      // Perform the conversion
+      try {
+         result = UnitConverter.convert(calcStack.peek(), fromUnit, toUnit).value();
+         calcStack.pop();
+         calcStack.push(result);
+      } catch (Exception ex) {
+         Output.printColorln(Output.RED, ex.getMessage());
+      }
+
    }
 
    /**
-    * cmdConvertIn2Mm(): Assumes Line1 is in inches and converts to millimeters
+    * DisplayConversionUnits():  Display the Convert command's supported units
     */
-   public static void cmdIn2Mm(StackObj calcStack) {
-      // Verify at least one element exists
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Pop off the last value, convert, and push it back
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("25.4")));
-   }
-
-   /**
-    * cmdConvertMm2In(): Assumes Line1 is in millimeters and converts to inches
-    */
-   public static void cmdMm2In(StackObj calcStack) {
-      // Verify at least one element exists
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Pop off the last value, convert, and push it back
-      calcStack.push(calcStack.pop().divide(new BigDecimal("25.4"), MathContext.DECIMAL128));
-   }
-
-   /**
-    * cmdConvertIn2Ft(): Assumes Line1 is in inches and converts to feet
-    */
-   public static void cmdIn2Ft(StackObj calcStack) {
-      // Verify at least one element exists
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Pop off the last value, convert, and push it back
-      calcStack.push(calcStack.pop().divide(new BigDecimal("12"), MathContext.DECIMAL128));
-   }
-
-   /**
-    * cmdConvertFt2In(): Assumes Line1 is in feet and converts to inches
-    */
-   public static void cmdFt2In(StackObj calcStack) {
-      // Verify at least one element exists
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "Error: There must be at least 1 element on the stack to convert");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Pop off the last value, convert, and push it back
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("12")));
+   public static void DisplayConversionUnits(int clr) {
+      String units = """
+            Length:
+              mm      Millimeter
+              cm      Centimeter
+              m       Meter
+              km      Kilometer
+              in      Inch
+              ft      Foot
+              yd      Yard
+              mi      Mile
+              
+            Mass:
+              mg      Milligram
+              g       Gram
+              kg      Kilogram
+              tonne   Metric Ton
+              oz      Ounce
+              lb      Pound
+              ton     US Short Ton
+              
+            Temperature:
+              c       Celsius
+              f       Fahrenheit
+              k       Kelvin
+              
+            Time:
+              ms      Millisecond
+              s       Second
+              min     Minute
+              hr      Hour
+              day     Day
+              week    Week
+              
+            Volume:
+              ml      Milliliter
+              l       Liter
+              floz    Fluid Ounce
+              cup     Cup
+              pt      Pint
+              qt      Quart
+              gal     Gallon
+              
+            Angle:
+              rad     Radian
+              deg     Degree
+              
+            Percentage:
+              decimal Decimal
+              %       Percent
+            """;
+      Output.printColorln(clr, units);
    }
 
    /**
@@ -235,161 +225,4 @@ public class StackConversions {
       return outputString;
    }
 
-   /**
-    * cmdDegree(): Convert line1 from radians to degrees
-    * Formula: degrees = radians * (180 / PI)
-    */
-   public static void cmdRad2Deg(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Pull the value, convert and push back
-      Double conversionFactor = 180 / java.lang.Math.PI;
-      calcStack.push(calcStack.pop().multiply(new BigDecimal(String.valueOf(conversionFactor))));
-   }
-
-   /**
-    * cmdRadian(): Convert line1 from degrees to radians.
-    * Formula: radians = degrees (PI/180)
-    */
-   public static void cmdDeg2Rad(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Pull the value, convert and push back
-      Double conversionFactor = java.lang.Math.PI / 180;
-      calcStack.push(calcStack.pop().multiply(new BigDecimal(String.valueOf(conversionFactor))));
-   }
-
-   /**
-    * cmdGram2Oz(): Convert line1 from grams to ounces
-    * There are 1/28.349523125 ounces per gram
-    *
-    * @param calcStack Primary Stack
-    */
-   public static void cmdGram2Oz(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Make the conversion
-      calcStack.push(calcStack.pop().divide(new BigDecimal("28.349523125"), MathContext.DECIMAL128));
-   }
-
-   /**
-    * cmdOz2Gram(): Convert line1 from grams to ounces
-    * There are 28.349523125 grams per ounce
-    *
-    * @param calcStack Primary Stack
-    */
-   public static void cmdOz2Gram(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Make the conversion
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("28.349523125")));
-   }
-
-   /**
-    * cmdKg2Lb(): Convert line1 from kilograms to US pounds
-    * There are 2.2046226218 pounds per kilogram
-    *
-    * @param calcStack Primary Stack
-    */
-   public static void cmdKg2Lb(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Make the conversion
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("2.2046226218"), MathContext.UNLIMITED));
-   }
-
-   /**
-    * cmdLb2Kg(): Convert line1 from US pounds to kilograms
-    * There are 0.45359237 kilograms per US pound
-    *
-    * @param calcStack Primary Stack
-    */
-   public static void cmdLb2Kg(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      // Make the conversion
-      calcStack.push(calcStack.pop().multiply(new BigDecimal("0.45359237")));
-   }
-
-   /**
-    * cmdF2C(): Convert Line1 from Fahrenheit to Celsius
-    *
-    * @param calcStack Primary Stack
-    */
-   public static void cmdF2C(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      BigDecimal f = calcStack.pop();
-      BigDecimal c = f.subtract(new BigDecimal("32")).multiply(new BigDecimal("0.55555555555555555555555555555556"));
-      calcStack.push(c);
-   }
-
-   /**
-    * cmdC2F(): Convert Line1 from Celsius to Fahrenheit
-    *
-    * @param calcStack Primary Stack
-    */
-   public static void cmdC2F(StackObj calcStack) {
-      // Ensure we have something on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  There are no items on the stack.");
-         return;
-      }
-
-      // Save current calcStack to the undoStack
-      calcStack.saveUndo();
-
-      BigDecimal c = calcStack.pop();
-      BigDecimal f = c.multiply(new BigDecimal("1.8")).add(new BigDecimal("32"));
-      calcStack.push(f);
-   }
 }

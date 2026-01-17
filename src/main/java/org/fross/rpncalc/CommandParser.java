@@ -216,14 +216,6 @@ public class CommandParser {
          /*------------------------------------------------------------------------------
           * Conversions
           *-----------------------------------------------------------------------------*/
-         // Percent
-         case "to%":
-            StackConversions.cmdToPercent(calcStack);
-            break;
-         case "from%":
-            StackConversions.cmdFromPercent(calcStack);
-            break;
-
          // Fraction
          case "frac":
          case "fraction":
@@ -236,66 +228,17 @@ public class CommandParser {
             }
             break;
 
-         // Convert inches to millimeters
-         case "in2mm":
-            StackConversions.cmdIn2Mm(calcStack);
+         // Unit Conversion
+         case "convert":
+            StackConversions.cmdConvert(calcStack, cmdInputParam);
             break;
 
-         // Convert millimeters to inches
-         case "mm2in":
-            StackConversions.cmdMm2In(calcStack);
+         // Display the supported conversion units
+         case "convertunits":
+         case "convertunit":
+            Output.printColorln(Output.YELLOW, "The following units are supported with the convert command\n");
+            StackConversions.DisplayConversionUnits(Output.CYAN);
             break;
-
-         // Convert inches to feet
-         case "in2ft":
-            StackConversions.cmdIn2Ft(calcStack);
-            break;
-
-         // Convert feet to inches
-         case "ft2in":
-            StackConversions.cmdFt2In(calcStack);
-            break;
-
-         // Convert to Radians
-         case "deg2rad":
-            StackConversions.cmdDeg2Rad(calcStack);
-            break;
-
-         // Convert to Degrees
-         case "rad2deg":
-            StackConversions.cmdRad2Deg(calcStack);
-            break;
-
-         // Convert grams to ounces
-         case "gram2oz":
-            StackConversions.cmdGram2Oz(calcStack);
-            break;
-
-         // Convert ounces to grams
-         case "oz2gram":
-            StackConversions.cmdOz2Gram(calcStack);
-            break;
-
-         // Convert Kilograms to US Pounds
-         case "kg2lb":
-            StackConversions.cmdKg2Lb(calcStack);
-            break;
-
-         // Convert US Pounds to Kilograms
-         case "lb2kg":
-            StackConversions.cmdLb2Kg(calcStack);
-            break;
-
-         // Convert Fahrenheit to Celsius
-         case "f2c":
-            StackConversions.cmdF2C(calcStack);
-            break;
-
-         // Convert Celsius to Fahrenheit
-         case "c2f":
-            StackConversions.cmdC2F(calcStack);
-            break;
-
 
          /*------------------------------------------------------------------------------
           * Stack Trigonometry Functions

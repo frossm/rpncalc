@@ -2,15 +2,30 @@
 
 # Conversions
 
-The conversion commands will simply convert from one unit to another. As an example, I frequently use RPNCalc to convert from inches to millimeters or back.
+The conversion command will simply convert from one unit to another. As an example, I frequently use RPNCalc to convert from inches to millimeters or back. The conversion
+module requires an amount as well as a "from" unit and a "to" unit. The acceptable units are listed below. You an only convert units within the same categories. For
+example, you can't convert `grams` to `miles` (obviously). The converter will take the last item off of the stack and replace it with the converted value.
 
-I've included the ones I use the most, but I'm happy to include others if you'd find something else useful.
+If you perform a certain conversion often, you might want to create a User Defined Function.  For example, you can create a UDF called `c2f` to perform `convert c f`.
+
+I've included a fairly comprehensive list of common units. I'm happy to include others if you'd find something else useful, [just let me know](mailto://rpncalc@fross.org).
+
+**Note:** All conversions are exact by definition except angle conversions. Unit abbreviations are case-insensitive.
+
+### Examples of Usage: <br>
+
+- convert 14.55123 in mm
+- convert 12 f c
+- convert 45.1 decimal %
 
 ## Fractional Display
 
-The RPNCalc stack only contains decimal numbers. Therefore, we can't directly store fractional values on the stack. If a fraction is entered, it is converted to a decimal.
-There could be a loss of precision when this is done. For example, there is no exact fractional equivalent for `PI` much like there is no exact decimal equivalent for `1/3`.
-However, the difference is usually so small that it's acceptable.
+The RPNCalc stack only contains decimal numbers ([BigDecimal](https://www.geeksforgeeks.org/java/bigdecimal-class-java/)<sup>**_[1]_**</sup> format for you Java developers.)
+Therefore, we
+can't directly store fractional values on the stack. If a
+fraction is entered, it is converted to a decimal. There could be a loss of precision when this is done. For example, there is no exact fractional equivalent for `PI` much
+like there is no exact decimal equivalent for `1/3`.
+However, the difference is usually so small that it's acceptable, especially since I'm using [BigDecimal](https://www.geeksforgeeks.org/java/bigdecimal-class-java/).
 
 The `frac [base]` command takes the item on the top of the stack (`line1`) and displays the approximate fractional equivalent.  `[base]` sets the precision of the calculation.
 If a `base` is not provided, RPNCalc will use `64` (1/64) as the default.
@@ -20,20 +35,57 @@ maximum granularity would be 1/64) and auto reduced the result which is why you 
 
 if `frac 5` would have been entered (which means 1/5 is maximum granularity), you get `1.1234 is approximately 1 1/5`.
 
-| <div style="width:90px">Command</div> | Description                                                                                                                                        |
-|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| to%                                   | Converts `line1` from a "number" to a percent.  For example, `0.4455` becomes `44.55%`. This is simply done by multiplying the number by 100       |
-| from%                                 | Converts `line1` from a percent to a "number".  For example, `93.124%` becomes `.93124`. This is simply done by multiplying the number by 0.01     |
-| frac [base]                           | Display a fractional estimate of the last stack item (`line1`) with the maximum granularity of 1/[base]. See the above description for more detail |
-| in2mm                                 | Converts the value in `line1` from inches to millimeters                                                                                           |
-| mm2in                                 | Converts the value in `line1` from millimeters to inches                                                                                           |
-| in2ft                                 | Converts the value in `line1` from inches to feet                                                                                                  |
-| ft2in                                 | Converts the value in `line1` from feet to inches                                                                                                  |
-| deg2rad                               | Convert `line1` from degrees into [radians](https://en.wikipedia.org/wiki/Radian)                                                                  |
-| rad2deg                               | Convert `line1` from radians into degrees                                                                                                          |
-| gram2oz                               | Convert `line1` from grams into ounces using the constant of 0.035274 ounces / gram                                                                |
-| oz2gram                               | Convert `line1` from ounces into grams using the constant of 28.349523125 grams / ounce                                                            |
-| kg2lb                                 | Convert `line1` from kilograms to US pounds using the constant of 2.2046226218 lbs/kg                                                              |
-| lb2kg                                 | Convert `line1` from US pounds using the constant of 0.45359237 kg/lbs                                                                             |
-| f2c                                   | Convert `line1` from Fahrenheit to Celsius                                                                                                         |
-| c2f                                   | Convert `line1` from Celsius to Fahrenheit                                                                                                         |
+Please note that while fractional display *is* a conversion, it does not change the stack. It only displays the fractional equivilents. Therefore, it does not require the
+`convert`
+command. It instead simply uses the `frac` command.
+
+## Supported Unit Conversions
+
+|  **Category**   | **Unit**     | **Abbreviation** | **Notes**                 |
+|:---------------:|--------------|------------------|---------------------------|
+|   **Length**    | Millimeter   | mm               | Metric                    |
+|                 | Centimeter   | cm               | Metric                    |
+|                 | Meter        | m                | Metric (base unit)        |
+|                 | Kilometer    | km               | Metric                    |
+|                 | Inch         | in               | Imperial                  |
+|                 | Foot         | ft               | Imperial                  |
+|                 | Yard         | yd               | Imperial                  |
+|                 | Mile         | mi               | Imperial                  |
+|    **Mass**     | Milligram    | mg               | Metric                    |
+|                 | Gram         | g                | Metric                    |
+|                 | Kilogram     | kg               | Metric (base unit)        |
+|                 | Metric Ton   | tonne            | Metric                    |
+|                 | Ounce        | oz               | Imperial                  |
+|                 | Pound        | lb               | Imperial                  |
+|                 | US Short Ton | ton              | Imperial                  |
+| **Temperature** | Celsius      | c                |                           |
+|                 | Fahrenheit   | f                |                           |
+|                 | Kelvin       | k                |                           |
+|    **Time**     | Millisecond  | ms               |                           |
+|                 | Second       | s                | Base unit                 |
+|                 | Minute       | min              |                           |
+|                 | Hour         | hr               |                           |
+|                 | Day          | day              |                           |
+|                 | Week         | week             |                           |
+|   **Volume**    | Milliliter   | ml               | Metric                    |
+|                 | Liter        | l                | Metric (base unit)        |
+|                 | Fluid Ounce  | floz             | US Liquid                 |
+|                 | Cup          | cup              | US Liquid                 |
+|                 | Pint         | pt               | US Liquid                 |
+|                 | Quart        | qt               | US Liquid                 |
+|                 | Gallon       | gal              | US Liquid                 |
+|    **Angle**    | Radian       | rad              | Base unit                 |
+|                 | Degree       | deg              | π/180 (50 decimal places) |
+| **Percentage**  | Decimal      | decimal          | Base unit (e.g., 0.5)     |
+|                 | Percent      | percent, %       | e.g., 50%                 |
+
+**[1]**
+Java's BigDecimal is a special tool in programming used to handle numbers that require 100% precision, especially when dealing with money or high-accuracy scientific
+calculations. Unlike standard number types (float or double) which can make tiny, accidental rounding errors, BigDecimal guarantees that the number you see is the exact number
+stored.
+
+The BigDecimal class provides operations on double numbers for arithmetic, scale handling, rounding, comparison, format conversion and hashing. It can handle very
+large and
+very small floating point numbers with great precision but compensating with the time complexity a bit. A BigDecimal consists of a random precision integer unscaled value
+and a 32-bit integer scale. If greater than or equal to zero, the scale is the number of digits to the right of the decimal point. If less than zero, the unscaled value of
+the number is multiplied by 10^(-scale).
