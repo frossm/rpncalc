@@ -282,6 +282,9 @@ val publishUserGuide by tasks.registering(Sync::class) {
    // Build the mdBook before we do anything
    dependsOn("buildMdBook")
 
+   // Force Gradle to ignore the cache and sync the User Guide every time
+   outputs.upToDateWhen { false }
+
    // Configure the Gradle sync
    from(sourceDir)
    into(targetDir)
@@ -315,6 +318,9 @@ val publishUserGuide by tasks.registering(Sync::class) {
 // --------------------------------------------------------------------------------------------------------
 tasks.register<Exec>("buildMdBook") {
    val mdbookRootDir = layout.projectDirectory.dir("mdbook")
+
+   // Force Gradle to ignore the cache and build the User Guide every time
+   outputs.upToDateWhen { false }
 
    workingDir = mdbookRootDir.asFile
    commandLine("mdbook", "build")
