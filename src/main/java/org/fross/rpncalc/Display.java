@@ -37,11 +37,42 @@ public class Display {
    /**
     * Comma(BigDecimal): Add comma's to the integer portion and return a string
     *
-    * @param bd Bid Decimal number to comma-ize
+    * @param bd Big Decimal number to comma-ize
     */
    public static String Comma(BigDecimal bd) {
-      String formatString = String.format("%%,.%df", bd.scale());
-      return String.format(formatString, bd);
+      // Convert to plain string first
+      String plainString = bd.toPlainString();
+
+      // Split into integer and decimal parts
+      String[] parts = plainString.split("\\.");
+      String integerPart = parts[0];
+      String decimalPart = parts.length > 1 ? parts[1] : "";
+
+      // Add commas to integer part
+      StringBuilder result = new StringBuilder();
+      int len = integerPart.length();
+
+      // Handle negative numbers
+      int start = 0;
+      if (integerPart.startsWith("-")) {
+         result.append("-");
+         start = 1;
+      }
+
+      // Add commas every 3 digits from the right
+      for (int i = start; i < len; i++) {
+         if (i > start && (len - i) % 3 == 0) {
+            result.append(",");
+         }
+         result.append(integerPart.charAt(i));
+      }
+
+      // Add decimal part if it exists
+      if (!decimalPart.isEmpty()) {
+         result.append(".").append(decimalPart);
+      }
+
+      return result.toString();
    }
 
    /**

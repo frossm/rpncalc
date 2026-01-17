@@ -26,14 +26,11 @@
  * ------------------------------------------------------------------------------*/
 package org.fross.rpncalc;
 
-import org.fross.library.Output;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * UnitConverter - Converts between various units of measurement
@@ -52,10 +49,10 @@ public class UnitConverter {
       addConversion("cm", "LENGTH", new BigDecimal("0.01"));
       addConversion("m", "LENGTH", BigDecimal.ONE);
       addConversion("km", "LENGTH", new BigDecimal("1000"));
-      addConversion("in", "LENGTH", new BigDecimal("0.0254"));       // Exact: 1 in = 25.4 mm
-      addConversion("ft", "LENGTH", new BigDecimal("0.3048"));       // Exact: 12 in
-      addConversion("yd", "LENGTH", new BigDecimal("0.9144"));       // Exact: 3 ft
-      addConversion("mi", "LENGTH", new BigDecimal("1609.344"));     // Exact: 5280 ft
+      addConversion("in", "LENGTH", new BigDecimal("0.0254"));      // Exact: 1 in = 25.4 mm
+      addConversion("ft", "LENGTH", new BigDecimal("0.3048"));      // Exact: 12 in
+      addConversion("yd", "LENGTH", new BigDecimal("0.9144"));      // Exact: 3 ft
+      addConversion("mi", "LENGTH", new BigDecimal("1609.344"));    // Exact: 5280 ft
 
       // Mass (base: kilograms) - All exact by definition
       addConversion("mg", "MASS", new BigDecimal("0.000001"));
@@ -104,18 +101,6 @@ public class UnitConverter {
    }
 
    /**
-    * Convert by sending a Stack instead of a BigDecimal
-    *
-    * @param stk
-    * @param fromUnit
-    * @param toUnit
-    * @return
-    */
-   public static ConversionResult convert(StackObj stk, String fromUnit, String toUnit) {
-      return convert(stk.peek(), fromUnit, toUnit);
-   }
-
-   /**
     * Convert a value from one unit to another
     *
     * @param amount   The value to convert
@@ -127,7 +112,6 @@ public class UnitConverter {
    public static ConversionResult convert(BigDecimal amount, String fromUnit, String toUnit) {
       String from = fromUnit.toLowerCase().trim();
       String to = toUnit.toLowerCase().trim();
-      BigDecimal result;
 
       ConversionFactor fromFactor = CONVERSIONS.get(from);
       ConversionFactor toFactor = CONVERSIONS.get(to);
@@ -142,6 +126,8 @@ public class UnitConverter {
       if (!fromFactor.category.equals(toFactor.category)) {
          throw new IllegalArgumentException("Incompatible units: " + fromUnit + " and " + toUnit);
       }
+
+      BigDecimal result;
 
       // Special handling for temperature
       if (fromFactor.category.equals("TEMP")) {
@@ -186,16 +172,38 @@ public class UnitConverter {
    }
 
    /**
-       * Result of a unit conversion
-       */
-      public record ConversionResult(BigDecimal value, String unit) {
+    * Result of a unit conversion
+    */
+   public static class ConversionResult {
+      private final BigDecimal value;
+      private final String unit;
 
-      @Override
-         public String toString() {
-            return value.toPlainString() + " " + unit;
-         }
+      public ConversionResult(BigDecimal value, String unit) {
+         this.value = value;
+         this.unit = unit;
       }
 
-   private record ConversionFactor(String category, BigDecimal factor) {
+      public BigDecimal getValue() {
+         return value;
+      }
+
+      public String getUnit() {
+         return unit;
+      }
+
+      @Override
+      public String toString() {
+         return value.toPlainString() + " " + unit;
+      }
+   }
+
+   private static class ConversionFactor {
+      final String category;
+      final BigDecimal factor;
+
+      ConversionFactor(String category, BigDecimal factor) {
+         this.category = category;
+         this.factor = factor;
+      }
    }
 }

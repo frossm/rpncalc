@@ -230,6 +230,7 @@ public class CommandParser {
 
          // Unit Conversion
          case "convert":
+         case "conv":
             StackConversions.cmdConvert(calcStack, cmdInputParam);
             break;
 

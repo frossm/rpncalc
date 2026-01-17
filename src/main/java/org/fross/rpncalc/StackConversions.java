@@ -40,36 +40,57 @@ public class StackConversions {
    public static void cmdConvert(StackObj calcStack, String args) {
       String fromUnit = "";
       String toUnit = "";
-      BigDecimal result;
+      BigDecimal amount = null;
+      BigDecimal result = null;
 
-      // Verify at least one item exists on the stack
-      if (calcStack.isEmpty()) {
-         Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack");
-         return;
-      }
-
+      // Determine the amount to use.  Was it provided?  If not, get it from the stack
       // Determine the from and to values
       try {
-         fromUnit = args.split(" ")[0];
-         toUnit = args.split(" ")[1];
+         // Amount was entered
+         if (args.split(" ").length == 3) {
+            amount = new BigDecimal(args.split(" ")[0]);
+            fromUnit = args.split(" ")[1];
+            toUnit = args.split(" ")[2];
+
+            // No Amount was Entered
+         } else if (args.split(" ").length == 2) {
+            // Since we're pulling from the stack, make sure it isn't empty
+            if (calcStack.isEmpty()) {
+               Output.printColorln(Output.RED, "ERROR:  This operation requires at least one item on the stack or a provided amount");
+               return;
+            }
+            amount = calcStack.peek();
+            fromUnit = args.split(" ")[0];
+            toUnit = args.split(" ")[1];
+
+            // Error out - must be 2 or 3 parameters
+         } else {
+            Output.printColorln(Output.RED, "ERROR:  Convert requires 2 or 3 parameters. Please see the Help");
+            return;
+         }
+
       } catch (Exception ex) {
-         Output.printColorln(Output.RED, "ERROR:  Two units are required.  'convert FROM TO'\n");
+         Output.printColorln(Output.RED, "ERROR:  Could not process command:\n convert " + args);
          StackConversions.DisplayConversionUnits(Output.CYAN);
          return;
       }
-
-      Output.debugPrintln("Converting " + calcStack.peek() + " from " + fromUnit + " to " + toUnit);
 
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
 
       // Perform the conversion
       try {
-         result = UnitConverter.convert(calcStack.peek(), fromUnit, toUnit).value();
-         calcStack.pop();
+         result = UnitConverter.convert(amount, fromUnit, toUnit).getValue();
+         // Only pop the last value off the stack if the amount was not provided
+         if (args.split(" ").length == 2) {
+            calcStack.pop();
+         }
          calcStack.push(result);
+
+         Output.printColorln(Output.CYAN, "Conversion: " + Display.Comma(amount) + fromUnit + " = " + Display.Comma(result) + toUnit);
+
       } catch (Exception ex) {
-         Output.printColorln(Output.RED, ex.getMessage());
+         Output.printColorln(Output.RED, "ERROR: Could not process the conversion\n" + ex.getMessage());
       }
 
    }
@@ -88,7 +109,7 @@ public class StackConversions {
               ft      Foot
               yd      Yard
               mi      Mile
-              
+            
             Mass:
               mg      Milligram
               g       Gram
@@ -97,12 +118,12 @@ public class StackConversions {
               oz      Ounce
               lb      Pound
               ton     US Short Ton
-              
+            
             Temperature:
               c       Celsius
               f       Fahrenheit
               k       Kelvin
-              
+            
             Time:
               ms      Millisecond
               s       Second
@@ -110,7 +131,7 @@ public class StackConversions {
               hr      Hour
               day     Day
               week    Week
-              
+            
             Volume:
               ml      Milliliter
               l       Liter
@@ -119,11 +140,11 @@ public class StackConversions {
               pt      Pint
               qt      Quart
               gal     Gallon
-              
+            
             Angle:
               rad     Radian
               deg     Degree
-              
+            
             Percentage:
               decimal Decimal
               %       Percent

@@ -70,7 +70,7 @@ public class StackObj implements Cloneable {
     * @return value of the stack at the provided index
     */
    public String getAsString(int index) {
-      return this.get(index).toString();
+      return this.get(index).toPlainString();
    }
 
    /**
