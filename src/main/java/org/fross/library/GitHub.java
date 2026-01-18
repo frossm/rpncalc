@@ -40,7 +40,7 @@ public class GitHub {
 	 */
 	public static String updateCheck(String app) {
 		String finalURL = "https://api.github.com/repos/frossm/" + app + "/tags";
-		String returnString = null;
+		String returnString;
 
 		Output.debugPrintln("URL for UpdateCheck: " + finalURL);
 

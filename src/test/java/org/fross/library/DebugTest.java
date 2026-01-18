@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 class DebugTest {
 
 	@Test
-	void DebugTest() {
+	void TestDebug() {
 		// Should be false as Debug has not been enabled
 		assertFalse(Debug.query());
 		

@@ -238,7 +238,7 @@ val generateChecksums by tasks.registering {
    description = "Generates MD5, SHA-1, and SHA-256 checksums for the shadow JAR"
 
    // Link this task to the shadowJar task by having that as a dependency
-   val shadowJarTask = tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar")
+   val shadowJarTask = tasks.named<ShadowJar>("shadowJar")
    dependsOn(shadowJarTask)
 
    // Define Inputs/Outputs for Gradle's "Up-To-Date" check
@@ -313,7 +313,7 @@ val publishUserGuide by tasks.registering(Sync::class) {
 
    doLast {
       // Display the summary
-      val count = targetDir.walkTopDown().filter { it.isFile }.count()
+      val count = targetDir.walkTopDown().count { it.isFile }
       println("\n-------------------- PUBLISH COMPLETE --------------------")
       println("Generated from: ${sourceDir.canonicalPath}")
       println("Published to:   ${targetDir.canonicalPath}")

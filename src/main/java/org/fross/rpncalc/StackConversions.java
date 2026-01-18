@@ -38,10 +38,10 @@ public class StackConversions {
    public static final BigInteger DEFAULT_FRACTION_DENOMINATOR = new BigInteger("64");  // Default Smallest Fraction Denominator
 
    public static void cmdConvert(StackObj calcStack, String args) {
-      String fromUnit = "";
-      String toUnit = "";
-      BigDecimal amount = null;
-      BigDecimal result = null;
+      String fromUnit;
+      String toUnit;
+      BigDecimal amount;
+      BigDecimal result;
 
       // Determine the amount to use.  Was it provided?  If not, get it from the stack
       // Determine the from and to values

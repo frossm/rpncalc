@@ -120,7 +120,7 @@ public class Format {
 	 * @return
 	 */
 	public static String CenterText(int width, String lineToCenter, String pre, String post) {
-		String result = null;
+		String result;
 
 		int spacesToAdd = ((width - lineToCenter.length() - pre.length() - post.length()) / 2);
 		result = pre + " ".repeat(spacesToAdd) + lineToCenter + " ".repeat(spacesToAdd) + post;

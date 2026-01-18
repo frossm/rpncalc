@@ -41,8 +41,6 @@ public class Browser {
     * @param url URL to the User Guide
     */
    protected static void Launch(String url) {
-      String command = "";
-
       try {
          // Get the configured browser from prefs
          File browser = new File(prefConfig.get("browser", "none"));
@@ -53,16 +51,15 @@ public class Browser {
             browser = new File(prefConfig.get("browser", "none"));
          }
 
-         // Set the command to execute
-         command = browser.getAbsolutePath() + " " + url;
+         Output.debugPrintln("Browser Command: '" + browser.getAbsolutePath() + " " + url + "'");
 
-         Output.debugPrintln("Browser Command: '" + command + "'");
-
-         // Open the browser
-         Runtime.getRuntime().exec(command);
+         // Open the browser using ProcessBuilder
+         ProcessBuilder processBuilder = new ProcessBuilder(browser.getAbsolutePath(), url);
+         processBuilder.start();
 
       } catch (IOException ex) {
-         Output.printColorln(Output.RED, "ERROR: Could not launch browser: '" + command + "'");
+         Output.printColorln(Output.RED, "ERROR: Could not launch browser: '" +
+               prefConfig.get("browser", "none") + " " + url + "'");
       }
    }
 
