@@ -26,6 +26,8 @@
  * ------------------------------------------------------------------------------*/
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Date
 
 plugins {
    java
@@ -182,9 +184,16 @@ tasks.register<Copy>("install") {
    val progVersion = project.version.toString()
 
    doLast {
+      // Get the file details AFTER the copy has completed
+      val installedFile = File("$installDirectory/$progName.jar")
+      val sizeInBytes = installedFile.length()
+      val lastModifiedTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(installedFile.lastModified()))
+
       println("\n-------------------- RELEASE COMPLETE --------------------")
       println("Installed: $progName.jar -> $installDirectory")
       println("Version:   $progVersion")
+      println("File Size: ${"%,d".format(sizeInBytes)} bytes")
+      println("File Date: $lastModifiedTime")
       println("----------------------------------------------------------")
    }
 }
