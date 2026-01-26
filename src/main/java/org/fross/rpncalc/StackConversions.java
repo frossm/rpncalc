@@ -87,7 +87,7 @@ public class StackConversions {
          }
          calcStack.push(result);
 
-         Output.printColorln(Output.CYAN, "Conversion: " + Display.Comma(amount) + fromUnit + " = " + Display.Comma(result) + toUnit);
+         Output.printColorln(Output.CYAN, "Conversion: " + Display.Comma(amount) + " " + fromUnit + " = " + Display.Comma(result) + " " + toUnit);
 
       } catch (Exception ex) {
          Output.printColorln(Output.RED, "ERROR: Could not process the conversion\n" + ex.getMessage());
