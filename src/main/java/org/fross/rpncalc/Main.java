@@ -29,7 +29,6 @@ package org.fross.rpncalc;
 import org.fross.library.Debug;
 import org.fross.library.Format;
 import org.fross.library.Output;
-import org.jline.reader.LineReader;
 import org.jline.reader.UserInterruptException;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
@@ -58,7 +57,6 @@ public class Main {
    public static String VERSION;
    public static String COPYRIGHT;
    public static Terminal terminal = null;
-   public static LineReader lineReader = null;
    static boolean ProcessCommandLoop = true;
    static final StackObj calcStack = new StackObj();
    static final StackObj calcStack2 = new StackObj();
@@ -99,10 +97,9 @@ public class Main {
          Output.setTerminal(terminal);
          UserInput.setTerminal(terminal);
 
-
       } catch (IOException ex) {
          // Note: Since terminal failed, we use System.out as a fallback
-         System.out.println("Unable to create a terminal. Visuals will be impacted.");
+         Output.println("Unable to create a terminal. Visuals will be impacted.");
       }
 
       // Process application level properties file

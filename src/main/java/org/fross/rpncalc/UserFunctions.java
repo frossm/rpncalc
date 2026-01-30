@@ -161,7 +161,6 @@ public class UserFunctions {
                // Import preferences from the XML file
                try {
                   FileInputStream fis = new FileInputStream(fileNameStr);
-                  Preferences pImport = Preferences.userRoot().node(PREFS_PATH_FUNCTIONS);
                   Preferences.importPreferences(fis);
                   fis.close();
 

@@ -67,16 +67,17 @@ public class Output {
       return colorizedOutput;
    }
 
+
    /**
-    * printColor(): Print to the console with the provided foreground & background color
+    * returnColorString(): Return the colorized string
     * <p>
     *
     * @param fgColor Foreground Color
     * @param bgColor Background Color
     * @param msg     Message to display
     */
-   public static void printColor(int fgColor, int bgColor, String msg) {
-      if (terminal != null && colorizedOutput) {
+   public static String returnColorString(int fgColor, int bgColor, String msg) {
+      if (colorizedOutput) {
          // Initialize style with Foreground and Bold
          AttributedStyle style = AttributedStyle.DEFAULT.foreground(fgColor).bold();
 
@@ -88,6 +89,25 @@ public class Output {
          // Build the string
          String styledMsg = new AttributedStringBuilder().style(style).append(msg).toAnsi();
 
+         // Return the result
+         return styledMsg;
+
+      } else {
+         return msg;
+      }
+   }
+
+   /**
+    * printColor(): Print to the console with the provided foreground & background color
+    * <p>
+    *
+    * @param fgColor Foreground Color
+    * @param bgColor Background Color
+    * @param msg     Message to display
+    */
+   public static void printColor(int fgColor, int bgColor, String msg) {
+      if (terminal != null && colorizedOutput) {
+         String styledMsg = returnColorString(fgColor, bgColor, msg);
          terminal.writer().print(styledMsg);
          terminal.flush();
 
