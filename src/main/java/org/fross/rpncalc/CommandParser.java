@@ -426,8 +426,12 @@ public class CommandParser {
             break;
 
          default:
-            // Determine if the command is a user defined function and execute if it is
-            if (UserFunctions.FunctionExists(cmdInput)) {
+            // If the user provided input is blank, such as a space, error out and return
+            if (cmdInput.isBlank()) {
+               Output.printColorln(Output.RED, "ERROR: No command or number was entered");
+
+               // Determine if the command is a user defined function and execute if it is
+            } else if (UserFunctions.FunctionExists(cmdInput)) {
                Output.debugPrintln("Executing User Defined Function: '" + cmdInput + "'");
                UserFunctions.FunctionRun(calcStack, calcStack2, cmdInput);
 
