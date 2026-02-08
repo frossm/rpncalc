@@ -426,17 +426,21 @@ public class CommandParser {
             break;
 
          default:
-            // If the user provided input is blank, such as a space, error out and return
+            // If the user provided input is blank, such as a space, output a debug message and just ignore it
             if (cmdInput.isBlank()) {
-               Output.printColorln(Output.RED, "ERROR: No command or number was entered");
+               Output.debugPrintln("The input was blank");
+               return;
+            }
 
-               // Determine if the command is a user defined function and execute if it is
-            } else if (UserFunctions.FunctionExists(cmdInput)) {
+            // Determine if the command is a user defined function and execute if it is
+            if (UserFunctions.FunctionExists(cmdInput)) {
                Output.debugPrintln("Executing User Defined Function: '" + cmdInput + "'");
                UserFunctions.FunctionRun(calcStack, calcStack2, cmdInput);
+               return;
+            }
 
-               // Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction
-            } else if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
+            // Check for a fraction. If number entered contains a '/' but it's not at the end, then it must be a fraction
+            if (cmdInput.contains("/") && !cmdInput.substring(cmdInput.length() - 1).matches("/")) {
                Output.debugPrintln("Fraction has been entered");
                try {
                   BigDecimal fracInteger = BigDecimal.ZERO;
@@ -466,7 +470,7 @@ public class CommandParser {
                   BigDecimal endResult = fracInteger.add(fracDecimalEquiv);
 
                   // Simply convert the fraction to a decimal and add it to the stack
-                  Output.debugPrintln("Fraction Entered: '" + cmdInput + "' Decimal: " + endResult);
+                  Output.debugPrintln("Fraction Entered: '" + cmdInput + "' Equals Decimal: " + endResult);
 
                   // Save current calcStack to the undoStack
                   calcStack.saveUndo();
@@ -476,19 +480,25 @@ public class CommandParser {
 
                } catch (NumberFormatException ex) {
                   Output.printColorln(Output.RED, "Illegal Fraction Entered: '" + cmdInput + "'");
-                  break;
+                  return;
                }
 
-               // Number entered, add to stack
-            } else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
+               return;
+            }
+
+            // Number entered, add to stack
+            if (cmdInputCmd.matches("^-?\\d*\\.?\\d*")) {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
 
                Output.debugPrintln("Placing the number '" + cmdInputCmd + "' onto the stack");
                calcStack.push(new BigDecimal(cmdInputCmd));
 
-               // If the number entered ends with a "%" then multiply by 0.01 and add that result to the stack
-            } else if (cmdInputCmd.matches("^\\S*\\d%$")) {
+               return;
+            }
+
+            // If the number entered ends with a "%" then multiply by 0.01 and add that result to the stack
+            if (cmdInputCmd.matches("^\\S*\\d%$")) {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
 
@@ -503,12 +513,17 @@ public class CommandParser {
 
                } catch (IndexOutOfBoundsException ex) {
                   Output.printColorln(Output.RED, "Unable to parse '" + cmdInputCmd + "'");
+                  return;
                } catch (ArithmeticException | NullPointerException ex) {
                   Output.printColorln(Output.RED, "Error multiplying " + num + " by 0.01");
+                  return;
                }
 
-               // Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
-            } else if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[*+\\-/^]")) {
+               return;
+            }
+
+            // Handle NumOps - numbers with a single operand at the end (*, /, +, -, ^)
+            if (cmdInputCmd.matches("^-?\\d*\\.?\\d*[Ee]?\\d*[*+\\-/^]")) {
                // Save current calcStack to the undoStack
                calcStack.saveUndo();
 
@@ -527,15 +542,18 @@ public class CommandParser {
                   } catch (NumberFormatException ex) {
                      // Prevents a crash if user enters "-+" (which they shouldn't do)
                      Output.printColorln(Output.RED, "Unknown Command: '" + cmdInput + "'");
-                     break;
+                     return;
                   }
 
                } else {
                   Output.printColorln(Output.RED, "One number is required to be on the stack to use a NumOp");
                }
 
-               // Scientific notation number entered
-            } else if (cmdInputCmd.toLowerCase().contains("e")) {
+               return;
+            }
+
+            // Scientific notation number entered
+            if (cmdInputCmd.toLowerCase().contains("e")) {
                Output.debugPrintln("Scientific Number Entered");
                // Make sure the digits before and after the 'e' are numbers
                try {
@@ -558,22 +576,24 @@ public class CommandParser {
 
                } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException ex) {
                   Output.printColorln(Output.RED, "Illegal Scientific Notation Number Entered: '" + cmdInputCmd + "'");
-                  break;
+                  return;
                }
 
-            } else {
-               // If a user enters an invalid command, remove it from the recording if enabled
-               if (UserFunctions.recordingEnabled) {
-                  Output.debugPrintln("Removing '" + UserFunctions.recording.get(UserFunctions.recording.size() - 1) + "' from the recording");
-                  UserFunctions.RemoveItemFromRecording();
-               }
-
-               // Let user know a bad command was provided
-               Output.printColorln(Output.RED, "Unknown Command: '" + cmdInput + "'");
-
-               // Remove this invalid command from the command history
-               if (CommandHistory.size() > 1) CommandHistory.remove();
+               return;
             }
+
+            // If a user enters an invalid command, remove it from the recording if enabled
+            if (UserFunctions.recordingEnabled) {
+               Output.debugPrintln("Removing '" + UserFunctions.recording.getLast() + "' from the recording");
+               UserFunctions.RemoveItemFromRecording();
+            }
+
+            // Let user know a bad command was provided
+            Output.printColorln(Output.RED, "Unknown Command: '" + cmdInput + "'");
+
+            // Remove this invalid command from the command history
+            if (CommandHistory.size() > 1) CommandHistory.remove();
+
             break;
 
       } // End of giant switch statement
