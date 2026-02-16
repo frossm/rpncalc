@@ -73,7 +73,7 @@ public class Math {
             break;
 
          default:
-            Output.printColorln(Output.RED, "ERROR:  Illegal Operand Sent to Math.Parse(): '" + op + "'");
+            Output.printColorln(Output.RED, "ERROR:  Illegal Operand sent to Math.Parse(): '" + op + "'");
       }
 
       return result;

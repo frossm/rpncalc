@@ -55,7 +55,7 @@ public class UserInput {
 
       // Ensure Main has provided a terminal
       if (terminal == null) {
-         Output.fatalError("Terminal not initialized. Call UserInput.setTerminal() first", 11);
+         Output.fatalError("Terminal is not initialized. Call UserInput.setTerminal() first", 11);
       }
 
       // Lazy initialization of the LineReader (only once)
@@ -78,6 +78,7 @@ public class UserInput {
 
       } catch (UserInterruptException | EndOfFileException ex) {
          // User entered Ctrl-C or Ctrl-D. Return "exit" so Main can close gracefully
+         Output.printColorln(Output.CYAN, "Exiting...");
          inputString = "exit";
       } catch (Exception ex) {
          Output.printColorln(Output.RED, "Error reading input:\n" + ex.getMessage());
