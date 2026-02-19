@@ -1,9 +1,11 @@
 <img align="right" width="125" src="../Images/OperationalCmds.png">
 
-# Operational Commands
+## Operational Commands
 
-Operational commands are commands that do not directly impact your stack numbers. These tend to be display commands or those the interact with the the setting of RPNCalc
-directly.
+Operational commands are commands that do not directly impact your stack numbers. These commands help to "operate" RPNCalc. They tend to be display commands or
+those to interact with the setting of RPNCalc directly.
+
+## Commands Table
 
 | <div style="width:100px">Command</div> | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

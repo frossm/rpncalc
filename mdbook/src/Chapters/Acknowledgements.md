@@ -1,13 +1,13 @@
 <img align="right" width="175" src="../Images/Acknowledgment.png">
 
-# Acknowledgments
+## Acknowledgments
 
-This is a simple user guide for a tiny piece of software.  But I have used other people's art and applications to create RPNCalc and I want to ensure I recognize them
+This is a simple user guide for a tiny piece of software. But I have used other people's art and applications to create RPNCalc and I want to ensure I recognize them
 and give them thanks.
 
 ## Libraries
 
-Extensive use of several libraries were used in RPNCalc.  I'd like to publicly thank the authors and give them credit for their hard work. The licenses for these libraries
+Extensive use of several libraries were used in RPNCalc. I'd like to publicly thank the authors and give them credit for their hard work. The licenses for these libraries
 is detailed in the `Licenses` chapter.
 
 - [JCommander](ttps://jcommander.org) is used to parse the command line for options and parameters
@@ -18,7 +18,7 @@ is detailed in the `Licenses` chapter.
 
 - [Gradle](https://gradle.org/) build tool is used extensively in RPNCalc
 
-- [OpenJDK](https://adoptium.net) is the engine that runs Java on my systems.  You may be running another Java Development Kit (JDK) or Java Runtime Environment (JRE)
+- [OpenJDK](https://adoptium.net) is the engine that runs Java on my systems. You may be running another Java Development Kit (JDK) or Java Runtime Environment (JRE)
 
 ## Graphics
 
@@ -52,13 +52,13 @@ I'd like to give recognition and attribution to the authors of the icons used in
 
 ## mdBook
 
-This book was generated using [mdBook](https://github.com/rust-lang/mdBook).  mdBook is a utility to create modern online books from Markdown 
-files, and it is fantastic.  If you need to do something like this, mdBook is where you should look first in my humble opinion.
+This book was generated using [mdBook](https://github.com/rust-lang/mdBook). mdBook is a utility to create modern online books from Markdown
+files, and it is fantastic. If you need to do something like this, mdBook is where you should look first in my humble opinion.
 
 ## HP 15C Calculator
 
-And, lastly, probably the most important item in my personal RPN journey is my trusty HP 15C calculator.  I've had it since the late 1980's.  While I 
-don't use it much anymore, instead relying on RPNCalc, it's still an important item to me and always in my desk drawer.  Thanks 15C!
+And, lastly, probably the most important item in my personal RPN journey is my trusty HP 15C calculator. I've had it since the late 1980's. While I
+don't use it much anymore, instead relying on RPNCalc, it's still an important item to me and always in my desk drawer. Thanks 15C!
 
 <br>
 

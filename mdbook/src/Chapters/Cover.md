@@ -3,8 +3,12 @@
 
 <h1 align="center">A User Guide for the RPNCalc Calculator</h1>
 
-<p align="center"> Copyright 2011- 2024 by Michael Fross<br>
-This document, along RPNCalc, is licensed under the <a href="https://opensource.org/license/mit/">MIT License</a></p>
+<p align="center">Copyright (c) 2011-2026 Michael Fross<br>
+<br>
+This document, along RPNCalc, is licensed under the <a href="https://opensource.org/license/mit/">MIT License</a>
+<br><br>
+<a href="mailto:rpncalc@fross.org">rpncalc@fross.org
+</p>
 
 <h1 align="center"> 
 	<a href="https://github.com/frossm/rpncalc">The RPNCalc GitHub Homepage</a>

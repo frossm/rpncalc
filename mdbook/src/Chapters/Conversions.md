@@ -1,6 +1,6 @@
 <img align="right" width="125" src="../Images/Conversion.png">
 
-# Fractional Display
+## Fractional Display
 
 The RPNCalc stack only contains decimal numbers ([BigDecimal](https://www.geeksforgeeks.org/java/bigdecimal-class-java/)<sup>**_[1]_**</sup> format for you Java developers.)
 Therefore, we can't directly store fractional values on the stack. If a
@@ -20,7 +20,7 @@ Please note that while fractional display *is* a conversion, it does not change 
 `convert`
 command. It instead simply uses the `frac` command.
 
-# Unit Conversions
+## Unit Conversions
 
 The conversion command will simply convert from one unit to another. As an example, I frequently use RPNCalc to convert from inches to millimeters or back. The conversion
 module requires an amount, normally pulled from the stack, as well as a **"from"** unit and a **"to"** unit. The supported units are listed below. You an only convert units
@@ -51,7 +51,7 @@ I've included a fairly comprehensive list of common units, but I'm happy to incl
 
 **Note:** All conversions are exact by definition except angle conversions. Unit abbreviations are case-insensitive.
 
-### Examples of Usage: <br>
+**Examples of Usage:** <br>
 
 - convert in mm
 - con f c

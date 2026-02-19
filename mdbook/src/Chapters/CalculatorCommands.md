@@ -1,6 +1,6 @@
 <img align="right" width="175" src="../Images/CalcCommands.png">
 
-# Calculator Commands
+## Calculator Commands
 
 We've discussed numbers, fractional, scientific notation, and decimal, as well as operands that perform basic mathematical functions. This chapter starts discussing commands
 which are the heart of RPNCalc.
@@ -10,6 +10,8 @@ odd. I'm looking at you `dice`.
 
 These commands, like the others you'll read about later, are executed by typing the command name, and any needed arguments into RPNCalc. Often there are several different
 names and abbreviations for the same command. This is just to make it easier to remember. Brackets, `[]` around an option denotes it is optional.
+
+## Commands Table
 
 | <div style="width:110px">Command</div> | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
