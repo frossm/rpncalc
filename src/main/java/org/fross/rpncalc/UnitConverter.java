@@ -90,8 +90,8 @@ public class UnitConverter {
       // π/180 to 50 decimal places for maximum precision
       addConversion("deg", "ANGLE", new BigDecimal("0.01745329251994329576923690768488612713442871888542"));
 
-      // Percentage (base: decimal)
-      addConversion("decimal", "PERCENT", BigDecimal.ONE);
+      // Percentage (base: number)
+      addConversion("num", "PERCENT", BigDecimal.ONE);
       addConversion("percent", "PERCENT", new BigDecimal("0.01"));
       addConversion("%", "PERCENT", new BigDecimal("0.01"));
    }

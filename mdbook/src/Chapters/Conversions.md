@@ -97,8 +97,8 @@ The RPNCalc command `convertunits` will display, within the program, the support
 |                 | Gallon       | gal              | US Liquid                 |
 | **Angle**       | Radian       | rad              | Base unit                 |
 |                 | Degree       | deg              | π/180 (50 decimal places) |
-| **Percentage**  | Decimal      | decimal          | Base unit (e.g., 0.5)     |
-|                 | Percent      | percent, %       | e.g., 50%                 |
+| **Percentage**  | Number       | num              | Base unit (e.g., 0.5)     |
+|                 | Percent      | percent, %       | e.g. convert 50 %         |
 
 **[1]**
 Java's BigDecimal is a special tool in programming used to handle numbers that require 100% precision, especially when dealing with money or high-accuracy scientific

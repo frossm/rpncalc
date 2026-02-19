@@ -334,31 +334,31 @@ public class UnitConverterTest {
    // PERCENTAGE CONVERSIONS
 
    @Test
-   @DisplayName("Percentage: Decimal to Percent")
+   @DisplayName("Percentage: Decimal Number to Percent")
    public void testPercentageDecimalToPercent() {
-      UnitConverter.ConversionResult result = UnitConverter.convert(new BigDecimal("0.5"), "decimal", "percent");
+      UnitConverter.ConversionResult result = UnitConverter.convert(new BigDecimal("0.5"), "num", "percent");
       assertBigDecimalEquals(new BigDecimal("50"), result.getValue(), "0.5 should equal 50%");
 
-      result = UnitConverter.convert(new BigDecimal("0.75"), "decimal", "%");
+      result = UnitConverter.convert(new BigDecimal("0.75"), "num", "%");
       assertBigDecimalEquals(new BigDecimal("75"), result.getValue(), "0.75 should equal 75%");
 
-      result = UnitConverter.convert(new BigDecimal("1"), "decimal", "percent");
+      result = UnitConverter.convert(new BigDecimal("1"), "num", "percent");
       assertBigDecimalEquals(new BigDecimal("100"), result.getValue(), "1 should equal 100%");
 
-      result = UnitConverter.convert(new BigDecimal("0.125"), "decimal", "percent");
+      result = UnitConverter.convert(new BigDecimal("0.125"), "num", "percent");
       assertBigDecimalEquals(new BigDecimal("12.5"), result.getValue(), "0.125 should equal 12.5%");
    }
 
    @Test
-   @DisplayName("Percentage: Percent to Decimal")
+   @DisplayName("Percentage: Percent to Decimal Number")
    public void testPercentagePercentToDecimal() {
-      UnitConverter.ConversionResult result = UnitConverter.convert(new BigDecimal("50"), "percent", "decimal");
+      UnitConverter.ConversionResult result = UnitConverter.convert(new BigDecimal("50"), "percent", "num");
       assertBigDecimalEquals(new BigDecimal("0.5"), result.getValue(), "50% should equal 0.5");
 
-      result = UnitConverter.convert(new BigDecimal("25"), "%", "decimal");
+      result = UnitConverter.convert(new BigDecimal("25"), "%", "num");
       assertBigDecimalEquals(new BigDecimal("0.25"), result.getValue(), "25% should equal 0.25");
 
-      result = UnitConverter.convert(new BigDecimal("100"), "percent", "decimal");
+      result = UnitConverter.convert(new BigDecimal("100"), "percent", "num");
       assertBigDecimalEquals(new BigDecimal("1"), result.getValue(), "100% should equal 1");
    }
 

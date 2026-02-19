@@ -100,54 +100,49 @@ public class StackConversions {
     */
    public static void DisplayConversionUnits(int clr) {
       String units = """
-            Length:
-              mm      Millimeter
-              cm      Centimeter
-              m       Meter
-              km      Kilometer
-              in      Inch
-              ft      Foot
-              yd      Yard
-              mi      Mile
+            Category    Unit       Description
+            ----------------------------------
+            Length      mm         Millimeter
+                        cm         Centimeter
+                        m          Meter
+                        km         Kilometer
+                        in         Inch
+                        ft         Foot
+                        yd         Yard
+                        mi         Mile
             
-            Mass:
-              mg      Milligram
-              g       Gram
-              kg      Kilogram
-              tonne   Metric Ton
-              oz      Ounce
-              lb      Pound
-              ton     US Short Ton
+            Mass        mg         Milligram
+                        g          Gram
+                        kg         Kilogram
+                        tonne      Metric Ton
+                        oz         Ounce
+                        lb         Pound
+                        ton        US Short Ton
             
-            Temperature:
-              c       Celsius
-              f       Fahrenheit
-              k       Kelvin
+            Temperature c          Celsius
+                        f          Fahrenheit
+                        k          Kelvin
             
-            Time:
-              ms      Millisecond
-              s       Second
-              min     Minute
-              hr      Hour
-              day     Day
-              week    Week
+            Time        ms         Millisecond
+                        s          Second
+                        min        Minute
+                        hr         Hour
+                        day        Day
+                        week       Week
             
-            Volume:
-              ml      Milliliter
-              l       Liter
-              floz    Fluid Ounce
-              cup     Cup
-              pt      Pint
-              qt      Quart
-              gal     Gallon
+            Volume      ml         Milliliter
+                        l          Liter
+                        floz       Fluid Ounce
+                        cup        Cup
+                        pt         Pint
+                        qt         Quart
+                        gal        Gallon
             
-            Angle:
-              rad     Radian
-              deg     Degree
+            Angle       rad        Radian
+                        deg        Degree
             
-            Percentage:
-              decimal Decimal
-              %       Percent
+            Percentage  num        Number
+                        %          Percent
             """;
       Output.printColorln(clr, units);
    }
