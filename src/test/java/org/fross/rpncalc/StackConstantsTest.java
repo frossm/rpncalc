@@ -32,6 +32,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class StackConstantsTest {
+   /**
+    * CmdPI Test
+    */
    @Test
    void testCmdPI() {
       StackObj calcStack = new StackObj();
@@ -47,6 +50,9 @@ class StackConstantsTest {
       assertEquals("3.14159265358979323846264338327950288419716939937510", calcStack.getAsString(0));
    }
 
+   /**
+    * CmdPHI Test
+    */
    @Test
    void testCmdPHI() {
       StackObj calcStack = new StackObj();
@@ -62,6 +68,34 @@ class StackConstantsTest {
       assertEquals("1.61803398874989", calcStack.getAsString(0));
    }
 
+   /**
+    * CmdPHIBox Test
+    */
+   @Test
+   void testCmdPHIBox() {
+      StackObj calcStack = new StackObj();
+
+      calcStack.push("44");
+      assertEquals(1, calcStack.size());
+
+      // Test #1
+      StackConstants.cmdPHIBox(calcStack);
+      assertEquals("27.19350", calcStack.getAsString(1));
+      assertEquals("16.80651", calcStack.getAsString(2));
+
+      // Test #2
+      calcStack.clear();
+      calcStack.push(10);
+      StackConstants.cmdPHIBox(calcStack);
+      assertEquals(3, calcStack.size());
+      assertEquals("10", calcStack.getAsString(0));
+      assertEquals("6.18034", calcStack.getAsString(1));
+      assertEquals("3.81966", calcStack.getAsString(2));
+   }
+
+   /**
+    * CmdEulersNumber Test
+    */
    @Test
    void testCmdEulersNumber() {
       StackObj calcStack = new StackObj();
@@ -77,6 +111,9 @@ class StackConstantsTest {
       assertEquals("2.71828182845904523536028747135266249775724709369995", calcStack.getAsString(0));
    }
 
+   /**
+    * CmdEulersConstant Test
+    */
    @Test
    void testCmdEulersConstant() {
       StackObj calcStack = new StackObj();
@@ -92,6 +129,9 @@ class StackConstantsTest {
       assertEquals("0.577215664901532860606512090082402431", calcStack.getAsString(0));
    }
 
+   /**
+    * CmdSpeedOfLight Test
+    */
    @Test
    void testCmdSpeedOfLight() {
       StackObj calcStack = new StackObj();

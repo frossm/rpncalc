@@ -121,6 +121,7 @@ public class Help {
       Output.printColorln(Output.WHITE, " eulersnum         Add Euler's exponential growth number (e)");
       Output.printColorln(Output.WHITE, " eulersconst       Add Euler's mathematical constant (y)");
       Output.printColorln(Output.WHITE, " phi               Add the Golden Ratio (phi)");
+      Output.printColorln(Output.WHITE, " phibox            Given a length, add width & height of a PHI compliant box to stack");
       Output.printColorln(Output.WHITE, " pi                Add Archimede's constant (PI)");
       Output.printColorln(Output.WHITE, " sol               Add the Speed of Light (c)");
 

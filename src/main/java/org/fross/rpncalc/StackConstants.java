@@ -74,14 +74,15 @@ public class StackConstants {
     */
    public static void cmdPHI(StackObj calcStack) {
       BigDecimal phi = new BigDecimal("1.61803398874989");
+      BigDecimal phiInverse = BigDecimal.ONE.divide(phi, MathContext.DECIMAL128);
+
       // Save current calcStack to the undoStack
       calcStack.saveUndo();
-
 
       // If there is something in the stack, display the long and short sections
       if (!calcStack.isEmpty()) {
          BigDecimal value = calcStack.peek();
-         Output.printColorln(Output.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(BigDecimal.ONE.divide(phi, MathContext.DECIMAL128)).setScale(5, RoundingMode.HALF_UP));
+         Output.printColorln(Output.YELLOW, "If Long Section  = " + value + "    Short Section = " + value.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP));
          Output.printColorln(Output.YELLOW, "If Short Section = " + value + "    Long Section  = " + value.multiply(phi).setScale(5, RoundingMode.HALF_UP));
       }
 
@@ -89,6 +90,35 @@ public class StackConstants {
       calcStack.push(phi);
 
       Output.printColorln(Output.CYAN, "Phi, the golden ratio, has been added to the stack");
+   }
+
+   /**
+    * cmdPHIBox(): Given the length, display a width and height for a box. Display and add width/height to stack
+    */
+   public static void cmdPHIBox(StackObj calcStack) {
+      BigDecimal phi = new BigDecimal("1.61803398874989");
+      BigDecimal phiInverse = BigDecimal.ONE.divide(phi, MathContext.DECIMAL128);
+
+      // Verify there is at least one number on the stack
+      if (!calcStack.isEmpty()) {
+         BigDecimal length = calcStack.peek();
+         BigDecimal width = length.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP);
+         BigDecimal height = width.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP);
+
+         Output.printColorln(Output.CYAN, "Box Length [X]:  " + length);
+         Output.printColorln(Output.CYAN, "Box Width  [Y]:  " + width);
+         Output.printColorln(Output.CYAN, "Box Height [Z]:  " + height);
+
+         // Save current calcStack to the undoStack
+         calcStack.saveUndo();
+
+         // Add the width and height below the user provided length
+         calcStack.push(width);
+         calcStack.push(height);
+
+      } else {
+         Output.printColorln(Output.RED, "ERROR:  There must be at least one number on the stack");
+      }
    }
 
    /**

@@ -291,6 +291,11 @@ public class CommandParser {
             StackConstants.cmdPHI(calcStack);
             break;
 
+         // PHIBox: Display the dimensions of a box given the length and add width and height to the stack
+         case "phibox":
+            StackConstants.cmdPHIBox(calcStack);
+            break;
+
          // Euler's number
          case "eulersnum":
          case "eulersnumber":
