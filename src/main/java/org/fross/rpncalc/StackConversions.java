@@ -241,4 +241,22 @@ public class StackConversions {
       return outputString;
    }
 
+   /**
+    * cmdFraction(): When sent a number and a max denominator, return the approximate fraction
+    *
+    * @param decimalNum The number to convert to a fraction
+    * @param base Max base. Given as the max denominator of the fraction
+    * @return String of the fraction
+    */
+   public static String cmdFraction(BigDecimal decimalNum, String base) {
+      StackObj stk = new StackObj();
+
+      // Add the number to the stack and call the main conversion routine
+      stk.push(decimalNum);
+      String outputFrac = cmdFraction(stk, base)[1];
+
+      // Just return the fraction portion of the output string
+      return outputFrac.substring(outputFrac.indexOf("'") + 1, outputFrac.length() - 1);
+   }
+
 }

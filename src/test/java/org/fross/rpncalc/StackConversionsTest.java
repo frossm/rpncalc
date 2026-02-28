@@ -28,6 +28,8 @@ package org.fross.rpncalc;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -38,7 +40,7 @@ class StackConversionsTest {
     * Test method for fractional conversion
     */
    @Test
-   void testCmdFraction() {
+   void testCmdFraction1() {
       StackObj stk = new StackObj();
 
       // Test #1
@@ -269,4 +271,14 @@ class StackConversionsTest {
 
    }
 
+   /**
+    * Test method for fractional conversion by sending BigDecimal
+    */
+   @Test
+   void testCmdFraction2() {
+      assertEquals("10", StackConversions.cmdFraction(new BigDecimal("10"), "16"));
+      assertEquals("6 3/16", StackConversions.cmdFraction(new BigDecimal("6.18034"), "16"));
+      assertEquals("3 13/16", StackConversions.cmdFraction(new BigDecimal("3.81966"), "16"));
+      assertEquals("0 51/64", StackConversions.cmdFraction(new BigDecimal("0.8"), "64"));
+   }
 }

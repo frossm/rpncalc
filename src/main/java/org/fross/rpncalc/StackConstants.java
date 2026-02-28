@@ -32,6 +32,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import static org.fross.rpncalc.StackConversions.cmdFraction;
+
 public class StackConstants {
    /**
     * cmdEulersConstant(): Add the Euler constant to the stack
@@ -98,6 +100,7 @@ public class StackConstants {
    public static void cmdPHIBox(StackObj calcStack) {
       BigDecimal phi = new BigDecimal("1.61803398874989");
       BigDecimal phiInverse = BigDecimal.ONE.divide(phi, MathContext.DECIMAL128);
+      String base = "16";
 
       // Verify there is at least one number on the stack
       if (!calcStack.isEmpty()) {
@@ -105,9 +108,11 @@ public class StackConstants {
          BigDecimal width = length.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP);
          BigDecimal height = width.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP);
 
-         Output.printColorln(Output.CYAN, "Box Length [X]:  " + length);
-         Output.printColorln(Output.CYAN, "Box Width  [Y]:  " + width);
-         Output.printColorln(Output.CYAN, "Box Height [Z]:  " + height);
+         String rowFormat = "%-16s %9s [%9s]";
+         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Length [X]:", length.toPlainString(), cmdFraction(length, base)));
+         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Width  [Y]:", width.toPlainString(), cmdFraction(width, base)));
+         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Height [Z]:", height.toPlainString(), cmdFraction(height, base)));
+
 
          // Save current calcStack to the undoStack
          calcStack.saveUndo();
