@@ -104,15 +104,25 @@ public class StackConstants {
 
       // Verify there is at least one number on the stack
       if (!calcStack.isEmpty()) {
+         // Calculate the box side dimensions
          BigDecimal length = calcStack.peek();
          BigDecimal width = length.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP);
          BigDecimal height = width.multiply(phiInverse).setScale(5, RoundingMode.HALF_UP);
 
-         String rowFormat = "%-16s %9s [%9s]";
-         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Length [X]:", length.toPlainString(), cmdFraction(length, base)));
-         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Width  [Y]:", width.toPlainString(), cmdFraction(width, base)));
-         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Height [Z]:", height.toPlainString(), cmdFraction(height, base)));
+         // Calculate the fractional equivalent
+         String lengthFraction = cmdFraction(length, base);
+         String widthFraction = cmdFraction(width, base);
+         String heightFraction = cmdFraction(height, base);
 
+         // Determine the length of the longest strings to use in the fractional output display
+         int maxNumberLen = Math.Max(length.toPlainString().length(), width.toPlainString().length(), height.toPlainString().length());
+         int maxFractionLen = Math.Max(lengthFraction.length(), widthFraction.length(), heightFraction.length());
+
+         // Output a formated message
+         String rowFormat = "%-16s %" + maxNumberLen + "s [%" + maxFractionLen + "s]";
+         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Length [X]:", length.toPlainString(), lengthFraction));
+         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Width  [Y]:", width.toPlainString(), widthFraction));
+         Output.printColorln(Output.CYAN, String.format(rowFormat, "Box Height [Z]:", height.toPlainString(), heightFraction));
 
          // Save current calcStack to the undoStack
          calcStack.saveUndo();

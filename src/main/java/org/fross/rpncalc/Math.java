@@ -352,4 +352,18 @@ public class Math {
 
    }
 
+   /**
+    * Max(): Returns the largest of the 2 integer values sent.
+    */
+   public static int Max(int a, int b) {
+      return java.lang.Math.max(a, b);
+   }
+
+   /**
+    * Max(): Returns the largest of the 3 integer values sent.
+    */
+   public static int Max(int a, int b, int c) {
+      return Max(Max(a, b), c);
+   }
+
 }

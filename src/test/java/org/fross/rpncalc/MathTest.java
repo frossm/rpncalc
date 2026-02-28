@@ -421,4 +421,25 @@ class MathTest {
       assertTrue(lowerTestPass);
       assertTrue(upperTestPass);
    }
+
+   /**
+    * Test Max methods
+    */
+   @Test
+   void TestMax() {
+      // 2 integer tests
+      assertEquals(2, Math.Max(1, 2));
+      assertEquals(2, Math.Max(1, 2));
+      assertEquals(2, Math.Max(2, 1));
+      assertEquals(-502, Math.Max(-502, -503));
+      assertEquals(-1503, Math.Max(-1503, -1503));
+
+      // 3 integer tests
+      assertEquals(0, Math.Max(0, 0, 0));
+      assertEquals(-99, Math.Max(-100, -99));
+      assertEquals(3, Math.Max(1, 2, 3));
+      assertEquals(22, Math.Max(-11, 22, 22));
+      assertEquals(1234567890, Math.Max(-1234567890, 0, 1234567890));
+      assertEquals(0, Math.Max(-1234567890, 0, 0));
+   }
 }
