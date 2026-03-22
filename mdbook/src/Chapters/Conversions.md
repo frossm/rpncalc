@@ -28,7 +28,9 @@ within the same categories. For example, you can't convert `grams` to `miles` (o
 with the
 converted value.
 
-From within RPNCalc, the `convertunits` command (see below) will display the same list of supported conversion units as displayed below. It's much easier to display that
+From within RPNCalc, the `list units` or `list conv` commands (see below) will display the same list of supported conversion units as displayed below. 
+It's much 
+easier to display that
 rather
 than
 come to this User Guide.

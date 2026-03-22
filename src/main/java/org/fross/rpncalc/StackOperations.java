@@ -58,6 +58,9 @@ public class StackOperations {
     * stacks: List the current list of saved stacks from the preferences system
     * mem: List the current values in the memory stacks
     * undo: List the contents of the undo stack which shows previous stack states
+    * func: List the current user defined functions
+    * commands: List the command history
+    * units: List the units available for conversion by category
     */
    public static void cmdList(StackObj calcStack, String arg) {
       // Process the different list commands as sent by arg
@@ -122,6 +125,13 @@ public class StackOperations {
                Output.printColorln(Output.CYAN, String.format("  %d: %s", i, CommandHistory.get(i).split("##")[0]));
             }
             Output.println("");
+            break;
+
+         case "units":
+         case "unit":
+         case "conv":
+            Output.printColorln(Output.YELLOW, "The following units are supported with the convert command\n");
+            StackConversions.DisplayConversionUnits(Output.CYAN);
             break;
 
          default:

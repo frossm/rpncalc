@@ -234,13 +234,6 @@ public class CommandParser {
             StackConversions.cmdConvert(calcStack, cmdInputParam);
             break;
 
-         // Display the supported conversion units
-         case "convertunits":
-         case "convertunit":
-            Output.printColorln(Output.YELLOW, "The following units are supported with the convert command\n");
-            StackConversions.DisplayConversionUnits(Output.CYAN);
-            break;
-
          /*------------------------------------------------------------------------------
           * Stack Trigonometry Functions
           *-----------------------------------------------------------------------------*/

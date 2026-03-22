@@ -100,9 +100,10 @@ public class Help {
       Output.printColorln(Output.WHITE, " up             Shift the stack up. Line1 becomes Line2, last stack items becomes Line1");
 
       Output.printColorln(Output.YELLOW, "\nConversions:");
-      Output.printColorln(Output.WHITE, " frac [base]      Display as a fraction with min provided base. Default base is 64th");
-      Output.printColorln(Output.WHITE, " convert FROM TO  Convert the amount provided from one unit to another");
-      Output.printColorln(Output.WHITE, " convertunits     Display the supported units available to convert");
+      Output.printColorln(Output.WHITE, " frac [base]          Display as a fraction with min provided base. Default base is 64th");
+      Output.printColorln(Output.WHITE, " convert FROM TO      Convert line1 from one unit to another");
+      Output.printColorln(Output.WHITE, " convert NUM FROM TO  Convert the amount provided from one unit to another");
+      Output.printColorln(Output.WHITE, "                      Use 'list units' command to display the supported units");
 
       Output.printColorln(Output.YELLOW, "\nTrigonometry Functions:");
       Output.printColorln(Output.WHITE, " sin|cos|tan [rad]    Trig Functions: Angle is in degrees unless rad is provided");
@@ -168,6 +169,7 @@ public class Help {
       Output.printColorln(clr, " list stacks       Show the list of saved stacks");
       Output.printColorln(clr, " list undo         Show the current undo stack");
       Output.printColorln(clr, " list commands     Show the command history");
+      Output.printColorln(clr, " list units        Show supported units to convert by category");
    }
 
    /**
