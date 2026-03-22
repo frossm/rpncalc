@@ -551,12 +551,13 @@ public class CommandParser {
             }
 
             // Scientific notation number entered
-            if (cmdInputCmd.toLowerCase().contains("e")) {
+            // Matches 'e', an optional + or -, and one or more digits
+            if (cmdInputCmd.toLowerCase().matches(".*e[+-]?[0-9]+.*")) {
                Output.debugPrintln("Scientific Number Entered");
                // Make sure the digits before and after the 'e' are numbers
                try {
                   String[] numberSplit = cmdInputCmd.toLowerCase().trim().replace(" ", "").split("e");
-                  if (Math.isNumeric(numberSplit[0]) && Math.isNumeric(numberSplit[1])) {
+                  if (numberSplit.length == 2 && Math.isNumeric(numberSplit[0]) && Math.isNumeric(numberSplit[1])) {
                      // Ensure there is no decimal in the exponent portion
                      if (numberSplit[1].contains(".")) {
                         throw new IllegalArgumentException();

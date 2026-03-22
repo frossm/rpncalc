@@ -199,29 +199,34 @@ class CommandParserTest {
       assertEquals(2, stk.size());
       assertEquals("-7.556677E+12", stk.peek().toEngineeringString());
 
+      // Optional sign to exponent
+      CommandParser.Parse(stk, stk, "1e+08", "1e+08", "");
+      assertEquals(3, stk.size());
+      assertEquals("100E+6", stk.peek().toEngineeringString());
+
       // Bad Syntax
       CommandParser.Parse(stk, stk, "-3.556677x3", "-3.556677x3", "");
-      assertEquals(2, stk.size());
+      assertEquals(3, stk.size());
 
       // Bad Syntax
       CommandParser.Parse(stk, stk, "45.123~3", "45.123~3", "");
-      assertEquals(2, stk.size());
+      assertEquals(3, stk.size());
 
       // Bad Syntax
       CommandParser.Parse(stk, stk, "-7.556677ee3", "-7.556677ee3", "");
-      assertEquals(2, stk.size());
+      assertEquals(3, stk.size());
 
       // Bad Syntax
       CommandParser.Parse(stk, stk, "7.5566773E", "7.5566773E", "");
-      assertEquals(2, stk.size());
+      assertEquals(3, stk.size());
 
       // Bad Syntax
       CommandParser.Parse(stk, stk, "E7.5566773", "E7.5566773", "");
-      assertEquals(2, stk.size());
+      assertEquals(3, stk.size());
 
       // Bad Syntax
       CommandParser.Parse(stk, stk, "1.234e8.3", "1.234e8.3", "");
-      assertEquals(2, stk.size());
+      assertEquals(3, stk.size());
 
    }
 
