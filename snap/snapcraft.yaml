@@ -35,6 +35,8 @@ type: app
 website: https://github.com/frossm/rpncalc
 contact: rpncalc@fross.org
 issues: https://github.com/frossm/rpncalc/issues
+donation:  https://paypal.me/frossm
+source-code: https://github.com/frossm/rpncalc
 icon: graphics/PostIt.svg
 license: MIT
 
