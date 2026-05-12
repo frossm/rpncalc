@@ -72,10 +72,10 @@ dependencies {
    implementation("org.apache.commons:commons-math3:3.6.1")
 
    // --- JLine Terminal Access ---
-   implementation("org.jline:jline-reader:4.0.13")
-   implementation("org.jline:jline-terminal:4.0.13")
-   implementation("org.jline:jline-native:4.0.13")          // Native support for Linux/Mac/Win
-   implementation("org.jline:jline-terminal-ffm:4.0.13")
+   implementation("org.jline:jline-reader:4.1.0")
+   implementation("org.jline:jline-terminal:4.1.0")
+   implementation("org.jline:jline-native:4.1.0")          // Native support for Linux/Mac/Win
+   implementation("org.jline:jline-terminal-ffm:4.1.0")
 
    // --- JUnit Testing ---
    testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0-RC1")
