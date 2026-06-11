@@ -28,3 +28,4 @@ build/
 release.properties
 buildNumber.properties
 .README.md.html
+out
