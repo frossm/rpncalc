@@ -63,9 +63,18 @@ public class StackConversions {
             fromUnit = args.split(" ")[0];
             toUnit = args.split(" ")[1];
 
+            // If no parameters are entered, then show the convert help and list the supported units
+         } else if (args.isEmpty()) {
+            Output.printColorln(Output.RED, "CONVERT USAGE:");
+            Output.printColorln(Output.RED, " convert FROM TO      Convert line1 from one unit to another");
+            Output.printColorln(Output.RED, " convert NUM FROM TO  Convert the amount provided from one unit to another\n");
+            DisplayConversionUnits(Output.RED);
+            return;
+
             // Error out - must be 2 or 3 parameters
          } else {
-            Output.printColorln(Output.RED, "ERROR:  Convert requires 2 or 3 parameters. Please see the Help");
+            Output.printColorln(Output.RED, "ERROR:  Convert requires 2 or 3 parameters. Please see the help");
+            Output.printColorln(Output.RED, "ERROR:  Or run convert with no options");
             return;
          }
 
