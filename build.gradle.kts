@@ -33,7 +33,7 @@ plugins {
    java
    application
    id("com.github.ben-manes.versions") version "0.54.0"
-   id("com.gradleup.shadow") version "9.4.2"
+   id("com.gradleup.shadow") version "9.5.1"
 }
 
 group = "org.fross"
@@ -48,6 +48,7 @@ application {
 // --------------------------------------------------------------------------------------------------------
 tasks.withType<JavaCompile> {
    options.release.set(javaVersion)
+   options.compilerArgs.add("-Xlint:deprecation")
 }
 
 // --------------------------------------------------------------------------------------------------------
@@ -81,15 +82,15 @@ dependencies {
    implementation("org.apache.commons:commons-math3:3.6.1")
 
    // --- JLine Terminal Access ---
-   implementation("org.jline:jline-reader:4.1.3")
-   implementation("org.jline:jline-terminal:4.1.3")
-   implementation("org.jline:jline-native:4.1.3")          // Native support for Linux/Mac/Win
-   implementation("org.jline:jline-terminal-ffm:4.1.3")
+   implementation("org.jline:jline-reader:4.3.1")
+   implementation("org.jline:jline-terminal:4.3.1")
+   implementation("org.jline:jline-native:4.3.1")          // Native support for Linux/Mac/Win
+   implementation("org.jline:jline-terminal-ffm:4.3.1")
 
    // --- JUnit Testing ---
-   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0")
-   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.0")
-   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.0")
+   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.2")
+   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.2")
+   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.2")
 }
 
 // --------------------------------------------------------------------------------------------------------
@@ -135,7 +136,11 @@ tasks.named<ShadowJar>("shadowJar") {
    description = "Creates a 'Fat Jar' file containing all dependencies"
    archiveFileName.set("${project.name}.jar")
 
+   // FIX: Set the duplicates strategy so the ServiceFileTransformer can process everything
+   duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
    // Ensure we run a test cycle before creating the Shadow Jar
+   dependsOn("clean")
    dependsOn("test")
 
    // Merge ServiceLoader files so JLine can find its Terminal providers
@@ -186,7 +191,8 @@ tasks.register<Copy>("install") {
    val shadowTask = tasks.named<ShadowJar>("shadowJar")
    dependsOn(shadowTask)
 
-   from(tasks.named("shadowJar"))
+   // FIX: Point specifically to the shadowJar's archiveFile to ensure the FatJar is copied
+   from(shadowTask.map { it.archiveFile })
    into(installDirectory)
 
    // Force Gradle to ignore the cache and copy the file every time
@@ -207,7 +213,7 @@ tasks.register<Copy>("install") {
       println("Version:   $progVersion")
       println("File Size: ${"%,d".format(sizeInBytes)} bytes")
       println("File Date: $lastModifiedTime")
-      println("--------------------------")
+      println("----------------------------------------------------------")
    }
 }
 
@@ -246,7 +252,7 @@ tasks.register("updateSnapVersion") {
 // --------------------------------------------------------------------------------------------------------
 // generateChecksums:  Generate Checksums automatically during builds in the build/libs directory
 // --------------------------------------------------------------------------------------------------------
-val generateChecksums by tasks.registering {
+val generateChecksums = tasks.register("generateChecksums") {
    group = "distribution"
    description = "Generates MD5, SHA-1, and SHA-256 checksums for the shadow JAR"
 
@@ -292,7 +298,7 @@ val generateChecksums by tasks.registering {
 // --------------------------------------------------------------------------------------------------------
 // publishUserGuide:  Publish the RPNCalc UserGuide to the fross.github.io directory
 // --------------------------------------------------------------------------------------------------------
-val publishUserGuide by tasks.registering(Sync::class) {
+val publishUserGuide = tasks.register<Sync>("publishUserGuide") {
    group = "documentation"
    description = "Mirrors User Guide using robust relative path resolution"
 
@@ -355,7 +361,7 @@ tasks.register<Exec>("buildMdBook") {
 // --------------------------------------------------------------------------------------------------------
 // CleanMdBook:  Run 'mdbook clean' in the mdbook directory to remove RPNCalc-UserGuide
 // --------------------------------------------------------------------------------------------------------
-val cleanMdBook by tasks.registering(Exec::class) {
+val cleanMdBook = tasks.register<Exec>("cleanMdBook") {
    group = "documentation"
    description = " Run 'mdook clean' in the mdbook directory to remove RPNCalc-UserGuide"
 
