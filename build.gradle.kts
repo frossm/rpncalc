@@ -209,10 +209,10 @@ tasks.register<Copy>("install") {
       val lastModifiedTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(installedFile.lastModified()))
 
       println("\n-------------------- RELEASE COMPLETE --------------------")
-      println("Installed: $progName.jar -> $installDirectory")
-      println("Version:   $progVersion")
-      println("File Size: ${"%,d".format(sizeInBytes)} bytes")
-      println("File Date: $lastModifiedTime")
+      println("Installed:   $progName.jar -> $installDirectory")
+      println("Version:     $progVersion")
+      println("File Size:   ${"%,d".format(sizeInBytes)} bytes")
+      println("File Date:   $lastModifiedTime")
       println("----------------------------------------------------------")
    }
 }
