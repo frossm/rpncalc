@@ -140,7 +140,6 @@ tasks.named<ShadowJar>("shadowJar") {
    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
    // Ensure we run a test cycle before creating the Shadow Jar
-   dependsOn("clean")
    dependsOn("test")
 
    // Merge ServiceLoader files so JLine can find its Terminal providers
