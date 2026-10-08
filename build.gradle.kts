@@ -32,8 +32,8 @@ import java.util.Date
 plugins {
    java
    application
-   id("com.github.ben-manes.versions") version "0.54.0"
-   id("com.gradleup.shadow") version "9.5.1"
+   id("com.github.ben-manes.versions") version "0.65.0"
+   id("com.gradleup.shadow") version "9.6.1"
 }
 
 group = "org.fross"
@@ -82,15 +82,15 @@ dependencies {
    implementation("org.apache.commons:commons-math3:3.6.1")
 
    // --- JLine Terminal Access ---
-   implementation("org.jline:jline-reader:4.3.1")
-   implementation("org.jline:jline-terminal:4.3.1")
-   implementation("org.jline:jline-native:4.3.1")          // Native support for Linux/Mac/Win
-   implementation("org.jline:jline-terminal-ffm:4.3.1")
+   implementation("org.jline:jline-reader:4.4.7")
+   implementation("org.jline:jline-terminal:4.4.7")
+   implementation("org.jline:jline-native:4.4.7")          // Native support for Linux/Mac/Win
+   implementation("org.jline:jline-terminal-ffm:4.4.7")
 
    // --- JUnit Testing ---
-   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.2")
-   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.2")
-   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.2")
+   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.3")
+   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.1.3")
+   testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
 }
 
 // --------------------------------------------------------------------------------------------------------
